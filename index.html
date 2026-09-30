@@ -132,12 +132,19 @@
                     `;
                 });
                 listContainer.innerHTML = html;
+            })
+            .catch(err => {
+                document.getElementById('client-store-name').innerText = "Erro de conexão";
+                document.getElementById('client-products-list').innerHTML = `<p class="alert">Não foi possível carregar a vitrine.</p>`;
             });
         }
 
         function toggleMode() {
             isRegistering = !isRegistering;
-            document.getElementById('auth-error').innerText = '';
+            const errorElem = document.getElementById('auth-error');
+            errorElem.innerText = '';
+            errorElem.className = 'alert';
+            
             if (isRegistering) {
                 document.getElementById('auth-title').innerText = "Criar Nova Loja";
                 document.getElementById('register-fields').classList.remove('hidden');
@@ -156,18 +163,23 @@
         function handleAuth() {
             const token = document.getElementById('token-input').value.trim();
             const errorElem = document.getElementById('auth-error');
+            errorElem.className = 'alert';
+            errorElem.innerText = '';
             
             if (!token) {
-                errorElem.innerText = "Digite a chave secreta.";
+                errorElem.innerText = "Por favor, digite a chave secreta.";
                 return;
             }
 
             if (isRegistering) {
                 const store_name = document.getElementById('store-name-input').value.trim();
                 if (!store_name) {
-                    errorElem.innerText = "Digite o nome da loja.";
+                    errorElem.innerText = "Por favor, digite o nome da loja.";
                     return;
                 }
+
+                errorElem.className = '';
+                errorElem.innerText = "Cadastrando loja, aguarde...";
 
                 fetch('/api/register-store', {
                     method: 'POST',
@@ -179,10 +191,18 @@
                     if (data.success) {
                         loginSuccess(data.store, token);
                     } else {
-                        errorElem.innerText = data.error;
+                        errorElem.className = 'alert';
+                        errorElem.innerText = data.error || "Erro ao cadastrar loja.";
                     }
+                })
+                .catch(err => {
+                    errorElem.className = 'alert';
+                    errorElem.innerText = "Erro de conexão com o servidor.";
                 });
             } else {
+                errorElem.className = '';
+                errorElem.innerText = "Verificando acesso...";
+
                 fetch('/api/verify-token', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -193,8 +213,13 @@
                     if (data.success) {
                         loginSuccess(data.store, token);
                     } else {
-                        errorElem.innerText = data.error;
+                        errorElem.className = 'alert';
+                        errorElem.innerText = data.error || "Chave secreta não encontrada.";
                     }
+                })
+                .catch(err => {
+                    errorElem.className = 'alert';
+                    errorElem.innerText = "Erro de conexão com o servidor.";
                 });
             }
         }
@@ -212,8 +237,15 @@
         }
 
         function importProduct() {
-            const product_link = document.getElementById('product-link-input').value;
+            const product_link = document.getElementById('product-link-input').value.trim();
             const statusElem = document.getElementById('import-status');
+            
+            if (!product_link) {
+                statusElem.className = "alert";
+                statusElem.innerText = "Cole o link do produto primeiro.";
+                return;
+            }
+
             statusElem.className = "";
             statusElem.innerText = "Extraindo fotos, vídeo e conteúdo do link...";
 
@@ -234,8 +266,12 @@
                     loadAdminProducts(currentStore.id, currentStore.token);
                 } else {
                     statusElem.className = "alert";
-                    statusElem.innerText = "❌ " + data.error;
+                    statusElem.innerText = "❌ " + (data.error || "Erro ao importar produto.");
                 }
+            })
+            .catch(err => {
+                statusElem.className = "alert";
+                statusElem.innerText = "❌ Erro de conexão ao importar.";
             });
         }
 
@@ -246,18 +282,18 @@
             .then(res => res.json())
             .then(products => {
                 const listContainer = document.getElementById('admin-products-list');
-                if (products.length === 0) {
+                if (!Array.isArray(products) || products.length === 0) {
                     listContainer.innerHTML = "<p>Nenhum produto cadastrado na sua vitrine ainda.</p>";
                     return;
                 }
                 
                 let html = '';
                 products.forEach(p => {
-                    let imagesHtml = p.images.map(img => `<img src="${img}" alt="Foto">`).join('');
+                    let imagesHtml = (p.images || []).map(img => `<img src="${img}" alt="Foto">`).join('');
                     html += `
                         <div class="product-card">
                             <h3>${p.title}</h3>
-                            <p><strong>Preço:</strong> R$ ${p.price.toFixed(2)}</p>
+                            <p><strong>Preço:</strong> R$ ${Number(p.price || 0).toFixed(2)}</p>
                             <p>${p.description}</p>
                             <div class="carousel">${imagesHtml}</div>
                             ${p.video_url ? `<video controls src="${p.video_url}"></video>` : ''}
@@ -265,6 +301,9 @@
                     `;
                 });
                 listContainer.innerHTML = html;
+            })
+            .catch(err => {
+                document.getElementById('admin-products-list').innerHTML = "<p class='alert'>Erro ao carregar produtos da vitrine.</p>";
             });
         }
     </script>
