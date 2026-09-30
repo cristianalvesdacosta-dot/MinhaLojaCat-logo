@@ -80,6 +80,9 @@
     </div>
 
     <script>
+        // URL do seu backend no Render
+        const API_URL = 'https://minhalojacat-logo.onrender.com';
+
         let isRegistering = false;
         let currentStore = null;
 
@@ -94,7 +97,7 @@
         }
 
         function loadClientStore(slug) {
-            fetch(`/api/public/store/${slug}`)
+            fetch(`${API_URL}/api/public/store/${slug}`)
             .then(res => res.json())
             .then(data => {
                 if (data.error) {
@@ -181,7 +184,7 @@
                 errorElem.className = '';
                 errorElem.innerText = "Cadastrando loja, aguarde...";
 
-                fetch('/api/register-store', {
+                fetch(`${API_URL}/api/register-store`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ store_name, store_token: token })
@@ -203,7 +206,7 @@
                 errorElem.className = '';
                 errorElem.innerText = "Verificando acesso...";
 
-                fetch('/api/verify-token', {
+                fetch(`${API_URL}/api/verify-token`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ token })
@@ -230,7 +233,7 @@
             document.getElementById('dashboard-section').classList.remove('hidden');
             document.getElementById('welcome-store-title').innerText = `Painel de: ${store.store_name}`;
             
-            const shareUrl = `${window.location.origin}/?loja=${store.store_slug}`;
+            const shareUrl = `${API_URL}/?loja=${store.store_slug}`;
             document.getElementById('share-link-output').value = shareUrl;
 
             loadAdminProducts(store.id, token);
@@ -249,7 +252,7 @@
             statusElem.className = "";
             statusElem.innerText = "Extraindo fotos, vídeo e conteúdo do link...";
 
-            fetch('/api/import-product', {
+            fetch(`${API_URL}/api/import-product`, {
                 method: 'POST',
                 headers: { 
                     'Content-Type': 'application/json',
@@ -276,7 +279,7 @@
         }
 
         function loadAdminProducts(storeId, token) {
-            fetch(`/api/store/${storeId}/products`, {
+            fetch(`${API_URL}/api/store/${storeId}/products`, {
                 headers: { 'x-store-token': token }
             })
             .then(res => res.json())
