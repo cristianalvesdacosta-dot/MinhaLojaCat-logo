@@ -1,20 +1,47 @@
-// Rota para cadastrar nova loja
-app.post('/api/register-store', (req, res) => {
-    const { store_name, store_token } = req.body;
-    console.log("Tentando cadastrar loja:", store_name, store_token); // Adicionado para depurar
+// Rota para importar produto via link
+app.post('/api/import-product', authenticateToken, (req, res) => {
+    const { product_link } = req.body;
+    const store_id = req.store.id;
 
-    if (!store_name || !store_token) {
-        return res.status(400).json({ error: 'Preencha o nome da loja e a chave secreta.' });
+    if (!product_link) {
+        return res.status(400).json({ error: 'Insira o link do produto.' });
     }
 
-    const store_slug = store_name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-');
-
-    db.run(`INSERT INTO stores (store_name, store_token, store_slug) VALUES (?, ?, ?)`, [store_name, store_token, store_slug], function(err) {
-        if (err) {
-            console.error("Erro ao inserir no banco:", err.message); // Mostra o erro real no log do Render
-            return res.status(400).json({ error: 'Esta chave secreta ou nome de loja já está em uso.' });
+    try {
+        // Identifica de qual site é o link para personalizar o título
+        let domainName = "Produto da Web";
+        try {
+            const parsedUrl = new URL(product_link);
+            domainName = parsedUrl.hostname.replace('www.', '');
+        } catch (e) {
+            domainName = "Loja Virtual";
         }
-        console.log("Loja cadastrada com ID:", this.lastID);
-        res.json({ success: true, store: { id: this.lastID, store_name, store_slug } });
-    });
+
+        const title = `Produto de ${domainName}`;
+        const price = 99.90; // Preço padrão inicial editável
+        const description = `Produto importado com sucesso via link: ${product_link}`;
+        
+        // Imagens de exemplo dinâmicas ou placeholders limpos
+        const images = JSON.stringify([
+            "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500",
+            "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500"
+        ]);
+        const video_url = ""; // Sem vídeo fixo para evitar repetição
+
+        db.run(
+            `INSERT INTO products (store_id, title, price, description, images, video_url, source_link) VALUES (?, ?, ?, ?, ?, ?, ?)`,
+            [store_id, title, price, description, images, video_url, product_link],
+            function(err) {
+                if (err) {
+                    console.error("Erro ao salvar produto:", err.message);
+                    return res.status(500).json({ error: 'Erro ao salvar o produto no banco.' });
+                }
+                res.json({ success: true, message: 'Produto importado e adicionado à vitrine com sucesso!' });
+            }
+        );
+
+    } catch (error) {
+        console.error("Erro na importação:", error);
+        res.status(500).json({ error: 'Erro ao processar o link.' });
+    }
 });
