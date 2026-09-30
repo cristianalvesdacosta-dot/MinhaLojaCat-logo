@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Exclusivo de Lojas</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f7f6; margin: 0; padding: 20px; color: #333; }
+        .container { max-width: 800px; margin: 0 auto; background: #fff; padding: 25px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        h1, h2 { color: #2c3e50; }
+        .box { background: #f9f9f9; border: 1px solid #ddd; padding: 15px; border-radius: 6px; margin-bottom: 20px; }
+        input, button { width: 100%; padding: 10px; margin-top: 8px; margin-bottom: 12px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        button { background: #3498db; color: white; border: none; font-weight: bold; cursor: pointer; }
+        button:hover { background: #2980b9; }
+        .product-card { background: #fff; border: 1px solid #e1e1e1; border-radius: 6px; padding: 15px; margin-top: 15px; }
+        .carousel { display: flex; overflow-x: auto; gap: 10px; margin-bottom: 10px; padding-bottom: 5px; }
+        .carousel img { width: 100px; height: 100px; object-fit: cover; border-radius: 4px; border: 1px solid #ddd; }
+        video { width: 100%; max-height: 200px; background: #000; border-radius: 4px; margin-top: 10px; }
+        .hidden { display: none; }
+        .alert { color: #e74c3c; font-weight: bold; }
+        .success { color: #27ae60; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Painel de Controle Independente</h1>
+        <p>Ambiente seguro e isolado por lojista.</p>
+
+        <!-- TELA DE LOGIN COM TOKEN -->
+        <div id="login-section" class="box">
+            <h2>1. Acesse com sua Chave de Lojista</h2>
+            <label>Token Secreto:</label>
+            <input type="text" id="token-input" placeholder="Ex: token-cristian-123">
+            <button onclick="loginStore()">Entrar no Meu Painel</button>
+            <p id="login-error" class="alert"></p>
+        </div>
+
+        <!-- PAINEL EXCLUSIVO (Aparece após logar) -->
+        <div id="dashboard-section" class="hidden">
+            <div class="box" style="background: #e8f8f5; border-color: #a3e4d7;">
+                <h2 id="welcome-store-title">Bem-vindo</h2>
+                <p>Cole o link do produto. O sistema vai puxar todas as fotos, vídeos e descrições para a sua vitrine exclusiva.</p>
+                
+                <label>Link do Produto:</label>
+                <input type="text" id="product-link-input" placeholder="https://exemplo.com/produto">
+                <button onclick="importProduct()">Puxar Tudo e Cadastrar</button>
+                <p id="import-status"></p>
+            </div>
+
+            <h2>Sua Vitrine Exclusiva</h2>
+            <div id="products-list">Carregando produtos...</div>
+        </div>
+    </div>
+
+    <script>
+        let currentStore = null;
+
+        function loginStore() {
+            const token = document.getElementById('token-input').value;
+            fetch('/api/verify-token', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ token })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    currentStore = { ...data.store, token };
+                    document.getElementById('login-section').classList.add('hidden');
+                    document.getElementById('dashboard-section').classList.remove('hidden');
+                    document.getElementById('welcome-store-title').innerText = `Painel de: ${data.store.store_name}`;
+                    loadStoreProducts(data.store.id);
+                } else {
+                    document.getElementById('login-error').innerText = data.error;
+                }
+            });
+        }
+
+        function importProduct() {
+            const product_link = document.getElementById('product-link-input').value;
+            const statusElem = document.getElementById('import-status');
+            statusElem.className = "";
+            statusElem.innerText = "Extraindo fotos, vídeo e conteúdo do link...";
+
+            fetch('/api/import-product', {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'x-store-token': currentStore.token
+                },
+                body: JSON.stringify({ product_link })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    statusElem.className = "success";
+                    statusElem.innerText = "✅ " + data.message;
+                    document.getElementById('product-link-input').value = '';
+                    loadStoreProducts(currentStore.id);
+                } else {
+                    statusElem.className = "alert";
+                    statusElem.innerText = "❌ " + data.error;
+                }
+            });
+        }
+
+        function loadStoreProducts(storeId) {
+            fetch(`/api/store/${storeId}/products`)
+            .then(res => res.json())
+            .then(products => {
+                const listContainer = document.getElementById('products-list');
+                if (products.length === 0) {
+                    listContainer.innerHTML = "<p>Nenhum produto cadastrado na sua vitrine ainda.</p>";
+                    return;
+                }
+                
+                let html = '';
+                products.forEach(p => {
+                    let imagesHtml = p.images.map(img => `<img src="${img}" alt="Foto">`).join('');
+                    
+                    html += `
+                        <div class="product-card">
+                            <h3>${p.title}</h3>
+                            <p><strong>Preço:</strong> R$ ${p.price.toFixed(2)}</p>
+                            <p><strong>Descrição:</strong> ${p.description}</p>
+                            
+                            <p><strong>Galeria (Carrossel):</strong></p>
+                            <div class="carousel">${imagesHtml}</div>
+
+                            ${p.video_url ? `<p><strong>Vídeo Oficial:</strong></p><video controls src="${p.video_url}"></video>` : ''}
+                            
+                            <p><small>Origem: <a href="${p.source_link}" target="_blank">${p.source_link}</a></small></p>
+                        </div>
+                    `;
+                });
+                listContainer.innerHTML = html;
+            });
+        }
+    </script>
+</body>
+</html>
