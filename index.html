@@ -3,54 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plataforma de Lojas Independentes</title>
+    <title>Sua Loja Independente</title>
     <style>
-        body { font-family: Arial, sans-serif; background: #f4f7f6; margin: 0; padding: 20px; color: #333; }
-        .container { max-width: 800px; margin: 0 auto; background: #fff; padding: 25px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        body { font-family: Arial, sans-serif; background: #f4f7f6; margin: 0; padding: 0; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; background: #fff; min-height: 100vh; box-shadow: 0 4px 10px rgba(0,0,0,0.1); padding-bottom: 40px; }
+        
+        /* ESTILO DA VITRINE DO CLIENTE */
+        .store-banner { width: 100%; height: 180px; object-fit: cover; background: #ddd; }
+        .store-header { text-align: center; padding: 0 20px; margin-top: -50px; }
+        .store-logo { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 4px solid #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.2); background: #fff; }
+        .store-name { font-size: 24px; font-weight: bold; margin: 10px 0 5px; color: #2c3e50; }
+        .whatsapp-btn { display: inline-block; background: #25d366; color: white; padding: 10px 20px; border-radius: 20px; text-decoration: none; font-weight: bold; margin: 10px 0 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        
+        /* PAINEL ADMINISTRATIVO */
+        .admin-padding { padding: 20px; }
         h1, h2 { color: #2c3e50; }
-        .box { background: #f9f9f9; border: 1px solid #ddd; padding: 15px; border-radius: 6px; margin-bottom: 20px; }
-        input, button { width: 100%; padding: 10px; margin-top: 8px; margin-bottom: 12px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        .box { background: #f9f9f9; border: 1px solid #ddd; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
+        input, button, textarea { width: 100%; padding: 12px; margin-top: 8px; margin-bottom: 12px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-size: 14px; }
         button { background: #3498db; color: white; border: none; font-weight: bold; cursor: pointer; }
         button:hover { background: #2980b9; }
         .btn-alt { background: #2ecc71; }
         .btn-alt:hover { background: #27ae60; }
-        .product-card { background: #fff; border: 1px solid #e1e1e1; border-radius: 6px; padding: 15px; margin-top: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        
+        .product-card { background: #fff; border: 1px solid #e1e1e1; border-radius: 8px; padding: 15px; margin-top: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
         .carousel { display: flex; overflow-x: auto; gap: 10px; margin-bottom: 10px; padding-bottom: 5px; }
-        .carousel img { width: 120px; height: 120px; object-fit: cover; border-radius: 4px; border: 1px solid #ddd; }
-        video { width: 100%; max-height: 250px; background: #000; border-radius: 4px; margin-top: 10px; }
+        .carousel img { width: 100px; height: 100px; object-fit: cover; border-radius: 6px; border: 1px solid #ddd; }
+        video { width: 100%; max-height: 200px; background: #000; border-radius: 6px; margin-top: 10px; }
         .hidden { display: none; }
-        .alert { color: #e74c3c; font-weight: bold; }
-        .success { color: #27ae60; font-weight: bold; }
-        .toggle-link { text-align: center; margin-top: 10px; cursor: pointer; color: #3498db; text-decoration: underline; }
-        .buy-btn { background: #27ae60; margin-top: 15px; font-size: 16px; }
-        .buy-btn:hover { background: #219653; }
+        .alert { color: #e74c3c; font-weight: bold; font-size: 14px; }
+        .success { color: #27ae60; font-weight: bold; font-size: 14px; }
+        .toggle-link { text-align: center; margin-top: 15px; cursor: pointer; color: #3498db; text-decoration: underline; font-weight: bold; }
+        .buy-btn { background: #25d366; margin-top: 15px; font-size: 16px; text-align: center; display: block; text-decoration: none; color: white; padding: 12px; border-radius: 6px; font-weight: bold; }
     </style>
 </head>
 <body>
     <div class="container">
         
-        <!-- MODO CLIENTE: VÊ APENAS A VITRINE DA LOJA ACESSADA -->
+        <!-- MODO CLIENTE: VITRINE DA LOJA -->
         <div id="client-store-view" class="hidden">
-            <h1 id="client-store-name">Carregando Loja...</h1>
-            <p>Confira os produtos exclusivos desta vitrine.</p>
-            <div id="client-products-list">Carregando produtos...</div>
+            <img id="client-banner" class="store-banner" src="" alt="Banner da Loja">
+            <div class="store-header">
+                <img id="client-logo" class="store-logo" src="" alt="Logo">
+                <h1 id="client-store-name" class="store-name">Carregando...</h1>
+                <div id="client-whatsapp-container"></div>
+            </div>
+            <div class="admin-padding">
+                <h2>Produtos Disponíveis</h2>
+                <div id="client-products-list">Carregando produtos...</div>
+            </div>
         </div>
 
-        <!-- MODO LOJISTA: ENTRADA / CRIAÇÃO E PAINEL -->
-        <div id="admin-container">
-            <h1>Painel de Controle Independente</h1>
-            <p>Gerencie sua loja ou cadastre-se para obter seu link exclusivo de vendas.</p>
+        <!-- MODO LOJISTA: PAINEL DE CONTROLE E CUSTOMIZAÇÃO -->
+        <div id="admin-container" class="admin-padding">
+            <h1>Painel da Sua Loja</h1>
+            <p>Personalize sua vitrine e cadastre seus produtos.</p>
 
             <div id="auth-section" class="box">
                 <h2 id="auth-title">Acessar Meu Painel</h2>
                 
                 <div id="register-fields" class="hidden">
                     <label>Nome da Loja:</label>
-                    <input type="text" id="store-name-input" placeholder="Ex: Loja do João">
+                    <input type="text" id="store-name-input" placeholder="Ex: Boutique Bella">
+                    
+                    <label>Seu WhatsApp (com DDD):</label>
+                    <input type="text" id="store-whatsapp-input" placeholder="Ex: 11999999999">
+
+                    <label>Logo da Loja (Escolha da Galeria):</label>
+                    <input type="file" id="store-logo-file" accept="image/*">
+
+                    <label>Banner de Capa (Escolha da Galeria):</label>
+                    <input type="file" id="store-banner-file" accept="image/*">
                 </div>
 
-                <label>Chave Secreta (Token):</label>
-                <input type="text" id="token-input" placeholder="Sua senha secreta de acesso">
+                <label>Chave Secreta (Senha):</label>
+                <input type="password" id="token-input" placeholder="Sua senha secreta de acesso">
                 
                 <button id="auth-btn" onclick="handleAuth()">Entrar no Painel</button>
                 <p id="auth-error" class="alert"></p>
@@ -61,14 +87,14 @@
             <div id="dashboard-section" class="hidden">
                 <div class="box" style="background: #e8f8f5; border-color: #a3e4d7;">
                     <h2 id="welcome-store-title">Painel</h2>
-                    <p><strong>Link exclusivo da sua loja (envie para seus clientes):</strong></p>
+                    <p><strong>Link exclusivo da sua loja (envie para os clientes):</strong></p>
                     <input type="text" id="share-link-output" readonly style="background: #fff; font-weight: bold; color: #2980b9;">
                     
                     <hr style="margin: 15px 0; border: 0; border-top: 1px solid #a3e4d7;">
                     
                     <label>Cadastrar Produto via Link:</label>
-                    <input type="text" id="product-link-input" placeholder="https://exemplo.com/produto">
-                    <button onclick="importProduct()">Puxar e Adicionar à Minha Vitrine</button>
+                    <input type="text" id="product-link-input" placeholder="Cole o link do produto aqui">
+                    <button onclick="importProduct()">Adicionar à Minha Vitrine</button>
                     <p id="import-status"></p>
                 </div>
 
@@ -80,13 +106,10 @@
     </div>
 
     <script>
-        // URL do seu backend no Render
         const API_URL = 'https://minhalojacat-logo.onrender.com';
-
         let isRegistering = false;
         let currentStore = null;
 
-        // Verifica se o link aberto possui um parâmetro de loja (Modo Cliente Final)
         const urlParams = new URLSearchParams(window.location.search);
         const storeSlug = urlParams.get('loja');
 
@@ -96,18 +119,42 @@
             loadClientStore(storeSlug);
         }
 
-        function loadClientStore(slug) {
-            fetch(`${API_URL}/api/public/store/${slug}`)
-            .then(res => res.json())
-            .then(data => {
+        // Função para converter imagem da galeria em Base64 para envio fácil
+        function fileToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = error => reject(error);
+            });
+        }
+
+        async function loadClientStore(slug) {
+            try {
+                const res = await fetch(`${API_URL}/api/public/store/${slug}`);
+                const data = await res.json();
+                
                 if (data.error) {
                     document.getElementById('client-store-name').innerText = "Loja não encontrada";
                     document.getElementById('client-products-list').innerHTML = `<p class="alert">${data.error}</p>`;
                     return;
                 }
                 
-                document.getElementById('client-store-name').innerText = data.store.store_name;
-                document.title = `${data.store.store_name} - Vitrine Exclusiva`;
+                const store = data.store;
+                document.getElementById('client-store-name').innerText = store.store_name;
+                document.title = `${store.store_name} - Vitrine Exclusiva`;
+                
+                if (store.banner) document.getElementById('client-banner').src = store.banner;
+                if (store.logo) document.getElementById('client-logo').src = store.logo;
+
+                if (store.whatsapp) {
+                    let cleanPhone = store.whatsapp.replace(/\D/g, '');
+                    document.getElementById('client-whatsapp-container').innerHTML = `
+                        <a class="whatsapp-btn" href="https://wa.me/55${cleanPhone}?text=Olá!%20Vim%20pela%20sua%20vitrine%20e%20gostaria%20de%20comprar." target="_blank">
+                            💬 Falar no WhatsApp da Loja
+                        </a>
+                    `;
+                }
 
                 const listContainer = document.getElementById('client-products-list');
                 if (data.products.length === 0) {
@@ -117,39 +164,34 @@
 
                 let html = '';
                 data.products.forEach(p => {
-                    let imagesHtml = p.images.map(img => `<img src="${img}" alt="Foto">`).join('');
+                    let imagesHtml = (p.images || []).map(img => `<img src="${img}" alt="Foto">`).join('');
+                    let wppContact = store.whatsapp ? `https://wa.me/55${store.whatsapp.replace(/\D/g, '')}?text=Olá!%20Tenho%20interesse%20no%20produto:%20${encodeURIComponent(p.title)}` : p.source_link;
+                    
                     html += `
                         <div class="product-card">
                             <h3>${p.title}</h3>
-                            <p style="font-size: 18px; color: #27ae60; font-weight: bold;">R$ ${p.price.toFixed(2)}</p>
+                            <p style="font-size: 18px; color: #27ae60; font-weight: bold;">R$ ${Number(p.price || 0).toFixed(2)}</p>
                             <p>${p.description}</p>
-                            
                             <div class="carousel">${imagesHtml}</div>
-
                             ${p.video_url ? `<video controls src="${p.video_url}"></video>` : ''}
-                            
-                            <a href="${p.source_link}" target="_blank">
-                                <button class="buy-btn">Comprar / Ver na Fonte</button>
-                            </a>
+                            <a href="${wppContact}" target="_blank" class="buy-btn">Comprar via WhatsApp</a>
                         </div>
                     `;
                 });
                 listContainer.innerHTML = html;
-            })
-            .catch(err => {
+            } catch (err) {
                 document.getElementById('client-store-name').innerText = "Erro de conexão";
                 document.getElementById('client-products-list').innerHTML = `<p class="alert">Não foi possível carregar a vitrine.</p>`;
-            });
+            }
         }
 
         function toggleMode() {
             isRegistering = !isRegistering;
             const errorElem = document.getElementById('auth-error');
             errorElem.innerText = '';
-            errorElem.className = 'alert';
             
             if (isRegistering) {
-                document.getElementById('auth-title').innerText = "Criar Nova Loja";
+                document.getElementById('auth-title').innerText = "Criar Minha Loja Personalizada";
                 document.getElementById('register-fields').classList.remove('hidden');
                 document.getElementById('auth-btn').innerText = "Cadastrar Loja";
                 document.getElementById('auth-btn').className = "btn-alt";
@@ -163,67 +205,67 @@
             }
         }
 
-        function handleAuth() {
+        async function handleAuth() {
             const token = document.getElementById('token-input').value.trim();
             const errorElem = document.getElementById('auth-error');
-            errorElem.className = 'alert';
             errorElem.innerText = '';
             
             if (!token) {
-                errorElem.innerText = "Por favor, digite a chave secreta.";
+                errorElem.innerText = "Digite a chave secreta.";
                 return;
             }
 
             if (isRegistering) {
                 const store_name = document.getElementById('store-name-input').value.trim();
+                const whatsapp = document.getElementById('store-whatsapp-input').value.trim();
+                const logoFile = document.getElementById('store-logo-file').files[0];
+                const bannerFile = document.getElementById('store-banner-file').files[0];
+
                 if (!store_name) {
-                    errorElem.innerText = "Por favor, digite o nome da loja.";
+                    errorElem.innerText = "Digite o nome da loja.";
                     return;
                 }
 
-                errorElem.className = '';
-                errorElem.innerText = "Cadastrando loja, aguarde...";
+                errorElem.innerText = "Processando imagens e criando loja...";
 
-                fetch(`${API_URL}/api/register-store`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ store_name, store_token: token })
-                })
-                .then(res => res.json())
-                .then(data => {
+                let logoBase64 = "";
+                let bannerBase64 = "";
+
+                if (logoFile) logoBase64 = await fileToBase64(logoFile);
+                if (bannerFile) bannerBase64 = await fileToBase64(bannerFile);
+
+                try {
+                    const res = await fetch(`${API_URL}/api/register-store`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ store_name, store_token: token, whatsapp, logo: logoBase64, banner: bannerBase64 })
+                    });
+                    const data = await res.json();
                     if (data.success) {
                         loginSuccess(data.store, token);
                     } else {
-                        errorElem.className = 'alert';
                         errorElem.innerText = data.error || "Erro ao cadastrar loja.";
                     }
-                })
-                .catch(err => {
-                    errorElem.className = 'alert';
+                } catch (e) {
                     errorElem.innerText = "Erro de conexão com o servidor.";
-                });
+                }
             } else {
-                errorElem.className = '';
                 errorElem.innerText = "Verificando acesso...";
-
-                fetch(`${API_URL}/api/verify-token`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ token })
-                })
-                .then(res => res.json())
-                .then(data => {
+                try {
+                    const res = await fetch(`${API_URL}/api/verify-token`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ token })
+                    });
+                    const data = await res.json();
                     if (data.success) {
                         loginSuccess(data.store, token);
                     } else {
-                        errorElem.className = 'alert';
                         errorElem.innerText = data.error || "Chave secreta não encontrada.";
                     }
-                })
-                .catch(err => {
-                    errorElem.className = 'alert';
-                    errorElem.innerText = "Erro de conexão com o servidor.";
-                });
+                } catch (e) {
+                    errorElem.innerText = "Erro de conexão.";
+                }
             }
         }
 
@@ -231,7 +273,7 @@
             currentStore = { ...store, token };
             document.getElementById('auth-section').classList.add('hidden');
             document.getElementById('dashboard-section').classList.remove('hidden');
-            document.getElementById('welcome-store-title').innerText = `Painel de: ${store.store_name}`;
+            document.getElementById('welcome-store-title').innerText = `Painel: ${store.store_name}`;
             
             const shareUrl = `${API_URL}/?loja=${store.store_slug}`;
             document.getElementById('share-link-output').value = shareUrl;
@@ -239,29 +281,29 @@
             loadAdminProducts(store.id, token);
         }
 
-        function importProduct() {
+        async function importProduct() {
             const product_link = document.getElementById('product-link-input').value.trim();
             const statusElem = document.getElementById('import-status');
             
             if (!product_link) {
                 statusElem.className = "alert";
-                statusElem.innerText = "Cole o link do produto primeiro.";
+                statusElem.innerText = "Cole o link do produto.";
                 return;
             }
 
             statusElem.className = "";
-            statusElem.innerText = "Extraindo fotos, vídeo e conteúdo do link...";
+            statusElem.innerText = "Importando produto para a vitrine...";
 
-            fetch(`${API_URL}/api/import-product`, {
-                method: 'POST',
-                headers: { 
-                    'Content-Type': 'application/json',
-                    'x-store-token': currentStore.token
-                },
-                body: JSON.stringify({ product_link })
-            })
-            .then(res => res.json())
-            .then(data => {
+            try {
+                const res = await fetch(`${API_URL}/api/import-product`, {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'x-store-token': currentStore.token
+                    },
+                    body: JSON.stringify({ product_link })
+                });
+                const data = await res.json();
                 if (data.success) {
                     statusElem.className = "success";
                     statusElem.innerText = "✅ " + data.message;
@@ -269,24 +311,24 @@
                     loadAdminProducts(currentStore.id, currentStore.token);
                 } else {
                     statusElem.className = "alert";
-                    statusElem.innerText = "❌ " + (data.error || "Erro ao importar produto.");
+                    statusElem.innerText = "❌ " + (data.error || "Erro ao importar.");
                 }
-            })
-            .catch(err => {
+            } catch (err) {
                 statusElem.className = "alert";
-                statusElem.innerText = "❌ Erro de conexão ao importar.";
-            });
+                statusElem.innerText = "❌ Erro de conexão.";
+            }
         }
 
-        function loadAdminProducts(storeId, token) {
-            fetch(`${API_URL}/api/store/${storeId}/products`, {
-                headers: { 'x-store-token': token }
-            })
-            .then(res => res.json())
-            .then(products => {
+        async function loadAdminProducts(storeId, token) {
+            try {
+                const res = await fetch(`${API_URL}/api/store/${storeId}/products`, {
+                    headers: { 'x-store-token': token }
+                });
+                const products = await res.json();
                 const listContainer = document.getElementById('admin-products-list');
+                
                 if (!Array.isArray(products) || products.length === 0) {
-                    listContainer.innerHTML = "<p>Nenhum produto cadastrado na sua vitrine ainda.</p>";
+                    listContainer.innerHTML = "<p>Nenhum produto cadastrado na vitrine ainda.</p>";
                     return;
                 }
                 
@@ -304,10 +346,9 @@
                     `;
                 });
                 listContainer.innerHTML = html;
-            })
-            .catch(err => {
-                document.getElementById('admin-products-list').innerHTML = "<p class='alert'>Erro ao carregar produtos da vitrine.</p>";
-            });
+            } catch (err) {
+                document.getElementById('admin-products-list').innerHTML = "<p class='alert'>Erro ao carregar produtos.</p>";
+            }
         }
     </script>
 </body>
