@@ -218,7 +218,7 @@
             </div>
 
             <div>
-              <label class="block text-xs font-semibold text-slate-300 mb-1">Fotos do Produto (Selecione quantas desejar)</label>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Fotos do Produto (Aceita qualquer qualidade/formato)</label>
               <input type="file" id="product-image-file" accept="image/*" multiple class="w-full text-xs text-slate-400 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-slate-700 file:text-slate-200 hover:file:bg-slate-600">
             </div>
 
@@ -256,7 +256,7 @@
                 <input type="url" id="product-link" placeholder="https://..." class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
               </div>
               <div>
-                <label class="block text-xs font-semibold text-slate-300 mb-1">Cupom de Desconto (Ex: EXCLUSIVO10%)</label>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Cupom de Desconto</label>
                 <input type="text" id="product-code" placeholder="Ex: EXCLUSIVO10%" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
               </div>
             </div>
@@ -304,12 +304,12 @@
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label class="block text-xs font-semibold text-slate-300 mb-1">Foto da Capa (Galeria)</label>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Foto da Capa</label>
                 <input type="file" id="profile-cover-file" accept="image/*" class="w-full text-xs text-slate-400 file:mr-2 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:bg-slate-700 file:text-slate-200">
               </div>
 
               <div>
-                <label class="block text-xs font-semibold text-slate-300 mb-1">Logo da Loja (Galeria)</label>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Logo da Loja</label>
                 <input type="file" id="profile-logo-file" accept="image/*" class="w-full text-xs text-slate-400 file:mr-2 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:bg-slate-700 file:text-slate-200">
               </div>
             </div>
@@ -325,7 +325,25 @@
     </div>
   </div>
 
-  <!-- Modal: Ajuste Rápido de Estoque -->
+  <!-- Modal: Gerenciamento Administrativo de Produtos (Apenas dentro do Painel) -->
+  <div id="modal-admin-manage" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm hidden">
+    <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-lg w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+      <button class="btn-close-modal absolute top-4 right-4 text-slate-400 hover:text-white text-lg">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <h2 class="text-base font-bold text-white mb-4 flex items-center gap-2">
+        <i class="fa-solid fa-list-check text-brand-500"></i> Gerenciar Produtos Cadastrados
+      </h2>
+      <p class="text-xs text-slate-400 mb-4">Aqui você pode atualizar o estoque/uso, editar ou excluir seus produtos com total segurança.</p>
+
+      <div id="admin-products-list" class="space-y-3">
+        <!-- Lista gerada via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Ajuste de Estoque -->
   <div id="modal-quick-use" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm hidden">
     <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-sm w-full p-6 shadow-2xl relative">
       <button class="btn-close-modal absolute top-4 right-4 text-slate-400 hover:text-white text-lg">
@@ -426,13 +444,50 @@
       });
     };
 
-    function fileToBase64(file) {
+    // Função otimizada que aceita qualquer tipo e qualidade de imagem e redimensiona para garantir leveza
+    function processImageFile(file) {
       return new Promise((resolve, reject) => {
-        if (!file) resolve(null);
+        if (!file) {
+          resolve(null);
+          return;
+        }
         const reader = new FileReader();
         reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = error => reject(error);
+        reader.onload = (event) => {
+          const img = new Image();
+          img.src = event.target.result;
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            let width = img.width;
+            let height = img.height;
+            
+            // Limite máximo para evitar arquivos pesados mantendo excelente qualidade visual
+            const maxWidth = 1000;
+            const maxHeight = 1000;
+            if (width > height) {
+              if (width > maxWidth) {
+                height *= maxWidth / width;
+                width = maxWidth;
+              }
+            } else {
+              if (height > maxHeight) {
+                width *= maxHeight / height;
+                height = maxHeight;
+              }
+            }
+
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+
+            // Converte para JPEG com compressão otimizada (aceita qualquer foto de qualquer qualidade)
+            const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+            resolve(dataUrl);
+          };
+          img.onerror = (error) => reject(error);
+        };
+        reader.onerror = (error) => reject(error);
       });
     }
 
@@ -477,6 +532,7 @@
           ...docSnap.data()
         }));
         renderProducts();
+        if (currentUser) renderAdminProductsList();
       });
     }
 
@@ -531,8 +587,8 @@
       }
 
       emptyState.classList.add('hidden');
-      const isAdmin = !!currentUser;
 
+      // 100% LIMPO NA TELA DOS CLIENTES: Sem botões de edição, uso ou exclusão visíveis na vitrine!
       grid.innerHTML = filtered.map(prod => {
         const totalUses = Number(prod.totalUses) || Number(prod.total) || 1;
         const usedCount = Number(prod.usedCount) || Number(prod.used) || 0;
@@ -599,7 +655,7 @@
 
               ${prodImages.length > 1 ? `
                 <div class="flex items-center gap-1.5 px-4 pt-2.5 overflow-x-auto no-scrollbar">
-                  ${prodImages.map((imgUrl, idx) => `
+                  ${prodImages.map((imgUrl) => `
                     <button type="button" onclick="setMainImage('${prod.id}', '${imgUrl}')" class="focus:outline-none flex-shrink-0">
                       <img src="${imgUrl}" class="w-10 h-10 rounded-lg object-cover border border-slate-700 hover:border-brand-500 transition">
                     </button>
@@ -610,7 +666,7 @@
               <div class="p-4">
                 <h3 class="font-bold text-slate-100 text-base leading-snug">${prod.name}</h3>
 
-                <!-- Seção de Preços Calculada Automaticamente -->
+                <!-- Seção de Preços -->
                 ${formattedOriginal ? `
                   <div class="flex items-baseline gap-2 mt-2">
                     ${formattedDiscount ? `
@@ -645,43 +701,47 @@
               </div>
             </div>
 
-            <div class="p-4 pt-0 space-y-2">
+            <div class="p-4 pt-0">
               ${prod.link ? `
                 <a href="${prod.link}" target="_blank" rel="noopener" class="w-full py-2 px-3 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-medium flex items-center justify-center gap-2 border border-slate-700 transition">
                   <i class="fa-solid fa-arrow-up-right-from-square text-brand-400"></i> Ver Link do Produto
                 </a>
               ` : ''}
-
-              <!-- BOTÕES DE CONTROLE APENAS NO PAINEL ADMINISTRATIVO -->
-              ${isAdmin ? `
-                <div class="pt-2 border-t border-slate-800/80 grid grid-cols-3 gap-1.5">
-                  <button data-quick-id="${prod.id}" class="btn-quick-use py-1.5 bg-brand-600/20 hover:bg-brand-600/30 text-brand-300 rounded-lg text-xs font-medium border border-brand-500/30 flex items-center justify-center gap-1">
-                    <i class="fa-solid fa-pen-to-square"></i> Uso
-                  </button>
-                  <button data-edit-id="${prod.id}" class="btn-edit-prod py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-medium border border-slate-700 flex items-center justify-center gap-1">
-                    <i class="fa-solid fa-gear"></i> Editar
-                  </button>
-                  <button data-delete-id="${prod.id}" class="btn-delete-prod py-1.5 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-lg text-xs font-medium border border-red-500/20 flex items-center justify-center gap-1">
-                    <i class="fa-solid fa-trash"></i> Excluir
-                  </button>
-                </div>
-              ` : ''}
             </div>
           </div>
         `;
       }).join('');
+    }
 
-      if (isAdmin) {
-        document.querySelectorAll('.btn-quick-use').forEach(btn => {
-          btn.onclick = () => openQuickUseModal(btn.dataset.quickId);
-        });
-        document.querySelectorAll('.btn-edit-prod').forEach(btn => {
-          btn.onclick = () => openEditProductModal(btn.dataset.editId);
-        });
-        document.querySelectorAll('.btn-delete-prod').forEach(btn => {
-          btn.onclick = () => deleteProduct(btn.dataset.deleteId);
-        });
+    // Função para renderizar a lista de gerenciamento exclusivo dentro do painel do adm
+    function renderAdminProductsList() {
+      const container = document.getElementById('admin-products-list');
+      if (!container) return;
+
+      if (productsList.length === 0) {
+        container.innerHTML = '<p class="text-xs text-slate-400 text-center py-4">Nenhum produto cadastrado ainda.</p>';
+        return;
       }
+
+      container.innerHTML = productsList.map(prod => `
+        <div class="bg-slate-900 p-3 rounded-xl border border-slate-700 flex items-center justify-between gap-2">
+          <div class="truncate">
+            <h4 class="text-xs font-bold text-white truncate">${prod.name}</h4>
+            <span class="text-[10px] text-slate-400">Usados: ${prod.usedCount || 0} / Total: ${prod.totalUses || 30}</span>
+          </div>
+          <div class="flex items-center gap-1 flex-shrink-0">
+            <button onclick="openQuickUseModal('${prod.id}')" class="px-2.5 py-1 bg-brand-600/20 hover:bg-brand-600/30 text-brand-300 rounded-lg text-xs font-medium border border-brand-500/30" title="Atualizar Uso">
+              <i class="fa-solid fa-pen-to-square"></i>
+            </button>
+            <button onclick="openEditProductModal('${prod.id}')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-medium border border-slate-700" title="Editar">
+              <i class="fa-solid fa-gear"></i>
+            </button>
+            <button onclick="deleteProduct('${prod.id}')" class="px-2.5 py-1 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-lg text-xs font-medium border border-red-500/20" title="Excluir">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </div>
+        </div>
+      `).join('');
     }
 
     function closeModal(id) {
@@ -757,8 +817,8 @@
       let newCover = profileData.cover;
       let newLogo = profileData.logo;
 
-      if (coverFile) newCover = await fileToBase64(coverFile);
-      if (logoFile) newLogo = await fileToBase64(logoFile);
+      if (coverFile) newCover = await processImageFile(coverFile);
+      if (logoFile) newLogo = await processImageFile(logoFile);
 
       try {
         await setDoc(doc(db, 'settings', 'profile'), {
@@ -777,10 +837,11 @@
       document.getElementById('btn-cancel-prod-edit').classList.add('hidden');
     };
 
-    function openEditProductModal(prodId) {
+    window.openEditProductModal = (prodId) => {
       const prod = productsList.find(p => p.id === prodId);
       if (!prod) return;
 
+      closeModal('modal-admin-manage');
       document.getElementById('product-id').value = prod.id;
       document.getElementById('product-name').value = prod.name || "";
       document.getElementById('product-price').value = prod.price || "";
@@ -793,7 +854,7 @@
 
       document.getElementById('form-prod-title').innerHTML = `<i class="fa-solid fa-pen-to-square text-brand-500"></i> Editando Produto`;
       document.getElementById('btn-cancel-prod-edit').classList.remove('hidden');
-    }
+    };
 
     document.getElementById('form-product').onsubmit = async (e) => {
       e.preventDefault();
@@ -811,7 +872,8 @@
 
       let newImages = [];
       if (imgFiles.length > 0) {
-        newImages = await Promise.all(imgFiles.map(file => fileToBase64(file)));
+        // Processa qualquer qualidade de imagem enviada
+        newImages = await Promise.all(imgFiles.map(file => processImageFile(file)));
       }
 
       try {
@@ -843,15 +905,16 @@
       }
     };
 
-    function openQuickUseModal(prodId) {
+    window.openQuickUseModal = (prodId) => {
       const prod = productsList.find(p => p.id === prodId);
       if (!prod) return;
 
+      closeModal('modal-admin-manage');
       document.getElementById('quick-use-id').value = prod.id;
       document.getElementById('quick-use-product-name').innerText = prod.name;
       document.getElementById('quick-use-val').value = prod.usedCount || prod.used || 0;
       document.getElementById('modal-quick-use').classList.remove('hidden');
-    }
+    };
 
     document.getElementById('form-quick-use').onsubmit = async (e) => {
       e.preventDefault();
@@ -871,14 +934,33 @@
       }
     };
 
-    async function deleteProduct(prodId) {
+    window.deleteProduct = async (prodId) => {
       if (!confirm("Excluir este produto?")) return;
       try {
         await deleteDoc(doc(db, 'products', prodId));
         showToast("Produto removido.");
+        renderAdminProductsList();
       } catch (err) {
         showToast("Erro: " + err.message, "error");
       }
+    };
+
+    // Adicionado botão no painel logado para gerenciar/excluir produtos com segurança
+    const panelLogged = document.getElementById('panel-logged');
+    if (panelLogged) {
+      const manageDiv = document.createElement('div');
+      manageDiv.className = "pt-2";
+      manageDiv.innerHTML = `
+        <button type="button" id="btn-open-admin-manage" class="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-bold border border-slate-700 transition flex items-center justify-center gap-2">
+          <i class="fa-solid fa-list-check text-brand-500"></i> Gerenciar / Excluir Produtos Cadastrados
+        </button>
+      `;
+      panelLogged.insertBefore(manageDiv, panelLogged.firstChild);
+
+      document.getElementById('btn-open-admin-manage').onclick = () => {
+        renderAdminProductsList();
+        document.getElementById('modal-admin-manage').classList.remove('hidden');
+      };
     }
 
     document.getElementById('input-search').oninput = renderProducts;
