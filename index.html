@@ -218,8 +218,9 @@
             </div>
 
             <div>
-              <label class="block text-xs font-semibold text-slate-300 mb-1">Foto do Produto (Sua Galeria)</label>
-              <input type="file" id="product-image-file" accept="image/*" class="w-full text-xs text-slate-400 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-slate-700 file:text-slate-200 hover:file:bg-slate-600">
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Fotos do Produto (Selecione quantas desejar)</label>
+              <!-- ADICIONADO ATRIBUTO multiple PARA PERMITIR MÚLTIPLAS IMAGENS -->
+              <input type="file" id="product-image-file" accept="image/*" multiple class="w-full text-xs text-slate-400 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-slate-700 file:text-slate-200 hover:file:bg-slate-600">
             </div>
 
             <div>
@@ -462,6 +463,14 @@
       }
     }
 
+    // Função global para trocar a imagem principal em destaque no card
+    window.setMainImage = (prodId, imgUrl) => {
+      const imgElement = document.getElementById(`prod-img-${prodId}`);
+      if (imgElement) {
+        imgElement.src = imgUrl;
+      }
+    };
+
     function renderProducts() {
       const grid = document.getElementById('products-grid');
       const emptyState = document.getElementById('empty-state');
@@ -511,11 +520,23 @@
 
         const imgPlaceholder = "https://via.placeholder.com/400x300?text=Sem+Imagem";
 
+        // MÚLTIPLAS IMAGENS: Trata tanto o formato novo (array de fotos) quanto o antigo (foto única string)
+        let prodImages = [];
+        if (Array.isArray(prod.images) && prod.images.length > 0) {
+          prodImages = prod.images;
+        } else if (prod.image) {
+          prodImages = [prod.image];
+        } else {
+          prodImages = [imgPlaceholder];
+        }
+
+        const mainImg = prodImages[0];
+
         return `
           <div class="glass-card rounded-2xl overflow-hidden border border-slate-800 flex flex-col justify-between hover:border-slate-700 transition group">
             <div>
               <div class="relative h-48 w-full bg-slate-800 overflow-hidden">
-                <img src="${prod.image || imgPlaceholder}" alt="${prod.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.src='${imgPlaceholder}'">
+                <img id="prod-img-${prod.id}" src="${mainImg}" alt="${prod.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.src='${imgPlaceholder}'">
                 
                 ${isSoldOut ? `
                   <div class="absolute inset-0 bg-slate-950/80 backdrop-blur-xs flex items-center justify-center">
@@ -530,7 +551,24 @@
                     <i class="fa-solid fa-ticket mr-1"></i>Cupom: ${prod.code}
                   </span>
                 ` : ''}
+
+                ${prodImages.length > 1 ? `
+                  <span class="absolute bottom-3 right-3 bg-slate-950/80 text-white text-[10px] font-semibold px-2 py-0.5 rounded-full backdrop-blur-sm border border-slate-700">
+                    <i class="fa-solid fa-images mr-1"></i>${prodImages.length} fotos
+                  </span>
+                ` : ''}
               </div>
+
+              <!-- Carrossel / Miniaturas de Múltiplas Fotos se houver mais de 1 -->
+              ${prodImages.length > 1 ? `
+                <div class="flex items-center gap-1.5 px-4 pt-2.5 overflow-x-auto no-scrollbar">
+                  ${prodImages.map((imgUrl, idx) => `
+                    <button type="button" onclick="setMainImage('${prod.id}', '${imgUrl}')" class="focus:outline-none flex-shrink-0">
+                      <img src="${imgUrl}" class="w-10 h-10 rounded-lg object-cover border border-slate-700 hover:border-brand-500 transition">
+                    </button>
+                  `).join('')}
+                </div>
+              ` : ''}
 
               <div class="p-4">
                 <h3 class="font-bold text-slate-100 text-base leading-snug">${prod.name}</h3>
@@ -712,25 +750,35 @@
       const code = document.getElementById('product-code').value;
       const totalUses = Number(document.getElementById('product-total-uses').value);
       const usedCount = Number(document.getElementById('product-used-count').value);
-      const imgFile = document.getElementById('product-image-file').files[0];
+      
+      // Captura a lista de múltiplos arquivos selecionados
+      const imgFiles = Array.from(document.getElementById('product-image-file').files);
 
-      let base64Img = null;
-      if (imgFile) base64Img = await fileToBase64(imgFile);
+      let newImages = [];
+      if (imgFiles.length > 0) {
+        newImages = await Promise.all(imgFiles.map(file => fileToBase64(file)));
+      }
 
       try {
         if (id) {
           const prodDocRef = doc(db, 'products', id);
           const existing = productsList.find(p => p.id === id);
+          
+          // Mantém as fotos antigas caso não tenha selecionado novas no edit
+          const finalImages = newImages.length > 0 ? newImages : (existing.images || (existing.image ? [existing.image] : []));
+
           await updateDoc(prodDocRef, {
             name, description, link, code, totalUses, usedCount,
-            image: base64Img || existing.image || "",
+            images: finalImages,
+            image: finalImages[0] || "",
             updatedAt: new Date().toISOString()
           });
           showToast("Produto atualizado!");
         } else {
           await addDoc(collection(db, 'products'), {
             name, description, link, code, totalUses, usedCount,
-            image: base64Img || "",
+            images: newImages,
+            image: newImages[0] || "",
             createdAt: new Date().toISOString()
           });
           showToast("Produto cadastrado!");
