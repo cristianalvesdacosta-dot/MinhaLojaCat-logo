@@ -222,7 +222,7 @@
             <i class="fa-solid fa-box text-brand-500"></i> Cadastrar Novo Produto
           </h3>
 
-          <!-- NOVO: Importação Automática via Link -->
+          <!-- Importação Automática via Link Atualizada -->
           <div class="p-3 bg-slate-800/80 rounded-xl border border-brand-500/30 space-y-2">
             <label class="block text-xs font-bold text-brand-400 flex items-center gap-1.5">
               <i class="fa-solid fa-wand-magic-sparkles"></i> Importar Rápido via Link (Natura, etc.)
@@ -233,7 +233,7 @@
                 <i class="fa-solid fa-download"></i> Puxar
               </button>
             </div>
-            <p class="text-[10px] text-slate-400">O sistema preencherá o nome, foto e link automaticamente para você!</p>
+            <p class="text-[10px] text-slate-400">O sistema preencherá o nome e descrição automaticamente para você!</p>
           </div>
 
           <form id="form-product" class="space-y-4">
@@ -284,7 +284,7 @@
               </div>
               <div>
                 <label class="block text-xs font-semibold text-slate-300 mb-1">Cupom de Desconto</label>
-                <input type="text" id="product-code" placeholder="Ex: ORA_ET_LABORA" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
+                <input type="text" id="product-code" placeholder="Ex: ora_et_labora" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
               </div>
             </div>
 
@@ -511,7 +511,7 @@
       document.getElementById('modal-image-viewer').classList.add('hidden');
     };
 
-    // NOVA FUNÇÃO: Importação Automática via Link da Natura usando Proxy CORS
+    // FUNÇÃO ROBUSTA DE IMPORTAÇÃO AUTOMÁTICA VIA LINK
     window.fetchProductFromLink = async () => {
       const urlInput = document.getElementById('auto-import-link').value.trim();
       if (!urlInput) {
@@ -522,42 +522,64 @@
       showToast("Buscando dados do produto...", "success");
 
       try {
-        // Usando o serviço allorigins para contornar o CORS do navegador
-        const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(urlInput)}`;
-        const response = await fetch(proxyUrl);
-        const data = await response.json();
+        // Método 1: Microlink API (Especializado em extrair OpenGraph de Lojas/E-commerce)
+        const microlinkUrl = `https://api.microlink.io/?url=${encodeURIComponent(urlInput)}`;
+        const response = await fetch(microlinkUrl);
+        const json = await response.json();
 
-        if (!data.contents) {
-          throw new Error("Não foi possível ler o site.");
+        if (json.status === 'success' && json.data) {
+          const data = json.data;
+
+          if (data.title) {
+            const cleanTitle = data.title.split('|')[0].split('- Natura')[0].trim();
+            document.getElementById('product-name').value = cleanTitle;
+          }
+
+          if (data.description) {
+            document.getElementById('product-description').value = data.description;
+          }
+
+          document.getElementById('product-link').value = urlInput;
+          document.getElementById('product-code').value = "ora_et_labora";
+          document.getElementById('product-discount-percent').value = "10";
+
+          showToast("Dados importados com sucesso! Revise os valores.");
+          return;
         }
 
-        // Criar um leitor HTML virtual na memória
-        const parser = new DOMParser();
-        const docHtml = parser.parseFromString(data.contents, 'text/html');
+        throw new Error("Não foi possível ler as metatags automaticamente.");
 
-        // Extrair metadados Open Graph (Onde a Natura guarda Título, Imagem e Descrição)
-        const ogTitle = docHtml.querySelector('meta[property="og:title"]');
-        const ogImage = docHtml.querySelector('meta[property="og:image"]');
-        const ogDesc = docHtml.querySelector('meta[property="og:description"]');
-
-        if (ogTitle) {
-          document.getElementById('product-name').value = ogTitle.getAttribute('content');
-        }
-        if (ogDesc) {
-          document.getElementById('product-description').value = ogDesc.getAttribute('content');
-        }
-        if (ogImage) {
-          // Se encontrou a imagem por OpenGraph, você pode preencher o link do produto
-          // e o usuário também poderá carregar a imagem ou usar o link direto
-        }
-
-        document.getElementById('product-link').value = urlInput;
-        document.getElementById('product-code').value = "ora_et_labora"; // Seu cupom padrão já configurado!
-        
-        showToast("Dados importados com sucesso! Revise e salve.");
       } catch (err) {
-        console.error(err);
-        showToast("Erro ao importar automaticamente. Preencha manualmente.", "error");
+        console.warn("Tentando método alternativo via CorsProxy...", err);
+
+        // Método 2 (Fallback): Proxy alternativo para leitura direta do HTML
+        try {
+          const fallbackUrl = `https://corsproxy.io/?${encodeURIComponent(urlInput)}`;
+          const res = await fetch(fallbackUrl);
+          const htmlText = await res.text();
+
+          const parser = new DOMParser();
+          const docHtml = parser.parseFromString(htmlText, 'text/html');
+
+          const title = docHtml.querySelector('meta[property="og:title"]')?.getAttribute('content') || docHtml.querySelector('title')?.innerText;
+          const desc = docHtml.querySelector('meta[property="og:description"]')?.getAttribute('content');
+
+          if (title) {
+            document.getElementById('product-name').value = title.split('|')[0].trim();
+          }
+          if (desc) {
+            document.getElementById('product-description').value = desc;
+          }
+
+          document.getElementById('product-link').value = urlInput;
+          document.getElementById('product-code').value = "ora_et_labora";
+          document.getElementById('product-discount-percent').value = "10";
+
+          showToast("Importado via método alternativo! Revise e ajuste.");
+        } catch (fallbackErr) {
+          console.error(fallbackErr);
+          showToast("O site bloqueou a extração automática. Preencha manualmente.", "error");
+        }
       }
     };
 
