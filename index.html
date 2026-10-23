@@ -274,6 +274,13 @@
               </div>
             </div>
 
+            <!-- Validade do Cupom em Dias -->
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Validade do Cupom (Dias a partir de hoje)</label>
+              <input type="number" id="product-validity-days" min="1" value="30" placeholder="Ex: 30" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
+              <p class="text-[10px] text-slate-400 mt-1">O sistema calculará automaticamente a contagem regressiva baseada no dia em que o produto foi cadastrado/atualizado.</p>
+            </div>
+
             <!-- Controle de Estoque / Usos -->
             <div class="p-3 bg-slate-800/60 rounded-xl border border-slate-700/60 space-y-3">
               <span class="text-xs font-bold text-brand-400 uppercase tracking-wider block">Controle de Estoque & Usos</span>
@@ -457,7 +464,6 @@
       });
     };
 
-    // Função para abrir o álbum de fotos em tela cheia
     window.openImageViewer = (imgUrl, allImagesJson) => {
       let images = [];
       try {
@@ -569,7 +575,6 @@
         }
       });
 
-      // Correção robusta para evitar que produtos sumam da tela
       onSnapshot(collection(db, 'products'), (snapshot) => {
         productsList = snapshot.docs.map(docSnap => ({
           id: docSnap.id,
@@ -672,6 +677,27 @@
         const formattedOriginal = originalPrice ? originalPrice.toFixed(2).replace('.', ',') : null;
         const formattedDiscount = finalDiscountPrice ? finalDiscountPrice.toFixed(2).replace('.', ',') : null;
 
+        // Cálculo de dias restantes para expirar o cupom
+        let daysLeftText = "";
+        if (prod.createdAt) {
+          const createdDate = new Date(prod.createdAt);
+          const validityDays = Number(prod.validityDays) || 30;
+          const expiryDate = new Date(createdDate.getTime() + (validityDays * 24 * 60 * 60 * 1000));
+          const today = new Date();
+          const diffTime = expiryDate - today;
+          const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+          if (diffDays > 0) {
+            if (diffDays <= 5) {
+              daysLeftText = `<span class="text-[10px] bg-red-500/20 text-red-400 font-bold px-2 py-0.5 rounded-full border border-red-500/30 animate-pulse"><i class="fa-solid fa-clock mr-1"></i>Expira em ${diffDays} ${diffDays === 1 ? 'dia' : 'dias'}!</span>`;
+            } else {
+              daysLeftText = `<span class="text-[10px] bg-slate-800 text-slate-300 font-medium px-2 py-0.5 rounded-full border border-slate-700"><i class="fa-regular fa-clock mr-1"></i>Validade: ${diffDays} dias restantes</span>`;
+            }
+          } else {
+            daysLeftText = `<span class="text-[10px] bg-red-600/20 text-red-400 font-bold px-2 py-0.5 rounded-full border border-red-600/30">Cupom Expirado</span>`;
+          }
+        }
+
         return `
           <div class="glass-card rounded-2xl overflow-hidden border border-slate-800 flex flex-col justify-between hover:border-slate-700 transition group">
             <div>
@@ -716,7 +742,10 @@
               ` : ''}
 
               <div class="p-4">
-                <h3 class="font-bold text-slate-100 text-base leading-snug">${prod.name}</h3>
+                <div class="flex items-start justify-between gap-2">
+                  <h3 class="font-bold text-slate-100 text-base leading-snug">${prod.name}</h3>
+                  ${daysLeftText}
+                </div>
 
                 <!-- Seção de Preços -->
                 ${formattedOriginal ? `
@@ -884,6 +913,7 @@
     window.resetProductForm = () => {
       document.getElementById('form-product').reset();
       document.getElementById('product-id').value = "";
+      document.getElementById('product-validity-days').value = "30";
       document.getElementById('form-prod-title').innerHTML = `<i class="fa-solid fa-box text-brand-500"></i> Cadastrar Novo Produto`;
       document.getElementById('btn-cancel-prod-edit').classList.add('hidden');
     };
@@ -900,6 +930,7 @@
       document.getElementById('product-description').value = prod.description || prod.desc || "";
       document.getElementById('product-link').value = prod.link || "";
       document.getElementById('product-code').value = prod.code || "";
+      document.getElementById('product-validity-days').value = prod.validityDays || "30";
       document.getElementById('product-total-uses').value = prod.totalUses || prod.total || 30;
       document.getElementById('product-used-count').value = prod.usedCount || prod.used || 0;
 
@@ -916,6 +947,7 @@
       const description = document.getElementById('product-description').value;
       const link = document.getElementById('product-link').value;
       const code = document.getElementById('product-code').value;
+      const validityDays = Number(document.getElementById('product-validity-days').value) || 30;
       const totalUses = Number(document.getElementById('product-total-uses').value);
       const usedCount = Number(document.getElementById('product-used-count').value);
       
@@ -934,7 +966,7 @@
           const finalImages = newImages.length > 0 ? newImages : (existing.images || (existing.image ? [existing.image] : []));
 
           await updateDoc(prodDocRef, {
-            name, price, discountPercent, description, link, code, totalUses, usedCount,
+            name, price, discountPercent, description, link, code, validityDays, totalUses, usedCount,
             images: finalImages,
             image: finalImages[0] || "",
             updatedAt: new Date().toISOString()
@@ -942,7 +974,7 @@
           showToast("Produto atualizado!");
         } else {
           await addDoc(collection(db, 'products'), {
-            name, price, discountPercent, description, link, code, totalUses, usedCount,
+            name, price, discountPercent, description, link, code, validityDays, totalUses, usedCount,
             images: newImages,
             image: newImages[0] || "",
             createdAt: new Date().toISOString()
