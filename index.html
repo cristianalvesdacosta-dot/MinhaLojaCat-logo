@@ -222,10 +222,10 @@
             <i class="fa-solid fa-box text-brand-500"></i> Cadastrar Novo Produto
           </h3>
 
-          <!-- Importação Automática via Link Atualizada -->
+          <!-- Importação Automática via Link com Imagem -->
           <div class="p-3 bg-slate-800/80 rounded-xl border border-brand-500/30 space-y-2">
             <label class="block text-xs font-bold text-brand-400 flex items-center gap-1.5">
-              <i class="fa-solid fa-wand-magic-sparkles"></i> Importar Rápido via Link (Natura, etc.)
+              <i class="fa-solid fa-wand-magic-sparkles"></i> Importar Rápido via Link (Nome, Foto e Descrição)
             </label>
             <div class="flex gap-2">
               <input type="url" id="auto-import-link" placeholder="Cole o link do produto aqui..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-slate-100 focus:outline-none focus:border-brand-500">
@@ -233,11 +233,13 @@
                 <i class="fa-solid fa-download"></i> Puxar
               </button>
             </div>
-            <p class="text-[10px] text-slate-400">O sistema preencherá o nome e descrição automaticamente para você!</p>
+            <p class="text-[10px] text-slate-400">O sistema preencherá o nome, a foto oficial e a descrição automaticamente!</p>
           </div>
 
           <form id="form-product" class="space-y-4">
             <input type="hidden" id="product-id">
+            <!-- Campo oculto para armazenar a URL da imagem puxada automaticamente -->
+            <input type="hidden" id="fetched-image-url">
 
             <div>
               <label class="block text-xs font-semibold text-slate-300 mb-1">Nome do Produto *</label>
@@ -245,7 +247,7 @@
             </div>
 
             <div>
-              <label class="block text-xs font-semibold text-slate-300 mb-1">Fotos do Produto (Aceita qualquer qualidade/formato)</label>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Fotos do Produto (Opcional se puxou pelo link)</label>
               <input type="file" id="product-image-file" accept="image/*" multiple class="w-full text-xs text-slate-400 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-slate-700 file:text-slate-200 hover:file:bg-slate-600">
             </div>
 
@@ -504,14 +506,14 @@
         thumbsContainer.classList.add('hidden');
       }
 
-      modal.classList.remove('hidden');
+      modal.classList.add('hidden');
     };
 
     window.closeImageViewer = () => {
       document.getElementById('modal-image-viewer').classList.add('hidden');
     };
 
-    // FUNÇÃO ROBUSTA DE IMPORTAÇÃO AUTOMÁTICA VIA LINK
+    // FUNÇÃO ATUALIZADA: Puxa Título, Descrição E Imagem do Produto Automaticamente
     window.fetchProductFromLink = async () => {
       const urlInput = document.getElementById('auto-import-link').value.trim();
       if (!urlInput) {
@@ -519,10 +521,9 @@
         return;
       }
 
-      showToast("Buscando dados do produto...", "success");
+      showToast("Buscando dados e imagem do produto...", "success");
 
       try {
-        // Método 1: Microlink API (Especializado em extrair OpenGraph de Lojas/E-commerce)
         const microlinkUrl = `https://api.microlink.io/?url=${encodeURIComponent(urlInput)}`;
         const response = await fetch(microlinkUrl);
         const json = await response.json();
@@ -539,20 +540,25 @@
             document.getElementById('product-description').value = data.description;
           }
 
+          // Pega a URL da imagem oficial do produto do link
+          if (data.image && data.image.url) {
+            document.getElementById('fetched-image-url').value = data.image.url;
+            showToast("Nome, descrição e foto puxados com sucesso!");
+          } else {
+            showToast("Dados importados! (Insira a foto manualmente se necessário)");
+          }
+
           document.getElementById('product-link').value = urlInput;
           document.getElementById('product-code').value = "ora_et_labora";
           document.getElementById('product-discount-percent').value = "10";
-
-          showToast("Dados importados com sucesso! Revise os valores.");
           return;
         }
 
-        throw new Error("Não foi possível ler as metatags automaticamente.");
+        throw new Error("Não foi possível ler as metatags.");
 
       } catch (err) {
         console.warn("Tentando método alternativo via CorsProxy...", err);
 
-        // Método 2 (Fallback): Proxy alternativo para leitura direta do HTML
         try {
           const fallbackUrl = `https://corsproxy.io/?${encodeURIComponent(urlInput)}`;
           const res = await fetch(fallbackUrl);
@@ -563,19 +569,17 @@
 
           const title = docHtml.querySelector('meta[property="og:title"]')?.getAttribute('content') || docHtml.querySelector('title')?.innerText;
           const desc = docHtml.querySelector('meta[property="og:description"]')?.getAttribute('content');
+          const imgUrl = docHtml.querySelector('meta[property="og:image"]')?.getAttribute('content');
 
-          if (title) {
-            document.getElementById('product-name').value = title.split('|')[0].trim();
-          }
-          if (desc) {
-            document.getElementById('product-description').value = desc;
-          }
+          if (title) document.getElementById('product-name').value = title.split('|')[0].trim();
+          if (desc) document.getElementById('product-description').value = desc;
+          if (imgUrl) document.getElementById('fetched-image-url').value = imgUrl;
 
           document.getElementById('product-link').value = urlInput;
           document.getElementById('product-code').value = "ora_et_labora";
           document.getElementById('product-discount-percent').value = "10";
 
-          showToast("Importado via método alternativo! Revise e ajuste.");
+          showToast("Importado com sucesso via método alternativo!");
         } catch (fallbackErr) {
           console.error(fallbackErr);
           showToast("O site bloqueou a extração automática. Preencha manualmente.", "error");
@@ -998,6 +1002,7 @@
     window.resetProductForm = () => {
       document.getElementById('form-product').reset();
       document.getElementById('auto-import-link').value = "";
+      document.getElementById('fetched-image-url').value = "";
       document.getElementById('product-id').value = "";
       document.getElementById('product-validity-days').value = "30";
       document.getElementById('form-prod-title').innerHTML = `<i class="fa-solid fa-box text-brand-500"></i> Cadastrar Novo Produto`;
@@ -1019,6 +1024,7 @@
       document.getElementById('product-validity-days').value = prod.validityDays || "30";
       document.getElementById('product-total-uses').value = prod.totalUses || prod.total || 30;
       document.getElementById('product-used-count').value = prod.usedCount || prod.used || 0;
+      document.getElementById('fetched-image-url').value = prod.image || (prod.images ? prod.images[0] : "");
 
       document.getElementById('form-prod-title').innerHTML = `<i class="fa-solid fa-pen-to-square text-brand-500"></i> Editando Produto`;
       document.getElementById('btn-cancel-prod-edit').classList.remove('hidden');
@@ -1030,7 +1036,7 @@
       const name = document.getElementById('product-name').value;
       const price = document.getElementById('product-price').value;
       const discountPercent = document.getElementById('product-discount-percent').value;
-      const description = document.getElementById('product-description').value;
+      const description = document.getElementById('product-description'].value;
       const link = document.getElementById('product-link').value;
       const code = document.getElementById('product-code').value;
       const validityDays = Number(document.getElementById('product-validity-days').value) || 30;
@@ -1038,10 +1044,13 @@
       const usedCount = Number(document.getElementById('product-used-count').value);
       
       const imgFiles = Array.from(document.getElementById('product-image-file').files);
+      const fetchedImgUrl = document.getElementById('fetched-image-url').value;
 
       let newImages = [];
       if (imgFiles.length > 0) {
         newImages = await Promise.all(imgFiles.map(file => processImageFile(file)));
+      } else if (fetchedImgUrl) {
+        newImages = [fetchedImgUrl];
       }
 
       try {
@@ -1065,7 +1074,7 @@
             image: newImages[0] || "",
             createdAt: new Date().toISOString()
           });
-          showToast("Produto cadastrado!");
+          showToast("Produto cadastrado com sucesso!");
         }
         resetProductForm();
       } catch (err) {
@@ -1126,6 +1135,7 @@
 
       document.getElementById('btn-open-admin-manage').onclick = () => {
         renderAdminProductsList();
+        document.getElementById('modal-admin-manage').classList.add('hidden'); // Ajuste visual
         document.getElementById('modal-admin-manage').classList.remove('hidden');
       };
     }
