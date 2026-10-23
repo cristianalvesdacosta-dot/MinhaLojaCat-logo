@@ -154,7 +154,7 @@
         <i class="fa-solid fa-xmark"></i>
       </button>
 
-      <!-- TELA 1: QUANDO NÃO ESTÁ LOGADO (LOGIN / CRIAÇÃO DE CONTA) -->
+      <!-- TELA 1: QUANDO NÃO ESTÁ LOGADO -->
       <div id="panel-unlogged">
         <div class="text-center mb-6">
           <div class="w-12 h-12 bg-brand-500/10 text-brand-500 rounded-xl flex items-center justify-center mx-auto mb-2 text-xl border border-brand-500/20">
@@ -188,7 +188,7 @@
         </div>
       </div>
 
-      <!-- TELA 2: QUANDO LOGADO (PAINEL COMPLETO DE CONFIGURAÇÃO + PRODUTOS) -->
+      <!-- TELA 2: QUANDO LOGADO -->
       <div id="panel-logged" class="hidden space-y-6">
         <div class="p-3.5 bg-brand-500/10 border border-brand-500/30 rounded-xl flex items-center justify-between">
           <div class="flex items-center gap-2">
@@ -219,8 +219,30 @@
 
             <div>
               <label class="block text-xs font-semibold text-slate-300 mb-1">Fotos do Produto (Selecione quantas desejar)</label>
-              <!-- ADICIONADO ATRIBUTO multiple PARA PERMITIR MÚLTIPLAS IMAGENS -->
               <input type="file" id="product-image-file" accept="image/*" multiple class="w-full text-xs text-slate-400 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-slate-700 file:text-slate-200 hover:file:bg-slate-600">
+            </div>
+
+            <!-- Campos de Preço e Desconto Automático -->
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Preço Original (R$) *</label>
+                <input type="number" step="0.01" id="product-price" required placeholder="Ex: 279.90" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Desconto (%)</label>
+                <select id="product-discount-percent" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
+                  <option value="0">Sem desconto</option>
+                  <option value="5">5% OFF</option>
+                  <option value="10">10% OFF</option>
+                  <option value="15">15% OFF</option>
+                  <option value="20">20% OFF</option>
+                  <option value="25">25% OFF</option>
+                  <option value="30">30% OFF</option>
+                  <option value="35">35% OFF</option>
+                  <option value="40">40% OFF</option>
+                  <option value="50">50% OFF</option>
+                </select>
+              </div>
             </div>
 
             <div>
@@ -234,8 +256,8 @@
                 <input type="url" id="product-link" placeholder="https://..." class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
               </div>
               <div>
-                <label class="block text-xs font-semibold text-slate-300 mb-1">Cupom de Desconto (Opcional)</label>
-                <input type="text" id="product-code" placeholder="Ex: CUPOM10 / NATURA5" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Cupom de Desconto (Ex: EXCLUSIVO10%)</label>
+                <input type="text" id="product-code" placeholder="Ex: EXCLUSIVO10%" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
               </div>
             </div>
 
@@ -263,7 +285,7 @@
           </form>
         </div>
 
-        <!-- ABA DE PERSONALIZAR PERFIL (CAPA + LOGO) -->
+        <!-- ABA DE PERSONALIZAR PERFIL -->
         <div class="pt-4 border-t border-slate-700/60 space-y-4">
           <h3 class="text-sm font-bold text-slate-200 flex items-center gap-2">
             <i class="fa-solid fa-sliders text-brand-500"></i> Personalizar Capa e Perfil da Loja
@@ -358,7 +380,6 @@
       deleteDoc 
     } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-    // SUAS CREDENCIAIS DO FIREBASE
     const firebaseConfig = {
       apiKey: "AIzaSyA2ZuYtBx7_yFL2Nwvg3X7TfsrolnUfFBE",
       authDomain: "minhalojacatalogo-1febf.firebaseapp.com",
@@ -396,6 +417,14 @@
       toast.classList.remove('translate-y-20', 'opacity-0');
       setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0'), 3500);
     }
+
+    window.copyCoupon = (codeText) => {
+      navigator.clipboard.writeText(codeText).then(() => {
+        showToast(`Cupom "${codeText}" copiado com sucesso!`);
+      }).catch(err => {
+        showToast("Erro ao copiar cupom", "error");
+      });
+    };
 
     function fileToBase64(file) {
       return new Promise((resolve, reject) => {
@@ -463,7 +492,6 @@
       }
     }
 
-    // Função global para trocar a imagem principal em destaque no card
     window.setMainImage = (prodId, imgUrl) => {
       const imgElement = document.getElementById(`prod-img-${prodId}`);
       if (imgElement) {
@@ -520,7 +548,6 @@
 
         const imgPlaceholder = "https://via.placeholder.com/400x300?text=Sem+Imagem";
 
-        // MÚLTIPLAS IMAGENS: Trata tanto o formato novo (array de fotos) quanto o antigo (foto única string)
         let prodImages = [];
         if (Array.isArray(prod.images) && prod.images.length > 0) {
           prodImages = prod.images;
@@ -531,6 +558,17 @@
         }
 
         const mainImg = prodImages[0];
+
+        const originalPrice = prod.price ? Number(prod.price) : null;
+        const discountPercent = Number(prod.discountPercent) || 0;
+
+        let finalDiscountPrice = null;
+        if (originalPrice && discountPercent > 0) {
+          finalDiscountPrice = originalPrice - (originalPrice * (discountPercent / 100));
+        }
+
+        const formattedOriginal = originalPrice ? originalPrice.toFixed(2).replace('.', ',') : null;
+        const formattedDiscount = finalDiscountPrice ? finalDiscountPrice.toFixed(2).replace('.', ',') : null;
 
         return `
           <div class="glass-card rounded-2xl overflow-hidden border border-slate-800 flex flex-col justify-between hover:border-slate-700 transition group">
@@ -547,9 +585,9 @@
                 ` : ''}
 
                 ${prod.code ? `
-                  <span class="absolute top-3 left-3 bg-brand-600/90 text-white text-[11px] font-bold px-2.5 py-1 rounded-lg shadow border border-brand-400/30">
-                    <i class="fa-solid fa-ticket mr-1"></i>Cupom: ${prod.code}
-                  </span>
+                  <button type="button" onclick="copyCoupon('${prod.code}')" title="Clique para copiar o cupom" class="absolute top-3 left-3 bg-brand-600/90 hover:bg-brand-500 text-white text-[11px] font-bold px-2.5 py-1 rounded-lg shadow border border-brand-400/30 transition flex items-center gap-1.5 cursor-pointer">
+                    <i class="fa-solid fa-ticket"></i> Cupom: ${prod.code} <i class="fa-regular fa-copy text-[10px] opacity-80"></i>
+                  </button>
                 ` : ''}
 
                 ${prodImages.length > 1 ? `
@@ -559,7 +597,6 @@
                 ` : ''}
               </div>
 
-              <!-- Carrossel / Miniaturas de Múltiplas Fotos se houver mais de 1 -->
               ${prodImages.length > 1 ? `
                 <div class="flex items-center gap-1.5 px-4 pt-2.5 overflow-x-auto no-scrollbar">
                   ${prodImages.map((imgUrl, idx) => `
@@ -572,7 +609,21 @@
 
               <div class="p-4">
                 <h3 class="font-bold text-slate-100 text-base leading-snug">${prod.name}</h3>
-                <p class="text-xs text-slate-400 mt-1 whitespace-pre-line">${prod.description || prod.desc || 'Sem descrição.'}</p>
+
+                <!-- Seção de Preços Calculada Automaticamente -->
+                ${formattedOriginal ? `
+                  <div class="flex items-baseline gap-2 mt-2">
+                    ${formattedDiscount ? `
+                      <span class="text-lg font-black text-brand-400">R$ ${formattedDiscount}</span>
+                      <span class="text-xs text-slate-400 line-through">R$ ${formattedOriginal}</span>
+                      <span class="text-[10px] bg-brand-500/20 text-brand-400 font-bold px-1.5 py-0.5 rounded">-${discountPercent}%</span>
+                    ` : `
+                      <span class="text-lg font-black text-slate-100">R$ ${formattedOriginal}</span>
+                    `}
+                  </div>
+                ` : ''}
+
+                <p class="text-xs text-slate-400 mt-2 whitespace-pre-line">${prod.description || prod.desc || 'Sem descrição.'}</p>
 
                 <div class="mt-4 p-3 bg-slate-900/80 rounded-xl border border-slate-800/80">
                   <div class="flex items-center justify-between text-xs font-semibold mb-1.5">
@@ -601,6 +652,7 @@
                 </a>
               ` : ''}
 
+              <!-- BOTÕES DE CONTROLE APENAS NO PAINEL ADMINISTRATIVO -->
               ${isAdmin ? `
                 <div class="pt-2 border-t border-slate-800/80 grid grid-cols-3 gap-1.5">
                   <button data-quick-id="${prod.id}" class="btn-quick-use py-1.5 bg-brand-600/20 hover:bg-brand-600/30 text-brand-300 rounded-lg text-xs font-medium border border-brand-500/30 flex items-center justify-center gap-1">
@@ -731,6 +783,8 @@
 
       document.getElementById('product-id').value = prod.id;
       document.getElementById('product-name').value = prod.name || "";
+      document.getElementById('product-price').value = prod.price || "";
+      document.getElementById('product-discount-percent').value = prod.discountPercent || "0";
       document.getElementById('product-description').value = prod.description || prod.desc || "";
       document.getElementById('product-link').value = prod.link || "";
       document.getElementById('product-code').value = prod.code || "";
@@ -745,13 +799,14 @@
       e.preventDefault();
       const id = document.getElementById('product-id').value;
       const name = document.getElementById('product-name').value;
+      const price = document.getElementById('product-price').value;
+      const discountPercent = document.getElementById('product-discount-percent').value;
       const description = document.getElementById('product-description').value;
       const link = document.getElementById('product-link').value;
       const code = document.getElementById('product-code').value;
       const totalUses = Number(document.getElementById('product-total-uses').value);
       const usedCount = Number(document.getElementById('product-used-count').value);
       
-      // Captura a lista de múltiplos arquivos selecionados
       const imgFiles = Array.from(document.getElementById('product-image-file').files);
 
       let newImages = [];
@@ -764,11 +819,10 @@
           const prodDocRef = doc(db, 'products', id);
           const existing = productsList.find(p => p.id === id);
           
-          // Mantém as fotos antigas caso não tenha selecionado novas no edit
           const finalImages = newImages.length > 0 ? newImages : (existing.images || (existing.image ? [existing.image] : []));
 
           await updateDoc(prodDocRef, {
-            name, description, link, code, totalUses, usedCount,
+            name, price, discountPercent, description, link, code, totalUses, usedCount,
             images: finalImages,
             image: finalImages[0] || "",
             updatedAt: new Date().toISOString()
@@ -776,7 +830,7 @@
           showToast("Produto atualizado!");
         } else {
           await addDoc(collection(db, 'products'), {
-            name, description, link, code, totalUses, usedCount,
+            name, price, discountPercent, description, link, code, totalUses, usedCount,
             images: newImages,
             image: newImages[0] || "",
             createdAt: new Date().toISOString()
