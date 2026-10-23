@@ -222,10 +222,10 @@
             <i class="fa-solid fa-box text-brand-500"></i> Cadastrar Novo Produto
           </h3>
 
-          <!-- Importação Automática via Link com Suporte a Múltiplas Imagens -->
+          <!-- Importação Automática via Link com Suporte a Múltiplas Imagens & Botão X -->
           <div class="p-3 bg-slate-800/80 rounded-xl border border-brand-500/30 space-y-2">
             <label class="block text-xs font-bold text-brand-400 flex items-center gap-1.5">
-              <i class="fa-solid fa-wand-magic-sparkles"></i> Importar Rápido via Link (Extrai Galeria de Fotos)
+              <i class="fa-solid fa-wand-magic-sparkles"></i> Importar Rápido via Link (Com Opção de Excluir Fotos Indesejadas)
             </label>
             <div class="flex gap-2">
               <input type="url" id="auto-import-link" placeholder="Cole o link do produto aqui..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-slate-100 focus:outline-none focus:border-brand-500">
@@ -233,12 +233,12 @@
                 <i class="fa-solid fa-download"></i> Puxar
               </button>
             </div>
-            <p class="text-[10px] text-slate-400">O sistema preencherá o nome, a galeria de imagens e a descrição automaticamente!</p>
+            <p class="text-[10px] text-slate-400">Clique no X vermelho de qualquer imagem abaixo para removê-la antes de salvar!</p>
           </div>
 
           <form id="form-product" class="space-y-4">
             <input type="hidden" id="product-id">
-            <!-- Campo oculto para guardar a lista JSON de imagens capturadas do link -->
+            <!-- Campo oculto para guardar a lista JSON de imagens capturadas -->
             <input type="hidden" id="fetched-image-url">
 
             <div>
@@ -247,14 +247,14 @@
             </div>
 
             <div>
-              <label class="block text-xs font-semibold text-slate-300 mb-1">Fotos do Produto (Opcional se já puxou via link)</label>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Adicionar Fotos Manualmente (Opcional)</label>
               <input type="file" id="product-image-file" accept="image/*" multiple class="w-full text-xs text-slate-400 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-slate-700 file:text-slate-200 hover:file:bg-slate-600">
             </div>
 
-            <!-- Previsualização da Galeria de Fotos Capturada -->
+            <!-- Previsualização da Galeria de Fotos com Botão X -->
             <div id="preview-container" class="hidden">
-              <label class="block text-xs font-semibold text-slate-300 mb-1">Galeria de Fotos Capturada do Link:</label>
-              <div id="preview-gallery" class="flex items-center gap-2 overflow-x-auto py-1 no-scrollbar"></div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Fotos do Produto (Clique no X para apagar indesejadas):</label>
+              <div id="preview-gallery" class="flex items-center gap-3 overflow-x-auto py-2 no-scrollbar"></div>
             </div>
 
             <!-- Campos de Preço e Desconto Automático -->
@@ -464,6 +464,9 @@
     };
     let isAuthModeLogin = true;
 
+    // Array temporário para guardar as imagens puxadas e permitir apagar com o X
+    let currentFetchedImages = [];
+
     function showToast(msg, type = 'success') {
       const toast = document.getElementById('toast');
       const toastMsg = document.getElementById('toast-msg');
@@ -519,7 +522,38 @@
       document.getElementById('modal-image-viewer').classList.add('hidden');
     };
 
-    // FUNÇÃO ATUALIZADA: Puxa Título, Descrição e MÚLTIPLAS IMAGENS do Produto
+    // Função para renderizar as miniaturas de pré-visualização com o botão X de excluir
+    window.renderPreviewGallery = () => {
+      const previewContainer = document.getElementById('preview-container');
+      const previewGallery = document.getElementById('preview-gallery');
+
+      if (currentFetchedImages.length === 0) {
+        previewContainer.classList.add('hidden');
+        document.getElementById('fetched-image-url').value = "";
+        return;
+      }
+
+      document.getElementById('fetched-image-url').value = JSON.stringify(currentFetchedImages);
+
+      previewGallery.innerHTML = currentFetchedImages.map((imgUrl, index) => `
+        <div class="relative group flex-shrink-0">
+          <img src="${imgUrl}" class="w-16 h-16 rounded-xl object-cover border border-slate-700">
+          <button type="button" onclick="removeFetchedImage(${index})" class="absolute -top-1.5 -right-1.5 bg-red-600 hover:bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-[10px] font-bold shadow-md transition" title="Remover imagem">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      `).join('');
+
+      previewContainer.classList.remove('hidden');
+    };
+
+    window.removeFetchedImage = (index) => {
+      currentFetchedImages.splice(index, 1);
+      renderPreviewGallery();
+      showToast("Imagem removida da lista.");
+    };
+
+    // FUNÇÃO DE BUSCA E EXTRAÇÃO COM FILTRO ANTI-LOGOS
     window.fetchProductFromLink = async () => {
       const urlInput = document.getElementById('auto-import-link').value.trim();
       if (!urlInput) {
@@ -527,14 +561,14 @@
         return;
       }
 
-      showToast("Buscando galeria de imagens e dados...", "success");
+      showToast("Buscando dados e fotos...", "success");
 
       try {
         const microlinkUrl = `https://api.microlink.io/?url=${encodeURIComponent(urlInput)}`;
         const response = await fetch(microlinkUrl);
         const json = await response.json();
 
-        let extractedImages = [];
+        currentFetchedImages = [];
 
         if (json.status === 'success' && json.data) {
           const data = json.data;
@@ -548,18 +582,15 @@
             document.getElementById('product-description').value = data.description;
           }
 
-          // Adiciona a imagem principal
           if (data.image && data.image.url) {
-            extractedImages.push(data.image.url);
-          }
-
-          // Adiciona imagem do logo ou secundárias se disponíveis
-          if (data.logo && data.logo.url && data.logo.url !== data.image?.url) {
-            extractedImages.push(data.logo.url);
+            const imgUrl = data.image.url;
+            if (!imgUrl.toLowerCase().includes('logo') && !imgUrl.toLowerCase().includes('icon')) {
+              currentFetchedImages.push(imgUrl);
+            }
           }
         }
 
-        // Método Secundário / Complementar para capturar mais imagens do HTML da página
+        // Busca secundária no HTML da página para capturar mais ângulos
         try {
           const fallbackUrl = `https://corsproxy.io/?${encodeURIComponent(urlInput)}`;
           const res = await fetch(fallbackUrl);
@@ -578,45 +609,30 @@
             if (desc) document.getElementById('product-description').value = desc;
           }
 
-          // Varre todas as meta tags de imagens disponíveis no HTML
-          const ogImages = docHtml.querySelectorAll('meta[property="og:image"], meta[name="twitter:image"]');
-          ogImages.forEach(imgTag => {
-            const url = imgTag.getAttribute('content');
-            if (url && !extractedImages.includes(url)) {
-              extractedImages.push(url);
-            }
-          });
+          const allImages = docHtml.querySelectorAll('meta[property="og:image"], meta[name="twitter:image"], img');
+          allImages.forEach(tag => {
+            const url = tag.getAttribute('content') || tag.getAttribute('src');
+            if (url && url.startsWith('http')) {
+              const lowerUrl = url.toLowerCase();
+              const isLogoOrIcon = lowerUrl.includes('logo') || lowerUrl.includes('icon') || lowerUrl.includes('avatar') || lowerUrl.includes('banner') || lowerUrl.includes('social');
+              const isProductPhoto = lowerUrl.includes('product') || lowerUrl.includes('natura') || lowerUrl.includes('p/') || lowerUrl.includes('zoom') || lowerUrl.includes('large');
 
-          // Procura por fotos adicionais do produto no corpo da página (Até 4 fotos)
-          const bodyImages = docHtml.querySelectorAll('img[src*="natura"], img[src*="product"], img[src*="p/"]');
-          bodyImages.forEach(imgEl => {
-            const src = imgEl.getAttribute('src');
-            if (src && src.startsWith('http') && !extractedImages.includes(src) && extractedImages.length < 4) {
-              extractedImages.push(src);
+              if (!isLogoOrIcon && isProductPhoto && !currentFetchedImages.includes(url) && currentFetchedImages.length < 4) {
+                currentFetchedImages.push(url);
+              }
             }
           });
 
         } catch (e) {
-          console.warn("Segunda fonte de imagens ignorada.", e);
+          console.warn("Aviso na busca secundária.", e);
         }
 
-        // Armazena a lista de URLs em formato JSON no campo oculto
-        if (extractedImages.length > 0) {
-          document.getElementById('fetched-image-url').value = JSON.stringify(extractedImages);
-          
-          // Renderiza as miniaturas na pré-visualização do formulário
-          const previewContainer = document.getElementById('preview-container');
-          const previewGallery = document.getElementById('preview-gallery');
-          
-          previewGallery.innerHTML = extractedImages.map(imgUrl => `
-            <img src="${imgUrl}" class="w-16 h-16 rounded-xl object-cover border border-brand-500 flex-shrink-0">
-          `).join('');
-          
-          previewContainer.classList.remove('hidden');
-          showToast(`${extractedImages.length} foto(s) encontrada(s) e carregada(s)!`);
-        } else {
-          showToast("Dados importados! Insira as fotos manualmente se necessário.");
+        if (currentFetchedImages.length === 0 && json.data?.image?.url) {
+          currentFetchedImages.push(json.data.image.url);
         }
+
+        renderPreviewGallery();
+        showToast(`${currentFetchedImages.length} foto(s) carregada(s)! Use o X se precisar apagar alguma.`);
 
         document.getElementById('product-link').value = urlInput;
         document.getElementById('product-code').value = "ora_et_labora";
@@ -624,7 +640,7 @@
 
       } catch (err) {
         console.error("Erro na extração:", err);
-        showToast("O site bloqueou a extração. Preencha os campos manualmente.", "error");
+        showToast("O site bloqueou a extração. Preencha manualmente.", "error");
       }
     };
 
@@ -1044,6 +1060,7 @@
       document.getElementById('form-product').reset();
       document.getElementById('auto-import-link').value = "";
       document.getElementById('fetched-image-url').value = "";
+      currentFetchedImages = [];
       document.getElementById('preview-gallery').innerHTML = "";
       document.getElementById('preview-container').classList.add('hidden');
       document.getElementById('product-id').value = "";
@@ -1075,17 +1092,8 @@
         prodImages = [prod.image];
       }
 
-      if (prodImages.length > 0) {
-        document.getElementById('fetched-image-url').value = JSON.stringify(prodImages);
-        const previewContainer = document.getElementById('preview-container');
-        const previewGallery = document.getElementById('preview-gallery');
-
-        previewGallery.innerHTML = prodImages.map(imgUrl => `
-          <img src="${imgUrl}" class="w-16 h-16 rounded-xl object-cover border border-brand-500 flex-shrink-0">
-        `).join('');
-
-        previewContainer.classList.remove('hidden');
-      }
+      currentFetchedImages = [...prodImages];
+      renderPreviewGallery();
 
       document.getElementById('form-prod-title').innerHTML = `<i class="fa-solid fa-pen-to-square text-brand-500"></i> Editando Produto`;
       document.getElementById('btn-cancel-prod-edit').classList.remove('hidden');
@@ -1105,17 +1113,12 @@
       const usedCount = Number(document.getElementById('product-used-count').value);
       
       const imgFiles = Array.from(document.getElementById('product-image-file').files);
-      const fetchedImgJson = document.getElementById('fetched-image-url').value;
 
       let newImages = [];
       if (imgFiles.length > 0) {
         newImages = await Promise.all(imgFiles.map(file => processImageFile(file)));
-      } else if (fetchedImgJson) {
-        try {
-          newImages = JSON.parse(fetchedImgJson);
-        } catch(err) {
-          newImages = [fetchedImgJson];
-        }
+      } else {
+        newImages = [...currentFetchedImages];
       }
 
       try {
