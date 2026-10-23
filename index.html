@@ -4,11 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Catálogo Digital</title>
-  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- Google Fonts: Inter -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <script>
@@ -16,47 +13,23 @@
       darkMode: 'class',
       theme: {
         extend: {
-          fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-          },
-          colors: {
-            brand: {
-              50: '#f0fdf4',
-              100: '#dcfce7',
-              500: '#22c55e',
-              600: '#16a34a',
-              700: '#15803d',
-            }
-          }
+          fontFamily: { sans: ['Inter', 'sans-serif'] },
+          colors: { brand: { 50: '#f0fdf4', 100: '#dcfce7', 500: '#22c55e', 600: '#16a34a', 700: '#15803d' } }
         }
       }
     }
   </script>
 
   <style>
-    ::-webkit-scrollbar {
-      width: 6px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #0f172a;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #334155;
-      border-radius: 3px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #475569;
-    }
-    .glass-card {
-      background: rgba(30, 41, 59, 0.7);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-    }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #0f172a; }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #475569; }
+    .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); }
   </style>
 </head>
 <body class="h-full font-sans antialiased selection:bg-brand-500 selection:text-white flex flex-col min-h-screen">
 
-  <!-- Top Navigation Bar -->
   <header class="sticky top-0 z-40 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 px-4 py-3">
     <div class="max-w-4xl mx-auto flex items-center justify-between">
       <div class="flex items-center space-x-2">
@@ -75,20 +48,14 @@
     </div>
   </header>
 
-  <!-- Main Container -->
   <main class="flex-grow max-w-4xl w-full mx-auto pb-16">
-    
-    <!-- Profile Header Banner / Capa & Logo -->
     <div class="relative w-full">
-      <!-- Banner / Capa -->
       <div id="display-cover" class="h-44 sm:h-56 w-full bg-gradient-to-r from-slate-800 via-slate-700 to-slate-800 bg-cover bg-center transition-all duration-300 relative">
         <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-black/30"></div>
       </div>
 
-      <!-- Profile Avatar & Info Card -->
       <div class="px-4 sm:px-6 relative -mt-16 sm:-mt-20">
         <div class="flex flex-col sm:flex-row items-center sm:items-end gap-4 text-center sm:text-left">
-          <!-- Logo / Foto de Perfil -->
           <div class="relative group">
             <img id="display-logo" src="https://via.placeholder.com/150?text=LOGO" alt="Logo Loja" class="w-28 h-28 sm:w-32 sm:h-32 rounded-2xl object-cover border-4 border-slate-900 shadow-xl bg-slate-800">
           </div>
@@ -98,7 +65,6 @@
             <p id="display-bio" class="text-slate-400 text-sm mt-1 max-w-2xl leading-relaxed">Sua biografia ou descrição do catálogo digital aparece aqui.</p>
           </div>
 
-          <!-- Quick Stats -->
           <div class="flex items-center gap-2 text-xs font-semibold px-3 py-1.5 rounded-full bg-slate-800/80 border border-slate-700 text-slate-300">
             <i class="fa-solid fa-boxes-stacked text-brand-500"></i>
             <span id="stat-total-products">0 Produtos</span>
@@ -118,7 +84,6 @@
       </a>
     </div>
 
-    <!-- Busca e Filtros para Clientes -->
     <div class="px-4 sm:px-6 mt-8 flex flex-col sm:flex-row gap-3 items-center justify-between">
       <div class="relative w-full sm:w-80">
         <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
@@ -134,15 +99,12 @@
       </div>
     </div>
 
-    <!-- Product Grid -->
     <div class="px-4 sm:px-6 mt-6">
       <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-        <!-- Skeleton Loaders -->
         <div class="bg-slate-800/50 rounded-2xl p-4 border border-slate-800 animate-pulse h-80"></div>
         <div class="bg-slate-800/50 rounded-2xl p-4 border border-slate-800 animate-pulse h-80"></div>
       </div>
 
-      <!-- Empty State -->
       <div id="empty-state" class="hidden text-center py-16 px-4">
         <div class="w-16 h-16 bg-slate-800 text-slate-500 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
           <i class="fa-solid fa-box-open"></i>
@@ -153,20 +115,17 @@
     </div>
   </main>
 
-  <!-- Modal do Álbum / Visualizador de Imagem em Tela Cheia -->
   <div id="modal-image-viewer" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-md hidden">
     <button class="absolute top-5 right-5 text-white text-3xl z-50 hover:text-slate-300 focus:outline-none p-2" onclick="closeImageViewer()">
       <i class="fa-solid fa-xmark"></i>
     </button>
     <div class="relative max-w-4xl w-full max-h-[90vh] flex flex-col items-center justify-center">
       <img id="viewer-img-element" src="" alt="Ampliada" class="max-h-[75vh] max-w-full object-contain rounded-xl shadow-2xl border border-slate-700">
-      <div id="viewer-thumbnails" class="flex items-center gap-2 mt-4 overflow-x-auto max-w-full p-2 no-scrollbar">
-        <!-- Miniaturas geradas dinamicamente para o álbum -->
-      </div>
+      <div id="viewer-thumbnails" class="flex items-center gap-2 mt-4 overflow-x-auto max-w-full p-2 no-scrollbar"></div>
     </div>
   </div>
 
-  <!-- AVISO DE 8 SEGUNDOS NO MEIO DA TELA ANTES DE ABRIR A LOJA -->
+  <!-- AVISO CENTRAL COM REDIRECIONAMENTO AUTOMÁTICO SEM BLOQUEIOS -->
   <div id="modal-timer-redirect" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md hidden">
     <div class="bg-slate-800 border-2 border-brand-500 rounded-3xl max-w-sm w-full p-6 shadow-2xl text-center space-y-4">
       <div class="w-14 h-14 bg-brand-500/20 text-brand-400 rounded-2xl flex items-center justify-center mx-auto text-2xl border border-brand-500/30">
@@ -179,34 +138,28 @@
       </div>
 
       <p class="text-xs text-slate-300 leading-relaxed bg-slate-900/80 p-3 rounded-xl border border-slate-700">
-        ✔ Cole-o no carrinho para garantir seu desconto!<br>
-        Você será redirecionado para a loja da Natura em instantes...
+        ✔ Cole-o no carrinho da Natura para aplicar seu desconto.<br>
+        Entrando na loja em <strong id="countdown-seconds" class="text-brand-400">8s</strong>...
       </p>
 
-      <!-- Contador Regressivo em Segundos -->
-      <div class="py-2">
-        <span id="countdown-seconds" class="text-3xl font-black text-brand-400 bg-slate-900 px-4 py-2 rounded-2xl border border-slate-700">8s</span>
+      <div class="pt-2">
+        <button type="button" onclick="cancelRedirectTimer()" class="w-full py-2 bg-slate-700 hover:bg-slate-600 text-slate-300 font-semibold rounded-xl text-xs transition">
+          Cancelar e Continuar no Catálogo
+        </button>
       </div>
-
-      <button type="button" onclick="cancelRedirectTimer()" class="text-xs text-slate-400 hover:text-white underline">
-        Cancelar e continuar no catálogo
-      </button>
     </div>
   </div>
 
-  <!-- FOOTER -->
   <footer class="border-t border-slate-800 py-6 text-center text-xs text-slate-500 mt-auto">
     <p>© Catálogo Digital. Todos os direitos reservados.</p>
   </footer>
 
-  <!-- ==================== MODAL UNIFICADO DO PAINEL ATIVO ==================== -->
   <div id="modal-auth" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm hidden">
     <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-lg w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
       <button class="btn-close-modal absolute top-4 right-4 text-slate-400 hover:text-white text-lg">
         <i class="fa-solid fa-xmark"></i>
       </button>
 
-      <!-- TELA 1: QUANDO NÃO ESTÁ LOGADO -->
       <div id="panel-unlogged">
         <div class="text-center mb-6">
           <div class="w-12 h-12 bg-brand-500/10 text-brand-500 rounded-xl flex items-center justify-center mx-auto mb-2 text-xl border border-brand-500/20">
@@ -240,7 +193,6 @@
         </div>
       </div>
 
-      <!-- TELA 2: QUANDO LOGADO -->
       <div id="panel-logged" class="hidden space-y-6">
         <div class="p-3.5 bg-brand-500/10 border border-brand-500/30 rounded-xl flex items-center justify-between">
           <div class="flex items-center gap-2">
@@ -255,7 +207,6 @@
           </button>
         </div>
 
-        <!-- NOVO PAINEL DE CONTROLE EM LOTE PARA O CUPOM DA LOJA -->
         <div class="p-4 bg-brand-500/10 border border-brand-500/30 rounded-2xl space-y-3">
           <div class="flex items-center justify-between">
             <span class="text-xs font-bold text-brand-400 uppercase tracking-wider flex items-center gap-1.5">
@@ -276,13 +227,11 @@
           </div>
         </div>
 
-        <!-- ABA DE CADASTRO / EDIÇÃO DE PRODUTO -->
         <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-700/80 space-y-4">
           <h3 id="form-prod-title" class="text-sm font-bold text-white flex items-center gap-2">
             <i class="fa-solid fa-box text-brand-500"></i> Cadastrar Novo Produto
           </h3>
 
-          <!-- Importação Automática via Link com Suporte a Múltiplas Imagens & Botão X -->
           <div class="p-3 bg-slate-800/80 rounded-xl border border-brand-500/30 space-y-2">
             <label class="block text-xs font-bold text-brand-400 flex items-center gap-1.5">
               <i class="fa-solid fa-wand-magic-sparkles"></i> Importar Rápido via Link (Com Opção de Excluir Fotos Indesejadas)
@@ -298,7 +247,6 @@
 
           <form id="form-product" class="space-y-4">
             <input type="hidden" id="product-id">
-            <!-- Campo oculto para guardar a lista JSON de imagens capturadas -->
             <input type="hidden" id="fetched-image-url">
 
             <div>
@@ -311,13 +259,11 @@
               <input type="file" id="product-image-file" accept="image/*" multiple class="w-full text-xs text-slate-400 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-slate-700 file:text-slate-200 hover:file:bg-slate-600">
             </div>
 
-            <!-- Previsualização da Galeria de Fotos com Botão X -->
             <div id="preview-container" class="hidden">
               <label class="block text-xs font-semibold text-slate-300 mb-1">Fotos do Produto (Clique no X para apagar indesejadas):</label>
               <div id="preview-gallery" class="flex items-center gap-3 overflow-x-auto py-2 no-scrollbar"></div>
             </div>
 
-            <!-- Campos de Preço e Desconto Automático -->
             <div class="grid grid-cols-2 gap-3">
               <div>
                 <label class="block text-xs font-semibold text-slate-300 mb-1">Preço Original (R$) *</label>
@@ -356,14 +302,12 @@
               </div>
             </div>
 
-            <!-- Validade do Cupom em Dias -->
             <div>
               <label class="block text-xs font-semibold text-slate-300 mb-1">Validade do Cupom (Dias a partir de hoje)</label>
               <input type="number" id="product-validity-days" min="1" value="30" placeholder="Ex: 30" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
               <p class="text-[10px] text-slate-400 mt-1">O sistema calculará automaticamente a contagem regressiva baseada no dia em que o produto foi cadastrado/atualizado.</p>
             </div>
 
-            <!-- Controle de Estoque / Usos -->
             <div class="p-3 bg-slate-800/60 rounded-xl border border-slate-700/60 space-y-3">
               <span class="text-xs font-bold text-brand-400 uppercase tracking-wider block">Controle de Estoque & Usos</span>
               <div class="grid grid-cols-2 gap-3">
@@ -387,7 +331,6 @@
           </form>
         </div>
 
-        <!-- ABA DE PERSONALIZAR PERFIL -->
         <div class="pt-4 border-t border-slate-700/60 space-y-4">
           <h3 class="text-sm font-bold text-slate-200 flex items-center gap-2">
             <i class="fa-solid fa-sliders text-brand-500"></i> Personalizar Capa e Perfil da Loja
@@ -427,7 +370,6 @@
     </div>
   </div>
 
-  <!-- Modal: Gerenciamento Administrativo de Produtos -->
   <div id="modal-admin-manage" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm hidden">
     <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-lg w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
       <button class="btn-close-modal absolute top-4 right-4 text-slate-400 hover:text-white text-lg">
@@ -439,13 +381,10 @@
       </h2>
       <p class="text-xs text-slate-400 mb-4">Aqui você pode atualizar o estoque/uso, editar ou excluir seus produtos com total segurança.</p>
 
-      <div id="admin-products-list" class="space-y-3">
-        <!-- Lista gerada via JS -->
-      </div>
+      <div id="admin-products-list" class="space-y-3"></div>
     </div>
   </div>
 
-  <!-- Modal: Ajuste de Estoque Individual -->
   <div id="modal-quick-use" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm hidden">
     <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-sm w-full p-6 shadow-2xl relative">
       <button class="btn-close-modal absolute top-4 right-4 text-slate-400 hover:text-white text-lg">
@@ -473,7 +412,6 @@
     </div>
   </div>
 
-  <!-- Modal: Ajuste em Lote Personalizado -->
   <div id="modal-batch-use" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm hidden">
     <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-sm w-full p-6 shadow-2xl relative">
       <button class="btn-close-modal absolute top-4 right-4 text-slate-400 hover:text-white text-lg">
@@ -499,13 +437,11 @@
     </div>
   </div>
 
-  <!-- Toast Notification Padrao -->
   <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 max-w-xs w-full bg-slate-800 border border-slate-700 text-slate-100 px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3">
     <i id="toast-icon" class="fa-solid fa-circle-check text-brand-500 text-lg"></i>
     <span id="toast-msg" class="text-xs font-medium">Sucesso!</span>
   </div>
 
-  <!-- Firebase JavaScript Modules -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { 
@@ -550,11 +486,8 @@
       logo: "https://via.placeholder.com/150?text=LOGO"
     };
     let isAuthModeLogin = true;
-
-    // Array temporário para guardar as imagens puxadas e permitir apagar com o X
     let currentFetchedImages = [];
 
-    // Variaveis de controle do Cronômetro de Redirecionamento
     let redirectTimer = null;
     let redirectInterval = null;
 
@@ -572,7 +505,6 @@
       setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0'), 3500);
     }
 
-    // Função de clicar no botão do cupom
     window.copyCoupon = (codeText) => {
       const couponToCopy = codeText || "CLIENTEVIP";
       navigator.clipboard.writeText(couponToCopy).then(() => {
@@ -582,16 +514,14 @@
       });
     };
 
-    // REDIRECIONAMENTO COM CONTAGEM REGRESSIVA DE 8 SEGUNDOS NO MEIO DA TELA
+    // REDIRECIONAMENTO DIRETO SEM BLOQUEIO DE POP-UP (REDIRECIONA A PRÓPRIA ABA)
     window.openProductAndCopyCoupon = (productUrl, couponCode) => {
       const couponToCopy = couponCode || "CLIENTEVIP";
 
-      // 1. Copia o cupom
       navigator.clipboard.writeText(couponToCopy).catch(err => {
         console.warn("Aviso na cópia:", err);
       });
 
-      // 2. Preenche os dados no Modal Central
       document.getElementById('timer-coupon-code').innerText = `Cupom: ${couponToCopy}`;
       document.getElementById('modal-timer-redirect').classList.remove('hidden');
 
@@ -602,7 +532,6 @@
       if (redirectTimer) clearTimeout(redirectTimer);
       if (redirectInterval) clearInterval(redirectInterval);
 
-      // Cronômetro para atualizar o número na tela
       redirectInterval = setInterval(() => {
         secondsLeft--;
         if (secondsLeft >= 0) {
@@ -610,12 +539,11 @@
         }
       }, 1000);
 
-      // Aguarda 8 segundos no catálogo antes de abrir a loja Natura
+      // Troca a página atual diretamente para a loja Natura
       redirectTimer = setTimeout(() => {
         clearInterval(redirectInterval);
-        document.getElementById('modal-timer-redirect').classList.add('hidden');
         if (productUrl) {
-          window.open(productUrl, '_blank', 'noopener,noreferrer');
+          window.location.href = productUrl;
         }
       }, 8000);
     };
@@ -624,16 +552,11 @@
       if (redirectTimer) clearTimeout(redirectTimer);
       if (redirectInterval) clearInterval(redirectInterval);
       document.getElementById('modal-timer-redirect').classList.add('hidden');
-      showToast("Redirecionamento cancelado.");
     };
 
     window.openImageViewer = (imgUrl, allImagesJson) => {
       let images = [];
-      try {
-        images = JSON.parse(decodeURIComponent(allImagesJson));
-      } catch(e) {
-        images = [imgUrl];
-      }
+      try { images = JSON.parse(decodeURIComponent(allImagesJson)); } catch(e) { images = [imgUrl]; }
 
       const modal = document.getElementById('modal-image-viewer');
       const mainImg = document.getElementById('viewer-img-element');
@@ -660,7 +583,6 @@
       document.getElementById('modal-image-viewer').classList.add('hidden');
     };
 
-    // FUNÇÃO GLOBAL: Atualiza o uso de TODOS os produtos em lote (Apenas 1 clique)
     window.decreaseAllProductsUsage = async (qtyToSubtract = 1) => {
       if (productsList.length === 0) {
         showToast("Nenhum produto cadastrado para dar baixa.", "error");
@@ -710,7 +632,6 @@
       }
     };
 
-    // Função para renderizar as miniaturas de pré-visualização com o botão X de excluir
     window.renderPreviewGallery = () => {
       const previewContainer = document.getElementById('preview-container');
       const previewGallery = document.getElementById('preview-gallery');
@@ -741,7 +662,6 @@
       showToast("Imagem removida da lista.");
     };
 
-    // FUNÇÃO DE BUSCA E EXTRAÇÃO COM FILTRO ANTI-LOGOS
     window.fetchProductFromLink = async () => {
       const urlInput = document.getElementById('auto-import-link').value.trim();
       if (!urlInput) {
@@ -778,7 +698,6 @@
           }
         }
 
-        // Busca secundária no HTML da página para capturar mais ângulos
         try {
           const fallbackUrl = `https://corsproxy.io/?${encodeURIComponent(urlInput)}`;
           const res = await fetch(fallbackUrl);
@@ -1081,7 +1000,6 @@
                   ${daysLeftText}
                 </div>
 
-                <!-- Seção de Preços -->
                 ${formattedOriginal ? `
                   <div class="flex items-baseline gap-2 mt-2">
                     ${formattedDiscount ? `
