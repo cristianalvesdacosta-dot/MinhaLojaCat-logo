@@ -7,8 +7,6 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <!-- Biblioteca para renderizar os cards em imagem de alta qualidade -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
   <script>
     tailwind.config = {
@@ -127,6 +125,7 @@
     </div>
   </div>
 
+  <!-- AVISO CENTRAL COM REDIRECIONAMENTO AUTOMÁTICO SEM BLOQUEIOS -->
   <div id="modal-timer-redirect" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md hidden">
     <div class="bg-slate-800 border-2 border-brand-500 rounded-3xl max-w-sm w-full p-6 shadow-2xl text-center space-y-4">
       <div class="w-14 h-14 bg-brand-500/20 text-brand-400 rounded-2xl flex items-center justify-center mx-auto text-2xl border border-brand-500/30">
@@ -139,42 +138,13 @@
       </div>
 
       <p class="text-xs text-slate-300 leading-relaxed bg-slate-900/80 p-3 rounded-xl border border-slate-700">
-        ✔ Cole-o no carrinho da loja para aplicar seu desconto.<br>
+        ✔ Cole-o no carrinho da Natura para aplicar seu desconto.<br>
         Entrando na loja em <strong id="countdown-seconds" class="text-brand-400">8s</strong>...
       </p>
 
       <div class="pt-2">
         <button type="button" onclick="cancelRedirectTimer()" class="w-full py-2 bg-slate-700 hover:bg-slate-600 text-slate-300 font-semibold rounded-xl text-xs transition">
           Cancelar e Continuar no Catálogo
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- MODAL DE ESTÚDIO DE DIVULGAÇÃO CORRIGIDO -->
-  <div id="modal-marketing-studio" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md hidden">
-    <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-md w-full p-6 shadow-2xl relative space-y-4 text-center">
-      <button class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg" onclick="closeMarketingStudio()">
-        <i class="fa-solid fa-xmark"></i>
-      </button>
-
-      <div>
-        <h3 id="studio-title" class="text-base font-bold text-white flex items-center justify-center gap-2">
-          <i class="fa-solid fa-clapperboard text-brand-500"></i> <span id="studio-title-text">Estúdio de Divulgação</span>
-        </h3>
-        <p id="studio-subtitle" class="text-xs text-slate-400 mt-1">Material pronto para postar nas redes sociais.</p>
-      </div>
-
-      <div id="studio-preview-box" class="w-full aspect-[9/16] max-h-[45vh] bg-slate-900 rounded-xl overflow-hidden relative border border-slate-700 flex flex-col items-center justify-between p-3 shadow-inner">
-        <!-- Injetado dinamicamente -->
-      </div>
-
-      <div class="space-y-2 pt-1">
-        <button id="btn-download-studio-asset" type="button" class="w-full py-3 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs font-bold shadow-lg transition flex items-center justify-center gap-2">
-          <i class="fa-solid fa-download"></i> Baixar Imagem / Vídeo para o Telemóvel
-        </button>
-        <button type="button" class="w-full py-2 bg-slate-700 hover:bg-slate-600 text-slate-300 rounded-xl text-xs font-medium" onclick="closeMarketingStudio()">
-          Fechar
         </button>
       </div>
     </div>
@@ -237,24 +207,6 @@
           </button>
         </div>
 
-        <div class="p-4 bg-slate-900 border border-brand-500/40 rounded-2xl space-y-3 shadow-lg">
-          <span class="text-xs font-bold text-brand-400 uppercase tracking-wider flex items-center gap-1.5">
-            <i class="fa-solid fa-bullhorn"></i> Divulgação Automática (TikTok, Reels & WhatsApp)
-          </span>
-          <p class="text-[11px] text-slate-300 leading-relaxed">
-            Gere materiais visuais de alta conversão direto com os seus produtos cadastrados:
-          </p>
-          
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
-            <button type="button" onclick="iniciarGeracaoVideo45s()" class="py-2.5 px-3 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs font-bold transition shadow-md flex items-center justify-center gap-1.5">
-              <i class="fa-solid fa-clapperboard"></i> Gerar Vídeo 45s (TikTok/Reels)
-            </button>
-            <button type="button" onclick="iniciarGeracaoBannerGif()" class="py-2.5 px-3 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-xl text-xs font-semibold transition flex items-center justify-center gap-1.5">
-              <i class="fa-solid fa-images"></i> Gerar Banner / GIF (WhatsApp)
-            </button>
-          </div>
-        </div>
-
         <div class="p-4 bg-brand-500/10 border border-brand-500/30 rounded-2xl space-y-3">
           <div class="flex items-center justify-between">
             <span class="text-xs font-bold text-brand-400 uppercase tracking-wider flex items-center gap-1.5">
@@ -282,7 +234,7 @@
 
           <div class="p-3 bg-slate-800/80 rounded-xl border border-brand-500/30 space-y-2">
             <label class="block text-xs font-bold text-brand-400 flex items-center gap-1.5">
-              <i class="fa-solid fa-wand-magic-sparkles"></i> Importar Rápido via Link
+              <i class="fa-solid fa-wand-magic-sparkles"></i> Importar Rápido via Link (Com Opção de Excluir Fotos Indesejadas)
             </label>
             <div class="flex gap-2">
               <input type="url" id="auto-import-link" placeholder="Cole o link do produto aqui..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-slate-100 focus:outline-none focus:border-brand-500">
@@ -299,7 +251,7 @@
 
             <div>
               <label class="block text-xs font-semibold text-slate-300 mb-1">Nome do Produto *</label>
-              <input type="text" id="product-name" required placeholder="Ex: Desodorante Perfume" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
+              <input type="text" id="product-name" required placeholder="Ex: Desodorante Perfume Essencial" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
             </div>
 
             <div>
@@ -308,7 +260,7 @@
             </div>
 
             <div id="preview-container" class="hidden">
-              <label class="block text-xs font-semibold text-slate-300 mb-1">Fotos do Produto:</label>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Fotos do Produto (Clique no X para apagar indesejadas):</label>
               <div id="preview-gallery" class="flex items-center gap-3 overflow-x-auto py-2 no-scrollbar"></div>
             </div>
 
@@ -327,6 +279,7 @@
                   <option value="20">20% OFF</option>
                   <option value="25">25% OFF</option>
                   <option value="30">30% OFF</option>
+                  <option value="35">35% OFF</option>
                   <option value="40">40% OFF</option>
                   <option value="50">50% OFF</option>
                 </select>
@@ -334,13 +287,13 @@
             </div>
 
             <div>
-              <label class="block text-xs font-semibold text-slate-300 mb-1">Descrição do Produto</label>
-              <textarea id="product-description" rows="3" placeholder="Insira toda a descrição..." class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500"></textarea>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Descrição do Produto (Ilimitada)</label>
+              <textarea id="product-description" rows="3" placeholder="Insira toda a descrição, fragrâncias, observações..." class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500"></textarea>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label class="block text-xs font-semibold text-slate-300 mb-1">Link do Produto (Loja)</label>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Link do Produto (Afiliado / Loja)</label>
                 <input type="url" id="product-link" placeholder="https://..." class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
               </div>
               <div>
@@ -350,15 +303,16 @@
             </div>
 
             <div>
-              <label class="block text-xs font-semibold text-slate-300 mb-1">Validade do Cupom (Dias)</label>
-              <input type="number" id="product-validity-days" min="1" value="30" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Validade do Cupom (Dias a partir de hoje)</label>
+              <input type="number" id="product-validity-days" min="1" value="30" placeholder="Ex: 30" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
+              <p class="text-[10px] text-slate-400 mt-1">O sistema calculará automaticamente a contagem regressiva baseada no dia em que o produto foi cadastrado/atualizado.</p>
             </div>
 
             <div class="p-3 bg-slate-800/60 rounded-xl border border-slate-700/60 space-y-3">
               <span class="text-xs font-bold text-brand-400 uppercase tracking-wider block">Controle de Estoque & Usos</span>
               <div class="grid grid-cols-2 gap-3">
                 <div>
-                  <label class="block text-[11px] font-medium text-slate-300 mb-1">Total de Estoque</label>
+                  <label class="block text-[11px] font-medium text-slate-300 mb-1">Total de Estoque / Limite</label>
                   <input type="number" id="product-total-uses" min="1" required value="30" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
                 </div>
                 <div>
@@ -471,7 +425,7 @@
 
       <form id="form-batch-use" class="space-y-4">
         <div>
-          <label class="block text-xs font-semibold text-slate-300 mb-1">Quantidade a adicionar</label>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Quantidade a adicionar ao 'Já Usado'</label>
           <input type="number" id="batch-use-val" min="1" value="1" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
         </div>
 
@@ -560,6 +514,7 @@
       });
     };
 
+    // REDIRECIONAMENTO DIRETO SEM BLOQUEIO DE POP-UP (REDIRECIONA A PRÓPRIA ABA)
     window.openProductAndCopyCoupon = (productUrl, couponCode) => {
       const couponToCopy = couponCode || "CLIENTEVIP";
 
@@ -584,6 +539,7 @@
         }
       }, 1000);
 
+      // Troca a página atual diretamente para a loja Natura
       redirectTimer = setTimeout(() => {
         clearInterval(redirectInterval);
         if (productUrl) {
@@ -626,127 +582,6 @@
     window.closeImageViewer = () => {
       document.getElementById('modal-image-viewer').classList.add('hidden');
     };
-
-    // ==========================================
-    // SISTEMA DE ESTÚDIO DE MARKETING CORRIGIDO
-    // ==========================================
-    window.closeMarketingStudio = () => {
-      document.getElementById('modal-marketing-studio').classList.add('hidden');
-    };
-
-    window.iniciarGeracaoVideo45s = () => {
-      if (!productsList || productsList.length === 0) {
-        alert('Cadastre produtos no catálogo antes de gerar o vídeo de 45 segundos!');
-        return;
-      }
-
-      document.getElementById('studio-title-text').innerText = "Estúdio: Vídeo 45s (TikTok / Reels)";
-      document.getElementById('studio-subtitle').innerText = "Carrossel dinâmico dos produtos em formato vertical (9:16).";
-      
-      const previewBox = document.getElementById('studio-preview-box');
-      const p = productsList[0];
-      const rawImg = (p.images && p.images[0]) ? p.images[0] : (p.image || 'https://via.placeholder.com/400');
-      const img = `https://corsproxy.io/?${encodeURIComponent(rawImg)}`;
-      const preco = p.price ? `R$ ${Number(p.price).toFixed(2).replace('.', ',')}` : '';
-
-      previewBox.innerHTML = `
-        <div id="render-target-card" class="w-full h-full flex flex-col justify-between bg-gradient-to-b from-slate-900 via-slate-800 to-black p-4 rounded-xl border border-brand-500/40 text-center relative overflow-hidden">
-          <div class="absolute top-2 right-2 bg-brand-600 text-white text-[9px] font-bold px-2 py-0.5 rounded-full uppercase tracking-widest animate-pulse">
-            🔴 DESTAQUE
-          </div>
-          <div class="pt-1">
-            <span class="text-[9px] text-brand-400 font-bold uppercase tracking-wider">${profileData.title || 'Catálogo Digital'}</span>
-            <h2 class="text-sm font-black text-white mt-0.5 leading-tight">${p.name}</h2>
-          </div>
-          <div class="my-auto py-1">
-            <img src="${img}" crossorigin="anonymous" class="w-32 h-32 object-cover rounded-xl mx-auto shadow-2xl border-2 border-slate-700">
-          </div>
-          <div class="space-y-1.5 pb-1">
-            ${preco ? `<div class="text-base font-black text-brand-400">${preco}</div>` : ''}
-            <div class="bg-brand-600/90 text-white font-bold text-[11px] py-1.5 px-2 rounded-lg shadow-lg border border-brand-400/30">
-              🎟️ Cupom: ${p.code || 'CLIENTEVIP'}
-            </div>
-            <p class="text-[8px] text-slate-400">Garanta já o seu! Link na bio do perfil.</p>
-          </div>
-        </div>
-      `;
-
-      document.getElementById('btn-download-studio-asset').onclick = async () => {
-        const target = document.getElementById('render-target-card');
-        showToast("Gerando arquivo para download...", "success");
-        try {
-          const canvas = await html2canvas(target, { useCORS: true, allowTaint: true, scale: 2 });
-          const imageLink = document.createElement('a');
-          imageLink.download = `video-destaque-tiktok-${Date.now()}.png`;
-          imageLink.href = canvas.toDataURL('image/png');
-          imageLink.click();
-          showToast("Arquivo descarregado com sucesso!");
-        } catch (err) {
-          console.error(err);
-          showToast("Erro ao processar ficheiro.", "error");
-        }
-      };
-
-      document.getElementById('modal-marketing-studio').classList.remove('hidden');
-    };
-
-    window.iniciarGeracaoBannerGif = () => {
-      if (!productsList || productsList.length === 0) {
-        alert('Cadastre produtos no catálogo antes de gerar os banners para o WhatsApp!');
-        return;
-      }
-
-      document.getElementById('studio-title-text').innerText = "Estúdio: Banners para WhatsApp";
-      document.getElementById('studio-subtitle').innerText = "Banner promocional otimizado para o Status do WhatsApp e Instagram.";
-      const previewBox = document.getElementById('studio-preview-box');
-
-      previewBox.innerHTML = `
-        <div id="render-target-banner" class="w-full h-full flex flex-col justify-between bg-gradient-to-tr from-emerald-950 via-slate-900 to-slate-950 p-4 rounded-xl border border-emerald-500/40 text-center relative overflow-hidden">
-          <div class="pt-1">
-            <span class="text-[9px] text-emerald-400 font-extrabold uppercase tracking-widest">📢 NOVIDADES NA LOJA</span>
-            <h2 class="text-sm font-black text-white mt-0.5">${profileData.title || 'Catálogo Digital'}</h2>
-          </div>
-          <div class="grid grid-cols-2 gap-1.5 my-auto">
-            ${productsList.slice(0, 4).map(prod => {
-              const rawFoto = (prod.images && prod.images[0]) ? prod.images[0] : (prod.image || 'https://via.placeholder.com/150');
-              const foto = `https://corsproxy.io/?${encodeURIComponent(rawFoto)}`;
-              return `
-                <div class="bg-slate-800/80 p-1.5 rounded-lg border border-slate-700 flex flex-col items-center">
-                  <img src="${foto}" crossorigin="anonymous" class="w-16 h-16 object-cover rounded mb-1">
-                  <span class="text-[8px] font-bold text-white truncate w-full">${prod.name}</span>
-                  <span class="text-[8px] text-brand-400 font-extrabold">R$ ${Number(prod.price || 0).toFixed(2).replace('.', ',')}</span>
-                </div>
-              `;
-            }).join('')}
-          </div>
-          <div class="pb-1">
-            <div class="bg-emerald-600 text-white font-bold text-[11px] py-1.5 px-2 rounded-lg shadow-lg">
-              ✨ Use o cupom: CLIENTEVIP
-            </div>
-            <p class="text-[8px] text-slate-400 mt-0.5">Toque no link e aproveite os descontos!</p>
-          </div>
-        </div>
-      `;
-
-      document.getElementById('btn-download-studio-asset').onclick = async () => {
-        const target = document.getElementById('render-target-banner');
-        showToast("Gerando banner para WhatsApp...", "success");
-        try {
-          const canvas = await html2canvas(target, { useCORS: true, allowTaint: true, scale: 2 });
-          const imageLink = document.createElement('a');
-          imageLink.download = `banner-whatsapp-${Date.now()}.png`;
-          imageLink.href = canvas.toDataURL('image/png');
-          imageLink.click();
-          showToast("Banner descarregado com sucesso!");
-        } catch (err) {
-          console.error(err);
-          showToast("Erro ao gerar banner.", "error");
-        }
-      };
-
-      document.getElementById('modal-marketing-studio').classList.remove('hidden');
-    };
-    // ==========================================
 
     window.decreaseAllProductsUsage = async (qtyToSubtract = 1) => {
       if (productsList.length === 0) {
@@ -847,7 +682,7 @@
           const data = json.data;
 
           if (data.title) {
-            const cleanTitle = data.title.split('|')[0].trim();
+            const cleanTitle = data.title.split('|')[0].split('- Natura')[0].trim();
             document.getElementById('product-name').value = cleanTitle;
           }
 
@@ -856,12 +691,55 @@
           }
 
           if (data.image && data.image.url) {
-            currentFetchedImages.push(data.image.url);
+            const imgUrl = data.image.url;
+            if (!imgUrl.toLowerCase().includes('logo') && !imgUrl.toLowerCase().includes('icon')) {
+              currentFetchedImages.push(imgUrl);
+            }
           }
         }
 
+        try {
+          const fallbackUrl = `https://corsproxy.io/?${encodeURIComponent(urlInput)}`;
+          const res = await fetch(fallbackUrl);
+          const htmlText = await res.text();
+
+          const parser = new DOMParser();
+          const docHtml = parser.parseFromString(htmlText, 'text/html');
+
+          if (!document.getElementById('product-name').value) {
+            const title = docHtml.querySelector('meta[property="og:title"]')?.getAttribute('content') || docHtml.querySelector('title')?.innerText;
+            if (title) document.getElementById('product-name').value = title.split('|')[0].trim();
+          }
+
+          if (!document.getElementById('product-description').value) {
+            const desc = docHtml.querySelector('meta[property="og:description"]')?.getAttribute('content');
+            if (desc) document.getElementById('product-description').value = desc;
+          }
+
+          const allImages = docHtml.querySelectorAll('meta[property="og:image"], meta[name="twitter:image"], img');
+          allImages.forEach(tag => {
+            const url = tag.getAttribute('content') || tag.getAttribute('src');
+            if (url && url.startsWith('http')) {
+              const lowerUrl = url.toLowerCase();
+              const isLogoOrIcon = lowerUrl.includes('logo') || lowerUrl.includes('icon') || lowerUrl.includes('avatar') || lowerUrl.includes('banner') || lowerUrl.includes('social');
+              const isProductPhoto = lowerUrl.includes('product') || lowerUrl.includes('natura') || lowerUrl.includes('p/') || lowerUrl.includes('zoom') || lowerUrl.includes('large');
+
+              if (!isLogoOrIcon && isProductPhoto && !currentFetchedImages.includes(url) && currentFetchedImages.length < 4) {
+                currentFetchedImages.push(url);
+              }
+            }
+          });
+
+        } catch (e) {
+          console.warn("Aviso na busca secundária.", e);
+        }
+
+        if (currentFetchedImages.length === 0 && json.data?.image?.url) {
+          currentFetchedImages.push(json.data.image.url);
+        }
+
         renderPreviewGallery();
-        showToast("Dados importados com sucesso!");
+        showToast(`${currentFetchedImages.length} foto(s) carregada(s)! Use o X se precisar apagar alguma.`);
 
         document.getElementById('product-link').value = urlInput;
         document.getElementById('product-code').value = "CLIENTEVIP";
@@ -869,7 +747,7 @@
 
       } catch (err) {
         console.error("Erro na extração:", err);
-        showToast("Preencha os campos manualmente se necessário.", "error");
+        showToast("O site bloqueou a extração. Preencha manualmente.", "error");
       }
     };
 
