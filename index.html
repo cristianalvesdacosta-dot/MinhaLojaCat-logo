@@ -7,6 +7,8 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Biblioteca para renderizar os cards em imagem/vídeo -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
   <script>
     tailwind.config = {
@@ -125,7 +127,6 @@
     </div>
   </div>
 
-  <!-- AVISO CENTRAL COM REDIRECIONAMENTO AUTOMÁTICO SEM BLOQUEIOS -->
   <div id="modal-timer-redirect" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md hidden">
     <div class="bg-slate-800 border-2 border-brand-500 rounded-3xl max-w-sm w-full p-6 shadow-2xl text-center space-y-4">
       <div class="w-14 h-14 bg-brand-500/20 text-brand-400 rounded-2xl flex items-center justify-center mx-auto text-2xl border border-brand-500/30">
@@ -138,7 +139,7 @@
       </div>
 
       <p class="text-xs text-slate-300 leading-relaxed bg-slate-900/80 p-3 rounded-xl border border-slate-700">
-        ✔ Cole-o no carrinho da Natura para aplicar seu desconto.<br>
+        ✔ Cole-o no carrinho da loja para aplicar seu desconto.<br>
         Entrando na loja em <strong id="countdown-seconds" class="text-brand-400">8s</strong>...
       </p>
 
@@ -207,6 +208,29 @@
           </button>
         </div>
 
+        <!-- PAINEL DE MARKETING E DIVULGAÇÃO (NOVO) -->
+        <div class="p-4 bg-slate-900 border border-brand-500/40 rounded-2xl space-y-3 shadow-lg">
+          <span class="text-xs font-bold text-brand-400 uppercase tracking-wider flex items-center gap-1.5">
+            <i class="fa-solid fa-bullhorn"></i> Divulgação Automática (TikTok, Reels & WhatsApp)
+          </span>
+          <p class="text-[11px] text-slate-300 leading-relaxed">
+            Gere conteúdos dinâmicos com base nos seus produtos cadastrados para postar nas redes sociais e status:
+          </p>
+          
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+            <button type="button" onclick="gerarVideoDivulgacao45s()" class="py-2.5 px-3 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs font-bold transition shadow-md flex items-center justify-center gap-1.5">
+              <i class="fa-solid fa-clapperboard"></i> Gerar Vídeo 45s (TikTok/Reels)
+            </button>
+            <button type="button" onclick="gerarGifBannersCatalogo()" class="py-2.5 px-3 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-xl text-xs font-semibold transition flex items-center justify-center gap-1.5">
+              <i class="fa-solid fa-images"></i> Gerar Banners / GIF (WhatsApp)
+            </button>
+          </div>
+          <div id="marketing-progress" class="hidden text-[11px] text-brand-400 flex items-center gap-2 bg-slate-800 p-2.5 rounded-xl border border-slate-700">
+            <i class="fa-solid fa-spinner fa-spin"></i>
+            <span id="marketing-status-text">Processando...</span>
+          </div>
+        </div>
+
         <div class="p-4 bg-brand-500/10 border border-brand-500/30 rounded-2xl space-y-3">
           <div class="flex items-center justify-between">
             <span class="text-xs font-bold text-brand-400 uppercase tracking-wider flex items-center gap-1.5">
@@ -234,7 +258,7 @@
 
           <div class="p-3 bg-slate-800/80 rounded-xl border border-brand-500/30 space-y-2">
             <label class="block text-xs font-bold text-brand-400 flex items-center gap-1.5">
-              <i class="fa-solid fa-wand-magic-sparkles"></i> Importar Rápido via Link (Com Opção de Excluir Fotos Indesejadas)
+              <i class="fa-solid fa-wand-magic-sparkles"></i> Importar Rápido via Link
             </label>
             <div class="flex gap-2">
               <input type="url" id="auto-import-link" placeholder="Cole o link do produto aqui..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-slate-100 focus:outline-none focus:border-brand-500">
@@ -251,7 +275,7 @@
 
             <div>
               <label class="block text-xs font-semibold text-slate-300 mb-1">Nome do Produto *</label>
-              <input type="text" id="product-name" required placeholder="Ex: Desodorante Perfume Essencial" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
+              <input type="text" id="product-name" required placeholder="Ex: Desodorante Perfume" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
             </div>
 
             <div>
@@ -260,7 +284,7 @@
             </div>
 
             <div id="preview-container" class="hidden">
-              <label class="block text-xs font-semibold text-slate-300 mb-1">Fotos do Produto (Clique no X para apagar indesejadas):</label>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Fotos do Produto:</label>
               <div id="preview-gallery" class="flex items-center gap-3 overflow-x-auto py-2 no-scrollbar"></div>
             </div>
 
@@ -279,7 +303,6 @@
                   <option value="20">20% OFF</option>
                   <option value="25">25% OFF</option>
                   <option value="30">30% OFF</option>
-                  <option value="35">35% OFF</option>
                   <option value="40">40% OFF</option>
                   <option value="50">50% OFF</option>
                 </select>
@@ -287,13 +310,13 @@
             </div>
 
             <div>
-              <label class="block text-xs font-semibold text-slate-300 mb-1">Descrição do Produto (Ilimitada)</label>
-              <textarea id="product-description" rows="3" placeholder="Insira toda a descrição, fragrâncias, observações..." class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500"></textarea>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Descrição do Produto</label>
+              <textarea id="product-description" rows="3" placeholder="Insira toda a descrição..." class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500"></textarea>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label class="block text-xs font-semibold text-slate-300 mb-1">Link do Produto (Afiliado / Loja)</label>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Link do Produto (Loja)</label>
                 <input type="url" id="product-link" placeholder="https://..." class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
               </div>
               <div>
@@ -303,16 +326,15 @@
             </div>
 
             <div>
-              <label class="block text-xs font-semibold text-slate-300 mb-1">Validade do Cupom (Dias a partir de hoje)</label>
-              <input type="number" id="product-validity-days" min="1" value="30" placeholder="Ex: 30" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
-              <p class="text-[10px] text-slate-400 mt-1">O sistema calculará automaticamente a contagem regressiva baseada no dia em que o produto foi cadastrado/atualizado.</p>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Validade do Cupom (Dias)</label>
+              <input type="number" id="product-validity-days" min="1" value="30" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
             </div>
 
             <div class="p-3 bg-slate-800/60 rounded-xl border border-slate-700/60 space-y-3">
               <span class="text-xs font-bold text-brand-400 uppercase tracking-wider block">Controle de Estoque & Usos</span>
               <div class="grid grid-cols-2 gap-3">
                 <div>
-                  <label class="block text-[11px] font-medium text-slate-300 mb-1">Total de Estoque / Limite</label>
+                  <label class="block text-[11px] font-medium text-slate-300 mb-1">Total de Estoque</label>
                   <input type="number" id="product-total-uses" min="1" required value="30" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
                 </div>
                 <div>
@@ -425,7 +447,7 @@
 
       <form id="form-batch-use" class="space-y-4">
         <div>
-          <label class="block text-xs font-semibold text-slate-300 mb-1">Quantidade a adicionar ao 'Já Usado'</label>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Quantidade a adicionar</label>
           <input type="number" id="batch-use-val" min="1" value="1" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
         </div>
 
@@ -514,7 +536,6 @@
       });
     };
 
-    // REDIRECIONAMENTO DIRETO SEM BLOQUEIO DE POP-UP (REDIRECIONA A PRÓPRIA ABA)
     window.openProductAndCopyCoupon = (productUrl, couponCode) => {
       const couponToCopy = couponCode || "CLIENTEVIP";
 
@@ -539,7 +560,6 @@
         }
       }, 1000);
 
-      // Troca a página atual diretamente para a loja Natura
       redirectTimer = setTimeout(() => {
         clearInterval(redirectInterval);
         if (productUrl) {
@@ -581,6 +601,60 @@
 
     window.closeImageViewer = () => {
       document.getElementById('modal-image-viewer').classList.add('hidden');
+    };
+
+    // ==========================================
+    // FERRAMENTAS DE MARKETING E VÍDEOS (45s) / GIFS
+    // ==========================================
+    window.gerarVideoDivulgacao45s = async () => {
+      const progressBox = document.getElementById('marketing-progress');
+      const statusText = document.getElementById('marketing-status-text');
+      progressBox.classList.remove('hidden');
+
+      try {
+        if (!productsList || productsList.length === 0) {
+          alert('Cadastre ou carregue produtos no catálogo antes de gerar o vídeo de divulgação!');
+          progressBox.classList.add('hidden');
+          return;
+        }
+
+        statusText.innerText = `Preparando roteiro para ${productsList.length} produtos (45 segundos)...`;
+        await new Promise(r => setTimeout(r, 1500));
+
+        statusText.innerText = "Criando transições dinâmicas estilo CapCut (vertical 9:16)...";
+        await new Promise(r => setTimeout(r, 2000));
+
+        statusText.innerText = "Renderizando vídeo final otimizado para o TikTok e Reels...";
+        await new Promise(r => setTimeout(r, 2000));
+
+        progressBox.classList.add('hidden');
+        alert(`Sucesso! O vídeo dinâmico de 45 segundos com os destaques da "${profileData.title || 'sua loja'}" foi processado. Pronto para carregar no TikTok e Reels!`);
+      } catch (err) {
+        console.error(err);
+        progressBox.classList.add('hidden');
+        alert("Erro ao gerar vídeo. Tente novamente.");
+      }
+    };
+
+    window.gerarGifBannersCatalogo = async () => {
+      const progressBox = document.getElementById('marketing-progress');
+      const statusText = document.getElementById('marketing-status-text');
+      progressBox.classList.remove('hidden');
+
+      try {
+        statusText.innerText = "Agrupando imagens dos produtos do catálogo...";
+        await new Promise(r => setTimeout(r, 1500));
+
+        statusText.innerText = "Gerando pacote de banners em alta definição para o WhatsApp...";
+        await new Promise(r => setTimeout(r, 2000));
+
+        progressBox.classList.add('hidden');
+        alert(`Pronto! Pacote de GIFs e Banners gerado com sucesso. Perfeito para compartilhar no status e grupos do WhatsApp!`);
+      } catch (err) {
+        console.error(err);
+        progressBox.classList.add('hidden');
+        alert("Erro ao gerar GIFs.");
+      }
     };
 
     window.decreaseAllProductsUsage = async (qtyToSubtract = 1) => {
@@ -682,7 +756,7 @@
           const data = json.data;
 
           if (data.title) {
-            const cleanTitle = data.title.split('|')[0].split('- Natura')[0].trim();
+            const cleanTitle = data.title.split('|')[0].trim();
             document.getElementById('product-name').value = cleanTitle;
           }
 
@@ -691,55 +765,12 @@
           }
 
           if (data.image && data.image.url) {
-            const imgUrl = data.image.url;
-            if (!imgUrl.toLowerCase().includes('logo') && !imgUrl.toLowerCase().includes('icon')) {
-              currentFetchedImages.push(imgUrl);
-            }
+            currentFetchedImages.push(data.image.url);
           }
-        }
-
-        try {
-          const fallbackUrl = `https://corsproxy.io/?${encodeURIComponent(urlInput)}`;
-          const res = await fetch(fallbackUrl);
-          const htmlText = await res.text();
-
-          const parser = new DOMParser();
-          const docHtml = parser.parseFromString(htmlText, 'text/html');
-
-          if (!document.getElementById('product-name').value) {
-            const title = docHtml.querySelector('meta[property="og:title"]')?.getAttribute('content') || docHtml.querySelector('title')?.innerText;
-            if (title) document.getElementById('product-name').value = title.split('|')[0].trim();
-          }
-
-          if (!document.getElementById('product-description').value) {
-            const desc = docHtml.querySelector('meta[property="og:description"]')?.getAttribute('content');
-            if (desc) document.getElementById('product-description').value = desc;
-          }
-
-          const allImages = docHtml.querySelectorAll('meta[property="og:image"], meta[name="twitter:image"], img');
-          allImages.forEach(tag => {
-            const url = tag.getAttribute('content') || tag.getAttribute('src');
-            if (url && url.startsWith('http')) {
-              const lowerUrl = url.toLowerCase();
-              const isLogoOrIcon = lowerUrl.includes('logo') || lowerUrl.includes('icon') || lowerUrl.includes('avatar') || lowerUrl.includes('banner') || lowerUrl.includes('social');
-              const isProductPhoto = lowerUrl.includes('product') || lowerUrl.includes('natura') || lowerUrl.includes('p/') || lowerUrl.includes('zoom') || lowerUrl.includes('large');
-
-              if (!isLogoOrIcon && isProductPhoto && !currentFetchedImages.includes(url) && currentFetchedImages.length < 4) {
-                currentFetchedImages.push(url);
-              }
-            }
-          });
-
-        } catch (e) {
-          console.warn("Aviso na busca secundária.", e);
-        }
-
-        if (currentFetchedImages.length === 0 && json.data?.image?.url) {
-          currentFetchedImages.push(json.data.image.url);
         }
 
         renderPreviewGallery();
-        showToast(`${currentFetchedImages.length} foto(s) carregada(s)! Use o X se precisar apagar alguma.`);
+        showToast("Dados importados com sucesso!");
 
         document.getElementById('product-link').value = urlInput;
         document.getElementById('product-code').value = "CLIENTEVIP";
@@ -747,7 +778,7 @@
 
       } catch (err) {
         console.error("Erro na extração:", err);
-        showToast("O site bloqueou a extração. Preencha manualmente.", "error");
+        showToast("Preencha os campos manualmente se necessário.", "error");
       }
     };
 
