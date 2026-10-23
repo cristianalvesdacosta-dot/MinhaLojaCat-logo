@@ -166,6 +166,34 @@
     </div>
   </div>
 
+  <!-- AVISO DE 8 SEGUNDOS NO MEIO DA TELA ANTES DE ABRIR A LOJA -->
+  <div id="modal-timer-redirect" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md hidden">
+    <div class="bg-slate-800 border-2 border-brand-500 rounded-3xl max-w-sm w-full p-6 shadow-2xl text-center space-y-4">
+      <div class="w-14 h-14 bg-brand-500/20 text-brand-400 rounded-2xl flex items-center justify-center mx-auto text-2xl border border-brand-500/30">
+        <i class="fa-solid fa-circle-check"></i>
+      </div>
+
+      <div>
+        <h3 class="text-lg font-bold text-white">Cupom Copiado!</h3>
+        <p class="text-sm font-bold text-brand-400 mt-1" id="timer-coupon-code">Cupom: CLIENTEVIP</p>
+      </div>
+
+      <p class="text-xs text-slate-300 leading-relaxed bg-slate-900/80 p-3 rounded-xl border border-slate-700">
+        ✔ Cole-o no carrinho para garantir seu desconto!<br>
+        Você será redirecionado para a loja da Natura em instantes...
+      </p>
+
+      <!-- Contador Regressivo em Segundos -->
+      <div class="py-2">
+        <span id="countdown-seconds" class="text-3xl font-black text-brand-400 bg-slate-900 px-4 py-2 rounded-2xl border border-slate-700">8s</span>
+      </div>
+
+      <button type="button" onclick="cancelRedirectTimer()" class="text-xs text-slate-400 hover:text-white underline">
+        Cancelar e continuar no catálogo
+      </button>
+    </div>
+  </div>
+
   <!-- FOOTER -->
   <footer class="border-t border-slate-800 py-6 text-center text-xs text-slate-500 mt-auto">
     <p>© Catálogo Digital. Todos os direitos reservados.</p>
@@ -471,10 +499,10 @@
     </div>
   </div>
 
-  <!-- Toast Notification (AGORA CENTRALIZADO NO MEIO DA TELA E COM AVISO DESTAQUE) -->
-  <div id="toast" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 opacity-0 pointer-events-none transition-all duration-300 max-w-sm w-11/12 bg-slate-900/95 border-2 border-brand-500 text-slate-100 px-5 py-4 rounded-2xl shadow-2xl backdrop-blur-md flex items-center gap-4 text-center">
-    <i id="toast-icon" class="fa-solid fa-circle-check text-brand-500 text-2xl flex-shrink-0"></i>
-    <span id="toast-msg" class="text-xs sm:text-sm font-semibold leading-relaxed text-slate-100">Sucesso!</span>
+  <!-- Toast Notification Padrao -->
+  <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 max-w-xs w-full bg-slate-800 border border-slate-700 text-slate-100 px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3">
+    <i id="toast-icon" class="fa-solid fa-circle-check text-brand-500 text-lg"></i>
+    <span id="toast-msg" class="text-xs font-medium">Sucesso!</span>
   </div>
 
   <!-- Firebase JavaScript Modules -->
@@ -526,7 +554,9 @@
     // Array temporário para guardar as imagens puxadas e permitir apagar com o X
     let currentFetchedImages = [];
 
-    let toastTimer = null;
+    // Variaveis de controle do Cronômetro de Redirecionamento
+    let redirectTimer = null;
+    let redirectInterval = null;
 
     function showToast(msg, type = 'success') {
       const toast = document.getElementById('toast');
@@ -534,52 +564,67 @@
       const toastIcon = document.getElementById('toast-icon');
 
       toastMsg.innerText = msg;
-      toastMsg.style.whiteSpace = "pre-line";
-
       toastIcon.className = type === 'error' 
-        ? "fa-solid fa-circle-exclamation text-red-500 text-2xl flex-shrink-0" 
-        : "fa-solid fa-circle-check text-brand-500 text-2xl flex-shrink-0";
+        ? "fa-solid fa-circle-exclamation text-red-500 text-lg" 
+        : "fa-solid fa-circle-check text-brand-500 text-lg";
 
-      toast.classList.remove('opacity-0', 'pointer-events-none');
-      toast.classList.add('opacity-100');
-
-      if (toastTimer) clearTimeout(toastTimer);
-
-      // Fica visível por 10 segundos para dar tempo total de leitura
-      toastTimer = setTimeout(() => {
-        toast.classList.remove('opacity-100');
-        toast.classList.add('opacity-0', 'pointer-events-none');
-      }, 10000);
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0'), 3500);
     }
 
-    // Função de clicar para copiar o cupom diretamente
+    // Função de clicar no botão do cupom
     window.copyCoupon = (codeText) => {
       const couponToCopy = codeText || "CLIENTEVIP";
       navigator.clipboard.writeText(couponToCopy).then(() => {
-        showToast(`✔ Cupom "${couponToCopy}" copiado com sucesso!\nCole-o no carrinho para garantir seu desconto.`);
+        showToast(`Cupom "${couponToCopy}" copiado com sucesso!`);
       }).catch(err => {
         showToast("Erro ao copiar cupom", "error");
       });
     };
 
-    // NOVA FUNÇÃO: Copia o cupom, mostra no MEIO DA TELA por mais tempo e aguarda 2,5s antes de abrir a loja
+    // REDIRECIONAMENTO COM CONTAGEM REGRESSIVA DE 8 SEGUNDOS NO MEIO DA TELA
     window.openProductAndCopyCoupon = (productUrl, couponCode) => {
       const couponToCopy = couponCode || "CLIENTEVIP";
 
-      // 1. Copia o cupom para a área de transferência
-      navigator.clipboard.writeText(couponToCopy).then(() => {
-        // 2. Notifica no meio da tela
-        showToast(`✔ Cupom "${couponToCopy}" copiado com sucesso!\nCole-o no carrinho para garantir seu desconto.`);
-      }).catch(err => {
-        console.warn("Não foi possível copiar automaticamente:", err);
+      // 1. Copia o cupom
+      navigator.clipboard.writeText(couponToCopy).catch(err => {
+        console.warn("Aviso na cópia:", err);
       });
 
-      // 3. Aguarda 2,5 segundos para o cliente ler com calma antes de abrir a loja
-      if (productUrl) {
-        setTimeout(() => {
+      // 2. Preenche os dados no Modal Central
+      document.getElementById('timer-coupon-code').innerText = `Cupom: ${couponToCopy}`;
+      document.getElementById('modal-timer-redirect').classList.remove('hidden');
+
+      let secondsLeft = 8;
+      const countdownElem = document.getElementById('countdown-seconds');
+      countdownElem.innerText = `${secondsLeft}s`;
+
+      if (redirectTimer) clearTimeout(redirectTimer);
+      if (redirectInterval) clearInterval(redirectInterval);
+
+      // Cronômetro para atualizar o número na tela
+      redirectInterval = setInterval(() => {
+        secondsLeft--;
+        if (secondsLeft >= 0) {
+          countdownElem.innerText = `${secondsLeft}s`;
+        }
+      }, 1000);
+
+      // Aguarda 8 segundos no catálogo antes de abrir a loja Natura
+      redirectTimer = setTimeout(() => {
+        clearInterval(redirectInterval);
+        document.getElementById('modal-timer-redirect').classList.add('hidden');
+        if (productUrl) {
           window.open(productUrl, '_blank', 'noopener,noreferrer');
-        }, 2500);
-      }
+        }
+      }, 8000);
+    };
+
+    window.cancelRedirectTimer = () => {
+      if (redirectTimer) clearTimeout(redirectTimer);
+      if (redirectInterval) clearInterval(redirectInterval);
+      document.getElementById('modal-timer-redirect').classList.add('hidden');
+      showToast("Redirecionamento cancelado.");
     };
 
     window.openImageViewer = (imgUrl, allImagesJson) => {
