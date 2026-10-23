@@ -238,7 +238,7 @@
 
           <form id="form-product" class="space-y-4">
             <input type="hidden" id="product-id">
-            <!-- Campo oculto para armazenar a URL da imagem puxada automaticamente -->
+            <!-- Campo oculto para guardar a URL da imagem extraída do link -->
             <input type="hidden" id="fetched-image-url">
 
             <div>
@@ -247,8 +247,14 @@
             </div>
 
             <div>
-              <label class="block text-xs font-semibold text-slate-300 mb-1">Fotos do Produto (Opcional se puxou pelo link)</label>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Fotos do Produto (Opcional se puxou via link)</label>
               <input type="file" id="product-image-file" accept="image/*" multiple class="w-full text-xs text-slate-400 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-slate-700 file:text-slate-200 hover:file:bg-slate-600">
+            </div>
+
+            <!-- Previsualização da imagem capturada -->
+            <div id="preview-container" class="hidden">
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Imagem Capturada do Link:</label>
+              <img id="image-preview" src="" alt="Preview" class="w-20 h-20 rounded-xl object-cover border border-brand-500">
             </div>
 
             <!-- Campos de Preço e Desconto Automático -->
@@ -506,14 +512,14 @@
         thumbsContainer.classList.add('hidden');
       }
 
-      modal.classList.add('hidden');
+      modal.classList.remove('hidden');
     };
 
     window.closeImageViewer = () => {
       document.getElementById('modal-image-viewer').classList.add('hidden');
     };
 
-    // FUNÇÃO ATUALIZADA: Puxa Título, Descrição E Imagem do Produto Automaticamente
+    // FUNÇÃO PRINCIPAL DE EXTRAÇÃO AUTOMÁTICA
     window.fetchProductFromLink = async () => {
       const urlInput = document.getElementById('auto-import-link').value.trim();
       if (!urlInput) {
@@ -521,7 +527,7 @@
         return;
       }
 
-      showToast("Buscando dados e imagem do produto...", "success");
+      showToast("Buscando dados e imagem...", "success");
 
       try {
         const microlinkUrl = `https://api.microlink.io/?url=${encodeURIComponent(urlInput)}`;
@@ -540,12 +546,20 @@
             document.getElementById('product-description').value = data.description;
           }
 
-          // Pega a URL da imagem oficial do produto do link
+          // Extrai o link direto da imagem
           if (data.image && data.image.url) {
-            document.getElementById('fetched-image-url').value = data.image.url;
-            showToast("Nome, descrição e foto puxados com sucesso!");
+            const imageUrl = data.image.url;
+            document.getElementById('fetched-image-url').value = imageUrl;
+            
+            // Exibe a miniatura da imagem capturada
+            const previewContainer = document.getElementById('preview-container');
+            const previewImg = document.getElementById('image-preview');
+            previewImg.src = imageUrl;
+            previewContainer.classList.remove('hidden');
+
+            showToast("Dados e foto oficial puxados com sucesso!");
           } else {
-            showToast("Dados importados! (Insira a foto manualmente se necessário)");
+            showToast("Dados importados com sucesso!");
           }
 
           document.getElementById('product-link').value = urlInput;
@@ -554,10 +568,10 @@
           return;
         }
 
-        throw new Error("Não foi possível ler as metatags.");
+        throw new Error("Falha no método 1.");
 
       } catch (err) {
-        console.warn("Tentando método alternativo via CorsProxy...", err);
+        console.warn("Tentando fallback de extração...", err);
 
         try {
           const fallbackUrl = `https://corsproxy.io/?${encodeURIComponent(urlInput)}`;
@@ -573,16 +587,20 @@
 
           if (title) document.getElementById('product-name').value = title.split('|')[0].trim();
           if (desc) document.getElementById('product-description').value = desc;
-          if (imgUrl) document.getElementById('fetched-image-url').value = imgUrl;
+          if (imgUrl) {
+            document.getElementById('fetched-image-url').value = imgUrl;
+            document.getElementById('image-preview').src = imgUrl;
+            document.getElementById('preview-container').classList.remove('hidden');
+          }
 
           document.getElementById('product-link').value = urlInput;
           document.getElementById('product-code').value = "ora_et_labora";
           document.getElementById('product-discount-percent').value = "10";
 
-          showToast("Importado com sucesso via método alternativo!");
+          showToast("Dados e foto puxados via método secundário!");
         } catch (fallbackErr) {
           console.error(fallbackErr);
-          showToast("O site bloqueou a extração automática. Preencha manualmente.", "error");
+          showToast("Servidor da loja bloqueou a imagem automática. Escolha a foto manualmente.", "error");
         }
       }
     };
@@ -1003,6 +1021,7 @@
       document.getElementById('form-product').reset();
       document.getElementById('auto-import-link').value = "";
       document.getElementById('fetched-image-url').value = "";
+      document.getElementById('preview-container').classList.add('hidden');
       document.getElementById('product-id').value = "";
       document.getElementById('product-validity-days').value = "30";
       document.getElementById('form-prod-title').innerHTML = `<i class="fa-solid fa-box text-brand-500"></i> Cadastrar Novo Produto`;
@@ -1024,7 +1043,14 @@
       document.getElementById('product-validity-days').value = prod.validityDays || "30";
       document.getElementById('product-total-uses').value = prod.totalUses || prod.total || 30;
       document.getElementById('product-used-count').value = prod.usedCount || prod.used || 0;
-      document.getElementById('fetched-image-url').value = prod.image || (prod.images ? prod.images[0] : "");
+
+      const mainImg = prod.image || (prod.images ? prod.images[0] : "");
+      document.getElementById('fetched-image-url').value = mainImg;
+
+      if (mainImg) {
+        document.getElementById('image-preview').src = mainImg;
+        document.getElementById('preview-container').classList.remove('hidden');
+      }
 
       document.getElementById('form-prod-title').innerHTML = `<i class="fa-solid fa-pen-to-square text-brand-500"></i> Editando Produto`;
       document.getElementById('btn-cancel-prod-edit').classList.remove('hidden');
@@ -1036,7 +1062,7 @@
       const name = document.getElementById('product-name').value;
       const price = document.getElementById('product-price').value;
       const discountPercent = document.getElementById('product-discount-percent').value;
-      const description = document.getElementById('product-description'].value;
+      const description = document.getElementById('product-description').value;
       const link = document.getElementById('product-link').value;
       const code = document.getElementById('product-code').value;
       const validityDays = Number(document.getElementById('product-validity-days').value) || 30;
@@ -1135,7 +1161,6 @@
 
       document.getElementById('btn-open-admin-manage').onclick = () => {
         renderAdminProductsList();
-        document.getElementById('modal-admin-manage').classList.add('hidden'); // Ajuste visual
         document.getElementById('modal-admin-manage').classList.remove('hidden');
       };
     }
