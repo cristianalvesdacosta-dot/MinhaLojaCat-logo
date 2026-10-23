@@ -471,10 +471,10 @@
     </div>
   </div>
 
-  <!-- Toast Notification -->
-  <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 max-w-xs w-full bg-slate-800 border border-slate-700 text-slate-100 px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3">
-    <i id="toast-icon" class="fa-solid fa-circle-check text-brand-500 text-lg"></i>
-    <span id="toast-msg" class="text-xs font-medium">Sucesso!</span>
+  <!-- Toast Notification (AGORA CENTRALIZADO NO MEIO DA TELA E COM AVISO DESTAQUE) -->
+  <div id="toast" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 opacity-0 pointer-events-none transition-all duration-300 max-w-sm w-11/12 bg-slate-900/95 border-2 border-brand-500 text-slate-100 px-5 py-4 rounded-2xl shadow-2xl backdrop-blur-md flex items-center gap-4 text-center">
+    <i id="toast-icon" class="fa-solid fa-circle-check text-brand-500 text-2xl flex-shrink-0"></i>
+    <span id="toast-msg" class="text-xs sm:text-sm font-semibold leading-relaxed text-slate-100">Sucesso!</span>
   </div>
 
   <!-- Firebase JavaScript Modules -->
@@ -526,22 +526,30 @@
     // Array temporário para guardar as imagens puxadas e permitir apagar com o X
     let currentFetchedImages = [];
 
+    let toastTimer = null;
+
     function showToast(msg, type = 'success') {
       const toast = document.getElementById('toast');
       const toastMsg = document.getElementById('toast-msg');
       const toastIcon = document.getElementById('toast-icon');
 
       toastMsg.innerText = msg;
-      toastMsg.style.whiteSpace = "pre-line"; // Permite quebrar a linha na mensagem
+      toastMsg.style.whiteSpace = "pre-line";
 
       toastIcon.className = type === 'error' 
-        ? "fa-solid fa-circle-exclamation text-red-500 text-lg" 
-        : "fa-solid fa-circle-check text-brand-500 text-lg";
+        ? "fa-solid fa-circle-exclamation text-red-500 text-2xl flex-shrink-0" 
+        : "fa-solid fa-circle-check text-brand-500 text-2xl flex-shrink-0";
 
-      toast.classList.remove('translate-y-20', 'opacity-0');
-      
-      // Aumentado para 6000 milissegundos (6 segundos na tela)
-      setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0'), 6000);
+      toast.classList.remove('opacity-0', 'pointer-events-none');
+      toast.classList.add('opacity-100');
+
+      if (toastTimer) clearTimeout(toastTimer);
+
+      // Fica visível por 10 segundos para dar tempo total de leitura
+      toastTimer = setTimeout(() => {
+        toast.classList.remove('opacity-100');
+        toast.classList.add('opacity-0', 'pointer-events-none');
+      }, 10000);
     }
 
     // Função de clicar para copiar o cupom diretamente
@@ -554,23 +562,23 @@
       });
     };
 
-    // NOVA FUNÇÃO: Copia o cupom, exibe o aviso detalhado e aguarda 1.5s antes de abrir a loja
+    // NOVA FUNÇÃO: Copia o cupom, mostra no MEIO DA TELA por mais tempo e aguarda 2,5s antes de abrir a loja
     window.openProductAndCopyCoupon = (productUrl, couponCode) => {
       const couponToCopy = couponCode || "CLIENTEVIP";
 
       // 1. Copia o cupom para a área de transferência
       navigator.clipboard.writeText(couponToCopy).then(() => {
-        // 2. Notifica o cliente em duas linhas com o check verde
+        // 2. Notifica no meio da tela
         showToast(`✔ Cupom "${couponToCopy}" copiado com sucesso!\nCole-o no carrinho para garantir seu desconto.`);
       }).catch(err => {
         console.warn("Não foi possível copiar automaticamente:", err);
       });
 
-      // 3. Aguarda 1,5 segundo para o cliente ler a mensagem antes de abrir a aba da loja
+      // 3. Aguarda 2,5 segundos para o cliente ler com calma antes de abrir a loja
       if (productUrl) {
         setTimeout(() => {
           window.open(productUrl, '_blank', 'noopener,noreferrer');
-        }, 1500);
+        }, 2500);
       }
     };
 
