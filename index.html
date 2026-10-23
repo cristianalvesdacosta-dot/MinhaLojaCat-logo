@@ -532,39 +532,45 @@
       const toastIcon = document.getElementById('toast-icon');
 
       toastMsg.innerText = msg;
+      toastMsg.style.whiteSpace = "pre-line"; // Permite quebrar a linha na mensagem
+
       toastIcon.className = type === 'error' 
         ? "fa-solid fa-circle-exclamation text-red-500 text-lg" 
         : "fa-solid fa-circle-check text-brand-500 text-lg";
 
       toast.classList.remove('translate-y-20', 'opacity-0');
-      setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0'), 4000);
+      
+      // Aumentado para 6000 milissegundos (6 segundos na tela)
+      setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0'), 6000);
     }
 
     // Função de clicar para copiar o cupom diretamente
     window.copyCoupon = (codeText) => {
       const couponToCopy = codeText || "CLIENTEVIP";
       navigator.clipboard.writeText(couponToCopy).then(() => {
-        showToast(`Cupom "${couponToCopy}" copiado! Cole na sacola ao finalizar.`);
+        showToast(`✔ Cupom "${couponToCopy}" copiado com sucesso!\nCole-o no carrinho para garantir seu desconto.`);
       }).catch(err => {
         showToast("Erro ao copiar cupom", "error");
       });
     };
 
-    // NOVA FUNÇÃO: Copia o cupom, mostra o aviso e abre o produto na loja Natura
+    // NOVA FUNÇÃO: Copia o cupom, exibe o aviso detalhado e aguarda 1.5s antes de abrir a loja
     window.openProductAndCopyCoupon = (productUrl, couponCode) => {
       const couponToCopy = couponCode || "CLIENTEVIP";
 
       // 1. Copia o cupom para a área de transferência
       navigator.clipboard.writeText(couponToCopy).then(() => {
-        // 2. Notifica o cliente
-        showToast(`Cupom "${couponToCopy}" copiado! Cole-o no carrinho para aplicar seu desconto.`);
+        // 2. Notifica o cliente em duas linhas com o check verde
+        showToast(`✔ Cupom "${couponToCopy}" copiado com sucesso!\nCole-o no carrinho para garantir seu desconto.`);
       }).catch(err => {
         console.warn("Não foi possível copiar automaticamente:", err);
       });
 
-      // 3. Redireciona para o link do produto em uma nova aba
+      // 3. Aguarda 1,5 segundo para o cliente ler a mensagem antes de abrir a aba da loja
       if (productUrl) {
-        window.open(productUrl, '_blank', 'noopener,noreferrer');
+        setTimeout(() => {
+          window.open(productUrl, '_blank', 'noopener,noreferrer');
+        }, 1500);
       }
     };
 
