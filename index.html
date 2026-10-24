@@ -179,8 +179,8 @@
     </div>
   </main>
 
-  <!-- BOTÃO FLUTUANTE DE COMPARTILHAMENTO COMPACTO COM ATRIBUIÇÃO AUTOMÁTICA -->
-  <a id="btn-share-whatsapp" href="#" 
+  <!-- BOTÃO FLUTUANTE DE COMPARTILHAMENTO COM O LINK COMPLETO DA LOJA -->
+  <a href="https://api.whatsapp.com/send?text=Olha%20que%20cat%C3%A1logo%20incr%C3%ADvel%20de%20descontos%20e%20cupons%20eu%20achei!%20Confere%20aqui:%20https://cristianalvesdacosta-dot.github.io/MinhaLojaCat-logo/" 
      target="_blank" 
      rel="noopener noreferrer"
      class="fixed bottom-5 right-4 z-40 bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-2 rounded-full shadow-lg flex items-center gap-1.5 transition transform hover:scale-105 border border-emerald-400/40"
@@ -621,16 +621,6 @@
 
     let redirectTimer = null;
     let redirectInterval = null;
-
-    // LÓGICA DO BOTÃO FLUTUANTE DE COMPARTILHAMENTO DO WHATSAPP COM O LINK DA LOJA
-    function setupWhatsappShareBtn() {
-      const shareBtn = document.getElementById('btn-share-whatsapp');
-      if (shareBtn) {
-        const pageUrl = window.location.href;
-        const shareMessage = `🔥 Olha que catálogo incrível de cupons de desconto e produtos Natura eu achei! Confere aqui: ${pageUrl}`;
-        shareBtn.href = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareMessage)}`;
-      }
-    }
 
     function showToast(msg, type = 'success') {
       const toast = document.getElementById('toast');
@@ -1584,7 +1574,6 @@
     document.getElementById('input-search').oninput = renderProducts;
     document.getElementById('filter-status').onchange = renderProducts;
 
-    setupWhatsappShareBtn();
     trackRealVisit();
     listenRealVisits();
     setupDataListeners();
