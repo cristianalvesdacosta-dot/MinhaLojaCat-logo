@@ -26,25 +26,57 @@
     ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
     ::-webkit-scrollbar-thumb:hover { background: #475569; }
     .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); }
+    
+    @keyframes ticker {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .animate-ticker { animation: ticker 10s linear infinite; }
+    .animate-ticker:hover { animation-play-state: paused; }
   </style>
 </head>
-<body class="h-full font-sans antialiased selection:bg-brand-500 selection:text-white flex flex-col min-h-screen">
+<body class="h-full font-sans antialiased selection:bg-brand-500 selection:text-white flex flex-col min-h-screen relative">
 
-  <header class="sticky top-0 z-40 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 px-4 py-3">
-    <div class="max-w-4xl mx-auto flex items-center justify-between">
-      <div class="flex items-center space-x-2">
-        <div class="bg-gradient-to-tr from-brand-600 to-emerald-400 p-2 rounded-xl text-white shadow-lg shadow-brand-500/20">
-          <i class="fa-solid fa-store text-lg"></i>
+  <!-- HEADER COMPACTO E MINIMALISTA -->
+  <header class="sticky top-0 z-40 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 px-3 sm:px-4 py-2.5">
+    <div class="max-w-4xl mx-auto flex items-center justify-between gap-2">
+      
+      <!-- LADO ESQUERDO: ÍCONE + TÍTULO COM SUBTÍTULO E SELO -->
+      <div class="flex items-center gap-2.5 min-w-0">
+        <div class="bg-gradient-to-tr from-brand-600 to-emerald-400 p-2 rounded-xl text-white shadow-lg shadow-brand-500/20 flex-shrink-0">
+          <i class="fa-solid fa-store text-base sm:text-lg"></i>
         </div>
-        <span class="font-bold text-lg tracking-tight text-white">Meu Catálogo</span>
+        
+        <div class="truncate">
+          <div class="flex items-center gap-1.5 leading-tight">
+            <span class="font-bold text-sm sm:text-base tracking-tight text-white truncate">Meu Catálogo</span>
+            
+            <!-- SELO DE VERIFICADO -->
+            <span class="text-emerald-400 text-xs flex-shrink-0" title="Verificado">
+              <i class="fa-solid fa-circle-check"></i>
+            </span>
+
+            <!-- CONTADOR DE ACESSOS DISCRETO -->
+            <div class="inline-flex items-center gap-1 px-2 py-0.5 bg-slate-800 border border-slate-700/80 rounded-full text-[10px] font-semibold text-emerald-400 flex-shrink-0">
+              <span class="relative flex h-1.5 w-1.5">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+              </span>
+              <span id="visitor-counter">0 acessos</span>
+            </div>
+          </div>
+          
+          <p class="text-[11px] text-slate-400 truncate mt-0.5">Cupons e Descontos Exclusivos</p>
+        </div>
       </div>
 
-      <div class="flex items-center gap-2">
-        <button id="btn-auth-open" class="px-3 py-1.5 text-xs sm:text-sm font-medium text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 rounded-lg transition border border-slate-700 flex items-center gap-2">
+      <!-- LADO DIREITO: BOTÃO PAINEL SOMENTE ÍCONE (MINIMALISTA) -->
+      <div class="flex items-center flex-shrink-0">
+        <button id="btn-auth-open" title="Acessar Painel Administrativo" class="w-9 h-9 sm:w-10 sm:h-10 text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 rounded-xl transition border border-slate-700 flex items-center justify-center text-sm shadow-sm">
           <i class="fa-solid fa-user-gear"></i>
-          <span id="txt-painel-btn">Painel Ativo</span>
         </button>
       </div>
+
     </div>
   </header>
 
@@ -84,18 +116,50 @@
       </a>
     </div>
 
-    <div class="px-4 sm:px-6 mt-8 flex flex-col sm:flex-row gap-3 items-center justify-between">
-      <div class="relative w-full sm:w-80">
-        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
-        <input type="text" id="input-search" placeholder="Buscar produto ou cupom..." class="w-full bg-slate-800 border border-slate-700/80 rounded-xl pl-10 pr-4 py-2 text-sm text-slate-100 placeholder-slate-400 focus:outline-none focus:border-brand-500 transition">
+    <!-- CARROSSEL DE DEPOIMENTOS -->
+    <div class="px-4 sm:px-6 mt-6">
+      <div class="bg-gradient-to-r from-slate-800/90 via-slate-800/70 to-slate-800/90 border border-slate-700/80 rounded-2xl p-4 shadow-xl relative overflow-hidden backdrop-blur-md">
+        <div class="flex items-center justify-between mb-3">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+            <h3 class="text-xs font-bold text-emerald-400 uppercase tracking-wider">Avaliações & Depoimentos</h3>
+          </div>
+          <button type="button" onclick="openTestimonialModal()" class="text-[11px] bg-brand-600 hover:bg-brand-500 text-white font-bold px-3 py-1 rounded-xl transition flex items-center gap-1.5 shadow-md">
+            <i class="fa-solid fa-star text-amber-300"></i> Avaliar Loja
+          </button>
+        </div>
+
+        <div class="relative w-full overflow-hidden py-1">
+          <div id="testimonials-ticker" class="flex gap-4 animate-ticker whitespace-nowrap"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="px-4 sm:px-6 mt-6 space-y-3">
+      <div class="flex flex-col sm:flex-row gap-3 items-center justify-between">
+        <div class="relative w-full sm:w-80">
+          <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+          <input type="text" id="input-search" placeholder="Buscar produto ou cupom..." class="w-full bg-slate-800 border border-slate-700/80 rounded-xl pl-10 pr-4 py-2 text-sm text-slate-100 placeholder-slate-400 focus:outline-none focus:border-brand-500 transition">
+        </div>
+
+        <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
+          <select id="filter-status" class="bg-slate-800 border border-slate-700/80 text-xs sm:text-sm text-slate-300 rounded-xl px-3 py-2 focus:outline-none focus:border-brand-500">
+            <option value="all">Todos os Produtos</option>
+            <option value="available">Em Estoque</option>
+            <option value="soldout">Esgotados</option>
+          </select>
+        </div>
       </div>
 
-      <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
-        <select id="filter-status" class="bg-slate-800 border border-slate-700/80 text-xs sm:text-sm text-slate-300 rounded-xl px-3 py-2 focus:outline-none focus:border-brand-500">
-          <option value="all">Todos os Produtos</option>
-          <option value="available">Em Estoque</option>
-          <option value="soldout">Esgotados</option>
-        </select>
+      <!-- BOTÕES DE CATEGORIAS DA NATURA -->
+      <div class="flex items-center gap-2 overflow-x-auto py-1 no-scrollbar" id="category-filters">
+        <button onclick="filterByCategory('all')" class="category-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-brand-600 text-white whitespace-nowrap transition shadow">Todas</button>
+        <button onclick="filterByCategory('Perfumaria')" class="category-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 whitespace-nowrap transition border border-slate-700">Perfumaria</button>
+        <button onclick="filterByCategory('Corpo e Banho')" class="category-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 whitespace-nowrap transition border border-slate-700">Corpo & Banho</button>
+        <button onclick="filterByCategory('Cabelos')" class="category-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 whitespace-nowrap transition border border-slate-700">Cabelos</button>
+        <button onclick="filterByCategory('Maquiagem')" class="category-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 whitespace-nowrap transition border border-slate-700">Maquiagem</button>
+        <button onclick="filterByCategory('Rosto')" class="category-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 whitespace-nowrap transition border border-slate-700">Rosto</button>
+        <button onclick="filterByCategory('Infantil')" class="category-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 whitespace-nowrap transition border border-slate-700">Infantil</button>
       </div>
     </div>
 
@@ -115,6 +179,16 @@
     </div>
   </main>
 
+  <!-- BOTÃO FLUTUANTE DE COMPARTILHAMENTO COMPACTO -->
+  <a href="https://api.whatsapp.com/send?text=Olha%20que%20catálogo%20incrível%20de%20descontos%20e%20cupons%20eu%20achei!%20Confere%20aqui:" 
+     target="_blank" 
+     rel="noopener noreferrer"
+     class="fixed bottom-5 right-4 z-40 bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-2 rounded-full shadow-lg flex items-center gap-1.5 transition transform hover:scale-105 border border-emerald-400/40"
+     title="Compartilhar Catálogo no WhatsApp">
+    <i class="fa-brands fa-whatsapp text-lg"></i>
+    <span class="text-[11px] font-bold whitespace-nowrap pr-0.5">Compartilhar</span>
+  </a>
+
   <div id="modal-image-viewer" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-md hidden">
     <button class="absolute top-5 right-5 text-white text-3xl z-50 hover:text-slate-300 focus:outline-none p-2" onclick="closeImageViewer()">
       <i class="fa-solid fa-xmark"></i>
@@ -125,7 +199,6 @@
     </div>
   </div>
 
-  <!-- AVISO CENTRAL COM REDIRECIONAMENTO AUTOMÁTICO SEM BLOQUEIOS -->
   <div id="modal-timer-redirect" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md hidden">
     <div class="bg-slate-800 border-2 border-brand-500 rounded-3xl max-w-sm w-full p-6 shadow-2xl text-center space-y-4">
       <div class="w-14 h-14 bg-brand-500/20 text-brand-400 rounded-2xl flex items-center justify-center mx-auto text-2xl border border-brand-500/30">
@@ -147,6 +220,38 @@
           Cancelar e Continuar no Catálogo
         </button>
       </div>
+    </div>
+  </div>
+
+  <!-- MODAL DE DEPOIMENTO -->
+  <div id="modal-testimonial" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm hidden">
+    <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-sm w-full p-6 shadow-2xl relative">
+      <button type="button" class="btn-close-modal absolute top-4 right-4 text-slate-400 hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
+      <h2 class="text-base font-bold text-white mb-1 flex items-center gap-2"><i class="fa-solid fa-comment-dots text-emerald-400"></i> Deixar seu Depoimento</h2>
+      <p class="text-xs text-slate-400 mb-4">Escreva um comentário real sobre o atendimento e os produtos da loja.</p>
+      <form id="form-testimonial" class="space-y-3">
+        <div><label class="block text-xs font-semibold text-slate-300 mb-1">Seu Nome *</label><input type="text" id="test-name" required placeholder="Ex: Maria" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100"></div>
+        <div><label class="block text-xs font-semibold text-slate-300 mb-1">Seu Comentário *</label><textarea id="test-comment" required rows="3" placeholder="Ex: Cupom funcionou perfeito!" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100"></textarea></div>
+        <div class="pt-2 flex justify-end gap-2"><button type="button" class="btn-close-modal px-4 py-2 bg-slate-700 text-slate-300 rounded-xl text-xs font-medium">Cancelar</button><button type="submit" class="px-4 py-2 bg-brand-600 text-white rounded-xl text-xs font-semibold shadow">Enviar Depoimento</button></div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL AVALIAÇÃO DE ESTRELAS -->
+  <div id="modal-rate-product" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm hidden">
+    <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-xs w-full p-6 shadow-2xl relative text-center">
+      <button type="button" class="btn-close-modal absolute top-4 right-4 text-slate-400 hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
+      <div class="w-12 h-12 bg-amber-500/20 text-amber-400 rounded-2xl flex items-center justify-center mx-auto mb-3 text-xl border border-amber-500/30"><i class="fa-solid fa-star"></i></div>
+      <h2 class="text-base font-bold text-white mb-1">Avaliar Produto</h2>
+      <p id="rate-product-title" class="text-xs text-slate-400 mb-4 truncate font-medium"></p>
+      <div class="flex justify-center gap-2 text-2xl text-amber-400 mb-4">
+        <button type="button" onclick="submitRating(1)" class="hover:scale-125 transition"><i class="fa-solid fa-star"></i></button>
+        <button type="button" onclick="submitRating(2)" class="hover:scale-125 transition"><i class="fa-solid fa-star"></i></button>
+        <button type="button" onclick="submitRating(3)" class="hover:scale-125 transition"><i class="fa-solid fa-star"></i></button>
+        <button type="button" onclick="submitRating(4)" class="hover:scale-125 transition"><i class="fa-solid fa-star"></i></button>
+        <button type="button" onclick="submitRating(5)" class="hover:scale-125 transition"><i class="fa-solid fa-star"></i></button>
+      </div>
+      <p class="text-[10px] text-slate-500">Escolha a nota de 1 a 5 estrelas.</p>
     </div>
   </div>
 
@@ -252,6 +357,27 @@
             <div>
               <label class="block text-xs font-semibold text-slate-300 mb-1">Nome do Produto *</label>
               <input type="text" id="product-name" required placeholder="Ex: Desodorante Perfume Essencial" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
+            </div>
+
+            <!-- SELEÇÃO DA CATEGORIA NATURA -->
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Categoria Natura *</label>
+              <select id="product-category" required class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
+                <option value="Perfumaria">Perfumaria</option>
+                <option value="Corpo e Banho">Corpo e Banho</option>
+                <option value="Cabelos">Cabelos</option>
+                <option value="Maquiagem">Maquiagem</option>
+                <option value="Rosto">Rosto</option>
+                <option value="Infantil">Infantil</option>
+              </select>
+            </div>
+
+            <!-- OPÇÃO DE MARCAR DESTAQUE -->
+            <div class="flex items-center gap-2 pt-1">
+              <input type="checkbox" id="product-featured" class="w-4 h-4 rounded bg-slate-800 border-slate-700 text-brand-600 focus:ring-brand-500">
+              <label for="product-featured" class="text-xs font-medium text-slate-300 cursor-pointer">
+                🔥 Marcar como Produto em Destaque / Mais Vendido
+              </label>
             </div>
 
             <div>
@@ -460,7 +586,8 @@
       addDoc, 
       updateDoc, 
       deleteDoc,
-      writeBatch
+      writeBatch,
+      increment
     } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
     const firebaseConfig = {
@@ -479,6 +606,10 @@
 
     let currentUser = null;
     let productsList = [];
+    let testimonialsList = [];
+    let activeCategory = 'all';
+    let activeRatingProdId = null;
+
     let profileData = {
       title: "Meu Catálogo Digital",
       bio: "Confira nossos produtos e cupons de desconto abaixo.",
@@ -505,6 +636,81 @@
       setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0'), 3500);
     }
 
+    async function trackRealVisit() {
+      try {
+        const visitRef = doc(db, 'settings', 'visits');
+        await setDoc(visitRef, { count: increment(1) }, { merge: true });
+      } catch (err) {
+        console.warn("Erro no contador de visitas:", err);
+      }
+    }
+
+    function listenRealVisits() {
+      onSnapshot(doc(db, 'settings', 'visits'), (docSnap) => {
+        if (docSnap.exists()) {
+          const totalVisits = docSnap.data().count || 0;
+          document.getElementById('visitor-counter').innerText = `${totalVisits} acessos`;
+        }
+      });
+    }
+
+    window.filterByCategory = (cat) => {
+      activeCategory = cat;
+      document.querySelectorAll('.category-btn').forEach(btn => {
+        btn.className = "category-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 whitespace-nowrap transition border border-slate-700";
+        if (btn.innerText.includes(cat) || (cat === 'all' && btn.innerText === 'Todas')) {
+          btn.className = "category-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-brand-600 text-white whitespace-nowrap transition shadow";
+        }
+      });
+      renderProducts();
+    };
+
+    window.openRateModal = (prodId, prodName) => {
+      activeRatingProdId = prodId;
+      document.getElementById('rate-product-title').innerText = prodName;
+      document.getElementById('modal-rate-product').classList.remove('hidden');
+    };
+
+    window.submitRating = async (ratingVal) => {
+      if (!activeRatingProdId) return;
+      const prod = productsList.find(p => p.id === activeRatingProdId);
+      if (!prod) return;
+
+      let totalRatings = Number(prod.totalRatings) || 0;
+      let sumRatings = Number(prod.sumRatings) || 0;
+
+      totalRatings += 1;
+      sumRatings += ratingVal;
+      const newAverage = (sumRatings / totalRatings).toFixed(1);
+
+      try {
+        await updateDoc(doc(db, 'products', activeRatingProdId), {
+          totalRatings, sumRatings, ratingAverage: newAverage
+        });
+        showToast(`Avaliação de ${ratingVal} estrela(s) salva!`);
+        document.getElementById('modal-rate-product').classList.add('hidden');
+      } catch (err) {
+        showToast("Erro ao salvar avaliação", "error");
+      }
+    };
+
+    window.openTestimonialModal = () => document.getElementById('modal-testimonial').classList.remove('hidden');
+
+    document.getElementById('form-testimonial').onsubmit = async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('test-name').value;
+      const comment = document.getElementById('test-comment').value;
+
+      try {
+        await addDoc(collection(db, 'testimonials'), { name, comment, createdAt: new Date().toISOString() });
+        showToast("Depoimento enviado com sucesso!");
+        document.getElementById('form-testimonial').reset();
+        document.getElementById('modal-testimonial').classList.add('hidden');
+      } catch(err) {
+        showToast("Erro ao enviar depoimento", "error");
+      }
+    };
+
     window.copyCoupon = (codeText) => {
       const couponToCopy = codeText || "CLIENTEVIP";
       navigator.clipboard.writeText(couponToCopy).then(() => {
@@ -514,7 +720,6 @@
       });
     };
 
-    // REDIRECIONAMENTO DIRETO SEM BLOQUEIO DE POP-UP (REDIRECIONA A PRÓPRIA ABA)
     window.openProductAndCopyCoupon = (productUrl, couponCode) => {
       const couponToCopy = couponCode || "CLIENTEVIP";
 
@@ -539,7 +744,6 @@
         }
       }, 1000);
 
-      // Troca a página atual diretamente para a loja Natura
       redirectTimer = setTimeout(() => {
         clearInterval(redirectInterval);
         if (productUrl) {
@@ -795,19 +999,16 @@
     }
 
     function updateAdminUI() {
-      const txtPainel = document.getElementById('txt-painel-btn');
       const panelUnlogged = document.getElementById('panel-unlogged');
       const panelLogged = document.getElementById('panel-logged');
 
       if (currentUser) {
-        txtPainel.textContent = "Painel Ativo (On)";
         panelUnlogged.classList.add('hidden');
         panelLogged.classList.remove('hidden');
         
         document.getElementById('profile-title').value = profileData.title || "";
         document.getElementById('profile-bio').value = profileData.bio || "";
       } else {
-        txtPainel.textContent = "Painel Ativo";
         panelUnlogged.classList.remove('hidden');
         panelLogged.classList.add('hidden');
       }
@@ -839,6 +1040,34 @@
       }, (error) => {
         console.error("Erro ao sincronizar produtos:", error);
       });
+
+      onSnapshot(collection(db, 'testimonials'), (snapshot) => {
+        testimonialsList = snapshot.docs.map(docSnap => ({ id: docSnap.id, ...docSnap.data() }));
+        renderTestimonials();
+      });
+    }
+
+    function renderTestimonials() {
+      const ticker = document.getElementById('testimonials-ticker');
+      if (!ticker) return;
+      if (testimonialsList.length === 0) {
+        ticker.innerHTML = `<div class="text-xs text-slate-400 italic py-1">Nenhum depoimento ainda. Seja o primeiro a deixar uma avaliação!</div>`;
+        return;
+      }
+      const loopList = testimonialsList.length > 2 ? [...testimonialsList, ...testimonialsList] : testimonialsList;
+      ticker.innerHTML = loopList.map(t => `
+        <div class="inline-flex items-center gap-3 bg-slate-900/90 border border-slate-700/80 px-4 py-2 rounded-xl flex-shrink-0 shadow-sm">
+          <div class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 font-bold flex items-center justify-center text-xs border border-emerald-500/30">
+            ${t.name ? t.name.charAt(0).toUpperCase() : 'C'}
+          </div>
+          <div>
+            <div class="text-xs font-bold text-white flex items-center gap-1">
+              ${t.name} <i class="fa-solid fa-circle-check text-[10px] text-emerald-400"></i>
+            </div>
+            <div class="text-xs text-slate-300 max-w-xs truncate">"${t.comment}"</div>
+          </div>
+        </div>
+      `).join('');
     }
 
     function renderProfile() {
@@ -874,6 +1103,8 @@
                               (prod.code && prod.code.toLowerCase().includes(searchVal)) ||
                               (prod.description && prod.description.toLowerCase().includes(searchVal));
         
+        const matchesCategory = activeCategory === 'all' || prod.category === activeCategory;
+
         const totalUses = Number(prod.totalUses) || Number(prod.total) || 1;
         const usedCount = Number(prod.usedCount) || Number(prod.used) || 0;
         const remaining = Math.max(0, totalUses - usedCount);
@@ -882,7 +1113,7 @@
         if (filterStatus === 'available' && isSoldOut) return false;
         if (filterStatus === 'soldout' && !isSoldOut) return false;
 
-        return matchesSearch;
+        return matchesSearch && matchesCategory;
       });
 
       if (filtered.length === 0) {
@@ -932,6 +1163,8 @@
         const formattedDiscount = finalDiscountPrice ? finalDiscountPrice.toFixed(2).replace('.', ',') : null;
 
         const couponCode = prod.code || "CLIENTEVIP";
+        const ratingAvg = prod.ratingAverage || "5.0";
+        const ratingCount = prod.totalRatings || 0;
 
         let daysLeftText = "";
         if (prod.createdAt) {
@@ -977,6 +1210,12 @@
                   <i class="fa-solid fa-ticket"></i> Cupom: ${couponCode} <i class="fa-regular fa-copy text-[10px] opacity-80"></i>
                 </button>
 
+                ${prod.isFeatured ? `
+                  <span class="absolute top-3 right-3 bg-amber-500 text-slate-950 font-black text-[10px] px-2.5 py-1 rounded-lg shadow-lg uppercase tracking-wider flex items-center gap-1 z-10">
+                    <i class="fa-solid fa-fire"></i> Destaque
+                  </span>
+                ` : ''}
+
                 ${prodImages.length > 1 ? `
                   <span class="absolute bottom-3 right-3 bg-slate-950/80 text-white text-[10px] font-semibold px-2 py-0.5 rounded-full backdrop-blur-sm border border-slate-700">
                     <i class="fa-solid fa-images mr-1"></i>${prodImages.length} fotos
@@ -999,6 +1238,19 @@
                   <h3 class="font-bold text-slate-100 text-base leading-snug">${prod.name}</h3>
                   ${daysLeftText}
                 </div>
+
+                <div class="flex items-center justify-between mt-3 pt-2 border-t border-slate-800">
+                  <div class="flex items-center gap-1 text-amber-400 text-xs font-bold">
+                    <i class="fa-solid fa-star"></i>
+                    <span>${ratingAvg}</span>
+                    <span class="text-slate-500 font-normal">(${ratingCount})</span>
+                  </div>
+                  <button type="button" onclick="openRateModal('${prod.id}', '${prod.name.replace(/'/g, "")}')" class="text-[11px] bg-slate-800 hover:bg-slate-700 text-amber-400 font-semibold px-2.5 py-1 rounded-lg border border-amber-500/20 transition flex items-center gap-1">
+                    <i class="fa-regular fa-star"></i> Avaliar
+                  </button>
+                </div>
+
+                <p class="text-xs text-slate-400 mt-2">Categoria: <strong class="text-slate-300">${prod.category || 'Geral'}</strong></p>
 
                 ${formattedOriginal ? `
                   <div class="flex items-baseline gap-2 mt-2">
@@ -1172,6 +1424,7 @@
       document.getElementById('product-id').value = "";
       document.getElementById('product-code').value = "CLIENTEVIP";
       document.getElementById('product-validity-days').value = "30";
+      document.getElementById('product-featured').checked = false;
       document.getElementById('form-prod-title').innerHTML = `<i class="fa-solid fa-box text-brand-500"></i> Cadastrar Novo Produto`;
       document.getElementById('btn-cancel-prod-edit').classList.add('hidden');
     };
@@ -1183,6 +1436,8 @@
       closeModal('modal-admin-manage');
       document.getElementById('product-id').value = prod.id;
       document.getElementById('product-name').value = prod.name || "";
+      document.getElementById('product-category').value = prod.category || "Perfumaria";
+      document.getElementById('product-featured').checked = !!prod.isFeatured;
       document.getElementById('product-price').value = prod.price || "";
       document.getElementById('product-discount-percent').value = prod.discountPercent || "10";
       document.getElementById('product-description').value = prod.description || prod.desc || "";
@@ -1210,6 +1465,8 @@
       e.preventDefault();
       const id = document.getElementById('product-id').value;
       const name = document.getElementById('product-name').value;
+      const category = document.getElementById('product-category').value;
+      const isFeatured = document.getElementById('product-featured').checked;
       const price = document.getElementById('product-price').value;
       const discountPercent = document.getElementById('product-discount-percent').value;
       const description = document.getElementById('product-description').value;
@@ -1236,7 +1493,7 @@
           const finalImages = newImages.length > 0 ? newImages : (existing.images || (existing.image ? [existing.image] : []));
 
           await updateDoc(prodDocRef, {
-            name, price, discountPercent, description, link, code, validityDays, totalUses, usedCount,
+            name, category, isFeatured, price, discountPercent, description, link, code, validityDays, totalUses, usedCount,
             images: finalImages,
             image: finalImages[0] || "",
             updatedAt: new Date().toISOString()
@@ -1244,7 +1501,7 @@
           showToast("Produto atualizado!");
         } else {
           await addDoc(collection(db, 'products'), {
-            name, price, discountPercent, description, link, code, validityDays, totalUses, usedCount,
+            name, category, isFeatured, price, discountPercent, description, link, code, validityDays, totalUses, usedCount,
             images: newImages,
             image: newImages[0] || "",
             createdAt: new Date().toISOString()
@@ -1317,6 +1574,8 @@
     document.getElementById('input-search').oninput = renderProducts;
     document.getElementById('filter-status').onchange = renderProducts;
 
+    trackRealVisit();
+    listenRealVisits();
     setupDataListeners();
   </script>
 </body>
