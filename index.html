@@ -866,7 +866,7 @@
       showToast("Imagem removida da lista.");
     };
 
-    // FUNÇÃO AUTOMÁTICA DE ATUALIZAÇÃO E MONITORAMENTO DE PREÇOS/ESTOQUE
+    // FUNÇÃO AUTOMÁTICA DE ATUALIZAÇÃO E MONITORAMENTO DE PREÇOS/ESTOQUE DA NATURA (ATUALIZADA)
     window.checkProductLiveStatus = async (prodId, urlInput) => {
       if (!urlInput) return;
       try {
@@ -876,39 +876,28 @@
         const parser = new DOMParser();
         const docHtml = parser.parseFromString(htmlText, 'text/html');
 
-        // Detecta se está indisponível na Natura
         const pageText = docHtml.body.innerText.toLowerCase();
-        const isUnavailable = pageText.includes('indisponível') || pageText.includes('fora de estoque') || pageText.includes('avise-me');
-
-        // Tenta capturar preço atualizado se houver elemento correspondente
-        let detectedPrice = null;
-        const priceElem = docHtml.querySelector('.vtex-product-price-1-x-sellingPriceValue, [data-specification-name*="Preço"], .price');
-        if (priceElem) {
-          const priceStr = priceElem.innerText.replace('R$', '').replace(/\./g, '').replace(',', '.').trim();
-          const parsed = parseFloat(priceStr);
-          if (!isNaN(parsed) && parsed > 0) detectedPrice = parsed;
-        }
+        
+        // Verifica expressamente todos os formatos de texto e botões da Natura indicando produto esgotado
+        const isUnavailable = 
+          pageText.includes('acabou, mas volta logo') || 
+          pageText.includes('me avise') || 
+          pageText.includes('indisponível') || 
+          pageText.includes('fora de estoque') ||
+          docHtml.querySelector('.vtex-product-availability-0-x-notAvailable, [class*="meAvise"], [class*="notAvailable"]') !== null;
 
         const prodRef = doc(db, 'products', prodId);
         const updatePayload = { updatedAt: new Date().toISOString() };
-        let hasChanges = false;
 
         if (isUnavailable) {
           updatePayload.autoStatus = 'Indisponível';
-          hasChanges = true;
+          await updateDoc(prodRef, updatePayload);
         } else {
           updatePayload.autoStatus = 'Disponível';
-          if (detectedPrice) {
-            updatePayload.price = detectedPrice;
-          }
-          hasChanges = true;
-        }
-
-        if (hasChanges) {
           await updateDoc(prodRef, updatePayload);
         }
       } catch (err) {
-        console.warn("Monitoramento automático em segundo plano silencioso:", err);
+        console.warn("Monitoramento silencioso:", err);
       }
     };
 
