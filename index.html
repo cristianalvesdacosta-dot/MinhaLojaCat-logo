@@ -339,7 +339,7 @@
 
           <div class="p-3 bg-slate-800/80 rounded-xl border border-brand-500/30 space-y-2">
             <label class="block text-xs font-bold text-brand-400 flex items-center gap-1.5">
-              <i class="fa-solid fa-wand-magic-sparkles"></i> Importar Rápido via Link (Com Verificação de Estoque e Preço)
+              <i class="fa-solid fa-wand-magic-sparkles"></i> Importar Rápido via Link (Com Múltiplos Proxies em Cascata)
             </label>
             <div class="flex gap-2">
               <input type="url" id="auto-import-link" placeholder="Cole o link do produto aqui..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-slate-100 focus:outline-none focus:border-brand-500">
@@ -347,7 +347,7 @@
                 <i class="fa-solid fa-download"></i> Puxar
               </button>
             </div>
-            <p class="text-[10px] text-slate-400">Ao puxar, o sistema já busca preço, imagens e verifica se está esgotado na Natura!</p>
+            <p class="text-[10px] text-slate-400">Testa vários métodos de leitura automaticamente para contornar bloqueios!</p>
           </div>
 
           <form id="form-product" class="space-y-4">
@@ -866,53 +866,67 @@
       showToast("Imagem removida da lista.");
     };
 
-    // FUNÇÃO DE LEITURA AUTOMÁTICA EM SEGUNDO PLANO VIA PROXY
+    // FUNÇÃO DE LEITURA AUTOMÁTICA EM SEGUNDO PLANO COM MÚLTIPLOS PROXIES EM CASCATA
     window.checkProductLiveStatus = async (prodId, urlInput) => {
       if (!urlInput) return;
-      try {
-        const proxyApiUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(urlInput)}`;
-        const res = await fetch(proxyApiUrl);
-        const data = await res.json();
-        
-        if (!data.contents) return;
+      const proxies = [
+        `https://api.allorigins.win/get?url=${encodeURIComponent(urlInput)}`,
+        `https://corsproxy.io/?${encodeURIComponent(urlInput)}`,
+        `https://r.jina.ai/${encodeURIComponent(urlInput)}`
+      ];
 
-        const parser = new DOMParser();
-        const docHtml = parser.parseFromString(data.contents, 'text/html');
-        const pageText = docHtml.body.innerText.toLowerCase();
-
-        const isUnavailable = 
-          pageText.includes('acabou, mas volta logo') || 
-          pageText.includes('me avise') || 
-          pageText.includes('indisponível') || 
-          pageText.includes('fora de estoque');
-
-        let detectedPrice = null;
-        const priceElem = docHtml.querySelector('.vtex-product-price-1-x-sellingPriceValue, [class*="sellingPrice"], .price');
-        if (priceElem) {
-          const priceStr = priceElem.innerText.replace('R$', '').replace(/\./g, '').replace(',', '.').trim();
-          const parsed = parseFloat(priceStr);
-          if (!isNaN(parsed) && parsed > 0) detectedPrice = parsed;
-        }
-
-        const prodRef = doc(db, 'products', prodId);
-        const updatePayload = { updatedAt: new Date().toISOString() };
-
-        if (isUnavailable) {
-          updatePayload.autoStatus = 'Indisponível';
-        } else {
-          updatePayload.autoStatus = 'Disponível';
-          if (detectedPrice) {
-            updatePayload.price = detectedPrice;
+      for (let proxyUrl of proxies) {
+        try {
+          const res = await fetch(proxyUrl);
+          let htmlText = "";
+          if (proxyUrl.includes('allorigins')) {
+            const data = await res.json();
+            htmlText = data.contents || "";
+          } else {
+            htmlText = await res.text();
           }
-        }
 
-        await updateDoc(prodRef, updatePayload);
-      } catch (err) {
-        console.warn("Monitoramento silencioso:", err);
+          if (htmlText) {
+            const parser = new DOMParser();
+            const docHtml = parser.parseFromString(htmlText, 'text/html');
+            const pageText = docHtml.body.innerText.toLowerCase();
+
+            const isUnavailable = 
+              pageText.includes('acabou, mas volta logo') || 
+              pageText.includes('me avise') || 
+              pageText.includes('indisponível') || 
+              pageText.includes('fora de estoque');
+
+            let detectedPrice = null;
+            const priceElem = docHtml.querySelector('.vtex-product-price-1-x-sellingPriceValue, [class*="sellingPrice"], .price');
+            if (priceElem) {
+              const priceStr = priceElem.innerText.replace('R$', '').replace(/\./g, '').replace(',', '.').trim();
+              const parsed = parseFloat(priceStr);
+              if (!isNaN(parsed) && parsed > 0) detectedPrice = parsed;
+            }
+
+            const prodRef = doc(db, 'products', prodId);
+            const updatePayload = { updatedAt: new Date().toISOString() };
+
+            if (isUnavailable) {
+              updatePayload.autoStatus = 'Indisponível';
+            } else {
+              updatePayload.autoStatus = 'Disponível';
+              if (detectedPrice) {
+                updatePayload.price = detectedPrice;
+              }
+            }
+
+            await updateDoc(prodRef, updatePayload);
+            return; // Sucesso, encerra a tentativa em cascata
+          }
+        } catch (err) {
+          // Tenta o próximo proxy da lista
+        }
       }
     };
 
-    // FUNÇÃO DE PUXAR VIA LINK JÁ COM VERIFICAÇÃO DE ESTOQUE E PREÇO NO CLIQUE
+    // FUNÇÃO DE PUXAR VIA LINK USANDO MÚLTIPLOS PROXIES EM CASCATA
     window.fetchProductFromLink = async () => {
       const urlInput = document.getElementById('auto-import-link').value.trim();
       if (!urlInput) {
@@ -920,21 +934,45 @@
         return;
       }
 
-      showToast("Buscando dados, preço e status de estoque...", "success");
+      showToast("Buscando dados via múltiplos métodos...", "success");
+
+      const proxies = [
+        `https://api.allorigins.win/get?url=${encodeURIComponent(urlInput)}`,
+        `https://corsproxy.io/?${encodeURIComponent(urlInput)}`,
+        `https://r.jina.ai/${encodeURIComponent(urlInput)}`
+      ];
+
+      let htmlText = "";
+      let successProxy = false;
+
+      for (let proxyUrl of proxies) {
+        try {
+          const res = await fetch(proxyUrl);
+          if (proxyUrl.includes('allorigins')) {
+            const data = await res.json();
+            htmlText = data.contents || "";
+          } else {
+            htmlText = await res.text();
+          }
+
+          if (htmlText && htmlText.length > 500) {
+            successProxy = true;
+            break;
+          }
+        } catch (e) {
+          // Continua para o próximo proxy
+        }
+      }
+
+      if (!successProxy) {
+        showToast("O site bloqueou todas as tentativas de extração. Preencha manualmente.", "error");
+        return;
+      }
 
       try {
-        const proxyApiUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(urlInput)}`;
-        const res = await fetch(proxyApiUrl);
-        const dataJson = await res.json();
-        
-        let pageText = "";
-        let docHtml = null;
-
-        if (dataJson.contents) {
-          const parser = new DOMParser();
-          docHtml = parser.parseFromString(dataJson.contents, 'text/html');
-          pageText = docHtml.body.innerText.toLowerCase();
-        }
+        const parser = new DOMParser();
+        const docHtml = parser.parseFromString(htmlText, 'text/html');
+        const pageText = docHtml.body.innerText.toLowerCase();
 
         const isUnavailable = 
           pageText.includes('acabou, mas volta logo') || 
@@ -948,6 +986,7 @@
           showToast("Produto disponível encontrado!", "success");
         }
 
+        // Tenta buscar informações via Microlink como complemento
         const microlinkUrl = `https://api.microlink.io/?url=${encodeURIComponent(urlInput)}`;
         const response = await fetch(microlinkUrl);
         const json = await response.json();
@@ -956,16 +995,13 @@
 
         if (json.status === 'success' && json.data) {
           const data = json.data;
-
           if (data.title) {
             const cleanTitle = data.title.split('|')[0].split('- Natura')[0].trim();
             document.getElementById('product-name').value = cleanTitle;
           }
-
           if (data.description) {
             document.getElementById('product-description').value = data.description;
           }
-
           if (data.image && data.image.url) {
             const imgUrl = data.image.url;
             if (!imgUrl.toLowerCase().includes('logo') && !imgUrl.toLowerCase().includes('icon')) {
@@ -974,26 +1010,39 @@
           }
         }
 
-        if (docHtml) {
-          if (!document.getElementById('product-name').value) {
-            const title = docHtml.querySelector('meta[property="og:title"]')?.getAttribute('content') || docHtml.querySelector('title')?.innerText;
-            if (title) document.getElementById('product-name').value = title.split('|')[0].trim();
-          }
+        // Complementa com o HTML obtido pelos proxies
+        if (!document.getElementById('product-name').value) {
+          const title = docHtml.querySelector('meta[property="og:title"]')?.getAttribute('content') || docHtml.querySelector('title')?.innerText;
+          if (title) document.getElementById('product-name').value = title.split('|')[0].trim();
+        }
 
-          if (!document.getElementById('product-description').value) {
-            const desc = docHtml.querySelector('meta[property="og:description"]')?.getAttribute('content');
-            if (desc) document.getElementById('product-description').value = desc;
-          }
+        if (!document.getElementById('product-description').value) {
+          const desc = docHtml.querySelector('meta[property="og:description"]')?.getAttribute('content');
+          if (desc) document.getElementById('product-description').value = desc;
+        }
 
-          const priceElem = docHtml.querySelector('.vtex-product-price-1-x-sellingPriceValue, [class*="sellingPrice"], .price');
-          if (priceElem) {
-            const priceStr = priceElem.innerText.replace('R$', '').replace(/\./g, '').replace(',', '.').trim();
-            const parsed = parseFloat(priceStr);
-            if (!isNaN(parsed) && parsed > 0) {
-              document.getElementById('product-price').value = parsed.toFixed(2);
-            }
+        const priceElem = docHtml.querySelector('.vtex-product-price-1-x-sellingPriceValue, [class*="sellingPrice"], .price');
+        if (priceElem) {
+          const priceStr = priceElem.innerText.replace('R$', '').replace(/\./g, '').replace(',', '.').trim();
+          const parsed = parseFloat(priceStr);
+          if (!isNaN(parsed) && parsed > 0) {
+            document.getElementById('product-price').value = parsed.toFixed(2);
           }
         }
+
+        const allImages = docHtml.querySelectorAll('meta[property="og:image"], meta[name="twitter:image"], img');
+        allImages.forEach(tag => {
+          const url = tag.getAttribute('content') || tag.getAttribute('src');
+          if (url && url.startsWith('http')) {
+            const lowerUrl = url.toLowerCase();
+            const isLogoOrIcon = lowerUrl.includes('logo') || lowerUrl.includes('icon') || lowerUrl.includes('avatar') || lowerUrl.includes('banner');
+            const isProductPhoto = lowerUrl.includes('product') || lowerUrl.includes('natura') || lowerUrl.includes('p/') || lowerUrl.includes('zoom');
+
+            if (!isLogoOrIcon && isProductPhoto && !currentFetchedImages.includes(url) && currentFetchedImages.length < 4) {
+              currentFetchedImages.push(url);
+            }
+          }
+        });
 
         renderPreviewGallery();
         
@@ -1007,9 +1056,11 @@
           document.getElementById('product-used-count').value = 0;
         }
 
+        showToast(`${currentFetchedImages.length} foto(s) carregada(s) com sucesso!`);
+
       } catch (err) {
         console.error("Erro na extração:", err);
-        showToast("O site bloqueou a extração. Preencha manualmente.", "error");
+        showToast("Erro ao processar os dados da página.", "error");
       }
     };
 
