@@ -106,7 +106,7 @@
     </div>
     
     <div style="margin-top: 10px; text-align: center;">
-      <a href="https://wa.me/5519997648211?text=Olá!%20Procuro%20um%20produto%20específico%20do%20Ciclo%2015%20que%20não%20encontrei%20no%20catálogo." 
+      <a href="https://wa.me/5519997648211?text=Olá!%20Procuro%20um%20produto%20específico%20do%20Ciclo%20que%20não%20encontrei%20no%20catálogo." 
          target="_blank" 
          style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; background-color: #1f2937; color: #25d366; padding: 10px 20px; border-radius: 20px; text-decoration: none; font-weight: bold; font-size: 14px; border: 1px solid #25d366; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
@@ -180,7 +180,7 @@
   </main>
 
   <!-- BOTÃO FLUTUANTE DE COMPARTILHAMENTO COM O LINK COMPLETO DA LOJA -->
-  <a href="https://api.whatsapp.com/send?text=Olha%20que%20cat%C3%A1logo%20incr%C3%ADvel%20de%20descontos%20e%20cupons%20eu%20achei!%20Confere%20aqui:%20h ttps://cristianalvesdacosta-dot.github.io/MinhaLojaCat-logo/" 
+  <a href="https://api.whatsapp.com/send?text=Olha%20que%20cat%C3%A1logo%20incr%C3%ADvel%20de%20descontos%20e%20cupons%20eu%20achei!%20Confere%20aqui:%20https://cristianalvesdacosta-dot.github.io/MinhaLojaCat-logo/" 
      target="_blank" 
      rel="noopener noreferrer"
      class="fixed bottom-5 right-4 z-40 bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-2 rounded-full shadow-lg flex items-center gap-1.5 transition transform hover:scale-105 border border-emerald-400/40"
@@ -339,7 +339,7 @@
 
           <div class="p-3 bg-slate-800/80 rounded-xl border border-brand-500/30 space-y-2">
             <label class="block text-xs font-bold text-brand-400 flex items-center gap-1.5">
-              <i class="fa-solid fa-wand-magic-sparkles"></i> Importar Rápido via Link (Com Opção de Excluir Fotos Indesejadas)
+              <i class="fa-solid fa-wand-magic-sparkles"></i> Importar Rápido via Link (Com Verificação de Estoque e Preço)
             </label>
             <div class="flex gap-2">
               <input type="url" id="auto-import-link" placeholder="Cole o link do produto aqui..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-slate-100 focus:outline-none focus:border-brand-500">
@@ -347,7 +347,7 @@
                 <i class="fa-solid fa-download"></i> Puxar
               </button>
             </div>
-            <p class="text-[10px] text-slate-400">Clique no X vermelho de qualquer imagem abaixo para removê-la antes de salvar!</p>
+            <p class="text-[10px] text-slate-400">Ao puxar, o sistema já busca preço, imagens e verifica se está esgotado na Natura!</p>
           </div>
 
           <form id="form-product" class="space-y-4">
@@ -866,41 +866,53 @@
       showToast("Imagem removida da lista.");
     };
 
-    // FUNÇÃO AUTOMÁTICA DE ATUALIZAÇÃO E MONITORAMENTO DE PREÇOS/ESTOQUE DA NATURA (ATUALIZADA)
+    // FUNÇÃO DE LEITURA AUTOMÁTICA EM SEGUNDO PLANO VIA PROXY
     window.checkProductLiveStatus = async (prodId, urlInput) => {
       if (!urlInput) return;
       try {
-        const fallbackUrl = `https://corsproxy.io/?${encodeURIComponent(urlInput)}`;
-        const res = await fetch(fallbackUrl);
-        const htmlText = await res.text();
-        const parser = new DOMParser();
-        const docHtml = parser.parseFromString(htmlText, 'text/html');
-
-        const pageText = docHtml.body.innerText.toLowerCase();
+        const proxyApiUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(urlInput)}`;
+        const res = await fetch(proxyApiUrl);
+        const data = await res.json();
         
-        // Verifica expressamente todos os formatos de texto e botões da Natura indicando produto esgotado
+        if (!data.contents) return;
+
+        const parser = new DOMParser();
+        const docHtml = parser.parseFromString(data.contents, 'text/html');
+        const pageText = docHtml.body.innerText.toLowerCase();
+
         const isUnavailable = 
           pageText.includes('acabou, mas volta logo') || 
           pageText.includes('me avise') || 
           pageText.includes('indisponível') || 
-          pageText.includes('fora de estoque') ||
-          docHtml.querySelector('.vtex-product-availability-0-x-notAvailable, [class*="meAvise"], [class*="notAvailable"]') !== null;
+          pageText.includes('fora de estoque');
+
+        let detectedPrice = null;
+        const priceElem = docHtml.querySelector('.vtex-product-price-1-x-sellingPriceValue, [class*="sellingPrice"], .price');
+        if (priceElem) {
+          const priceStr = priceElem.innerText.replace('R$', '').replace(/\./g, '').replace(',', '.').trim();
+          const parsed = parseFloat(priceStr);
+          if (!isNaN(parsed) && parsed > 0) detectedPrice = parsed;
+        }
 
         const prodRef = doc(db, 'products', prodId);
         const updatePayload = { updatedAt: new Date().toISOString() };
 
         if (isUnavailable) {
           updatePayload.autoStatus = 'Indisponível';
-          await updateDoc(prodRef, updatePayload);
         } else {
           updatePayload.autoStatus = 'Disponível';
-          await updateDoc(prodRef, updatePayload);
+          if (detectedPrice) {
+            updatePayload.price = detectedPrice;
+          }
         }
+
+        await updateDoc(prodRef, updatePayload);
       } catch (err) {
         console.warn("Monitoramento silencioso:", err);
       }
     };
 
+    // FUNÇÃO DE PUXAR VIA LINK JÁ COM VERIFICAÇÃO DE ESTOQUE E PREÇO NO CLIQUE
     window.fetchProductFromLink = async () => {
       const urlInput = document.getElementById('auto-import-link').value.trim();
       if (!urlInput) {
@@ -908,9 +920,34 @@
         return;
       }
 
-      showToast("Buscando dados e fotos...", "success");
+      showToast("Buscando dados, preço e status de estoque...", "success");
 
       try {
+        const proxyApiUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(urlInput)}`;
+        const res = await fetch(proxyApiUrl);
+        const dataJson = await res.json();
+        
+        let pageText = "";
+        let docHtml = null;
+
+        if (dataJson.contents) {
+          const parser = new DOMParser();
+          docHtml = parser.parseFromString(dataJson.contents, 'text/html');
+          pageText = docHtml.body.innerText.toLowerCase();
+        }
+
+        const isUnavailable = 
+          pageText.includes('acabou, mas volta logo') || 
+          pageText.includes('me avise') || 
+          pageText.includes('indisponível') || 
+          pageText.includes('fora de estoque');
+
+        if (isUnavailable) {
+          showToast("Atenção: Este produto está ESGOTADO na Natura!", "error");
+        } else {
+          showToast("Produto disponível encontrado!", "success");
+        }
+
         const microlinkUrl = `https://api.microlink.io/?url=${encodeURIComponent(urlInput)}`;
         const response = await fetch(microlinkUrl);
         const json = await response.json();
@@ -937,14 +974,7 @@
           }
         }
 
-        try {
-          const fallbackUrl = `https://corsproxy.io/?${encodeURIComponent(urlInput)}`;
-          const res = await fetch(fallbackUrl);
-          const htmlText = await res.text();
-
-          const parser = new DOMParser();
-          const docHtml = parser.parseFromString(htmlText, 'text/html');
-
+        if (docHtml) {
           if (!document.getElementById('product-name').value) {
             const title = docHtml.querySelector('meta[property="og:title"]')?.getAttribute('content') || docHtml.querySelector('title')?.innerText;
             if (title) document.getElementById('product-name').value = title.split('|')[0].trim();
@@ -955,34 +985,27 @@
             if (desc) document.getElementById('product-description').value = desc;
           }
 
-          const allImages = docHtml.querySelectorAll('meta[property="og:image"], meta[name="twitter:image"], img');
-          allImages.forEach(tag => {
-            const url = tag.getAttribute('content') || tag.getAttribute('src');
-            if (url && url.startsWith('http')) {
-              const lowerUrl = url.toLowerCase();
-              const isLogoOrIcon = lowerUrl.includes('logo') || lowerUrl.includes('icon') || lowerUrl.includes('avatar') || lowerUrl.includes('banner') || lowerUrl.includes('social');
-              const isProductPhoto = lowerUrl.includes('product') || lowerUrl.includes('natura') || lowerUrl.includes('p/') || lowerUrl.includes('zoom') || lowerUrl.includes('large');
-
-              if (!isLogoOrIcon && isProductPhoto && !currentFetchedImages.includes(url) && currentFetchedImages.length < 4) {
-                currentFetchedImages.push(url);
-              }
+          const priceElem = docHtml.querySelector('.vtex-product-price-1-x-sellingPriceValue, [class*="sellingPrice"], .price');
+          if (priceElem) {
+            const priceStr = priceElem.innerText.replace('R$', '').replace(/\./g, '').replace(',', '.').trim();
+            const parsed = parseFloat(priceStr);
+            if (!isNaN(parsed) && parsed > 0) {
+              document.getElementById('product-price').value = parsed.toFixed(2);
             }
-          });
-
-        } catch (e) {
-          console.warn("Aviso na busca secundária.", e);
-        }
-
-        if (currentFetchedImages.length === 0 && json.data?.image?.url) {
-          currentFetchedImages.push(json.data.image.url);
+          }
         }
 
         renderPreviewGallery();
-        showToast(`${currentFetchedImages.length} foto(s) carregada(s)! Use o X se precisar apagar alguma.`);
-
+        
         document.getElementById('product-link').value = urlInput;
         document.getElementById('product-code').value = "CLIENTEVIP";
         document.getElementById('product-discount-percent').value = "10";
+
+        if (isUnavailable) {
+          document.getElementById('product-used-count').value = document.getElementById('product-total-uses').value || 30;
+        } else {
+          document.getElementById('product-used-count').value = 0;
+        }
 
       } catch (err) {
         console.error("Erro na extração:", err);
@@ -1073,7 +1096,6 @@
         renderProducts();
         if (currentUser) renderAdminProductsList();
 
-        // Dispara varredura automática silenciosa para verificar links ativos na Natura
         productsList.forEach(p => {
           if (p.link) {
             window.checkProductLiveStatus(p.id, p.link);
