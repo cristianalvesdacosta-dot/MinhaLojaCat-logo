@@ -866,6 +866,52 @@
       showToast("Imagem removida da lista.");
     };
 
+    // FUNÇÃO AUTOMÁTICA DE ATUALIZAÇÃO E MONITORAMENTO DE PREÇOS/ESTOQUE
+    window.checkProductLiveStatus = async (prodId, urlInput) => {
+      if (!urlInput) return;
+      try {
+        const fallbackUrl = `https://corsproxy.io/?${encodeURIComponent(urlInput)}`;
+        const res = await fetch(fallbackUrl);
+        const htmlText = await res.text();
+        const parser = new DOMParser();
+        const docHtml = parser.parseFromString(htmlText, 'text/html');
+
+        // Detecta se está indisponível na Natura
+        const pageText = docHtml.body.innerText.toLowerCase();
+        const isUnavailable = pageText.includes('indisponível') || pageText.includes('fora de estoque') || pageText.includes('avise-me');
+
+        // Tenta capturar preço atualizado se houver elemento correspondente
+        let detectedPrice = null;
+        const priceElem = docHtml.querySelector('.vtex-product-price-1-x-sellingPriceValue, [data-specification-name*="Preço"], .price');
+        if (priceElem) {
+          const priceStr = priceElem.innerText.replace('R$', '').replace(/\./g, '').replace(',', '.').trim();
+          const parsed = parseFloat(priceStr);
+          if (!isNaN(parsed) && parsed > 0) detectedPrice = parsed;
+        }
+
+        const prodRef = doc(db, 'products', prodId);
+        const updatePayload = { updatedAt: new Date().toISOString() };
+        let hasChanges = false;
+
+        if (isUnavailable) {
+          updatePayload.autoStatus = 'Indisponível';
+          hasChanges = true;
+        } else {
+          updatePayload.autoStatus = 'Disponível';
+          if (detectedPrice) {
+            updatePayload.price = detectedPrice;
+          }
+          hasChanges = true;
+        }
+
+        if (hasChanges) {
+          await updateDoc(prodRef, updatePayload);
+        }
+      } catch (err) {
+        console.warn("Monitoramento automático em segundo plano silencioso:", err);
+      }
+    };
+
     window.fetchProductFromLink = async () => {
       const urlInput = document.getElementById('auto-import-link').value.trim();
       if (!urlInput) {
@@ -1037,6 +1083,13 @@
         }));
         renderProducts();
         if (currentUser) renderAdminProductsList();
+
+        // Dispara varredura automática silenciosa para verificar links ativos na Natura
+        productsList.forEach(p => {
+          if (p.link) {
+            window.checkProductLiveStatus(p.id, p.link);
+          }
+        });
       }, (error) => {
         console.error("Erro ao sincronizar produtos:", error);
       });
@@ -1108,7 +1161,7 @@
         const totalUses = Number(prod.totalUses) || Number(prod.total) || 1;
         const usedCount = Number(prod.usedCount) || Number(prod.used) || 0;
         const remaining = Math.max(0, totalUses - usedCount);
-        const isSoldOut = remaining <= 0;
+        const isSoldOut = (remaining <= 0) || (prod.autoStatus === 'Indisponível');
 
         if (filterStatus === 'available' && isSoldOut) return false;
         if (filterStatus === 'soldout' && !isSoldOut) return false;
@@ -1128,7 +1181,7 @@
         const totalUses = Number(prod.totalUses) || Number(prod.total) || 1;
         const usedCount = Number(prod.usedCount) || Number(prod.used) || 0;
         const remaining = Math.max(0, totalUses - usedCount);
-        const isSoldOut = remaining <= 0;
+        const isSoldOut = (remaining <= 0) || (prod.autoStatus === 'Indisponível');
         
         const percentUsed = Math.min(100, Math.round((usedCount / totalUses) * 100));
         const percentRemaining = Math.max(0, 100 - percentUsed);
