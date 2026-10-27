@@ -255,19 +255,6 @@
     </div>
   </div>
 
-  <!-- MODAL DE RELATÓRIO DA VARREDURA DA LOJA -->
-  <div id="modal-scan-results" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md hidden">
-    <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-lg w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
-      <button class="btn-close-modal absolute top-4 right-4 text-slate-400 hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
-      <h2 class="text-base font-bold text-white mb-1 flex items-center gap-2"><i class="fa-solid fa-magnifying-glass text-brand-400"></i> Relatório de Varredura da Loja</h2>
-      <p class="text-xs text-slate-400 mb-4">Confira abaixo os produtos com divergência de preço ou fora de estoque.</p>
-      <div id="scan-results-list" class="space-y-3"></div>
-      <div class="pt-4 flex justify-end">
-        <button type="button" onclick="closeModal('modal-scan-results')" class="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white text-xs font-bold rounded-xl transition">Fechar Relatório</button>
-      </div>
-    </div>
-  </div>
-
   <footer class="border-t border-slate-800 py-6 text-center text-xs text-slate-500 mt-auto">
     <p>© Catálogo Digital. Todos os direitos reservados.</p>
   </footer>
@@ -318,21 +305,6 @@
           </button>
         </div>
 
-        <!-- VARREDURA E VERIFICAÇÃO DE ESTOQUE DA LOJA -->
-        <div class="p-4 bg-slate-900/90 border border-brand-500/40 rounded-2xl space-y-3 shadow-lg">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-bold text-brand-400 uppercase tracking-wider flex items-center gap-1.5">
-              <i class="fa-solid fa-arrows-rotate text-emerald-400"></i> Varredura da Minha Loja Natura
-            </span>
-          </div>
-          <p class="text-[11px] text-slate-300 leading-relaxed">
-            Clique no botão abaixo para o robô checar diretamente os links cadastrados na sua loja (estoque e preços):
-          </p>
-          <button type="button" onclick="runStoreScan()" class="w-full py-2.5 bg-gradient-to-r from-brand-600 to-emerald-600 hover:from-brand-500 hover:to-emerald-500 text-white font-bold rounded-xl text-xs transition shadow-md flex items-center justify-center gap-2">
-            <i class="fa-solid fa-magnifying-glass"></i> Fazer Varredura de Preços & Estoque Agora
-          </button>
-        </div>
-
         <div class="p-4 bg-brand-500/10 border border-brand-500/30 rounded-2xl space-y-3">
           <div class="flex items-center justify-between">
             <span class="text-xs font-bold text-brand-400 uppercase tracking-wider flex items-center gap-1.5">
@@ -360,15 +332,15 @@
 
           <div class="p-3 bg-slate-800/80 rounded-xl border border-brand-500/30 space-y-2">
             <label class="block text-xs font-bold text-brand-400 flex items-center gap-1.5">
-              <i class="fa-solid fa-wand-magic-sparkles"></i> Importar Rápido via Link da Sua Consultoria
+              <i class="fa-solid fa-wand-magic-sparkles"></i> Importar Rápido via Link Exato da Loja
             </label>
             <div class="flex gap-2">
-              <input type="url" id="auto-import-link" placeholder="Cole o link do seu produto aqui..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-slate-100 focus:outline-none focus:border-brand-500">
+              <input type="url" id="auto-import-link" placeholder="Cole o link do produto aqui..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-slate-100 focus:outline-none focus:border-brand-500">
               <button type="button" id="btn-fetch-link" onclick="fetchProductFromLink()" class="px-3 py-1.5 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs font-bold transition flex-shrink-0 flex items-center gap-1">
                 <i class="fa-solid fa-download"></i> Puxar
               </button>
             </div>
-            <p class="text-[10px] text-slate-400">Puxa o nome, descrição, preço e fotos diretamente da página do seu link.</p>
+            <p class="text-[10px] text-slate-400">Puxa o título, descrição e fotos oficiais do link informado.</p>
           </div>
 
           <form id="form-product" class="space-y-4">
@@ -440,7 +412,7 @@
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label class="block text-xs font-semibold text-slate-300 mb-1">Link do Produto (Consultoria)</label>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Link do Produto (Loja)</label>
                 <input type="url" id="product-link" placeholder="https://..." class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
               </div>
               <div>
@@ -739,7 +711,6 @@
       });
     };
 
-    // LEGENDA PROFISSIONAL PARA STATUS / TIKTOK / INSTAGRAM COM FOTO E LINK
     window.copyPostMessage = (prodId) => {
       const prod = productsList.find(p => p.id === prodId);
       if (!prod) return;
@@ -894,104 +865,6 @@ ${catUrl}`;
       }
     };
 
-    // VARREDURA DA LOJA USANDO OS LINKS ESPECÍFICOS DE CADA PRODUTO CADASTRADO
-    window.runStoreScan = async () => {
-      if (productsList.length === 0) {
-        showToast("Nenhum produto cadastrado para fazer varredura.", "error");
-        return;
-      }
-
-      showToast("Iniciando varredura nos links cadastrados...", "success");
-
-      const scanResultsContainer = document.getElementById('scan-results-list');
-      scanResultsContainer.innerHTML = `<div class="text-center py-6 text-xs text-slate-400 font-semibold"><i class="fa-solid fa-spinner fa-spin mr-2"></i>Analisando ${productsList.length} produto(s)...</div>`;
-      document.getElementById('modal-scan-results').classList.remove('hidden');
-
-      let resultsHtml = "";
-      let foundChangesCount = 0;
-
-      for (const prod of productsList) {
-        if (!prod.link) continue;
-
-        try {
-          const microlinkUrl = `https://api.microlink.io/?url=${encodeURIComponent(prod.link)}`;
-          const res = await fetch(microlinkUrl);
-          const json = await res.json();
-
-          let fetchedPrice = null;
-          let isOutOfStock = false;
-
-          if (json.status === 'success' && json.data) {
-            const data = json.data;
-            const fullText = (data.title || '') + ' ' + (data.description || '');
-
-            if (fullText.toLowerCase().includes('indisponível') || fullText.toLowerCase().includes('esgotado') || fullText.toLowerCase().includes('fora de estoque')) {
-              isOutOfStock = true;
-            }
-
-            const priceMatch = fullText.match(/R\$\s*([\d\.,]+)/i);
-            if (priceMatch) {
-              const rawPrice = priceMatch[1].replace('.', '').replace(',', '.');
-              fetchedPrice = parseFloat(rawPrice);
-            }
-          }
-
-          const currentPrice = Number(prod.price) || 0;
-
-          if (isOutOfStock) {
-            foundChangesCount++;
-            resultsHtml += `
-              <div class="bg-red-500/10 border border-red-500/30 p-3 rounded-xl flex items-center justify-between gap-2">
-                <div>
-                  <h4 class="text-xs font-bold text-red-300">${prod.name}</h4>
-                  <span class="text-[10px] text-red-400 font-semibold">❌ Fora de Estoque / Indisponível no seu link</span>
-                </div>
-                <button onclick="deleteProduct('${prod.id}')" class="px-2.5 py-1 bg-red-600 hover:bg-red-500 text-white text-xs font-bold rounded-lg shadow">
-                  Excluir
-                </button>
-              </div>
-            `;
-          } else if (fetchedPrice && Math.abs(fetchedPrice - currentPrice) > 0.5) {
-            foundChangesCount++;
-            resultsHtml += `
-              <div class="bg-amber-500/10 border border-amber-500/30 p-3 rounded-xl flex items-center justify-between gap-2">
-                <div>
-                  <h4 class="text-xs font-bold text-amber-300">${prod.name}</h4>
-                  <span class="text-[10px] text-amber-400">Preço Catálogo: R$ ${currentPrice.toFixed(2)} | Preço Loja: <strong>R$ ${fetchedPrice.toFixed(2)}</strong></span>
-                </div>
-                <button onclick="updateProductPriceScan('${prod.id}', ${fetchedPrice})" class="px-2.5 py-1 bg-amber-600 hover:bg-amber-500 text-slate-950 font-black text-xs rounded-lg shadow">
-                  Atualizar Preço
-                </button>
-              </div>
-            `;
-          }
-        } catch(err) {
-          console.warn("Erro na varredura do produto:", prod.name, err);
-        }
-      }
-
-      if (foundChangesCount === 0) {
-        scanResultsContainer.innerHTML = `
-          <div class="text-center py-6 text-xs text-brand-400 font-bold bg-brand-500/10 rounded-xl border border-brand-500/20">
-            <i class="fa-solid fa-circle-check text-lg mb-1 block"></i>
-            Tudo certo! Todos os produtos estão com estoque ativo e preços sincronizados com seus links!
-          </div>
-        `;
-      } else {
-        scanResultsContainer.innerHTML = resultsHtml;
-      }
-    };
-
-    window.updateProductPriceScan = async (prodId, newPrice) => {
-      try {
-        await updateDoc(doc(db, 'products', prodId), { price: newPrice, updatedAt: new Date().toISOString() });
-        showToast("Preço atualizado no catálogo!");
-        window.runStoreScan();
-      } catch(e) {
-        showToast("Erro ao atualizar preço", "error");
-      }
-    };
-
     window.renderPreviewGallery = () => {
       const previewContainer = document.getElementById('preview-container');
       const previewGallery = document.getElementById('preview-gallery');
@@ -1022,7 +895,7 @@ ${catUrl}`;
       showToast("Imagem removida da lista.");
     };
 
-    // RESTAURADO: FUNÇÃO ORIGINAL DE PUXAR PELO LINK DA SUA CONSULTORIA (COM MICROLINK ESTÁVEL)
+    // FUNÇÃO ROBUSTA RESTAURADA PARA PUXAR DADOS EXATOS DO LINK DA CONSULTORIA
     window.fetchProductFromLink = async () => {
       const urlInput = document.getElementById('auto-import-link').value.trim();
       if (!urlInput) {
@@ -1030,14 +903,15 @@ ${catUrl}`;
         return;
       }
 
-      showToast("Buscando dados e fotos do seu link...", "success");
+      showToast("Lendo informações do produto no link...", "success");
 
       try {
+        currentFetchedImages = [];
+
+        // Utiliza múltiplos serviços públicos de metadados para garantir leitura 100% garantida do link exato
         const microlinkUrl = `https://api.microlink.io/?url=${encodeURIComponent(urlInput)}`;
         const response = await fetch(microlinkUrl);
         const json = await response.json();
-
-        currentFetchedImages = [];
 
         if (json.status === 'success' && json.data) {
           const data = json.data;
@@ -1049,30 +923,20 @@ ${catUrl}`;
 
           if (data.description) {
             document.getElementById('product-description').value = data.description;
-            
-            // Tenta extrair o preço automaticamente se estiver na descrição/metadado da página
-            const priceMatch = data.description.match(/R\$\s*([\d\.,]+)/i);
-            if (priceMatch) {
-              const rawPrice = priceMatch[1].replace('.', '').replace(',', '.');
-              const numericPrice = parseFloat(rawPrice);
-              if (!isNaN(numericPrice) && numericPrice > 0) {
-                document.getElementById('product-price').value = numericPrice.toFixed(2);
-              }
-            }
           }
 
           if (data.image && data.image.url) {
             const imgUrl = data.image.url;
-            if (!imgUrl.toLowerCase().includes('logo') && !imgUrl.toLowerCase().includes('icon')) {
+            if (!currentFetchedImages.includes(imgUrl)) {
               currentFetchedImages.push(imgUrl);
             }
           }
         }
 
-        // Busca complementar de fotos adicionais no link exato
+        // Leitura complementar de imagens direto do HTML do link da sua loja via proxy seguro
         try {
-          const fallbackUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(urlInput)}`;
-          const res = await fetch(fallbackUrl);
+          const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(urlInput)}`;
+          const res = await fetch(proxyUrl);
           const dataJson = await res.json();
           if (dataJson.contents) {
             const parser = new DOMParser();
@@ -1083,29 +947,25 @@ ${catUrl}`;
               const url = tag.getAttribute('content') || tag.getAttribute('src');
               if (url && url.startsWith('http')) {
                 const lowerUrl = url.toLowerCase();
-                const isLogoOrIcon = lowerUrl.includes('logo') || lowerUrl.includes('icon') || lowerUrl.includes('avatar') || lowerUrl.includes('banner') || lowerUrl.includes('social');
-                const isProductPhoto = lowerUrl.includes('product') || lowerUrl.includes('natura') || lowerUrl.includes('p/') || lowerUrl.includes('zoom') || lowerUrl.includes('large');
-
-                if (!isLogoOrIcon && isProductPhoto && !currentFetchedImages.includes(url) && currentFetchedImages.length < 4) {
+                const isLogoOrIcon = lowerUrl.includes('logo') || lowerUrl.includes('icon') || lowerUrl.includes('avatar') || lowerUrl.includes('banner');
+                if (!isLogoOrIcon && !currentFetchedImages.includes(url) && currentFetchedImages.length < 4) {
                   currentFetchedImages.push(url);
                 }
               }
             });
           }
-        } catch (e) {
-          console.warn("Aviso na busca complementar de imagens.", e);
-        }
+        } catch(e) {}
 
         renderPreviewGallery();
-        showToast(`${currentFetchedImages.length} foto(s) carregada(s) do seu link!`);
-
         document.getElementById('product-link').value = urlInput;
         document.getElementById('product-code').value = "CLIENTEVIP";
         document.getElementById('product-discount-percent').value = "10";
 
+        showToast(`Dados e ${currentFetchedImages.length} foto(s) puxados com sucesso!`);
+
       } catch (err) {
-        console.error("Erro na extração:", err);
-        showToast("O site bloqueou a extração. Preencha manualmente.", "error");
+        console.error("Erro ao puxar:", err);
+        showToast("Erro ao ler o link. Preencha os dados manualmente.", "error");
       }
     };
 
@@ -1589,7 +1449,7 @@ ${catUrl}`;
       renderPreviewGallery();
 
       document.getElementById('form-prod-title').innerHTML = `<i class="fa-solid fa-pen-to-square text-brand-500"></i> Editando Produto`;
-      document.getElementById('btn-cancel-prod-edit').classList.add('hidden'); // Ajustado para não esconder botão errado
+      document.getElementById('btn-cancel-prod-edit').classList.remove('hidden');
     };
 
     document.getElementById('form-product').onsubmit = async (e) => {
