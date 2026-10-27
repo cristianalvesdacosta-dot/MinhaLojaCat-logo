@@ -773,7 +773,6 @@ ${catUrl}`;
     window.openProductAndCopyCoupon = async (productUrl, couponCode, prodId) => {
       const couponToCopy = couponCode || "CLIENTEVIP";
 
-      // Incrementa o contador de cliques no produto no Firebase
       if (prodId) {
         try {
           await updateDoc(doc(db, 'products', prodId), { clicksCount: increment(1) });
@@ -1057,7 +1056,6 @@ ${catUrl}`;
             document.getElementById('product-description').value = data.description;
           }
 
-          // EXTRAÇÃO AUTOMÁTICA DE PREÇO VIA TEXTO E METADADOS
           const fullMetaText = (data.title || '') + ' ' + (data.description || '');
           const priceMatch = fullMetaText.match(/R\$\s*([\d\.,]+)/i);
           if (priceMatch) {
@@ -1068,7 +1066,6 @@ ${catUrl}`;
             }
           }
 
-          // Pega a imagem principal
           if (data.image && data.image.url) {
             const imgUrl = data.image.url;
             if (!imgUrl.toLowerCase().includes('logo') && !imgUrl.toLowerCase().includes('icon')) {
@@ -1077,7 +1074,6 @@ ${catUrl}`;
           }
         }
 
-        // Busca fotos adicionais
         try {
           const fallbackUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(urlInput)}`;
           const res = await fetch(fallbackUrl);
@@ -1086,7 +1082,6 @@ ${catUrl}`;
             const parser = new DOMParser();
             const docHtml = parser.parseFromString(dataJson.contents, 'text/html');
             
-            // Extração de preço direta do HTML caso ainda não tenha preenchido
             if (!document.getElementById('product-price').value) {
               const htmlText = docHtml.body ? docHtml.body.innerText : '';
               const priceMatchHtml = htmlText.match(/R\$\s*([\d\.,]+)/i);
