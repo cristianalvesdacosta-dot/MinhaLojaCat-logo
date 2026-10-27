@@ -743,7 +743,7 @@
       });
     };
 
-    // COPIAR LEGENDA PRONTA PARA STATUS DO WHATSAPP / TIKTOK / INSTAGRAM (APENAS PAINEL ADMIN)
+    // LEGENDA PROFISSIONAL, ENXUTA E COM LINK DA FOTO PARA STATUS / TIKTOK / INSTAGRAM
     window.copyPostMessage = (prodId) => {
       const prod = productsList.find(p => p.id === prodId);
       if (!prod) return;
@@ -753,18 +753,24 @@
       const finalPrice = disc > 0 ? (origPrice - (origPrice * (disc / 100))).toFixed(2).replace('.', ',') : origPrice.toFixed(2).replace('.', ',');
       const couponCode = prod.code || "CLIENTEVIP";
       const catUrl = window.location.href;
+      
+      let prodImages = [];
+      if (Array.isArray(prod.images) && prod.images.length > 0) prodImages = prod.images;
+      else if (prod.image) prodImages = [prod.image];
+      const mainPhoto = prodImages.length > 0 ? prodImages[0] : "";
 
-      const promoMessage = `🔥 *OFERTA IMPERDÍVEL NA MINHA LOJA!* 🔥
+      const promoMessage = `🔥 *OFERTA IMPERDÍVEL!* 🔥
 
 📦 *${prod.name}*
 ${disc > 0 ? `💰 De R$ ${origPrice.toFixed(2).replace('.', ',')} por *R$ ${finalPrice}* (-${disc}% OFF)` : `💰 Apenas R$ ${origPrice.toFixed(2).replace('.', ',')}`}
-🎟️ Cupom de Desconto: *${couponCode}*
+🎟️ Cupom: *${couponCode}*
 
-👉 *Garanta o seu com desconto no meu catálogo:*
+${mainPhoto ? `📸 *Foto Oficial:* ${mainPhoto}\n` : ''}
+👉 *Peça já o seu no catálogo:*
 ${catUrl}`;
 
       navigator.clipboard.writeText(promoMessage).then(() => {
-        showToast("Texto da legenda copiado! Cole no WhatsApp, TikTok ou Instagram!");
+        showToast("Legenda profissional copiada com foto e link!");
       }).catch(err => {
         showToast("Erro ao copiar legenda.", "error");
       });
@@ -892,7 +898,6 @@ ${catUrl}`;
       }
     };
 
-    // VARREDURA COMPLETA DA LOJA NATURA (MUDANÇA DE PREÇO E FORA DE ESTOQUE)
     window.runStoreScan = async () => {
       const storeUrlInput = document.getElementById('store-consultant-link').value.trim();
       if (storeUrlInput) {
@@ -1027,7 +1032,7 @@ ${catUrl}`;
       showToast("Imagem removida da lista.");
     };
 
-    // FUNÇÃO DE PUXAR VIA LINK ESTÁVEL (COM EXTRAÇÃO DE PREÇO AUTOMÁTICA)
+    // EXTRAÇÃO DIRETA DO LINK DA SUA CONSULTORIA
     window.fetchProductFromLink = async () => {
       const urlInput = document.getElementById('auto-import-link').value.trim();
       if (!urlInput) {
@@ -1035,93 +1040,100 @@ ${catUrl}`;
         return;
       }
 
-      showToast("Buscando dados, fotos e preço...", "success");
+      showToast("Lendo dados e preço do seu link...", "success");
 
       try {
-        const microlinkUrl = `https://api.microlink.io/?url=${encodeURIComponent(urlInput)}`;
-        const response = await fetch(microlinkUrl);
-        const json = await response.json();
-
         currentFetchedImages = [];
+        let fetchedSuccessfully = false;
 
-        if (json.status === 'success' && json.data) {
-          const data = json.data;
-
-          if (data.title) {
-            const cleanTitle = data.title.split('|')[0].split('- Natura')[0].trim();
+        // Faz a leitura direta do link exato colado (ex: sua consultoria)
+        const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(urlInput)}`;
+        const res = await fetch(proxyUrl);
+        const dataJson = await res.json();
+        
+        if (dataJson.contents) {
+          const parser = new DOMParser();
+          const docHtml = parser.parseFromString(dataJson.contents, 'text/html');
+          
+          // Nome do produto direto da página exata
+          const ogTitle = docHtml.querySelector('meta[property="og:title"]');
+          if (ogTitle) {
+            const cleanTitle = ogTitle.getAttribute('content').split('|')[0].split('- Natura')[0].trim();
             document.getElementById('product-name').value = cleanTitle;
           }
 
-          if (data.description) {
-            document.getElementById('product-description').value = data.description;
+          // Descrição do produto
+          const ogDesc = docHtml.querySelector('meta[property="og:description"]');
+          if (ogDesc) {
+            document.getElementById('product-description').value = ogDesc.getAttribute('content');
           }
 
-          const fullMetaText = (data.title || '') + ' ' + (data.description || '');
-          const priceMatch = fullMetaText.match(/R\$\s*([\d\.,]+)/i);
-          if (priceMatch) {
-            const rawPrice = priceMatch[1].replace('.', '').replace(',', '.');
+          // Preço exato do produto na página da sua consultoria
+          const htmlText = docHtml.body ? docHtml.body.innerText : '';
+          const priceMatchHtml = htmlText.match(/R\$\s*([\d\.,]+)/i);
+          if (priceMatchHtml) {
+            const rawPrice = priceMatchHtml[1].replace('.', '').replace(',', '.');
             const numericPrice = parseFloat(rawPrice);
             if (!isNaN(numericPrice) && numericPrice > 0) {
               document.getElementById('product-price').value = numericPrice.toFixed(2);
             }
           }
 
-          if (data.image && data.image.url) {
-            const imgUrl = data.image.url;
-            if (!imgUrl.toLowerCase().includes('logo') && !imgUrl.toLowerCase().includes('icon')) {
-              currentFetchedImages.push(imgUrl);
+          // Fotos oficiais do produto no link exato
+          const allImages = docHtml.querySelectorAll('meta[property="og:image"], meta[name="twitter:image"], img');
+          allImages.forEach(tag => {
+            const url = tag.getAttribute('content') || tag.getAttribute('src');
+            if (url && url.startsWith('http')) {
+              const lowerUrl = url.toLowerCase();
+              const isLogoOrIcon = lowerUrl.includes('logo') || lowerUrl.includes('icon') || lowerUrl.includes('avatar') || lowerUrl.includes('banner');
+              if (!isLogoOrIcon && !currentFetchedImages.includes(url) && currentFetchedImages.length < 4) {
+                currentFetchedImages.push(url);
+              }
             }
-          }
+          });
+          fetchedSuccessfully = true;
         }
 
-        try {
-          const fallbackUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(urlInput)}`;
-          const res = await fetch(fallbackUrl);
-          const dataJson = await res.json();
-          if (dataJson.contents) {
-            const parser = new DOMParser();
-            const docHtml = parser.parseFromString(dataJson.contents, 'text/html');
-            
-            if (!document.getElementById('product-price').value) {
-              const htmlText = docHtml.body ? docHtml.body.innerText : '';
-              const priceMatchHtml = htmlText.match(/R\$\s*([\d\.,]+)/i);
-              if (priceMatchHtml) {
-                const rawPrice = priceMatchHtml[1].replace('.', '').replace(',', '.');
-                const numericPrice = parseFloat(rawPrice);
-                if (!isNaN(numericPrice) && numericPrice > 0) {
-                  document.getElementById('product-price').value = numericPrice.toFixed(2);
+        // Fallback de segurança via Microlink caso o proxy principal precise de apoio
+        if (currentFetchedImages.length === 0 || !document.getElementById('product-price').value) {
+          try {
+            const microlinkUrl = `https://api.microlink.io/?url=${encodeURIComponent(urlInput)}`;
+            const response = await fetch(microlinkUrl);
+            const json = await response.json();
+            if (json.status === 'success' && json.data) {
+              const data = json.data;
+              if (!document.getElementById('product-name').value && data.title) {
+                document.getElementById('product-name').value = data.title.split('|')[0].split('- Natura')[0].trim();
+              }
+              if (!document.getElementById('product-price').value && data.description) {
+                const priceMatch = data.description.match(/R\$\s*([\d\.,]+)/i);
+                if (priceMatch) {
+                  const rawPrice = priceMatch[1].replace('.', '').replace(',', '.');
+                  const numericPrice = parseFloat(rawPrice);
+                  if (!isNaN(numericPrice)) document.getElementById('product-price').value = numericPrice.toFixed(2);
                 }
+              }
+              if (data.image && data.image.url && !currentFetchedImages.includes(data.image.url)) {
+                currentFetchedImages.push(data.image.url);
               }
             }
-
-            const allImages = docHtml.querySelectorAll('meta[property="og:image"], meta[name="twitter:image"], img');
-            allImages.forEach(tag => {
-              const url = tag.getAttribute('content') || tag.getAttribute('src');
-              if (url && url.startsWith('http')) {
-                const lowerUrl = url.toLowerCase();
-                const isLogoOrIcon = lowerUrl.includes('logo') || lowerUrl.includes('icon') || lowerUrl.includes('avatar') || lowerUrl.includes('banner') || lowerUrl.includes('social');
-                const isProductPhoto = lowerUrl.includes('product') || lowerUrl.includes('natura') || lowerUrl.includes('p/') || lowerUrl.includes('zoom') || lowerUrl.includes('large');
-
-                if (!isLogoOrIcon && isProductPhoto && !currentFetchedImages.includes(url) && currentFetchedImages.length < 4) {
-                  currentFetchedImages.push(url);
-                }
-              }
-            });
-          }
-        } catch (e) {
-          console.warn("Aviso na busca complementar de dados.", e);
+          } catch(e) {}
         }
 
         renderPreviewGallery();
-        showToast(`${currentFetchedImages.length} foto(s) e dados carregados!`);
-
         document.getElementById('product-link').value = urlInput;
         document.getElementById('product-code').value = "CLIENTEVIP";
         document.getElementById('product-discount-percent').value = "10";
 
+        if (currentFetchedImages.length > 0 || document.getElementById('product-price').value) {
+          showToast(`Dados e ${currentFetchedImages.length} foto(s) capturados da sua loja!`);
+        } else {
+          showToast("Link lido. Preencha os campos caso faltem informações.", "success");
+        }
+
       } catch (err) {
         console.error("Erro na extração:", err);
-        showToast("O site bloqueou a extração. Preencha manualmente.", "error");
+        showToast("Preencha as informações manualmente.", "error");
       }
     };
 
@@ -1490,7 +1502,7 @@ ${catUrl}`;
             </div>
           </div>
           <div class="flex items-center gap-1 flex-shrink-0">
-            <button onclick="copyPostMessage('${prod.id}')" class="px-2 py-1 bg-brand-600/20 hover:bg-brand-600/30 text-brand-300 rounded-lg text-xs font-medium border border-brand-500/30" title="Copiar Legenda p/ Status/TikTok">
+            <button onclick="copyPostMessage('${prod.id}')" class="px-2 py-1 bg-brand-600/20 hover:bg-brand-600/30 text-brand-300 rounded-lg text-xs font-medium border border-brand-500/30" title="Copiar Legenda Profissional p/ Status/TikTok">
               <i class="fa-solid fa-copy"></i>
             </button>
             <button onclick="openQuickUseModal('${prod.id}')" class="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-medium border border-slate-700" title="Atualizar Uso">
