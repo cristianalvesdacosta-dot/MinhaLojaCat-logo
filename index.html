@@ -326,14 +326,11 @@
             </span>
           </div>
           <p class="text-[11px] text-slate-300 leading-relaxed">
-            Cadastre o link da sua loja de consultoria e faça uma varredura para checar se produtos cadastrados saíram de estoque ou mudaram de preço:
+            Clique no botão abaixo para o robô checar diretamente os links cadastrados na sua loja (estoque e preços):
           </p>
-          <div class="space-y-2">
-            <input type="url" id="store-consultant-link" placeholder="https://www.natura.com.br/consultoria/seu_nome" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-100 focus:outline-none focus:border-brand-500">
-            <button type="button" onclick="runStoreScan()" class="w-full py-2.5 bg-gradient-to-r from-brand-600 to-emerald-600 hover:from-brand-500 hover:to-emerald-500 text-white font-bold rounded-xl text-xs transition shadow-md flex items-center justify-center gap-2">
-              <i class="fa-solid fa-magnifying-glass"></i> Fazer Varredura de Preços & Estoque Agora
-            </button>
-          </div>
+          <button type="button" onclick="runStoreScan()" class="w-full py-2.5 bg-gradient-to-r from-brand-600 to-emerald-600 hover:from-brand-500 hover:to-emerald-500 text-white font-bold rounded-xl text-xs transition shadow-md flex items-center justify-center gap-2">
+            <i class="fa-solid fa-magnifying-glass"></i> Fazer Varredura de Preços & Estoque Agora
+          </button>
         </div>
 
         <div class="p-4 bg-brand-500/10 border border-brand-500/30 rounded-2xl space-y-3">
@@ -363,15 +360,15 @@
 
           <div class="p-3 bg-slate-800/80 rounded-xl border border-brand-500/30 space-y-2">
             <label class="block text-xs font-bold text-brand-400 flex items-center gap-1.5">
-              <i class="fa-solid fa-wand-magic-sparkles"></i> Importar Rápido via Link (Puxa Fotos, Título, Descrição e Preço)
+              <i class="fa-solid fa-wand-magic-sparkles"></i> Importar Rápido via Link da Sua Consultoria
             </label>
             <div class="flex gap-2">
-              <input type="url" id="auto-import-link" placeholder="Cole o link do produto aqui..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-slate-100 focus:outline-none focus:border-brand-500">
+              <input type="url" id="auto-import-link" placeholder="Cole o link do seu produto aqui..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-slate-100 focus:outline-none focus:border-brand-500">
               <button type="button" id="btn-fetch-link" onclick="fetchProductFromLink()" class="px-3 py-1.5 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs font-bold transition flex-shrink-0 flex items-center gap-1">
                 <i class="fa-solid fa-download"></i> Puxar
               </button>
             </div>
-            <p class="text-[10px] text-slate-400">Clique no X vermelho de qualquer imagem abaixo para removê-la antes de salvar!</p>
+            <p class="text-[10px] text-slate-400">Puxa o nome, descrição, preço e fotos diretamente da página do seu link.</p>
           </div>
 
           <form id="form-product" class="space-y-4">
@@ -443,7 +440,7 @@
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label class="block text-xs font-semibold text-slate-300 mb-1">Link do Produto (Afiliado / Loja)</label>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Link do Produto (Consultoria)</label>
                 <input type="url" id="product-link" placeholder="https://..." class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
               </div>
               <div>
@@ -529,7 +526,7 @@
       <h2 class="text-base font-bold text-white mb-4 flex items-center gap-2">
         <i class="fa-solid fa-list-check text-brand-500"></i> Gerenciar Produtos Cadastrados
       </h2>
-      <p class="text-xs text-slate-400 mb-4">Aqui você pode atualizar o estoque/uso, copiar legenda pronta de divulgação, editar ou excluir seus produtos com total segurança.</p>
+      <p class="text-xs text-slate-400 mb-4">Aqui você pode atualizar o estoque/uso, copiar legenda pronta, editar ou excluir seus produtos com total segurança.</p>
 
       <div id="admin-products-list" class="space-y-3"></div>
     </div>
@@ -637,8 +634,7 @@
       title: "Meu Catálogo Digital",
       bio: "Confira nossos produtos e cupons de desconto abaixo.",
       cover: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&q=80",
-      logo: "https://via.placeholder.com/150?text=LOGO",
-      storeConsultantUrl: ""
+      logo: "https://via.placeholder.com/150?text=LOGO"
     };
     let currentFetchedImages = [];
 
@@ -743,7 +739,7 @@
       });
     };
 
-    // LEGENDA PROFISSIONAL, ENXUTA E COM LINK DA FOTO PARA STATUS / TIKTOK / INSTAGRAM
+    // LEGENDA PROFISSIONAL PARA STATUS / TIKTOK / INSTAGRAM COM FOTO E LINK
     window.copyPostMessage = (prodId) => {
       const prod = productsList.find(p => p.id === prodId);
       if (!prod) return;
@@ -898,20 +894,14 @@ ${catUrl}`;
       }
     };
 
+    // VARREDURA DA LOJA USANDO OS LINKS ESPECÍFICOS DE CADA PRODUTO CADASTRADO
     window.runStoreScan = async () => {
-      const storeUrlInput = document.getElementById('store-consultant-link').value.trim();
-      if (storeUrlInput) {
-        try {
-          await setDoc(doc(db, 'settings', 'profile'), { storeConsultantUrl: storeUrlInput }, { merge: true });
-        } catch(e) {}
-      }
-
       if (productsList.length === 0) {
         showToast("Nenhum produto cadastrado para fazer varredura.", "error");
         return;
       }
 
-      showToast("Iniciando varredura na sua loja...", "success");
+      showToast("Iniciando varredura nos links cadastrados...", "success");
 
       const scanResultsContainer = document.getElementById('scan-results-list');
       scanResultsContainer.innerHTML = `<div class="text-center py-6 text-xs text-slate-400 font-semibold"><i class="fa-solid fa-spinner fa-spin mr-2"></i>Analisando ${productsList.length} produto(s)...</div>`;
@@ -954,10 +944,10 @@ ${catUrl}`;
               <div class="bg-red-500/10 border border-red-500/30 p-3 rounded-xl flex items-center justify-between gap-2">
                 <div>
                   <h4 class="text-xs font-bold text-red-300">${prod.name}</h4>
-                  <span class="text-[10px] text-red-400 font-semibold">❌ Fora de Estoque / Indisponível na Loja</span>
+                  <span class="text-[10px] text-red-400 font-semibold">❌ Fora de Estoque / Indisponível no seu link</span>
                 </div>
                 <button onclick="deleteProduct('${prod.id}')" class="px-2.5 py-1 bg-red-600 hover:bg-red-500 text-white text-xs font-bold rounded-lg shadow">
-                  Excluir do Catálogo
+                  Excluir
                 </button>
               </div>
             `;
@@ -967,7 +957,7 @@ ${catUrl}`;
               <div class="bg-amber-500/10 border border-amber-500/30 p-3 rounded-xl flex items-center justify-between gap-2">
                 <div>
                   <h4 class="text-xs font-bold text-amber-300">${prod.name}</h4>
-                  <span class="text-[10px] text-amber-400">Preço Atual: R$ ${currentPrice.toFixed(2)} | Novo Valor: <strong>R$ ${fetchedPrice.toFixed(2)}</strong></span>
+                  <span class="text-[10px] text-amber-400">Preço Catálogo: R$ ${currentPrice.toFixed(2)} | Preço Loja: <strong>R$ ${fetchedPrice.toFixed(2)}</strong></span>
                 </div>
                 <button onclick="updateProductPriceScan('${prod.id}', ${fetchedPrice})" class="px-2.5 py-1 bg-amber-600 hover:bg-amber-500 text-slate-950 font-black text-xs rounded-lg shadow">
                   Atualizar Preço
@@ -984,7 +974,7 @@ ${catUrl}`;
         scanResultsContainer.innerHTML = `
           <div class="text-center py-6 text-xs text-brand-400 font-bold bg-brand-500/10 rounded-xl border border-brand-500/20">
             <i class="fa-solid fa-circle-check text-lg mb-1 block"></i>
-            Tudo certo! Todos os produtos estão com estoque ativo e preços sincronizados com sua loja!
+            Tudo certo! Todos os produtos estão com estoque ativo e preços sincronizados com seus links!
           </div>
         `;
       } else {
@@ -1032,7 +1022,7 @@ ${catUrl}`;
       showToast("Imagem removida da lista.");
     };
 
-    // EXTRAÇÃO DIRETA DO LINK DA SUA CONSULTORIA
+    // RESTAURADO: FUNÇÃO ORIGINAL DE PUXAR PELO LINK DA SUA CONSULTORIA (COM MICROLINK ESTÁVEL)
     window.fetchProductFromLink = async () => {
       const urlInput = document.getElementById('auto-import-link').value.trim();
       if (!urlInput) {
@@ -1040,100 +1030,82 @@ ${catUrl}`;
         return;
       }
 
-      showToast("Lendo dados e preço do seu link...", "success");
+      showToast("Buscando dados e fotos do seu link...", "success");
 
       try {
-        currentFetchedImages = [];
-        let fetchedSuccessfully = false;
+        const microlinkUrl = `https://api.microlink.io/?url=${encodeURIComponent(urlInput)}`;
+        const response = await fetch(microlinkUrl);
+        const json = await response.json();
 
-        // Faz a leitura direta do link exato colado (ex: sua consultoria)
-        const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(urlInput)}`;
-        const res = await fetch(proxyUrl);
-        const dataJson = await res.json();
-        
-        if (dataJson.contents) {
-          const parser = new DOMParser();
-          const docHtml = parser.parseFromString(dataJson.contents, 'text/html');
-          
-          // Nome do produto direto da página exata
-          const ogTitle = docHtml.querySelector('meta[property="og:title"]');
-          if (ogTitle) {
-            const cleanTitle = ogTitle.getAttribute('content').split('|')[0].split('- Natura')[0].trim();
+        currentFetchedImages = [];
+
+        if (json.status === 'success' && json.data) {
+          const data = json.data;
+
+          if (data.title) {
+            const cleanTitle = data.title.split('|')[0].split('- Natura')[0].trim();
             document.getElementById('product-name').value = cleanTitle;
           }
 
-          // Descrição do produto
-          const ogDesc = docHtml.querySelector('meta[property="og:description"]');
-          if (ogDesc) {
-            document.getElementById('product-description').value = ogDesc.getAttribute('content');
-          }
-
-          // Preço exato do produto na página da sua consultoria
-          const htmlText = docHtml.body ? docHtml.body.innerText : '';
-          const priceMatchHtml = htmlText.match(/R\$\s*([\d\.,]+)/i);
-          if (priceMatchHtml) {
-            const rawPrice = priceMatchHtml[1].replace('.', '').replace(',', '.');
-            const numericPrice = parseFloat(rawPrice);
-            if (!isNaN(numericPrice) && numericPrice > 0) {
-              document.getElementById('product-price').value = numericPrice.toFixed(2);
-            }
-          }
-
-          // Fotos oficiais do produto no link exato
-          const allImages = docHtml.querySelectorAll('meta[property="og:image"], meta[name="twitter:image"], img');
-          allImages.forEach(tag => {
-            const url = tag.getAttribute('content') || tag.getAttribute('src');
-            if (url && url.startsWith('http')) {
-              const lowerUrl = url.toLowerCase();
-              const isLogoOrIcon = lowerUrl.includes('logo') || lowerUrl.includes('icon') || lowerUrl.includes('avatar') || lowerUrl.includes('banner');
-              if (!isLogoOrIcon && !currentFetchedImages.includes(url) && currentFetchedImages.length < 4) {
-                currentFetchedImages.push(url);
+          if (data.description) {
+            document.getElementById('product-description').value = data.description;
+            
+            // Tenta extrair o preço automaticamente se estiver na descrição/metadado da página
+            const priceMatch = data.description.match(/R\$\s*([\d\.,]+)/i);
+            if (priceMatch) {
+              const rawPrice = priceMatch[1].replace('.', '').replace(',', '.');
+              const numericPrice = parseFloat(rawPrice);
+              if (!isNaN(numericPrice) && numericPrice > 0) {
+                document.getElementById('product-price').value = numericPrice.toFixed(2);
               }
             }
-          });
-          fetchedSuccessfully = true;
+          }
+
+          if (data.image && data.image.url) {
+            const imgUrl = data.image.url;
+            if (!imgUrl.toLowerCase().includes('logo') && !imgUrl.toLowerCase().includes('icon')) {
+              currentFetchedImages.push(imgUrl);
+            }
+          }
         }
 
-        // Fallback de segurança via Microlink caso o proxy principal precise de apoio
-        if (currentFetchedImages.length === 0 || !document.getElementById('product-price').value) {
-          try {
-            const microlinkUrl = `https://api.microlink.io/?url=${encodeURIComponent(urlInput)}`;
-            const response = await fetch(microlinkUrl);
-            const json = await response.json();
-            if (json.status === 'success' && json.data) {
-              const data = json.data;
-              if (!document.getElementById('product-name').value && data.title) {
-                document.getElementById('product-name').value = data.title.split('|')[0].split('- Natura')[0].trim();
-              }
-              if (!document.getElementById('product-price').value && data.description) {
-                const priceMatch = data.description.match(/R\$\s*([\d\.,]+)/i);
-                if (priceMatch) {
-                  const rawPrice = priceMatch[1].replace('.', '').replace(',', '.');
-                  const numericPrice = parseFloat(rawPrice);
-                  if (!isNaN(numericPrice)) document.getElementById('product-price').value = numericPrice.toFixed(2);
+        // Busca complementar de fotos adicionais no link exato
+        try {
+          const fallbackUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(urlInput)}`;
+          const res = await fetch(fallbackUrl);
+          const dataJson = await res.json();
+          if (dataJson.contents) {
+            const parser = new DOMParser();
+            const docHtml = parser.parseFromString(dataJson.contents, 'text/html');
+            
+            const allImages = docHtml.querySelectorAll('meta[property="og:image"], meta[name="twitter:image"], img');
+            allImages.forEach(tag => {
+              const url = tag.getAttribute('content') || tag.getAttribute('src');
+              if (url && url.startsWith('http')) {
+                const lowerUrl = url.toLowerCase();
+                const isLogoOrIcon = lowerUrl.includes('logo') || lowerUrl.includes('icon') || lowerUrl.includes('avatar') || lowerUrl.includes('banner') || lowerUrl.includes('social');
+                const isProductPhoto = lowerUrl.includes('product') || lowerUrl.includes('natura') || lowerUrl.includes('p/') || lowerUrl.includes('zoom') || lowerUrl.includes('large');
+
+                if (!isLogoOrIcon && isProductPhoto && !currentFetchedImages.includes(url) && currentFetchedImages.length < 4) {
+                  currentFetchedImages.push(url);
                 }
               }
-              if (data.image && data.image.url && !currentFetchedImages.includes(data.image.url)) {
-                currentFetchedImages.push(data.image.url);
-              }
-            }
-          } catch(e) {}
+            });
+          }
+        } catch (e) {
+          console.warn("Aviso na busca complementar de imagens.", e);
         }
 
         renderPreviewGallery();
+        showToast(`${currentFetchedImages.length} foto(s) carregada(s) do seu link!`);
+
         document.getElementById('product-link').value = urlInput;
         document.getElementById('product-code').value = "CLIENTEVIP";
         document.getElementById('product-discount-percent').value = "10";
 
-        if (currentFetchedImages.length > 0 || document.getElementById('product-price').value) {
-          showToast(`Dados e ${currentFetchedImages.length} foto(s) capturados da sua loja!`);
-        } else {
-          showToast("Link lido. Preencha os campos caso faltem informações.", "success");
-        }
-
       } catch (err) {
         console.error("Erro na extração:", err);
-        showToast("Preencha as informações manualmente.", "error");
+        showToast("O site bloqueou a extração. Preencha manualmente.", "error");
       }
     };
 
@@ -1190,9 +1162,6 @@ ${catUrl}`;
         
         document.getElementById('profile-title').value = profileData.title || "";
         document.getElementById('profile-bio').value = profileData.bio || "";
-        if (document.getElementById('store-consultant-link')) {
-          document.getElementById('store-consultant-link').value = profileData.storeConsultantUrl || "";
-        }
       } else {
         panelUnlogged.classList.remove('hidden');
         panelLogged.classList.add('hidden');
@@ -1502,7 +1471,7 @@ ${catUrl}`;
             </div>
           </div>
           <div class="flex items-center gap-1 flex-shrink-0">
-            <button onclick="copyPostMessage('${prod.id}')" class="px-2 py-1 bg-brand-600/20 hover:bg-brand-600/30 text-brand-300 rounded-lg text-xs font-medium border border-brand-500/30" title="Copiar Legenda Profissional p/ Status/TikTok">
+            <button onclick="copyPostMessage('${prod.id}')" class="px-2 py-1 bg-brand-600/20 hover:bg-brand-600/30 text-brand-300 rounded-lg text-xs font-medium border border-brand-500/30" title="Copiar Legenda Profissional">
               <i class="fa-solid fa-copy"></i>
             </button>
             <button onclick="openQuickUseModal('${prod.id}')" class="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-medium border border-slate-700" title="Atualizar Uso">
@@ -1557,7 +1526,6 @@ ${catUrl}`;
       e.preventDefault();
       const title = document.getElementById('profile-title').value;
       const bio = document.getElementById('profile-bio').value;
-      const storeUrl = document.getElementById('store-consultant-link') ? document.getElementById('store-consultant-link').value : profileData.storeConsultantUrl;
       const coverFile = document.getElementById('profile-cover-file').files[0];
       const logoFile = document.getElementById('profile-logo-file').files[0];
 
@@ -1569,7 +1537,7 @@ ${catUrl}`;
 
       try {
         await setDoc(doc(db, 'settings', 'profile'), {
-          title, bio, storeConsultantUrl: storeUrl, cover: newCover, logo: newLogo, updatedAt: new Date().toISOString()
+          title, bio, cover: newCover, logo: newLogo, updatedAt: new Date().toISOString()
         }, { merge: true });
         showToast("Perfil atualizado!");
       } catch (err) {
@@ -1621,7 +1589,7 @@ ${catUrl}`;
       renderPreviewGallery();
 
       document.getElementById('form-prod-title').innerHTML = `<i class="fa-solid fa-pen-to-square text-brand-500"></i> Editando Produto`;
-      document.getElementById('btn-cancel-prod-edit').classList.remove('hidden');
+      document.getElementById('btn-cancel-prod-edit').classList.add('hidden'); // Ajustado para não esconder botão errado
     };
 
     document.getElementById('form-product').onsubmit = async (e) => {
