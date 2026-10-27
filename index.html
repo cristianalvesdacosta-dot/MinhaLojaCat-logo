@@ -271,7 +271,7 @@
             <i class="fa-solid fa-lock"></i>
           </div>
           <h2 id="auth-modal-title" class="text-xl font-bold text-white">Entrar no Painel</h2>
-          <p class="text-xs text-slate-400 mt-1">Acesso restrito para o administrador da loja.</p>
+          <p class="text-xs text-slate-400 mt-1">Acesse com e-mail e senha ou crie sua conta para gerenciar seu catálogo.</p>
         </div>
 
         <form id="form-auth" class="space-y-4">
@@ -289,6 +289,13 @@
             Entrar no Painel
           </button>
         </form>
+
+        <div class="mt-4 pt-4 border-t border-slate-700/60 text-center">
+          <p class="text-xs text-slate-400" id="auth-toggle-text">
+            Não tem usuário e senha? 
+            <button id="btn-toggle-auth-mode" type="button" class="text-brand-400 font-semibold hover:underline">Criar conta agora</button>
+          </p>
+        </div>
       </div>
 
       <div id="panel-logged" class="hidden space-y-6">
@@ -332,7 +339,7 @@
 
           <div class="p-3 bg-slate-800/80 rounded-xl border border-brand-500/30 space-y-2">
             <label class="block text-xs font-bold text-brand-400 flex items-center gap-1.5">
-              <i class="fa-solid fa-wand-magic-sparkles"></i> Importar Rápido via Link Exato da Loja
+              <i class="fa-solid fa-wand-magic-sparkles"></i> Importar Rápido via Link (Puxa Múltiplas Fotos)
             </label>
             <div class="flex gap-2">
               <input type="url" id="auto-import-link" placeholder="Cole o link do produto aqui..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-slate-100 focus:outline-none focus:border-brand-500">
@@ -340,7 +347,7 @@
                 <i class="fa-solid fa-download"></i> Puxar
               </button>
             </div>
-            <p class="text-[10px] text-slate-400">Puxa o título, descrição e fotos oficiais do link informado.</p>
+            <p class="text-[10px] text-slate-400">Clique no X vermelho de qualquer imagem abaixo para removê-la antes de salvar!</p>
           </div>
 
           <form id="form-product" class="space-y-4">
@@ -412,7 +419,7 @@
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label class="block text-xs font-semibold text-slate-300 mb-1">Link do Produto (Loja)</label>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Link do Produto (Afiliado / Loja)</label>
                 <input type="url" id="product-link" placeholder="https://..." class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
               </div>
               <div>
@@ -498,7 +505,7 @@
       <h2 class="text-base font-bold text-white mb-4 flex items-center gap-2">
         <i class="fa-solid fa-list-check text-brand-500"></i> Gerenciar Produtos Cadastrados
       </h2>
-      <p class="text-xs text-slate-400 mb-4">Aqui você pode atualizar o estoque/uso, copiar legenda pronta, editar ou excluir seus produtos com total segurança.</p>
+      <p class="text-xs text-slate-400 mb-4">Aqui você pode atualizar o estoque/uso, editar ou excluir seus produtos com total segurança.</p>
 
       <div id="admin-products-list" class="space-y-3"></div>
     </div>
@@ -566,6 +573,7 @@
     import { 
       getAuth, 
       signInWithEmailAndPassword,
+      createUserWithEmailAndPassword,
       signOut,
       onAuthStateChanged 
     } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -608,6 +616,7 @@
       cover: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&q=80",
       logo: "https://via.placeholder.com/150?text=LOGO"
     };
+    let isAuthModeLogin = true;
     let currentFetchedImages = [];
 
     let redirectTimer = null;
@@ -711,46 +720,8 @@
       });
     };
 
-    window.copyPostMessage = (prodId) => {
-      const prod = productsList.find(p => p.id === prodId);
-      if (!prod) return;
-
-      const origPrice = Number(prod.price) || 0;
-      const disc = Number(prod.discountPercent) || 0;
-      const finalPrice = disc > 0 ? (origPrice - (origPrice * (disc / 100))).toFixed(2).replace('.', ',') : origPrice.toFixed(2).replace('.', ',');
-      const couponCode = prod.code || "CLIENTEVIP";
-      const catUrl = window.location.href;
-      
-      let prodImages = [];
-      if (Array.isArray(prod.images) && prod.images.length > 0) prodImages = prod.images;
-      else if (prod.image) prodImages = [prod.image];
-      const mainPhoto = prodImages.length > 0 ? prodImages[0] : "";
-
-      const promoMessage = `🔥 *OFERTA IMPERDÍVEL!* 🔥
-
-📦 *${prod.name}*
-${disc > 0 ? `💰 De R$ ${origPrice.toFixed(2).replace('.', ',')} por *R$ ${finalPrice}* (-${disc}% OFF)` : `💰 Apenas R$ ${origPrice.toFixed(2).replace('.', ',')}`}
-🎟️ Cupom: *${couponCode}*
-
-${mainPhoto ? `📸 *Foto Oficial:* ${mainPhoto}\n` : ''}
-👉 *Peça já o seu no catálogo:*
-${catUrl}`;
-
-      navigator.clipboard.writeText(promoMessage).then(() => {
-        showToast("Legenda profissional copiada com foto e link!");
-      }).catch(err => {
-        showToast("Erro ao copiar legenda.", "error");
-      });
-    };
-
-    window.openProductAndCopyCoupon = async (productUrl, couponCode, prodId) => {
+    window.openProductAndCopyCoupon = (productUrl, couponCode) => {
       const couponToCopy = couponCode || "CLIENTEVIP";
-
-      if (prodId) {
-        try {
-          await updateDoc(doc(db, 'products', prodId), { clicksCount: increment(1) });
-        } catch(e) { console.warn("Erro ao contar clique:", e); }
-      }
 
       navigator.clipboard.writeText(couponToCopy).catch(err => {
         console.warn("Aviso na cópia:", err);
@@ -895,7 +866,7 @@ ${catUrl}`;
       showToast("Imagem removida da lista.");
     };
 
-    // FUNÇÃO ROBUSTA RESTAURADA PARA PUXAR DADOS EXATOS DO LINK DA CONSULTORIA
+    // FUNÇÃO DE PUXAR VIA LINK ESTÁVEL (MICROLINK) COM SUPORTE A MÚLTIPLAS FOTOS
     window.fetchProductFromLink = async () => {
       const urlInput = document.getElementById('auto-import-link').value.trim();
       if (!urlInput) {
@@ -903,15 +874,14 @@ ${catUrl}`;
         return;
       }
 
-      showToast("Lendo informações do produto no link...", "success");
+      showToast("Buscando dados e fotos...", "success");
 
       try {
-        currentFetchedImages = [];
-
-        // Utiliza múltiplos serviços públicos de metadados para garantir leitura 100% garantida do link exato
         const microlinkUrl = `https://api.microlink.io/?url=${encodeURIComponent(urlInput)}`;
         const response = await fetch(microlinkUrl);
         const json = await response.json();
+
+        currentFetchedImages = [];
 
         if (json.status === 'success' && json.data) {
           const data = json.data;
@@ -925,18 +895,19 @@ ${catUrl}`;
             document.getElementById('product-description').value = data.description;
           }
 
+          // Pega a imagem principal do Microlink
           if (data.image && data.image.url) {
             const imgUrl = data.image.url;
-            if (!currentFetchedImages.includes(imgUrl)) {
+            if (!imgUrl.toLowerCase().includes('logo') && !imgUrl.toLowerCase().includes('icon')) {
               currentFetchedImages.push(imgUrl);
             }
           }
         }
 
-        // Leitura complementar de imagens direto do HTML do link da sua loja via proxy seguro
+        // Tenta buscar fotos adicionais se disponíveis no metadado da página
         try {
-          const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(urlInput)}`;
-          const res = await fetch(proxyUrl);
+          const fallbackUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(urlInput)}`;
+          const res = await fetch(fallbackUrl);
           const dataJson = await res.json();
           if (dataJson.contents) {
             const parser = new DOMParser();
@@ -947,25 +918,29 @@ ${catUrl}`;
               const url = tag.getAttribute('content') || tag.getAttribute('src');
               if (url && url.startsWith('http')) {
                 const lowerUrl = url.toLowerCase();
-                const isLogoOrIcon = lowerUrl.includes('logo') || lowerUrl.includes('icon') || lowerUrl.includes('avatar') || lowerUrl.includes('banner');
-                if (!isLogoOrIcon && !currentFetchedImages.includes(url) && currentFetchedImages.length < 4) {
+                const isLogoOrIcon = lowerUrl.includes('logo') || lowerUrl.includes('icon') || lowerUrl.includes('avatar') || lowerUrl.includes('banner') || lowerUrl.includes('social');
+                const isProductPhoto = lowerUrl.includes('product') || lowerUrl.includes('natura') || lowerUrl.includes('p/') || lowerUrl.includes('zoom') || lowerUrl.includes('large');
+
+                if (!isLogoOrIcon && isProductPhoto && !currentFetchedImages.includes(url) && currentFetchedImages.length < 4) {
                   currentFetchedImages.push(url);
                 }
               }
             });
           }
-        } catch(e) {}
+        } catch (e) {
+          console.warn("Aviso na busca complementar de imagens.", e);
+        }
 
         renderPreviewGallery();
+        showToast(`${currentFetchedImages.length} foto(s) carregada(s) com sucesso!`);
+
         document.getElementById('product-link').value = urlInput;
         document.getElementById('product-code').value = "CLIENTEVIP";
         document.getElementById('product-discount-percent').value = "10";
 
-        showToast(`Dados e ${currentFetchedImages.length} foto(s) puxados com sucesso!`);
-
       } catch (err) {
-        console.error("Erro ao puxar:", err);
-        showToast("Erro ao ler o link. Preencha os dados manualmente.", "error");
+        console.error("Erro na extração:", err);
+        showToast("O site bloqueou a extração. Preencha manualmente.", "error");
       }
     };
 
@@ -1302,7 +1277,7 @@ ${catUrl}`;
 
             <div class="p-4 pt-0">
               ${prod.link ? `
-                <button type="button" onclick="openProductAndCopyCoupon('${prod.link}', '${couponCode}', '${prod.id}')" class="w-full py-2 px-3 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-medium flex items-center justify-center gap-2 border border-slate-700 transition cursor-pointer">
+                <button type="button" onclick="openProductAndCopyCoupon('${prod.link}', '${couponCode}')" class="w-full py-2 px-3 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-medium flex items-center justify-center gap-2 border border-slate-700 transition cursor-pointer">
                   <i class="fa-solid fa-arrow-up-right-from-square text-brand-400"></i> Ver Link do Produto
                 </button>
               ` : ''}
@@ -1325,22 +1300,16 @@ ${catUrl}`;
         <div class="bg-slate-900 p-3 rounded-xl border border-slate-700 flex items-center justify-between gap-2">
           <div class="truncate">
             <h4 class="text-xs font-bold text-white truncate">${prod.name}</h4>
-            <div class="flex items-center gap-2 text-[10px] text-slate-400 mt-0.5">
-              <span>Usados: ${prod.usedCount || 0}/${prod.totalUses || 30}</span>
-              <span class="text-emerald-400"><i class="fa-solid fa-mouse-pointer mr-0.5"></i>${prod.clicksCount || 0} cliques</span>
-            </div>
+            <span class="text-[10px] text-slate-400">Usados: ${prod.usedCount || 0} / Total: ${prod.totalUses || 30}</span>
           </div>
           <div class="flex items-center gap-1 flex-shrink-0">
-            <button onclick="copyPostMessage('${prod.id}')" class="px-2 py-1 bg-brand-600/20 hover:bg-brand-600/30 text-brand-300 rounded-lg text-xs font-medium border border-brand-500/30" title="Copiar Legenda Profissional">
-              <i class="fa-solid fa-copy"></i>
-            </button>
-            <button onclick="openQuickUseModal('${prod.id}')" class="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-medium border border-slate-700" title="Atualizar Uso">
+            <button onclick="openQuickUseModal('${prod.id}')" class="px-2.5 py-1 bg-brand-600/20 hover:bg-brand-600/30 text-brand-300 rounded-lg text-xs font-medium border border-brand-500/30" title="Atualizar Uso">
               <i class="fa-solid fa-pen-to-square"></i>
             </button>
-            <button onclick="openEditProductModal('${prod.id}')" class="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-medium border border-slate-700" title="Editar">
+            <button onclick="openEditProductModal('${prod.id}')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-medium border border-slate-700" title="Editar">
               <i class="fa-solid fa-gear"></i>
             </button>
-            <button onclick="deleteProduct('${prod.id}')" class="px-2 py-1 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-lg text-xs font-medium border border-red-500/20" title="Excluir">
+            <button onclick="deleteProduct('${prod.id}')" class="px-2.5 py-1 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-lg text-xs font-medium border border-red-500/20" title="Excluir">
               <i class="fa-solid fa-trash"></i>
             </button>
           </div>
@@ -1360,16 +1329,45 @@ ${catUrl}`;
       document.getElementById('modal-auth').classList.remove('hidden');
     };
 
+    function attachToggleAuthListener() {
+      const toggleBtn = document.getElementById('btn-toggle-auth-mode');
+      if (toggleBtn) {
+        toggleBtn.onclick = () => {
+          isAuthModeLogin = !isAuthModeLogin;
+          const title = document.getElementById('auth-modal-title');
+          const submitBtn = document.getElementById('btn-auth-submit');
+          const toggleText = document.getElementById('auth-toggle-text');
+
+          if (isAuthModeLogin) {
+            title.innerText = "Entrar no Painel";
+            submitBtn.innerText = "Entrar no Painel";
+            toggleText.innerHTML = `Não tem usuário e senha? <button id="btn-toggle-auth-mode" type="button" class="text-brand-400 font-semibold hover:underline">Criar conta agora</button>`;
+          } else {
+            title.innerText = "Criar Usuário e Senha";
+            submitBtn.innerText = "Cadastrar e Entrar";
+            toggleText.innerHTML = `Já possui usuário e senha? <button id="btn-toggle-auth-mode" type="button" class="text-brand-400 font-semibold hover:underline">Fazer Login</button>`;
+          }
+          attachToggleAuthListener();
+        };
+      }
+    }
+    attachToggleAuthListener();
+
     document.getElementById('form-auth').onsubmit = async (e) => {
       e.preventDefault();
       const email = document.getElementById('auth-email').value;
       const password = document.getElementById('auth-password').value;
 
       try {
-        await signInWithEmailAndPassword(auth, email, password);
-        showToast("Login realizado!");
+        if (isAuthModeLogin) {
+          await signInWithEmailAndPassword(auth, email, password);
+          showToast("Login realizado!");
+        } else {
+          await createUserWithEmailAndPassword(auth, email, password);
+          showToast("Usuário criado e ativado!");
+        }
       } catch (err) {
-        showToast("Erro: E-mail ou senha incorretos.", "error");
+        showToast("Erro: " + err.message, "error");
       }
     };
 
@@ -1495,7 +1493,6 @@ ${catUrl}`;
             name, category, isFeatured, price, discountPercent, description, link, code, validityDays, totalUses, usedCount,
             images: newImages,
             image: newImages[0] || "",
-            clicksCount: 0,
             createdAt: new Date().toISOString()
           });
           showToast("Produto cadastrado com sucesso!");
