@@ -308,7 +308,7 @@
     <p>© Catálogo Digital. Todos os direitos reservados.</p>
   </footer>
 
-  <!-- MODAL DE LOGIN (COM O SEU E-MAIL CORRETO) -->
+  <!-- MODAL DE LOGIN -->
   <div id="modal-auth" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm hidden">
     <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-lg w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
       <button class="btn-close-modal absolute top-4 right-4 text-slate-400 hover:text-white text-lg">
@@ -824,10 +824,13 @@
       document.getElementById('modal-timer-redirect').classList.add('hidden');
     };
 
-    // GERADOR DE ARTE MARKETING EM CANVAS (STATUS / STORIES)
+    // GERADOR DE ARTE MARKETING EM CANVAS (STATUS / STORIES) - CORRIGIDO E GLOBAL
     window.openInstagramPostModal = async (prodId) => {
       const prod = productsList.find(p => p.id === prodId);
-      if (!prod) return;
+      if (!prod) {
+        showToast("Produto não encontrado.", "error");
+        return;
+      }
 
       const originalPrice = prod.price ? Number(prod.price) : 0;
       const discount = Number(prod.discountPercent) || 0;
@@ -842,7 +845,6 @@
       const couponCode = prod.code || "CLIENTEVIP";
       const productLink = prod.link || window.location.href;
 
-      // Monta texto da legenda para copiar
       const statusText = `🔥 *OFERTA IMPERDÍVEL!* 🔥\n\n` +
         `📦 *${prod.name}*\n\n` +
         (discount > 0 ? `💰 De R$ ${originalPrice.toFixed(2).replace('.', ',')} por apenas *R$ ${finalPrice}* (${discount}% OFF)\n` : `💰 Apenas: *R$ ${finalPrice}*\n`) +
@@ -853,11 +855,9 @@
       document.getElementById('ig-post-caption').value = statusText;
       document.getElementById('modal-instagram-post').classList.remove('hidden');
 
-      // Desenha a arte de Marketing no Canvas (1080x1920 - Padrão Story/Status)
       const canvas = document.getElementById('marketing-canvas');
       const ctx = canvas.getContext('2d');
 
-      // 1. Fundo Gradiente Elegante
       const bgGrad = ctx.createLinearGradient(0, 0, 0, 1920);
       bgGrad.addColorStop(0, '#0f172a');
       bgGrad.addColorStop(0.5, '#1e293b');
@@ -865,7 +865,6 @@
       ctx.fillStyle = bgGrad;
       ctx.fillRect(0, 0, 1080, 1920);
 
-      // 2. Faixa Superior (Badge Oferta)
       ctx.fillStyle = '#16a34a';
       ctx.roundRect(140, 120, 800, 100, 50);
       ctx.fill();
@@ -874,7 +873,6 @@
       ctx.textAlign = 'center';
       ctx.fillText('⚡ OFERTA EXCLUSIVA NATURA', 540, 185);
 
-      // 3. Caixa Central da Foto do Produto
       ctx.fillStyle = '#1e293b';
       ctx.roundRect(100, 280, 880, 880, 40);
       ctx.fill();
@@ -882,7 +880,6 @@
       ctx.strokeStyle = '#334155';
       ctx.stroke();
 
-      // Carregar e desenhar a foto do produto
       const img = new Image();
       img.crossOrigin = "anonymous";
       img.src = mainImgUrl;
@@ -904,13 +901,11 @@
     };
 
     function finishCanvasDrawing(ctx, canvas, prod, originalPrice, finalPrice, discount, couponCode) {
-      // 4. Nome do Produto
       ctx.fillStyle = '#ffffff';
       ctx.font = 'bold 50px Inter, sans-serif';
       ctx.textAlign = 'center';
       wrapText(ctx, prod.name, 540, 1240, 880, 65);
 
-      // 5. Preços
       if (originalPrice > 0) {
         if (discount > 0) {
           ctx.fillStyle = '#94a3b8';
@@ -934,7 +929,6 @@
         }
       }
 
-      // 6. Caixa do Cupom
       ctx.fillStyle = '#0f172a';
       ctx.roundRect(140, 1620, 800, 120, 30);
       ctx.fill();
@@ -950,12 +944,10 @@
       ctx.font = 'bold 45px Inter, sans-serif';
       ctx.fillText(couponCode, 540, 1718);
 
-      // 7. Rodapé
       ctx.fillStyle = '#64748b';
       ctx.font = '24px Inter, sans-serif';
       ctx.fillText('Peça o seu link no WhatsApp ou Catálogo Online', 540, 1830);
 
-      // Transforma o Canvas em URL de Imagem PNG e joga no Preview
       const dataUrl = canvas.toDataURL('image/png');
       document.getElementById('ig-preview-img').src = dataUrl;
       document.getElementById('ig-download-img-btn').href = dataUrl;
@@ -1582,7 +1574,7 @@
                   <i class="fa-solid fa-arrow-up-right-from-square text-brand-400"></i> Ver Link
                 </button>
               ` : ''}
-              <button type="button" onclick="openInstagramPostModal('${prod.id}')" class="py-2 px-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 shadow transition" title="Gerar Arte para Status / Story">
+              <button type="button" onclick="openInstagramPostModal('${prod.id}')" class="py-2 px-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 shadow transition cursor-pointer" title="Gerar Arte para Status / Story">
                 <i class="fa-solid fa-wand-magic-sparkles text-sm"></i> Status / Story
               </button>
             </div>
@@ -1617,16 +1609,16 @@
             </div>
             
             <div class="flex items-center justify-end gap-1.5 pt-1 border-t border-slate-800">
-              <button onclick="openInstagramPostModal('${prod.id}')" class="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-semibold flex items-center gap-1" title="Gerar Arte Status">
+              <button type="button" onclick="openInstagramPostModal('${prod.id}')" class="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-semibold flex items-center gap-1 cursor-pointer" title="Gerar Arte Status">
                 <i class="fa-solid fa-wand-magic-sparkles"></i> Status
               </button>
-              <button onclick="openQuickUseModal('${prod.id}')" class="px-2.5 py-1 bg-brand-600/20 hover:bg-brand-600/30 text-brand-300 rounded-lg text-xs font-medium border border-brand-500/30" title="Atualizar Uso">
+              <button type="button" onclick="openQuickUseModal('${prod.id}')" class="px-2.5 py-1 bg-brand-600/20 hover:bg-brand-600/30 text-brand-300 rounded-lg text-xs font-medium border border-brand-500/30 cursor-pointer" title="Atualizar Uso">
                 <i class="fa-solid fa-pen-to-square"></i>
               </button>
-              <button onclick="openEditProductModal('${prod.id}')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-medium border border-slate-700" title="Editar">
+              <button type="button" onclick="openEditProductModal('${prod.id}')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-medium border border-slate-700 cursor-pointer" title="Editar">
                 <i class="fa-solid fa-gear"></i>
               </button>
-              <button onclick="deleteProduct('${prod.id}')" class="px-2.5 py-1 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-lg text-xs font-medium border border-red-500/20" title="Excluir">
+              <button type="button" onclick="deleteProduct('${prod.id}')" class="px-2.5 py-1 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-lg text-xs font-medium border border-red-500/20 cursor-pointer" title="Excluir">
                 <i class="fa-solid fa-trash"></i>
               </button>
             </div>
@@ -1845,7 +1837,7 @@
       const manageDiv = document.createElement('div');
       manageDiv.className = "pt-2";
       manageDiv.innerHTML = `
-        <button type="button" id="btn-open-admin-manage" class="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-bold border border-slate-700 transition flex items-center justify-center gap-2">
+        <button type="button" id="btn-open-admin-manage" class="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-bold border border-slate-700 transition flex items-center justify-center gap-2 cursor-pointer">
           <i class="fa-solid fa-list-check text-brand-500"></i> Gerenciar / Excluir Produtos Cadastrados
         </button>
       `;
