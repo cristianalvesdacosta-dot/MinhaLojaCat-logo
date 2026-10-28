@@ -740,7 +740,7 @@
     let redirectTimer = null;
     let redirectInterval = null;
 
-    // CONTROLE DO CHAT ASSISTENTE DE VENDAS
+    // CONTROLE DO CHAT ASSISTENTE DE VENDAS (COM BUSCA EXATA FORMATADA NA LOJA)
     window.toggleAiChat = () => {
       const drawer = document.getElementById('ai-chat-drawer');
       drawer.classList.toggle('translate-x-full');
@@ -787,7 +787,6 @@
       document.querySelectorAll('.admin-sub-section').forEach(sec => sec.classList.add('hidden'));
     };
 
-    // 🚀 FUNÇÃO DE IMPULSIONAR DESTAQUES RÁPIDO
     function renderRocketList() {
       const container = document.getElementById('rocket-products-list');
       if (!container) return;
@@ -815,7 +814,6 @@
       }
     };
 
-    // 📊 RELATÓRIO DE CLIQUES
     function renderStatsList() {
       const container = document.getElementById('stats-products-list');
       if (!container) return;
@@ -832,7 +830,6 @@
       `).join('');
     }
 
-    // RENOVAÇÃO GLOBAL DE CUPONS EM MASSA
     document.getElementById('form-global-coupon').onsubmit = async (e) => {
       e.preventDefault();
       const newCode = document.getElementById('global-coupon-code').value.trim().toUpperCase();
@@ -959,7 +956,6 @@
       });
     };
 
-    // 🔗 COPÍAR LINK DIRETO DO PRODUTO PARA DIVULGAÇÃO RÁPIDA (STORIES)
     window.copyDirectProductLink = (url) => {
       if (!url) {
         showToast("Este produto não possui link cadastrado.", "error");
