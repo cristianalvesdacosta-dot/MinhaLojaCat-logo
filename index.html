@@ -185,7 +185,7 @@
     </div>
   </main>
 
-  <!-- MODAL DE ESTÚDIO / MOLDURA STORY CORRIGIDO PARA CAPTURAR O FUNDO PERFEITAMENTE -->
+  <!-- MODAL DE ESTÚDIO / MOLDURA STORY ALTA DEFINIÇÃO -->
   <div id="modal-instagram-post" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-sm hidden">
     <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-lg w-full p-6 shadow-2xl relative max-h-[95vh] overflow-y-auto space-y-4">
       <button class="btn-close-modal absolute top-4 right-4 text-slate-400 hover:text-white text-lg cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
@@ -196,7 +196,7 @@
         </div>
         <div>
           <h2 class="text-base font-bold text-white">Estúdio de Moldura e Story</h2>
-          <p class="text-xs text-slate-400">Ajuste nitidez, transparências, posição e salve perfeitamente na galeria.</p>
+          <p class="text-xs text-slate-400">Baixe imagem em altíssima resolução e vídeo otimizado (TikTok/Reels).</p>
         </div>
       </div>
 
@@ -267,7 +267,7 @@
 
         <div class="p-3 bg-slate-900 rounded-xl border border-slate-700 space-y-2">
           <label class="block text-xs font-bold text-brand-400 flex items-center gap-1.5">
-            <i class="fa-solid fa-stopwatch"></i> Escolher o Tempo de Exibição do Vídeo para o Instagram:
+            <i class="fa-solid fa-stopwatch"></i> Escolher o Tempo de Exibição do Vídeo (TikTok / Reels):
           </label>
           <div class="grid grid-cols-5 gap-1.5">
             <button type="button" onclick="setVideoDuration(5)" class="duration-btn py-1.5 bg-brand-600 text-white rounded-lg text-xs font-bold transition shadow cursor-pointer">5s</button>
@@ -280,7 +280,7 @@
         </div>
 
         <div class="flex flex-col items-center">
-          <!-- MOLDURA STORY COM IMAGEM DE FUNDO REAL EM TAG IMG PARA O CAPTURADOR RECONHECER -->
+          <!-- MOLDURA STORY -->
           <div id="studio-frame-wrapper" class="relative w-72 h-96 bg-slate-950 rounded-2xl overflow-hidden border-2 border-amber-500/50 shadow-2xl flex flex-col justify-between p-4">
             
             <!-- CAMADA DE FUNDO REAL -->
@@ -289,7 +289,7 @@
               <video id="studio-bg-vid" autoplay loop muted playsinline class="w-full h-full object-cover" style="display:none;"></video>
             </div>
 
-            <!-- SOBREPOSIÇÃO ESCURA PARA DAR CONTRASTE SE NECESSÁRIO -->
+            <!-- SOBREPOSIÇÃO ESCURA -->
             <div class="absolute inset-0 z-0 bg-black/30 pointer-events-none"></div>
 
             <div class="relative z-10 flex justify-between items-start">
@@ -317,10 +317,10 @@
 
           <div class="flex gap-2 mt-3 w-full">
             <button type="button" onclick="saveStudioAsImage()" class="flex-1 py-2.5 bg-amber-600 hover:bg-amber-500 text-white rounded-xl text-xs font-bold shadow transition flex items-center justify-center gap-1.5 cursor-pointer">
-              <i class="fa-solid fa-image"></i> Salvar Imagem
+              <i class="fa-solid fa-image"></i> Baixar Imagem (HD)
             </button>
             <button type="button" onclick="saveStudioAsTimedVideo()" class="flex-1 py-2.5 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs font-bold shadow transition flex items-center justify-center gap-1.5 cursor-pointer">
-              <i class="fa-solid fa-video"></i> Salvar Vídeo (<span id="btn-vid-sec">5s</span>)
+              <i class="fa-solid fa-video"></i> Baixar Vídeo (<span id="btn-vid-sec">5s</span>)
             </button>
           </div>
         </div>
@@ -955,7 +955,6 @@
       document.getElementById('edit-studio-disc').value = prod.discountPercent || 10;
       document.getElementById('edit-studio-code').value = prod.code || "CLIENTEVIP";
 
-      // Padrão: fundo 80% nítido e caixa de texto com leve transparência
       document.getElementById('range-bg-opacity').value = 80;
       document.getElementById('range-box-opacity').value = 75;
 
@@ -1003,13 +1002,11 @@
       document.getElementById('lbl-bg-opacity').innerText = `${bgVal}%`;
       document.getElementById('lbl-box-opacity').innerText = `${boxVal}%`;
 
-      // Aplica a nitidez / opacidade diretamente na imagem de fundo real
       const bgImg = document.getElementById('studio-bg-img');
       const bgVid = document.getElementById('studio-bg-vid');
       bgImg.style.opacity = bgVal / 100;
       bgVid.style.opacity = bgVal / 100;
 
-      // Aplica transparência na caixa de texto
       const boxContainer = document.getElementById('studio-textbox-container');
       const alphaHex = Math.round((boxVal / 100) * 255).toString(16).padStart(2, '0');
       boxContainer.style.backgroundColor = `#020617${alphaHex}`;
@@ -1078,62 +1075,70 @@
       });
     };
 
-    // FUNÇÃO DE SALVAR IMAGEM GARANTINDO O FUNDO E A NITIDEZ
+    // SALVAR IMAGEM EM ALTÍSSIMA RESOLUÇÃO (ALTA DEFINIÇÃO HD)
     window.saveStudioAsImage = () => {
       const frameNode = document.getElementById('studio-frame-wrapper');
-      showToast("Gerando imagem completa...");
-      html2canvas(frameNode, { scale: 3, useCORS: true, allowTaint: true, backgroundColor: "#020617" }).then(canvas => {
-        const dataUrl = canvas.toDataURL('image/png');
+      showToast("Gerando imagem em alta resolução...");
+      html2canvas(frameNode, { scale: 4, useCORS: true, allowTaint: true, backgroundColor: "#020617" }).then(canvas => {
+        const dataUrl = canvas.toDataURL('image/png', 1.0);
         const link = document.createElement('a');
         link.href = dataUrl;
-        link.download = `moldura-story-${Date.now()}.png`;
+        link.download = `moldura-story-hd-${Date.now()}.png`;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-        showToast("Imagem salva na galeria!");
+        showToast("Imagem HD salva na galeria!");
       }).catch(() => showToast("Erro ao gerar imagem", "error"));
     };
 
-    // FUNÇÃO DE SALVAR VÍDEO GARANTINDO O FUNDO E A NITIDEZ
+    // SALVAR VÍDEO FORMATO TIKTOK / INSTAGRAM REELS (QUALIDADE 100%)
     window.saveStudioAsTimedVideo = async () => {
       const frameNode = document.getElementById('studio-frame-wrapper');
-      showToast(`Gerando vídeo de ${selectedDuration}s...`);
+      showToast(`Gerando vídeo TikTok/Reels (${selectedDuration}s)...`);
       try {
         const canvas = document.createElement('canvas');
-        canvas.width = 720;
-        canvas.height = 960;
+        canvas.width = 1080; // Padrão Full HD Vertical (TikTok/Reels)
+        canvas.height = 1920;
         const ctx = canvas.getContext('2d');
-        const renderedCanvas = await html2canvas(frameNode, { scale: 2, useCORS: true, allowTaint: true, backgroundColor: "#020617" });
+        
         const fps = 30;
         const totalFrames = selectedDuration * fps;
         const stream = canvas.captureStream(fps);
         const recorder = new MediaRecorder(stream, { mimeType: 'video/webm;codecs=vp9' });
         let chunks = [];
+        
         recorder.ondataavailable = e => chunks.push(e.data);
         recorder.onstop = () => {
           const blob = new Blob(chunks, { type: 'video/webm' });
           const url = URL.createObjectURL(blob);
           const link = document.createElement('a');
           link.href = url;
-          link.download = `story-${selectedDuration}s-${Date.now()}.webm`;
+          link.download = `story-tiktok-reels-${selectedDuration}s-${Date.now()}.webm`;
           document.body.appendChild(link);
           link.click();
           document.body.removeChild(link);
           showToast("Vídeo salvo com sucesso!");
         };
+        
         recorder.start();
         let currentFrame = 0;
-        const interval = setInterval(() => {
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
-          ctx.drawImage(renderedCanvas, 0, 0, canvas.width, canvas.height);
+        
+        const interval = setInterval(async () => {
+          try {
+            const renderedCanvas = await html2canvas(frameNode, { scale: 3, useCORS: true, allowTaint: true, backgroundColor: "#020617" });
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(renderedCanvas, 0, 0, canvas.width, canvas.height);
+          } catch (e) {}
+
           currentFrame++;
           if (currentFrame >= totalFrames) {
             clearInterval(interval);
             recorder.stop();
           }
         }, 1000 / fps);
+
       } catch (err) {
-        showToast("Use 'Salvar Imagem' neste navegador.", "error");
+        showToast("Use 'Baixar Imagem (HD)' neste navegador.", "error");
       }
     };
 
