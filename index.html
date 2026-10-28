@@ -1,1121 +1,1338 @@
 <!DOCTYPE html>
 <html lang="pt-BR" class="h-full bg-slate-900 text-slate-100">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Catálogo Digital</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-​<script>
-tailwind.config = {
-darkMode: 'class',
-theme: {
-extend: {
-fontFamily: { sans: ['Inter', 'sans-serif'] },
-colors: { brand: { 50: '#f0fdf4', 100: '#dcfce7', 500: '#22c55e', 600: '#16a34a', 700: '#15803d' } }
-}
-}
-}
-</script>
-​<style>
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #0f172a; }
-::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: #475569; }
-.glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); }
-​@keyframes ticker {
-0% { transform: translateX(0); }
-100% { transform: translateX(-50%); }
-}
-.animate-ticker { animation: ticker 10s linear infinite; }
-.animate-ticker:hover { animation-play-state: paused; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catálogo Digital</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'sans-serif'] },
+          colors: { brand: { 50: '#f0fdf4', 100: '#dcfce7', 500: '#22c55e', 600: '#16a34a', 700: '#15803d' } }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #0f172a; }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #475569; }
+    .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); }
+    
+    @keyframes ticker {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .animate-ticker { animation: ticker 10s linear infinite; }
+    .animate-ticker:hover { animation-play-state: paused; }
+  </style>
 </head>
 <body class="h-full font-sans antialiased selection:bg-brand-500 selection:text-white flex flex-col min-h-screen relative">
-​<!-- HEADER -->
-<header class="sticky top-0 z-40 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 px-3 sm:px-4 py-2.5">
-<div class="max-w-4xl mx-auto flex items-center justify-between gap-2">
-<div class="flex items-center gap-2.5 min-w-0">
-<div class="bg-gradient-to-tr from-brand-600 to-emerald-400 p-2 rounded-xl text-white shadow-lg shadow-brand-500/20 flex-shrink-0">
-<i class="fa-solid fa-store text-base sm:text-lg"></i>
-</div>
-<div class="truncate">
-<div class="flex items-center gap-1.5 leading-tight">
-<span class="font-bold text-sm sm:text-base tracking-tight text-white truncate">Meu Catálogo</span>
-<span class="text-emerald-400 text-xs flex-shrink-0"><i class="fa-solid fa-circle-check"></i></span>
-<div class="inline-flex items-center gap-1 px-2 py-0.5 bg-slate-800 border border-slate-700/80 rounded-full text-[10px] font-semibold text-emerald-400 flex-shrink-0">
-<span class="relative flex h-1.5 w-1.5">
-<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-<span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
-</span>
-<span id="visitor-counter">0 acessos</span>
-</div>
-</div>
-<p class="text-[11px] text-slate-400 truncate mt-0.5">Cupons e Descontos Exclusivos</p>
-</div>
-</div>
-<div class="flex items-center flex-shrink-0">
-<button id="btn-auth-open" title="Acessar Painel" class="w-9 h-9 sm:w-10 sm:h-10 text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 rounded-xl transition border border-slate-700 flex items-center justify-center text-sm shadow-sm cursor-pointer">
-<i class="fa-solid fa-user-gear"></i>
-</button>
-</div>
-</div>
-</header>
-​<main class="flex-grow max-w-4xl w-full mx-auto pb-16">
-<div class="relative w-full">
-<a id="display-cover-link" href="#" onclick="openStoreBannerLink(event)" class="block group relative overflow-hidden cursor-pointer">
-<div id="display-cover" class="h-44 sm:h-56 w-full bg-gradient-to-r from-slate-800 via-slate-700 to-slate-800 bg-cover bg-center transition-all duration-300 relative group-hover:scale-105">
-<div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-black/30"></div>
-</div>
-<div class="absolute top-3 right-3 z-10 bg-brand-600/90 hover:bg-brand-500 text-white text-[11px] font-bold px-3 py-1.5 rounded-xl shadow-lg backdrop-blur-md border border-brand-400/40 flex items-center gap-1.5 transition">
-<i class="fa-solid fa-bag-shopping"></i> Acessar Loja Oficial <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
-</div>
-</a>
-​<div class="px-4 sm:px-6 relative -mt-16 sm:-mt-20">
-<div class="flex flex-col sm:flex-row items-center sm:items-end gap-4 text-center sm:text-left">
-<div class="relative group">
-<img id="display-logo" src="https://via.placeholder.com/150?text=LOGO" alt="Logo" class="w-28 h-28 sm:w-32 sm:h-32 rounded-2xl object-cover border-4 border-slate-900 shadow-xl bg-slate-800">
-</div>
-<div class="flex-1 pb-1">
-<h1 id="display-title" class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Nome da sua Loja</h1>
-<p id="display-bio" class="text-slate-400 text-sm mt-1 max-w-2xl leading-relaxed">Sua biografia ou descrição do catálogo digital aparece aqui.</p>
-</div>
-<div class="flex items-center gap-2 text-xs font-semibold px-3 py-1.5 rounded-full bg-slate-800/80 border border-slate-700 text-slate-300">
-<i class="fa-solid fa-boxes-stacked text-brand-500"></i>
-<span id="stat-total-products">0 Produtos</span>
-</div>
-</div>
-</div>
-</div>
-​<div style="margin-top: 10px; text-align: center;">
-<a href="https://wa.me/5519997648211?text=Olá!%20Procuro%20um%20produto%20específico%20do%20Ciclo%20que%20não%20encontrei%20no%20catálogo." 
-target="_blank" 
-style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; background-color: #1f2937; color: #25d366; padding: 10px 20px; border-radius: 20px; text-decoration: none; font-weight: bold; font-size: 14px; border: 1px solid #25d366; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
-<path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.558 6.558 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.348.1-.1.133-.173.2-.298.065-.125.034-.234-.016-.33-.05-.099-.445-1.072-.61-1.47-.16-.389-.323-.337-.45-.343-.112-.007-.24-.007-.368-.007s-.33.048-.503.23c-.173.183-66.666 65.999-66.666 65.999s.184.181.368.365c.184.184 1.106 1.696 2.692 2.378.376.162.669.259.897.332.378.121.722.104.994.063.304-.045 1.17-.478 1.334-.941.164-.464.164-.862.115-.941-.049-.079-.183-.125-.38-.224z"/>
-</svg>
-Pedir outro produto no WhatsApp
-</a>
-</div>
-​<div class="px-4 sm:px-6 mt-6">
-<div class="bg-gradient-to-r from-slate-800/90 via-slate-800/70 to-slate-800/90 border border-slate-700/80 rounded-2xl p-4 shadow-xl relative overflow-hidden backdrop-blur-md">
-<div class="flex items-center justify-between mb-3">
-<div class="flex items-center gap-2">
-<span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-<h3 class="text-xs font-bold text-emerald-400 uppercase tracking-wider">Avaliações & Depoimentos</h3>
-</div>
-<button type="button" onclick="openTestimonialModal()" class="text-[11px] bg-brand-600 hover:bg-brand-500 text-white font-bold px-3 py-1 rounded-xl transition flex items-center gap-1.5 shadow-md cursor-pointer">
-<i class="fa-solid fa-star text-amber-300"></i> Avaliar Loja
-</button>
-</div>
-<div class="relative w-full overflow-hidden py-1">
-<div id="testimonials-ticker" class="flex gap-4 animate-ticker whitespace-nowrap"></div>
-</div>
-</div>
-</div>
-​<div class="px-4 sm:px-6 mt-6 space-y-3">
-<div class="flex flex-col sm:flex-row gap-3 items-center justify-between">
-<div class="relative w-full sm:w-80">
-<i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
-<input type="text" id="input-search" placeholder="Buscar produto ou cupom..." class="w-full bg-slate-800 border border-slate-700/80 rounded-xl pl-10 pr-4 py-2 text-sm text-slate-100 placeholder-slate-400 focus:outline-none focus:border-brand-500 transition">
-</div>
-<div class="flex items-center gap-2 w-full sm:w-auto justify-end">
-<select id="filter-status" class="bg-slate-800 border border-slate-700/80 text-xs sm:text-sm text-slate-300 rounded-xl px-3 py-2 focus:outline-none focus:border-brand-500">
-<option value="all">Todos os Produtos</option>
-<option value="available">Em Estoque</option>
-<option value="soldout">Esgotados</option>
-</select>
-</div>
-</div>
-​<div class="flex items-center gap-2 overflow-x-auto py-1 no-scrollbar" id="category-filters">
-<button onclick="filterByCategory('all')" class="category-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-brand-600 text-white whitespace-nowrap transition shadow cursor-pointer">Todas</button>
-<button onclick="filterByCategory('Perfumaria')" class="category-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 whitespace-nowrap transition border border-slate-700 cursor-pointer">Perfumaria</button>
-<button onclick="filterByCategory('Corpo e Banho')" class="category-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 whitespace-nowrap transition border border-slate-700 cursor-pointer">Corpo & Banho</button>
-<button onclick="filterByCategory('Cabelos')" class="category-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 whitespace-nowrap transition border border-slate-700 cursor-pointer">Cabelos</button>
-<button onclick="filterByCategory('Maquiagem')" class="category-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 whitespace-nowrap transition border border-slate-700 cursor-pointer">Maquiagem</button>
-<button onclick="filterByCategory('Rosto')" class="category-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 whitespace-nowrap transition border border-slate-700 cursor-pointer">Rosto</button>
-<button onclick="filterByCategory('Infantil')" class="category-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 whitespace-nowrap transition border border-slate-700 cursor-pointer">Infantil</button>
-</div>
-</div>
-​<div class="px-4 sm:px-6 mt-6">
-<div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-<div class="bg-slate-800/50 rounded-2xl p-4 border border-slate-800 animate-pulse h-80"></div>
-<div class="bg-slate-800/50 rounded-2xl p-4 border border-slate-800 animate-pulse h-80"></div>
-</div>
-​<div id="empty-state" class="hidden text-center py-16 px-4">
-<div class="w-16 h-16 bg-slate-800 text-slate-500 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
-<i class="fa-solid fa-box-open"></i>
-</div>
-<h3 class="text-lg font-semibold text-slate-300">Nenhum produto encontrado</h3>
-<p class="text-slate-500 text-sm mt-1">Nenhum produto cadastrado no catálogo até o momento.</p>
-</div>
-</div>
-</main>
-​<!-- MODAL DE ESTÚDIO / MOLDURA COM SELETOR DE TEMPO E CONTROLES DE POSIÇÃO/TAMANHO -->
-<div id="modal-instagram-post" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-sm hidden">
-<div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-lg w-full p-6 shadow-2xl relative max-h-[95vh] overflow-y-auto space-y-4">
-<button class="btn-close-modal absolute top-4 right-4 text-slate-400 hover:text-white text-lg cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
-​<div class="flex items-center gap-2.5">
-<div class="w-10 h-10 bg-brand-600 rounded-xl flex items-center justify-center text-white text-lg shadow">
-<i class="fa-solid fa-clapperboard"></i>
-</div>
-<div>
-<h2 class="text-base font-bold text-white">Estúdio de Moldura e Story</h2>
-<p class="text-xs text-slate-400">Ajuste a posição da caixa para não tampar o produto, escolha a duração e salve!</p>
-</div>
-</div>
-​<div class="space-y-4">
-<div class="p-3 bg-slate-900 rounded-xl border border-slate-700 space-y-2">
-<label class="block text-xs font-bold text-amber-400 flex items-center gap-1.5">
-<i class="fa-solid fa-upload"></i> Subir Imagem, GIF ou Vídeo de Fundo
-</label>
-<input type="file" id="studio-bg-file" accept="image/*,video/mp4,video/webm,image/gif" class="w-full text-xs text-slate-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-amber-600 file:text-white hover:file:bg-amber-500 cursor-pointer">
-</div>
-​<!-- BOTÕES PARA MOVER E REDIMENSIONAR A CAIXA DE TEXTO -->
-<div class="p-3 bg-slate-900 rounded-xl border border-slate-700 space-y-2">
-<label class="block text-xs font-bold text-brand-400 flex items-center gap-1.5">
-<i class="fa-solid fa-arrows-up-down-left-right"></i> Ajustar Posição e Tamanho da Caixa na Imagem:
-</label>
-<div class="flex flex-wrap gap-2 justify-center">
-<button type="button" onclick="adjustBoxPosition('up')" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg text-xs font-semibold border border-slate-700 cursor-pointer"><i class="fa-solid fa-arrow-up"></i> Subir</button>
-<button type="button" onclick="adjustBoxPosition('down')" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg text-xs font-semibold border border-slate-700 cursor-pointer"><i class="fa-solid fa-arrow-down"></i> Descer</button>
-<button type="button" onclick="adjustBoxScale('larger')" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg text-xs font-semibold border border-slate-700 cursor-pointer"><i class="fa-solid fa-plus"></i> Aumentar</button>
-<button type="button" onclick="adjustBoxScale('smaller')" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg text-xs font-semibold border border-slate-700 cursor-pointer"><i class="fa-solid fa-minus"></i> Diminuir</button>
-</div>
-</div>
-​<!-- SELETOR DE TEMPO DE DURAÇÃO DO VÍDEO -->
-<div class="p-3 bg-slate-900 rounded-xl border border-slate-700 space-y-2">
-<label class="block text-xs font-bold text-brand-400 flex items-center gap-1.5">
-<i class="fa-solid fa-stopwatch"></i> Escolher o Tempo de Exibição do Vídeo para o Instagram:
-</label>
-<div class="grid grid-cols-5 gap-1.5">
-<button type="button" onclick="setVideoDuration(5)" class="duration-btn py-1.5 bg-brand-600 text-white rounded-lg text-xs font-bold transition shadow cursor-pointer">5s</button>
-<button type="button" onclick="setVideoDuration(10)" class="duration-btn py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-semibold transition border border-slate-700 cursor-pointer">10s</button>
-<button type="button" onclick="setVideoDuration(15)" class="duration-btn py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-semibold transition border border-slate-700 cursor-pointer">15s</button>
-<button type="button" onclick="setVideoDuration(20)" class="duration-btn py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-semibold transition border border-slate-700 cursor-pointer">20s</button>
-<button type="button" onclick="setVideoDuration(25)" class="duration-btn py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-semibold transition border border-slate-700 cursor-pointer">25s</button>
-</div>
-<p class="text-[10px] text-slate-400">Tempo selecionado: <strong id="selected-duration-label" class="text-brand-400">5 segundos</strong></p>
-</div>
-​<div class="flex flex-col items-center">
-<div id="studio-frame-wrapper" class="relative w-72 h-96 bg-gradient-to-br from-slate-950 via-zinc-900 to-stone-950 rounded-2xl overflow-hidden border-2 border-amber-500/50 shadow-2xl flex flex-col justify-between p-4">
-​<div id="studio-bg-media-container" class="absolute inset-0 z-0 opacity-40 overflow-hidden flex items-center justify-center">
-<img id="studio-bg-img" src="" class="w-full h-full object-cover" style="display:none;">
-<video id="studio-bg-vid" autoplay loop muted playsinline class="w-full h-full object-cover" style="display:none;"></video>
-</div>
-​<div class="relative z-10 flex justify-between items-start">
-<span class="bg-amber-600 text-white font-black text-[10px] px-2.5 py-1 rounded-full shadow tracking-wider uppercase">
-🔥 PROMOÇÃO
-</span>
-<div id="studio-badge-off" class="w-12 h-12 rounded-full bg-slate-950/90 border-2 border-amber-500 flex flex-col items-center justify-center text-amber-400 font-bold text-[10px] shadow-lg">
-<span id="studio-txt-off" class="text-xs font-black">10%</span>
-<span class="text-[8px] leading-none">OFF</span>
-</div>
-</div>
-​<!-- CAIXA DE TEXTO COM POSIÇÃO E TAMANHO AJUSTÁVEIS -->
-<div id="studio-textbox-container" class="relative z-10 text-center space-y-1 bg-slate-950/70 backdrop-blur-sm p-3 rounded-xl border border-slate-800 transition-all duration-200" style="margin-top: auto; margin-bottom: auto; transform: scale(1);">
-<h3 id="studio-txt-name" class="text-xs font-bold text-white line-clamp-2">Nome do Produto</h3>
-<div class="flex flex-col items-center">
-<span id="studio-txt-orig" class="text-[11px] text-slate-400 line-through">R$ 0,00</span>
-<span id="studio-txt-final" class="text-base font-black text-emerald-400">R$ 0,00</span>
-</div>
-</div>
-​<div class="relative z-10 bg-amber-500 text-slate-950 font-black text-xs py-2 px-3 rounded-xl text-center shadow-lg uppercase tracking-tight">
-CUPOM: <span id="studio-txt-code">CLIENTEVIP</span>
-</div>
-</div>
-​<div class="flex gap-2 mt-3 w-full">
-<button type="button" onclick="saveStudioAsImage()" class="flex-1 py-2.5 bg-amber-600 hover:bg-amber-500 text-white rounded-xl text-xs font-bold shadow transition flex items-center justify-center gap-1.5 cursor-pointer">
-<i class="fa-solid fa-image"></i> Salvar como Imagem
-</button>
-<button type="button" onclick="saveStudioAsTimedVideo()" class="flex-1 py-2.5 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs font-bold shadow transition flex items-center justify-center gap-1.5 cursor-pointer">
-<i class="fa-solid fa-video"></i> Salvar Vídeo (<span id="btn-vid-sec">5s</span>)
-</button>
-</div>
-</div>
-​<div>
-<label class="block text-xs font-semibold text-slate-300 mb-1">Legenda para Copiar (Instagram / WhatsApp)</label>
-<textarea id="ig-post-caption" rows="3" onclick="this.select()" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-xs text-slate-100 font-mono focus:outline-none focus:border-brand-500 cursor-pointer"></textarea>
-</div>
-</div>
-​<div class="pt-2 flex gap-2">
-<button type="button" class="btn-close-modal flex-1 py-2.5 bg-slate-700 text-slate-300 rounded-xl text-xs font-medium cursor-pointer">Fechar</button>
-<button type="button" onclick="copyInstagramCaption()" class="flex-1 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl text-xs shadow-md transition flex items-center justify-center gap-2 cursor-pointer">
-<i class="fa-regular fa-copy"></i> Copiar Legenda
-</button>
-</div>
-</div>
-</div>
-​<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-​<a href="https://api.whatsapp.com/send?text=Olha%20que%20cat%C3%A1logo%20incr%C3%ADvel%20de%20descontos%20e%20cupons%20eu%20achei!%20Confere%20aqui:%20https://cristianalvesdacosta-dot.github.io/MinhaLojaCat-logo/" 
-target="_blank" 
-rel="noopener noreferrer"
-class="fixed bottom-5 right-4 z-40 bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-2 rounded-full shadow-lg flex items-center gap-1.5 transition transform hover:scale-105 border border-emerald-400/40 cursor-pointer"
-title="Compartilhar no WhatsApp">
-<i class="fa-brands fa-whatsapp text-lg"></i>
-<span class="text-[11px] font-bold whitespace-nowrap pr-0.5">Compartilhar</span>
-</a>
-​<div id="modal-image-viewer" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-md hidden">
-<button class="absolute top-5 right-5 text-white text-3xl z-50 hover:text-slate-300 focus:outline-none p-2 cursor-pointer" onclick="closeImageViewer()">
-<i class="fa-solid fa-xmark"></i>
-</button>
-<div class="relative max-w-4xl w-full max-h-[90vh] flex flex-col items-center justify-center">
-<img id="viewer-img-element" src="" alt="Ampliada" class="max-h-[75vh] max-w-full object-contain rounded-xl shadow-2xl border border-slate-700">
-</div>
-</div>
-​<div id="modal-timer-redirect" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md hidden">
-<div class="bg-slate-800 border-2 border-brand-500 rounded-3xl max-w-sm w-full p-6 shadow-2xl text-center space-y-4">
-<div class="w-14 h-14 bg-brand-500/20 text-brand-400 rounded-2xl flex items-center justify-center mx-auto text-2xl border border-brand-500/30">
-<i class="fa-solid fa-circle-check"></i>
-</div>
-<div>
-<h3 class="text-lg font-bold text-white">Cupom Copiado!</h3>
-<p class="text-sm font-bold text-brand-400 mt-1" id="timer-coupon-code">Cupom: CLIENTEVIP</p>
-</div>
-<p class="text-xs text-slate-300 leading-relaxed bg-slate-900/80 p-3 rounded-xl border border-slate-700">
-✔ Cole no carrinho.
-Entrando na loja em <strong id="countdown-seconds" class="text-brand-400">8s</strong>...
-</p>
-<div class="pt-2">
-<button type="button" onclick="cancelRedirectTimer()" class="w-full py-2 bg-slate-700 hover:bg-slate-600 text-slate-300 font-semibold rounded-xl text-xs transition cursor-pointer">
-Cancelar
-</button>
-</div>
-</div>
-</div>
-​<div id="modal-testimonial" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm hidden">
-<div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-sm w-full p-6 shadow-2xl relative">
-<button type="button" class="btn-close-modal absolute top-4 right-4 text-slate-400 hover:text-white text-lg cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
-<h2 class="text-base font-bold text-white mb-1 flex items-center gap-2"><i class="fa-solid fa-comment-dots text-emerald-400"></i> Deixar seu Depoimento</h2>
-<p class="text-xs text-slate-400 mb-4">Escreva um comentário real sobre o atendimento e os produtos da loja.</p>
-<form id="form-testimonial" class="space-y-3">
-<div><label class="block text-xs font-semibold text-slate-300 mb-1">Seu Nome *</label><input type="text" id="test-name" required placeholder="Ex: Maria" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100"></div>
-<div><label class="block text-xs font-semibold text-slate-300 mb-1">Seu Comentário *</label><textarea id="test-comment" required rows="3" placeholder="Ex: Cupom funcionou perfeito!" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100"></textarea></div>
-<div class="pt-2 flex justify-end gap-2"><button type="button" class="btn-close-modal px-4 py-2 bg-slate-700 text-slate-300 rounded-xl text-xs font-medium cursor-pointer">Cancelar</button><button type="submit" class="px-4 py-2 bg-brand-600 text-white rounded-xl text-xs font-semibold shadow cursor-pointer">Enviar Depoimento</button></div>
-</form>
-</div>
-</div>
-​<div id="modal-rate-product" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm hidden">
-<div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-xs w-full p-6 shadow-2xl relative text-center">
-<button type="button" class="btn-close-modal absolute top-4 right-4 text-slate-400 hover:text-white text-lg cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
-<div class="w-12 h-12 bg-amber-500/20 text-amber-400 rounded-2xl flex items-center justify-center mx-auto mb-3 text-xl border border-amber-500/30"><i class="fa-solid fa-star"></i></div>
-<h2 class="text-base font-bold text-white mb-1">Avaliar Produto</h2>
-<p id="rate-product-title" class="text-xs text-slate-400 mb-4 truncate font-medium"></p>
-<div class="flex justify-center gap-2 text-2xl text-amber-400 mb-4">
-<button type="button" onclick="submitRating(1)" class="hover:scale-125 transition cursor-pointer"><i class="fa-solid fa-star"></i></button>
-<button type="button" onclick="submitRating(2)" class="hover:scale-125 transition cursor-pointer"><i class="fa-solid fa-star"></i></button>
-<button type="button" onclick="submitRating(3)" class="hover:scale-125 transition cursor-pointer"><i class="fa-solid fa-star"></i></button>
-<button type="button" onclick="submitRating(4)" class="hover:scale-125 transition cursor-pointer"><i class="fa-solid fa-star"></i></button>
-<button type="button" onclick="submitRating(5)" class="hover:scale-125 transition cursor-pointer"><i class="fa-solid fa-star"></i></button>
-</div>
-<p class="text-[10px] text-slate-500">Escolha a nota de 1 a 5 estrelas.</p>
-</div>
-</div>
-​<footer class="border-t border-slate-800 py-6 text-center text-xs text-slate-500 mt-auto">
-<p>© Catálogo Digital. Todos os direitos reservados.</p>
-</footer>
-​<div id="modal-auth" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm hidden">
-<div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-lg w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
-<button class="btn-close-modal absolute top-4 right-4 text-slate-400 hover:text-white text-lg cursor-pointer">
-<i class="fa-solid fa-xmark"></i>
-</button>
-​<div id="panel-unlogged">
-<div class="text-center mb-6">
-<div class="w-12 h-12 bg-brand-500/10 text-brand-500 rounded-xl flex items-center justify-center mx-auto mb-2 text-xl border border-brand-500/20">
-<i class="fa-solid fa-lock"></i>
-</div>
-<h2 class="text-xl font-bold text-white">Painel Administrativo</h2>
-<p class="text-xs text-slate-400 mt-1">Acesse com sua senha exclusiva.</p>
-</div>
-<form id="form-auth" class="space-y-4">
-<div>
-<label class="block text-xs font-semibold text-slate-300 mb-1">E-mail</label>
-<input type="email" id="auth-email" value="cristianalvesdacosta@gmail.com" readonly class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-400 cursor-not-allowed">
-</div>
-<div>
-<label class="block text-xs font-semibold text-slate-300 mb-1">Senha de Acesso</label>
-<input type="password" id="auth-password" required placeholder="Digite sua senha..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
-</div>
-<button type="submit" id="btn-auth-submit" class="w-full py-2.5 bg-brand-600 hover:bg-brand-500 text-white font-semibold rounded-xl text-sm transition shadow-lg shadow-brand-600/35 cursor-pointer">
-Entrar no Painel
-</button>
-</form>
-</div>
-​<div id="panel-logged" class="hidden space-y-6">
-<div class="p-3.5 bg-brand-500/10 border border-brand-500/30 rounded-xl flex items-center justify-between">
-<div class="flex items-center gap-2">
-<span class="relative flex h-3 w-3">
-<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-400 opacity-75"></span>
-<span class="relative inline-flex rounded-full h-3 w-3 bg-brand-500"></span>
-</span>
-<span class="text-sm font-bold text-brand-400">Modo Administrativo Ativo</span>
-</div>
-<button id="btn-logout" type="button" class="px-2.5 py-1 text-xs font-semibold bg-red-500/20 hover:bg-red-500/30 text-red-300 rounded-lg border border-red-500/30 transition cursor-pointer">
-<i class="fa-solid fa-right-from-bracket mr-1"></i> Sair
-</button>
-</div>
-​<div class="p-4 bg-brand-500/10 border border-brand-500/30 rounded-2xl space-y-3">
-<div class="flex items-center justify-between">
-<span class="text-xs font-bold text-brand-400 uppercase tracking-wider flex items-center gap-1.5">
-<i class="fa-solid fa-bolt"></i> Gestão Rápida do Cupom Único da Loja
-</span>
-</div>
-<p class="text-[11px] text-slate-300 leading-relaxed">
-Quando um cliente usar o cupom na compra, clique abaixo para dar baixa no uso de <strong>todos os produtos de uma vez só</strong>:
-</p>
-<div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
-<button type="button" onclick="decreaseAllProductsUsage(1)" class="py-2 px-3 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs font-bold transition shadow-md flex items-center justify-center gap-1.5 cursor-pointer">
-<i class="fa-solid fa-minus-circle"></i> Baixa Global (-1 em Todos)
-</button>
-<button type="button" onclick="openCustomBatchModal()" class="py-2 px-3 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-xl text-xs font-semibold transition flex items-center justify-center gap-1.5 cursor-pointer">
-<i class="fa-solid fa-sliders"></i> Ajustar Outra Qtd
-</button>
-</div>
-</div>
-​<div class="bg-slate-900/80 p-4 rounded-xl border border-slate-700/80 space-y-4">
-<h3 id="form-prod-title" class="text-sm font-bold text-white flex items-center gap-2">
-<i class="fa-solid fa-box text-brand-500"></i> Cadastrar Novo Produto
-</h3>
-<form id="form-product" class="space-y-4">
-<input type="hidden" id="product-id">
-​<div>
-<label class="block text-xs font-semibold text-slate-300 mb-1">Nome do Produto *</label>
-<input type="text" id="product-name" required placeholder="Ex: Desodorante Perfume Essencial" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
-</div>
-​<div>
-<label class="block text-xs font-semibold text-slate-300 mb-1">Categoria *</label>
-<select id="product-category" required class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
-<option value="Perfumaria">Perfumaria</option>
-<option value="Corpo e Banho">Corpo e Banho</option>
-<option value="Cabelos">Cabelos</option>
-<option value="Maquiagem">Maquiagem</option>
-<option value="Rosto">Rosto</option>
-<option value="Infantil">Infantil</option>
-</select>
-</div>
-​<div class="flex items-center gap-2 pt-1">
-<input type="checkbox" id="product-featured" class="w-4 h-4 rounded bg-slate-800 border-slate-700 text-brand-600 focus:ring-brand-500">
-<label for="product-featured" class="text-xs font-medium text-slate-300 cursor-pointer">
-🔥 Marcar como Produto em Destaque
-</label>
-</div>
-​<div>
-<label class="block text-xs font-semibold text-slate-300 mb-1">Subir Foto ou Vídeo / GIF do Produto</label>
-<input type="file" id="product-media-file" accept="image/*,video/mp4,video/webm,image/gif" class="w-full text-xs text-slate-400 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-slate-700 file:text-slate-200 hover:file:bg-slate-600 cursor-pointer">
-</div>
-​<div id="preview-media-container" class="hidden">
-<label class="block text-xs font-semibold text-slate-300 mb-1">Mídia Atual:</label>
-<div id="preview-media-box" class="flex items-center gap-3"></div>
-</div>
-​<div class="grid grid-cols-2 gap-3">
-<div>
-<label class="block text-xs font-semibold text-slate-300 mb-1">Preço Original (R$) *</label>
-<input type="number" step="0.01" id="product-price" required placeholder="Ex: 159.90" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
-</div>
-<div>
-<label class="block text-xs font-semibold text-slate-300 mb-1">Desconto (%)</label>
-<select id="product-discount-percent" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
-<option value="0">Sem desconto</option>
-<option value="5">5% OFF</option>
-<option value="10" selected>10% OFF (Seu Cupom)</option>
-<option value="15">15% OFF</option>
-<option value="20">20% OFF</option>
-<option value="25">25% OFF</option>
-<option value="30">30% OFF</option>
-<option value="35">35% OFF</option>
-<option value="40">40% OFF</option>
-<option value="50">50% OFF</option>
-</select>
-</div>
-</div>
-​<div>
-<label class="block text-xs font-semibold text-slate-300 mb-1">Descrição</label>
-<textarea id="product-description" rows="3" placeholder="Insira a descrição..." class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500"></textarea>
-</div>
-​<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-<div>
-<label class="block text-xs font-semibold text-slate-300 mb-1">Link do Produto</label>
-<input type="url" id="product-link" placeholder="https://..." class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
-</div>
-<div>
-<label class="block text-xs font-semibold text-slate-300 mb-1">Cupom</label>
-<input type="text" id="product-code" value="CLIENTEVIP" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
-</div>
-</div>
-​<div>
-<label class="block text-xs font-semibold text-slate-300 mb-1">Validade do Cupom (Dias)</label>
-<input type="number" id="product-validity-days" min="1" value="30" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
-</div>
-​<div class="p-3 bg-slate-800/60 rounded-xl border border-slate-700/60 space-y-3">
-<span class="text-xs font-bold text-brand-400 uppercase tracking-wider block">Estoque & Usos</span>
-<div class="grid grid-cols-2 gap-3">
-<div>
-<label class="block text-[11px] font-medium text-slate-300 mb-1">Estoque Total</label>
-<input type="number" id="product-total-uses" min="1" required value="30" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
-</div>
-<div>
-<label class="block text-[11px] font-medium text-slate-300 mb-1">Já Utilizado</label>
-<input type="number" id="product-used-count" min="0" required value="0" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
-</div>
-</div>
-</div>
-​<div class="flex justify-end gap-2">
-<button type="button" id="btn-cancel-prod-edit" onclick="resetProductForm()" class="hidden px-4 py-2 bg-slate-700 hover:bg-slate-600 text-slate-300 rounded-xl text-xs font-medium cursor-pointer">Cancelar</button>
-<button type="submit" class="w-full py-2.5 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs font-bold shadow-md transition cursor-pointer">
-Salvar Produto
-</button>
-</div>
-</form>
-</div>
-​<div class="pt-4 border-t border-slate-700/60 space-y-4">
-<h3 class="text-sm font-bold text-slate-200 flex items-center gap-2">
-<i class="fa-solid fa-sliders text-brand-500"></i> Personalizar Capa, Logo e Link da Loja
-</h3>
-<form id="form-profile" class="space-y-4">
-<div>
-<label class="block text-xs font-semibold text-slate-300 mb-1">Nome / Título da Loja</label>
-<input type="text" id="profile-title" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
-</div>
-<div>
-<label class="block text-xs font-semibold text-slate-300 mb-1">Biografia</label>
-<textarea id="profile-bio" rows="2" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500"></textarea>
-</div>
-<div>
-<label class="block text-xs font-bold text-brand-400 mb-1">Link da Loja Oficial (Banner)</label>
-<input type="url" id="profile-store-link" placeholder="https://..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
-</div>
-<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-<div>
-<label class="block text-xs font-semibold text-slate-300 mb-1">Capa / Banner</label>
-<input type="file" id="profile-cover-file" accept="image/*" class="w-full text-xs text-slate-400 file:mr-2 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:bg-slate-700 file:text-slate-200">
-</div>
-<div>
-<label class="block text-xs font-semibold text-slate-300 mb-1">Logo</label>
-<input type="file" id="profile-logo-file" accept="image/*" class="w-full text-xs text-slate-400 file:mr-2 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:bg-slate-700 file:text-slate-200">
-</div>
-</div>
-<button type="submit" class="w-full py-2 bg-slate-700 hover:bg-slate-600 text-slate-200 rounded-xl text-xs font-bold transition cursor-pointer">
-Salvar Perfil e Capa
-</button>
-</form>
-</div>
-</div>
-</div>
-</div>
-​<div id="modal-admin-manage" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm hidden">
-<div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-lg w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
-<button class="btn-close-modal absolute top-4 right-4 text-slate-400 hover:text-white text-lg cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
-<h2 class="text-base font-bold text-white mb-2 flex items-center gap-2">
-<i class="fa-solid fa-list-check text-brand-500"></i> Gerenciar Produtos & Estatísticas
-</h2>
-<p class="text-xs text-slate-400 mb-4">Acompanhe cliques, edite ou exclua os itens.</p>
-<div id="admin-products-list" class="space-y-3"></div>
-</div>
-</div>
-​<div id="modal-quick-use" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm hidden">
-<div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-sm w-full p-6 shadow-2xl relative">
-<button class="btn-close-modal absolute top-4 right-4 text-slate-400 hover:text-white text-lg cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
-<h2 class="text-base font-bold text-white mb-2"><i class="fa-solid fa-calculator text-brand-500"></i> Atualizar Estoque</h2>
-<p id="quick-use-product-name" class="text-xs font-medium text-slate-400 mb-4 truncate"></p>
-<form id="form-quick-use" class="space-y-4">
-<input type="hidden" id="quick-use-id">
-<div>
-<label class="block text-xs font-semibold text-slate-300 mb-1">Quantidade Já Usada</label>
-<input type="number" id="quick-use-val" min="0" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
-</div>
-<div class="pt-2 flex justify-end gap-2">
-<button type="button" class="btn-close-modal px-4 py-2 bg-slate-700 text-slate-300 rounded-xl text-xs font-medium">Cancelar</button>
-<button type="submit" class="px-4 py-2 bg-brand-600 text-white rounded-xl text-xs font-semibold">Salvar</button>
-</div>
-</form>
-</div>
-</div>
-​<div id="modal-batch-use" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm hidden">
-<div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-sm w-full p-6 shadow-2xl relative">
-<button class="btn-close-modal absolute top-4 right-4 text-slate-400 hover:text-white text-lg cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
-<h2 class="text-base font-bold text-white mb-2"><i class="fa-solid fa-layer-group text-brand-500"></i> Baixa Global em Lote</h2>
-<p class="text-xs text-slate-400 mb-4">Adicionar usos a <strong>TODOS OS PRODUTOS</strong>:</p>
-<form id="form-batch-use" class="space-y-4">
-<div>
-<label class="block text-xs font-semibold text-slate-300 mb-1">Quantidade a adicionar</label>
-<input type="number" id="batch-use-val" min="1" value="1" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
-</div>
-<div class="pt-2 flex justify-end gap-2">
-<button type="button" class="btn-close-modal px-4 py-2 bg-slate-700 text-slate-300 rounded-xl text-xs font-medium">Cancelar</button>
-<button type="submit" class="px-4 py-2 bg-brand-600 text-white rounded-xl text-xs font-semibold">Aplicar</button>
-</div>
-</form>
-</div>
-</div>
-​<div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 max-w-xs w-full bg-slate-800 border border-slate-700 text-slate-100 px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3">
-<i id="toast-icon" class="fa-solid fa-circle-check text-brand-500 text-lg"></i>
-<span id="toast-msg" class="text-xs font-medium">Sucesso!</span>
-</div>
-​<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import {
-getAuth,
-signInWithEmailAndPassword,
-signOut,
-onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-import {
-getFirestore,
-doc,
-setDoc,
-collection,
-onSnapshot,
-addDoc,
-updateDoc,
-deleteDoc,
-writeBatch,
-increment
-} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-​const firebaseConfig = {
-apiKey: "AIzaSyA2ZuYtBx7_yFL2Nwvg3X7TfsrolnUfFBE",
-authDomain: "minhalojacatalogo-1febf.firebaseapp.com",
-projectId: "minhalojacatalogo-1febf",
-storageBucket: "minhalojacatalogo-1febf.firebasestorage.app",
-messagingSenderId: "802481935569",
-appId: "1:802481935569:web:f91376c8abfb11f0e561f0",
-measurementId: "G-XBWR1SED5Z"
-};
-​const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-​let currentUser = null;
-let productsList = [];
-let testimonialsList = [];
-let activeCategory = 'all';
-let activeRatingProdId = null;
-​let profileData = {
-title: "Meu Catálogo Digital",
-bio: "Confira nossos produtos e cupons de desconto abaixo.",
-storeLink: "",
-cover: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&q=80",
-logo: "https://via.placeholder.com/150?text=LOGO"
-};
-let currentUploadedMedia = "";
-let currentMediaType = "image";
-let activeStudioProd = null;
-let selectedDuration = 5;
-let boxTopOffset = 0;
-let boxScaleFactor = 1;
-let redirectTimer = null;
-let redirectInterval = null;
-​function showToast(msg, type = 'success') {
-const toast = document.getElementById('toast');
-const toastMsg = document.getElementById('toast-msg');
-const toastIcon = document.getElementById('toast-icon');
-​toastMsg.innerText = msg;
-toastIcon.className = type === 'error'
-? "fa-solid fa-circle-exclamation text-red-500 text-lg"
-: "fa-solid fa-circle-check text-brand-500 text-lg";
-​toast.classList.remove('translate-y-20', 'opacity-0');
-setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0'), 3500);
-}
-​async function trackRealVisit() {
-try {
-const visitRef = doc(db, 'settings', 'visits');
-await setDoc(visitRef, { count: increment(1) }, { merge: true });
-} catch (err) {}
-}
-​function listenRealVisits() {
-onSnapshot(doc(db, 'settings', 'visits'), (docSnap) => {
-if (docSnap.exists()) {
-document.getElementById('visitor-counter').innerText = ${docSnap.data().count || 0} acessos;
-}
-});
-}
-​window.filterByCategory = (cat) => {
-activeCategory = cat;
-document.querySelectorAll('.category-btn').forEach(btn => {
-btn.className = "category-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 whitespace-nowrap transition border border-slate-700 cursor-pointer";
-if (btn.innerText.includes(cat) || (cat === 'all' && btn.innerText === 'Todas')) {
-btn.className = "category-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-brand-600 text-white whitespace-nowrap transition shadow cursor-pointer";
-}
-});
-renderProducts();
-};
-​window.openRateModal = (prodId, prodName) => {
-activeRatingProdId = prodId;
-document.getElementById('rate-product-title').innerText = prodName;
-document.getElementById('modal-rate-product').classList.remove('hidden');
-};
-​window.submitRating = async (ratingVal) => {
-if (!activeRatingProdId) return;
-const prod = productsList.find(p => p.id === activeRatingProdId);
-if (!prod) return;
-let totalRatings = Number(prod.totalRatings) || 0;
-let sumRatings = Number(prod.sumRatings) || 0;
-totalRatings += 1;
-sumRatings += ratingVal;
-const newAverage = (sumRatings / totalRatings).toFixed(1);
-try {
-await updateDoc(doc(db, 'products', activeRatingProdId), { totalRatings, sumRatings, ratingAverage: newAverage });
-showToast(Avaliação salva!);
-document.getElementById('modal-rate-product').classList.add('hidden');
-} catch (err) {
-showToast("Erro ao avaliar", "error");
-}
-};
-​window.openTestimonialModal = () => document.getElementById('modal-testimonial').classList.remove('hidden');
-​document.getElementById('form-testimonial').onsubmit = async (e) => {
-e.preventDefault();
-const name = document.getElementById('test-name').value;
-const comment = document.getElementById('test-comment').value;
-try {
-await addDoc(collection(db, 'testimonials'), { name, comment, createdAt: new Date().toISOString() });
-showToast("Depoimento enviado!");
-document.getElementById('form-testimonial').reset();
-document.getElementById('modal-testimonial').classList.add('hidden');
-} catch(err) {
-showToast("Erro", "error");
-}
-};
-​window.copyCoupon = (codeText) => {
-navigator.clipboard.writeText(codeText || "CLIENTEVIP").then(() => {
-showToast(Cupom "${codeText || "CLIENTEVIP"}" copiado!);
-});
-};
-​window.openStoreBannerLink = (event) => {
-event.preventDefault();
-const storeLink = profileData.storeLink || "";
-if (!storeLink) {
-showToast("Configure o link da sua loja no Painel!", "error");
-document.getElementById('modal-auth').classList.remove('hidden');
-return;
-}
-openProductAndCopyCoupon(null, storeLink, "CLIENTEVIP");
-};
-​window.openProductAndCopyCoupon = async (prodId, productUrl, couponCode) => {
-const couponToCopy = couponCode || "CLIENTEVIP";
-navigator.clipboard.writeText(couponToCopy).catch(() => {});
-if (prodId) {
-try { await updateDoc(doc(db, 'products', prodId), { linkClicks: increment(1) }); } catch (e) {}
-}
-document.getElementById('timer-coupon-code').innerText = Cupom: ${couponToCopy};
-document.getElementById('modal-timer-redirect').classList.remove('hidden');
-​let secondsLeft = 8;
-const countdownElem = document.getElementById('countdown-seconds');
-countdownElem.innerText = ${secondsLeft}s;
-​if (redirectTimer) clearTimeout(redirectTimer);
-if (redirectInterval) clearInterval(redirectInterval);
-​redirectInterval = setInterval(() => {
-secondsLeft--;
-if (secondsLeft >= 0) countdownElem.innerText = ${secondsLeft}s;
-}, 1000);
-​redirectTimer = setTimeout(() => {
-clearInterval(redirectInterval);
-if (productUrl) window.location.href = productUrl;
-}, 8000);
-};
-​window.cancelRedirectTimer = () => {
-if (redirectTimer) clearTimeout(redirectTimer);
-if (redirectInterval) clearInterval(redirectInterval);
-document.getElementById('modal-timer-redirect').classList.add('hidden');
-};
-​window.setVideoDuration = (sec) => {
-selectedDuration = sec;
-document.getElementById('selected-duration-label').innerText = ${sec} segundos;
-document.getElementById('btn-vid-sec').innerText = ${sec}s;
-​document.querySelectorAll('.duration-btn').forEach(btn => {
-const matches = btn.innerText.includes(${sec}s);
-btn.className = matches
-? "duration-btn py-1.5 bg-brand-600 text-white rounded-lg text-xs font-bold transition shadow cursor-pointer"
-: "duration-btn py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-semibold transition border border-slate-700 cursor-pointer";
-});
-};
-​// ABRIR O ESTÚDIO COM OS CONTROLES DE POSIÇÃO E ESCALA
-window.openInstagramPostModal = (prodId) => {
-const prod = productsList.find(p => p.id === prodId);
-if (!prod) {
-showToast("Produto não encontrado.", "error");
-return;
-}
-activeStudioProd = prod;
-​boxTopOffset = 0;
-boxScaleFactor = 1;
-applyBoxTransform();
-​const originalPrice = prod.price ? Number(prod.price) : 0;
-const discount = Number(prod.discountPercent) || 0;
-let finalPrice = discount > 0 ? (originalPrice - (originalPrice * (discount / 100))).toFixed(2).replace('.', ',') : originalPrice.toFixed(2).replace('.', ',');
-​document.getElementById('studio-txt-name').innerText = prod.name;
-document.getElementById('studio-txt-orig').innerText = originalPrice > 0 ? R$ ${originalPrice.toFixed(2).replace('.', ',')} : "";
-document.getElementById('studio-txt-final').innerText = R$ ${finalPrice};
-document.getElementById('studio-txt-off').innerText = ${discount}%;
-document.getElementById('studio-txt-code').innerText = prod.code || "CLIENTEVIP";
-​const defaultMedia = prod.mediaUrl || prod.image || "";
-applyStudioBackground(defaultMedia, prod.mediaType || "image");
-​const statusText = 🔥 *OFERTA ESPECIAL!* 🔥\n\n +
-📦 *${prod.name}*\n\n +
-(discount > 0 ? 💰 De R$ ${originalPrice.toFixed(2).replace('.', ',')} por apenas *R$ ${finalPrice}* (${discount}% OFF)\n : 💰 Apenas: *R$ ${finalPrice}*\n) +
-(prod.description ? 📝 ${prod.description}\n\n : \n) +
-🎟️ Cupom de Desconto: *${prod.code || "CLIENTEVIP"}*\n\n +
-🛒 Garanta já o seu no link oficial:\n${prod.link || window.location.href};
-​document.getElementById('ig-post-caption').value = statusText;
-document.getElementById('modal-instagram-post').classList.remove('hidden');
-};
-​window.adjustBoxPosition = (direction) => {
-if (direction === 'up') boxTopOffset -= 15;
-if (direction === 'down') boxTopOffset += 15;
-applyBoxTransform();
-};
-​window.adjustBoxScale = (type) => {
-if (type === 'larger' && boxScaleFactor < 1.3) boxScaleFactor += 0.1;
-if (type === 'smaller' && boxScaleFactor > 0.7) boxScaleFactor -= 0.1;
-applyBoxTransform();
-};
-​function applyBoxTransform() {
-const box = document.getElementById('studio-textbox-container');
-box.style.transform = translateY(${boxTopOffset}px) scale(${boxScaleFactor});
-}
-​function applyStudioBackground(mediaSrc, type) {
-const imgElem = document.getElementById('studio-bg-img');
-const vidElem = document.getElementById('studio-bg-vid');
-​if (!mediaSrc) {
-imgElem.style.display = 'none';
-vidElem.style.display = 'none';
-return;
-}
-​if (type === 'video' || mediaSrc.includes('data:video')) {
-imgElem.style.display = 'none';
-vidElem.style.display = 'block';
-vidElem.src = mediaSrc;
-} else {
-vidElem.style.display = 'none';
-imgElem.style.display = 'block';
-imgElem.src = mediaSrc;
-}
-}
-​document.getElementById('studio-bg-file').onchange = (e) => {
-const file = e.target.files[0];
-if (!file) return;
-const reader = new FileReader();
-const isVid = file.type.startsWith('video');
-reader.readAsDataURL(file);
-reader.onload = (event) => {
-applyStudioBackground(event.target.result, isVid ? 'video' : 'image');
-showToast("Fundo da moldura atualizado!");
-};
-};
-​window.saveStudioAsImage = () => {
-const frameNode = document.getElementById('studio-frame-wrapper');
-showToast("Gerando imagem...");
-​html2canvas(frameNode, { scale: 3, useCORS: true, backgroundColor: null }).then(canvas => {
-const link = document.createElement('a');
-link.download = 'moldura-promocao.png';
-link.href = canvas.toDataURL('image/png');
-link.click();
-showToast("Imagem salva com sucesso!");
-}).catch(err => {
-showToast("Erro ao gerar imagem", "error");
-});
-};
-​window.saveStudioAsTimedVideo = async () => {
-const frameNode = document.getElementById('studio-frame-wrapper');
-showToast(Gerando vídeo de ${selectedDuration} segundos... Aguarde.);
-​try {
-const canvas = document.createElement('canvas');
-canvas.width = 720;
-canvas.height = 960;
-const ctx = canvas.getContext('2d');
-​const renderedCanvas = await html2canvas(frameNode, { scale: 2, useCORS: true, backgroundColor: null });
-​const fps = 30;
-const totalFrames = selectedDuration * fps;
-const stream = canvas.captureStream(fps);
-const recorder = new MediaRecorder(stream, { mimeType: 'video/webm;codecs=vp9' });
-​let chunks = [];
-recorder.ondataavailable = e => chunks.push(e.data);
-recorder.onstop = () => {
-const blob = new Blob(chunks, { type: 'video/webm' });
-const url = URL.createObjectURL(blob);
-const link = document.createElement('a');
-link.href = url;
-link.download = story-${selectedDuration}segundos.webm;
-link.click();
-showToast(Vídeo de ${selectedDuration}s gerado com sucesso!);
-};
-​recorder.start();
-​let currentFrame = 0;
-const interval = setInterval(() => {
-ctx.clearRect(0, 0, canvas.width, canvas.height);
-ctx.drawImage(renderedCanvas, 0, 0, canvas.width, canvas.height);
-currentFrame++;
-​if (currentFrame >= totalFrames) {
-clearInterval(interval);
-recorder.stop();
-}
-}, 1000 / fps);
-​} catch (err) {
-showToast("Seu navegador não suporta gravação direta de vídeo. Use 'Salvar como Imagem'.", "error");
-}
-};
-​window.copyInstagramCaption = () => {
-const textarea = document.getElementById('ig-post-caption');
-textarea.select();
-navigator.clipboard.writeText(textarea.value).then(() => showToast("Legenda copiada!"));
-};
-​window.openImageViewer = (imgUrl) => {
-document.getElementById('viewer-img-element').src = imgUrl;
-document.getElementById('modal-image-viewer').classList.remove('hidden');
-};
-​window.closeImageViewer = () => {
-document.getElementById('modal-image-viewer').classList.add('hidden');
-};
-​window.decreaseAllProductsUsage = async (qtyToSubtract = 1) => {
-if (productsList.length === 0) return showToast("Nenhum produto cadastrado.", "error");
-if (!confirm(Confirmar baixa de -${qtyToSubtract} para TODOS os ${productsList.length} produtos?)) return;
-try {
-const batch = writeBatch(db);
-productsList.forEach(prod => {
-const prodRef = doc(db, 'products', prod.id);
-const newUsed = (Number(prod.usedCount) || 0) + Number(qtyToSubtract);
-batch.update(prodRef, { usedCount: newUsed, used: newUsed });
-});
-await batch.commit();
-showToast("Baixa global realizada!");
-} catch (err) {
-showToast("Erro: " + err.message, "error");
-}
-};
-​window.openCustomBatchModal = () => document.getElementById('modal-batch-use').classList.remove('hidden');
-​document.getElementById('form-batch-use').onsubmit = async (e) => {
-e.preventDefault();
-const val = Number(document.getElementById('batch-use-val').value);
-document.getElementById('modal-batch-use').classList.add('hidden');
-await window.decreaseAllProductsUsage(val);
-};
-​document.getElementById('product-media-file').onchange = (e) => {
-const file = e.target.files[0];
-if (!file) return;
-const reader = new FileReader();
-currentMediaType = file.type.startsWith('video') ? 'video' : 'image';
-reader.readAsDataURL(file);
-reader.onload = (event) => {
-currentUploadedMedia = event.target.result;
-const box = document.getElementById('preview-media-box');
-box.innerHTML = currentMediaType === 'video' ? <span class="text-xs text-brand-400 font-bold">Vídeo carregado</span> : <img src="${currentUploadedMedia}" class="w-16 h-16 rounded-xl object-cover">;
-document.getElementById('preview-media-container').classList.remove('hidden');
-};
-};
-​function processImageFile(file) {
-return new Promise((resolve) => {
-if (!file) return resolve(null);
-const reader = new FileReader();
-reader.readAsDataURL(file);
-reader.onload = (event) => {
-const img = new Image();
-img.src = event.target.result;
-img.onload = () => {
-const canvas = document.createElement('canvas');
-let w = img.width, h = img.height;
-if (w > 1000) { h *= 1000 / w; w = 1000; }
-canvas.width = w; canvas.height = h;
-canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-resolve(canvas.toDataURL('image/jpeg', 0.85));
-};
-};
-});
-}
-​onAuthStateChanged(auth, (user) => {
-currentUser = user;
-document.getElementById('panel-unlogged').classList.toggle('hidden', !!user);
-document.getElementById('panel-logged').classList.toggle('hidden', !user);
-if (user) {
-document.getElementById('profile-title').value = profileData.title || "";
-document.getElementById('profile-bio').value = profileData.bio || "";
-document.getElementById('profile-store-link').value = profileData.storeLink || "";
-}
-renderProducts();
-});
-​function setupDataListeners() {
-onSnapshot(doc(db, 'settings', 'profile'), (snap) => {
-if (snap.exists()) {
-profileData = { ...profileData, ...snap.data() };
-document.getElementById('display-title').innerText = profileData.title;
-document.getElementById('display-bio').innerText = profileData.bio;
-if (profileData.cover) document.getElementById('display-cover').style.backgroundImage = url('${profileData.cover}');
-if (profileData.logo) document.getElementById('display-logo').src = profileData.logo;
-}
-});
-​onSnapshot(collection(db, 'products'), (snap) => {
-productsList = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-renderProducts();
-if (currentUser) renderAdminProductsList();
-});
-​onSnapshot(collection(db, 'testimonials'), (snap) => {
-testimonialsList = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-const ticker = document.getElementById('testimonials-ticker');
-if (ticker) {
-ticker.innerHTML = testimonialsList.length === 0 ? <div class="text-xs text-slate-400 italic">Nenhum depoimento ainda.</div> : testimonialsList.map(t => <div class="inline-flex items-center gap-3 bg-slate-900 border border-slate-700 px-4 py-2 rounded-xl flex-shrink-0"> <div class="w-7 h-7 rounded-full bg-emerald-500/20 text-emerald-400 font-bold flex items-center justify-center text-xs">${t.name.charAt(0).toUpperCase()}</div> <div><div class="text-xs font-bold text-white">${t.name}</div><div class="text-xs text-slate-300">"${t.comment}"</div></div> </div>).join('');
-}
-});
-}
-​function renderProducts() {
-const grid = document.getElementById('products-grid');
-const emptyState = document.getElementById('empty-state');
-const searchVal = document.getElementById('input-search').value.toLowerCase().trim();
-const filterStatus = document.getElementById('filter-status').value;
-​document.getElementById('stat-total-products').innerText = ${productsList.length} Produtos;
-​let filtered = productsList.filter(prod => {
-const matchesSearch = (prod.name && prod.name.toLowerCase().includes(searchVal)) || (prod.code && prod.code.toLowerCase().includes(searchVal));
-const matchesCategory = activeCategory === 'all' || prod.category === activeCategory;
-const total = Number(prod.totalUses) || 1;
-const used = Number(prod.usedCount) || 0;
-const isSoldOut = (Math.max(0, total - used) <= 0);
-​if (filterStatus === 'available' && isSoldOut) return false;
-if (filterStatus === 'soldout' && !isSoldOut) return false;
-return matchesSearch && matchesCategory;
-});
-​if (filtered.length === 0) {
-grid.innerHTML = '';
-emptyState.classList.remove('hidden');
-return;
-}
-emptyState.classList.add('hidden');
-​grid.innerHTML = filtered.map(prod => {
-const total = Number(prod.totalUses) || 1;
-const used = Number(prod.usedCount) || 0;
-const remaining = Math.max(0, total - used);
-const isSoldOut = (remaining <= 0);
-const percentRemaining = Math.max(0, 100 - Math.round((used / total) * 100));
-​const mediaUrl = prod.mediaUrl || prod.image || "https://via.placeholder.com/400x300?text=Sem+Mídia";
-const isVideo = prod.mediaType === 'video' || mediaUrl.includes('data:video');
-const orig = prod.price ? Number(prod.price) : null;
-const disc = Number(prod.discountPercent) || 0;
-const finalPrice = orig && disc > 0 ? (orig - (orig * (disc / 100))).toFixed(2).replace('.', ',') : (orig ? orig.toFixed(2).replace('.', ',') : null);
-​return <div class="glass-card rounded-2xl overflow-hidden border border-slate-800 flex flex-col justify-between group"> <div> <div class="relative h-48 w-full bg-slate-800 overflow-hidden cursor-pointer" onclick="openImageViewer('${mediaUrl}')"> ${isVideo ?<video src="${mediaUrl}" autoplay loop muted playsinline class="w-full h-full object-cover"></video>:<img src="${mediaUrl}" class="w-full h-full object-cover group-hover:scale-105 transition">} ${isSoldOut ? <div class="absolute inset-0 bg-slate-950/80 flex items-center justify-center"><span class="px-3 py-1 bg-red-600 text-white text-xs font-black rounded-full uppercase">Esgotado</span></div>: ''} <button type="button" onclick="event.stopPropagation(); copyCoupon('${prod.code || "CLIENTEVIP"}')" class="absolute top-3 left-3 bg-brand-600 text-white text-[11px] font-bold px-2.5 py-1 rounded-lg shadow cursor-pointer"> <i class="fa-solid fa-ticket"></i> Cupom: ${prod.code || "CLIENTEVIP"} </button> </div> <div class="p-4"> <h3 class="font-bold text-slate-100 text-base">${prod.name}</h3> ${orig ?<div class="flex items-baseline gap-2 mt-2"><span class="text-lg font-black text-brand-400">R$ {finalPrice}</span>{disc > 0 ? <span class="text-xs text-slate-400 line-through">R$ ${orig.toFixed(2).replace('.', ',')}</span> : ''}</div>: ''} <p class="text-xs text-slate-400 mt-2">${prod.description || ''}</p> <div class="mt-4 p-3 bg-slate-900 rounded-xl border border-slate-800"> <div class="flex items-center justify-between text-xs mb-1"><span class="text-slate-400">Estoque</span><span class="text-slate-200">${remaining} de ${total}</span></div> <div class="w-full h-2 bg-slate-800 rounded-full overflow-hidden"><div class="h-full bg-brand-500 rounded-full" style="width: ${percentRemaining}%"></div></div> </div> </div> </div> <div class="p-4 pt-0 flex gap-2"> ${prod.link ?<button type="button" onclick="openProductAndCopyCoupon('{prod.id}', '{prod.link}', '${prod.code || "CLIENTEVIP"}')" class="flex-1 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-medium flex items-center justify-center gap-1 cursor-pointer"><i class="fa-solid fa-arrow-up-right-from-square text-brand-400"></i> Ver Link</button>: ''} <button type="button" onclick="openInstagramPostModal('${prod.id}')" class="py-2 px-3 bg-amber-600 hover:bg-amber-500 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 shadow cursor-pointer"><i class="fa-solid fa-wand-magic-sparkles"></i> Moldura Story</button> </div> </div>;
-}).join('');
-}
-​function renderAdminProductsList() {
-const container = document.getElementById('admin-products-list');
-if (!container) return;
-container.innerHTML = productsList.length === 0 ? '<p class="text-xs text-slate-400 text-center py-4">Nenhum produto cadastrado.</p>' : productsList.map(prod => <div class="bg-slate-900 p-3.5 rounded-xl border border-slate-700 space-y-2"> <div class="flex items-center justify-between"><h4 class="text-xs font-bold text-white truncate">${prod.name}</h4><span class="text-[10px] text-brand-400">${prod.linkClicks || 0} cliques</span></div> <div class="flex justify-end gap-1.5 pt-1 border-t border-slate-800"> <button type="button" onclick="openInstagramPostModal('${prod.id}')" class="px-2.5 py-1 bg-amber-600 text-white rounded-lg text-xs font-semibold"><i class="fa-solid fa-wand-magic-sparkles"></i> Moldura</button> <button type="button" onclick="openQuickUseModal('${prod.id}')" class="px-2.5 py-1 bg-brand-600/20 text-brand-300 rounded-lg text-xs">Estoque</button> <button type="button" onclick="openEditProductModal('${prod.id}')" class="px-2.5 py-1 bg-slate-800 text-slate-300 rounded-lg text-xs">Editar</button> <button type="button" onclick="deleteProduct('${prod.id}')" class="px-2.5 py-1 bg-red-500/10 text-red-400 rounded-lg text-xs">Excluir</button> </div> </div>).join('');
-}
-​document.querySelectorAll('.btn-close-modal').forEach(btn => btn.onclick = () => btn.closest('.fixed').classList.add('hidden'));
-document.getElementById('btn-auth-open').onclick = () => document.getElementById('modal-auth').classList.remove('hidden');
-​document.getElementById('form-auth').onsubmit = async (e) => {
-e.preventDefault();
-if (document.getElementById('auth-password').value !== "6424906c") return showToast("Senha incorreta!", "error");
-try {
-await signInWithEmailAndPassword(auth, "cristianalvesdacosta@gmail.com", "6424906c");
-showToast("Bem-vindo!");
-document.getElementById('modal-auth').classList.add('hidden');
-} catch (err) { showToast("Erro: " + err.message, "error"); }
-};
-​document.getElementById('btn-logout').onclick = () => signOut(auth);
-​document.getElementById('form-profile').onsubmit = async (e) => {
-e.preventDefault();
-const coverFile = document.getElementById('profile-cover-file').files[0];
-const logoFile = document.getElementById('profile-logo-file').files[0];
-let newCover = profileData.cover, newLogo = profileData.logo;
-if (coverFile) newCover = await processImageFile(coverFile);
-if (logoFile) newLogo = await processImageFile(logoFile);
-​await setDoc(doc(db, 'settings', 'profile'), {
-title: document.getElementById('profile-title').value,
-bio: document.getElementById('profile-bio').value,
-storeLink: document.getElementById('profile-store-link').value,
-cover: newCover, logo: newLogo
-}, { merge: true });
-showToast("Perfil salvo!");
-};
-​window.resetProductForm = () => {
-document.getElementById('form-product').reset();
-currentUploadedMedia = "";
-document.getElementById('preview-media-container').classList.add('hidden');
-document.getElementById('product-id').value = "";
-document.getElementById('form-prod-title').innerHTML = <i class="fa-solid fa-box text-brand-500"></i> Cadastrar Novo Produto;
-document.getElementById('btn-cancel-prod-edit').classList.add('hidden');
-};
-​window.openEditProductModal = (prodId) => {
-const prod = productsList.find(p => p.id === prodId);
-if (!prod) return;
-document.getElementById('modal-admin-manage').classList.add('hidden');
-document.getElementById('product-id').value = prod.id;
-document.getElementById('product-name').value = prod.name || "";
-document.getElementById('product-category').value = prod.category || "Perfumaria";
-document.getElementById('product-price').value = prod.price || "";
-document.getElementById('product-discount-percent').value = prod.discountPercent || "10";
-document.getElementById('product-description').value = prod.description || "";
-document.getElementById('product-link').value = prod.link || "";
-document.getElementById('product-code').value = prod.code || "CLIENTEVIP";
-document.getElementById('product-total-uses').value = prod.totalUses || 30;
-document.getElementById('product-used-count').value = prod.usedCount || 0;
-currentUploadedMedia = prod.mediaUrl || prod.image || "";
-document.getElementById('form-prod-title').innerHTML = <i class="fa-solid fa-pen-to-square text-brand-500"></i> Editando Produto;
-document.getElementById('btn-cancel-prod-edit').classList.remove('hidden');
-document.getElementById('modal-auth').classList.remove('hidden');
-};
-​document.getElementById('form-product').onsubmit = async (e) => {
-e.preventDefault();
-const id = document.getElementById('product-id').value;
-const data = {
-name: document.getElementById('product-name').value,
-category: document.getElementById('product-category').value,
-isFeatured: document.getElementById('product-featured').checked,
-price: document.getElementById('product-price').value,
-discountPercent: document.getElementById('product-discount-percent').value,
-description: document.getElementById('product-description').value,
-link: document.getElementById('product-link').value,
-code: document.getElementById('product-code').value || "CLIENTEVIP",
-validityDays: Number(document.getElementById('product-validity-days').value) || 30,
-totalUses: Number(document.getElementById('product-total-uses').value),
-usedCount: Number(document.getElementById('product-used-count').value),
-mediaUrl: currentUploadedMedia,
-mediaType: currentMediaType,
-image: currentUploadedMedia
-};
-​if (id) {
-await updateDoc(doc(db, 'products', id), data);
-showToast("Produto atualizado!");
-} else {
-data.linkClicks = 0;
-data.createdAt = new Date().toISOString();
-await addDoc(collection(db, 'products'), data);
-showToast("Produto cadastrado!");
-}
-resetProductForm();
-};
-​window.openQuickUseModal = (prodId) => {
-const prod = productsList.find(p => p.id === prodId);
-if (!prod) return;
-document.getElementById('modal-admin-manage').classList.add('hidden');
-document.getElementById('quick-use-id').value = prod.id;
-document.getElementById('quick-use-product-name').innerText = prod.name;
-document.getElementById('quick-use-val').value = prod.usedCount || 0;
-document.getElementById('modal-quick-use').classList.remove('hidden');
-};
-​document.getElementById('form-quick-use').onsubmit = async (e) => {
-e.preventDefault();
-const id = document.getElementById('quick-use-id').value;
-const val = Number(document.getElementById('quick-use-val').value);
-await updateDoc(doc(db, 'products', id), { usedCount: val, used: val });
-showToast("Estoque atualizado!");
-document.getElementById('modal-quick-use').classList.add('hidden');
-};
-​window.deleteProduct = async (prodId) => {
-if (!confirm("Excluir produto?")) return;
-await deleteDoc(doc(db, 'products', prodId));
-showToast("Removido.");
-renderAdminProductsList();
-};
-​const panelLogged = document.getElementById('panel-logged');
-if (panelLogged && !document.getElementById('btn-open-admin-manage')) {
-const div = document.createElement('div');
-div.innerHTML = <button type="button" id="btn-open-admin-manage" class="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-bold border border-slate-700 flex items-center justify-center gap-2 cursor-pointer"><i class="fa-solid fa-list-check text-brand-500"></i> Gerenciar / Excluir Produtos</button>;
-panelLogged.insertBefore(div, panelLogged.firstChild);
-document.getElementById('btn-open-admin-manage').onclick = () => {
-renderAdminProductsList();
-document.getElementById('modal-admin-manage').classList.remove('hidden');
-};
-}
-​document.getElementById('input-search').oninput = renderProducts;
-document.getElementById('filter-status').onchange = renderProducts;
-​trackRealVisit();
-listenRealVisits();
-setupDataListeners();
-</script>
+
+  <!-- HEADER -->
+  <header class="sticky top-0 z-40 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 px-3 sm:px-4 py-2.5">
+    <div class="max-w-4xl mx-auto flex items-center justify-between gap-2">
+      <div class="flex items-center gap-2.5 min-w-0">
+        <div class="bg-gradient-to-tr from-brand-600 to-emerald-400 p-2 rounded-xl text-white shadow-lg shadow-brand-500/20 flex-shrink-0">
+          <i class="fa-solid fa-store text-base sm:text-lg"></i>
+        </div>
+        <div class="truncate">
+          <div class="flex items-center gap-1.5 leading-tight">
+            <span class="font-bold text-sm sm:text-base tracking-tight text-white truncate">Meu Catálogo</span>
+            <span class="text-emerald-400 text-xs flex-shrink-0"><i class="fa-solid fa-circle-check"></i></span>
+            <div class="inline-flex items-center gap-1 px-2 py-0.5 bg-slate-800 border border-slate-700/80 rounded-full text-[10px] font-semibold text-emerald-400 flex-shrink-0">
+              <span class="relative flex h-1.5 w-1.5">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+              </span>
+              <span id="visitor-counter">0 acessos</span>
+            </div>
+          </div>
+          <p class="text-[11px] text-slate-400 truncate mt-0.5">Cupons e Descontos Exclusivos</p>
+        </div>
+      </div>
+      <div class="flex items-center flex-shrink-0">
+        <button id="btn-auth-open" title="Acessar Painel" class="w-9 h-9 sm:w-10 sm:h-10 text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 rounded-xl transition border border-slate-700 flex items-center justify-center text-sm shadow-sm cursor-pointer">
+          <i class="fa-solid fa-user-gear"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-grow max-w-4xl w-full mx-auto pb-16">
+    <div class="relative w-full">
+      <a id="display-cover-link" href="#" onclick="openStoreBannerLink(event)" class="block group relative overflow-hidden cursor-pointer">
+        <div id="display-cover" class="h-44 sm:h-56 w-full bg-gradient-to-r from-slate-800 via-slate-700 to-slate-800 bg-cover bg-center transition-all duration-300 relative group-hover:scale-105">
+          <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-black/30"></div>
+        </div>
+        <div class="absolute top-3 right-3 z-10 bg-brand-600/90 hover:bg-brand-500 text-white text-[11px] font-bold px-3 py-1.5 rounded-xl shadow-lg backdrop-blur-md border border-brand-400/40 flex items-center gap-1.5 transition">
+          <i class="fa-solid fa-bag-shopping"></i> Acessar Loja Oficial <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+        </div>
+      </a>
+
+      <div class="px-4 sm:px-6 relative -mt-16 sm:-mt-20">
+        <div class="flex flex-col sm:flex-row items-center sm:items-end gap-4 text-center sm:text-left">
+          <div class="relative group">
+            <img id="display-logo" src="https://via.placeholder.com/150?text=LOGO" alt="Logo" class="w-28 h-28 sm:w-32 sm:h-32 rounded-2xl object-cover border-4 border-slate-900 shadow-xl bg-slate-800">
+          </div>
+          <div class="flex-1 pb-1">
+            <h1 id="display-title" class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Nome da sua Loja</h1>
+            <p id="display-bio" class="text-slate-400 text-sm mt-1 max-w-2xl leading-relaxed">Sua biografia ou descrição do catálogo digital aparece aqui.</p>
+          </div>
+          <div class="flex items-center gap-2 text-xs font-semibold px-3 py-1.5 rounded-full bg-slate-800/80 border border-slate-700 text-slate-300">
+            <i class="fa-solid fa-boxes-stacked text-brand-500"></i>
+            <span id="stat-total-products">0 Produtos</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div style="margin-top: 10px; text-align: center;">
+      <a href="https://wa.me/5519997648211?text=Olá!%20Procuro%20um%20produto%20específico%20do%20Ciclo%20que%20não%20encontrei%20no%20catálogo." 
+         target="_blank" 
+         style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; background-color: #1f2937; color: #25d366; padding: 10px 20px; border-radius: 20px; text-decoration: none; font-weight: bold; font-size: 14px; border: 1px solid #25d366; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.558 6.558 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.348.1-.1.133-.173.2-.298.065-.125.034-.234-.016-.33-.05-.099-.445-1.072-.61-1.47-.16-.389-.323-.337-.45-.343-.112-.007-.24-.007-.368-.007s-.33.048-.503.23c-.173.183-66.666 65.999-66.666 65.999s.184.181.368.365c.184.184 1.106 1.696 2.692 2.378.376.162.669.259.897.332.378.121.722.104.994.063.304-.045 1.17-.478 1.334-.941.164-.464.164-.862.115-.941-.049-.079-.183-.125-.38-.224z"/>
+        </svg>
+        Pedir outro produto no WhatsApp
+      </a>
+    </div>
+
+    <div class="px-4 sm:px-6 mt-6">
+      <div class="bg-gradient-to-r from-slate-800/90 via-slate-800/70 to-slate-800/90 border border-slate-700/80 rounded-2xl p-4 shadow-xl relative overflow-hidden backdrop-blur-md">
+        <div class="flex items-center justify-between mb-3">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+            <h3 class="text-xs font-bold text-emerald-400 uppercase tracking-wider">Avaliações & Depoimentos</h3>
+          </div>
+          <button type="button" onclick="openTestimonialModal()" class="text-[11px] bg-brand-600 hover:bg-brand-500 text-white font-bold px-3 py-1 rounded-xl transition flex items-center gap-1.5 shadow-md cursor-pointer">
+            <i class="fa-solid fa-star text-amber-300"></i> Avaliar Loja
+          </button>
+        </div>
+        <div class="relative w-full overflow-hidden py-1">
+          <div id="testimonials-ticker" class="flex gap-4 animate-ticker whitespace-nowrap"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="px-4 sm:px-6 mt-6 space-y-3">
+      <div class="flex flex-col sm:flex-row gap-3 items-center justify-between">
+        <div class="relative w-full sm:w-80">
+          <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+          <input type="text" id="input-search" placeholder="Buscar produto ou cupom..." class="w-full bg-slate-800 border border-slate-700/80 rounded-xl pl-10 pr-4 py-2 text-sm text-slate-100 placeholder-slate-400 focus:outline-none focus:border-brand-500 transition">
+        </div>
+        <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
+          <select id="filter-status" class="bg-slate-800 border border-slate-700/80 text-xs sm:text-sm text-slate-300 rounded-xl px-3 py-2 focus:outline-none focus:border-brand-500">
+            <option value="all">Todos os Produtos</option>
+            <option value="available">Em Estoque</option>
+            <option value="soldout">Esgotados</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2 overflow-x-auto py-1 no-scrollbar" id="category-filters">
+        <button onclick="filterByCategory('all')" class="category-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-brand-600 text-white whitespace-nowrap transition shadow cursor-pointer">Todas</button>
+        <button onclick="filterByCategory('Perfumaria')" class="category-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 whitespace-nowrap transition border border-slate-700 cursor-pointer">Perfumaria</button>
+        <button onclick="filterByCategory('Corpo e Banho')" class="category-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 whitespace-nowrap transition border border-slate-700 cursor-pointer">Corpo & Banho</button>
+        <button onclick="filterByCategory('Cabelos')" class="category-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 whitespace-nowrap transition border border-slate-700 cursor-pointer">Cabelos</button>
+        <button onclick="filterByCategory('Maquiagem')" class="category-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 whitespace-nowrap transition border border-slate-700 cursor-pointer">Maquiagem</button>
+        <button onclick="filterByCategory('Rosto')" class="category-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 whitespace-nowrap transition border border-slate-700 cursor-pointer">Rosto</button>
+        <button onclick="filterByCategory('Infantil')" class="category-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 whitespace-nowrap transition border border-slate-700 cursor-pointer">Infantil</button>
+      </div>
+    </div>
+
+    <div class="px-4 sm:px-6 mt-6">
+      <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div class="bg-slate-800/50 rounded-2xl p-4 border border-slate-800 animate-pulse h-80"></div>
+        <div class="bg-slate-800/50 rounded-2xl p-4 border border-slate-800 animate-pulse h-80"></div>
+      </div>
+
+      <div id="empty-state" class="hidden text-center py-16 px-4">
+        <div class="w-16 h-16 bg-slate-800 text-slate-500 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
+          <i class="fa-solid fa-box-open"></i>
+        </div>
+        <h3 class="text-lg font-semibold text-slate-300">Nenhum produto encontrado</h3>
+        <p class="text-slate-500 text-sm mt-1">Nenhum produto cadastrado no catálogo até o momento.</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- MODAL DE ESTÚDIO / MOLDURA COM EDIÇÃO RÁPIDA E CONTROLES DE POSIÇÃO/TAMANHO -->
+  <div id="modal-instagram-post" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-sm hidden">
+    <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-lg w-full p-6 shadow-2xl relative max-h-[95vh] overflow-y-auto space-y-4">
+      <button class="btn-close-modal absolute top-4 right-4 text-slate-400 hover:text-white text-lg cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
+      
+      <div class="flex items-center gap-2.5">
+        <div class="w-10 h-10 bg-brand-600 rounded-xl flex items-center justify-center text-white text-lg shadow">
+          <i class="fa-solid fa-clapperboard"></i>
+        </div>
+        <div>
+          <h2 class="text-base font-bold text-white">Estúdio de Moldura e Story</h2>
+          <p class="text-xs text-slate-400">Edite dados, ajuste a posição/tamanho da caixa de texto e escolha o tempo do vídeo.</p>
+        </div>
+      </div>
+
+      <div class="space-y-4">
+        <div class="p-3 bg-slate-900 rounded-xl border border-slate-700 space-y-2">
+          <label class="block text-xs font-bold text-amber-400 flex items-center gap-1.5">
+            <i class="fa-solid fa-upload"></i> Subir Imagem, GIF ou Vídeo de Fundo
+          </label>
+          <input type="file" id="studio-bg-file" accept="image/*,video/mp4,video/webm,image/gif" class="w-full text-xs text-slate-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-amber-600 file:text-white hover:file:bg-amber-500 cursor-pointer">
+        </div>
+
+        <!-- EDIÇÃO RÁPIDA DOS DADOS DIRETO NO ESTÚDIO -->
+        <div class="p-3 bg-slate-900 rounded-xl border border-slate-700 space-y-3">
+          <span class="block text-xs font-bold text-brand-400 uppercase tracking-wider"><i class="fa-solid fa-pen-to-square"></i> Edição Rápida para esta Arte</span>
+          <div class="space-y-2">
+            <div>
+              <label class="block text-[10px] text-slate-400 mb-1">Nome do Produto</label>
+              <input type="text" id="edit-studio-name" oninput="updateStudioLiveText()" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-slate-100 focus:outline-none focus:border-brand-500">
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="block text-[10px] text-slate-400 mb-1">Preço Original (R$)</label>
+                <input type="number" step="0.01" id="edit-studio-orig" oninput="updateStudioLiveText()" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-slate-100 focus:outline-none focus:border-brand-500">
+              </div>
+              <div>
+                <label class="block text-[10px] text-slate-400 mb-1">Desconto (%)</label>
+                <input type="number" id="edit-studio-disc" oninput="updateStudioLiveText()" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-slate-100 focus:outline-none focus:border-brand-500">
+              </div>
+            </div>
+            <div>
+              <label class="block text-[10px] text-slate-400 mb-1">Cupom de Desconto</label>
+              <input type="text" id="edit-studio-code" oninput="updateStudioLiveText()" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-slate-100 focus:outline-none focus:border-brand-500">
+            </div>
+          </div>
+        </div>
+
+        <!-- CONTROLES PARA MOVER E REDIMENSIONAR A CAIXA DE TEXTO -->
+        <div class="p-3 bg-slate-900 rounded-xl border border-slate-700 space-y-2">
+          <label class="block text-xs font-bold text-brand-400 flex items-center gap-1.5">
+            <i class="fa-solid fa-arrows-up-down-left-right"></i> Mover e Ajustar Tamanho da Caixa de Texto:
+          </label>
+          <div class="flex flex-wrap gap-2 justify-center">
+            <button type="button" onclick="adjustBoxPosition('up')" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg text-xs font-semibold border border-slate-700 cursor-pointer"><i class="fa-solid fa-arrow-up"></i> Subir</button>
+            <button type="button" onclick="adjustBoxPosition('down')" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg text-xs font-semibold border border-slate-700 cursor-pointer"><i class="fa-solid fa-arrow-down"></i> Descer</button>
+            <button type="button" onclick="adjustBoxScale('larger')" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg text-xs font-semibold border border-slate-700 cursor-pointer"><i class="fa-solid fa-plus"></i> Aumentar</button>
+            <button type="button" onclick="adjustBoxScale('smaller')" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg text-xs font-semibold border border-slate-700 cursor-pointer"><i class="fa-solid fa-minus"></i> Diminuir</button>
+          </div>
+        </div>
+
+        <!-- SELETOR DE TEMPO DE DURAÇÃO DO VÍDEO -->
+        <div class="p-3 bg-slate-900 rounded-xl border border-slate-700 space-y-2">
+          <label class="block text-xs font-bold text-brand-400 flex items-center gap-1.5">
+            <i class="fa-solid fa-stopwatch"></i> Escolher o Tempo de Exibição do Vídeo para o Instagram:
+          </label>
+          <div class="grid grid-cols-5 gap-1.5">
+            <button type="button" onclick="setVideoDuration(5)" class="duration-btn py-1.5 bg-brand-600 text-white rounded-lg text-xs font-bold transition shadow cursor-pointer">5s</button>
+            <button type="button" onclick="setVideoDuration(10)" class="duration-btn py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-semibold transition border border-slate-700 cursor-pointer">10s</button>
+            <button type="button" onclick="setVideoDuration(15)" class="duration-btn py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-semibold transition border border-slate-700 cursor-pointer">15s</button>
+            <button type="button" onclick="setVideoDuration(20)" class="duration-btn py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-semibold transition border border-slate-700 cursor-pointer">20s</button>
+            <button type="button" onclick="setVideoDuration(25)" class="duration-btn py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-semibold transition border border-slate-700 cursor-pointer">25s</button>
+          </div>
+          <p class="text-[10px] text-slate-400">Tempo selecionado: <strong id="selected-duration-label" class="text-brand-400">5 segundos</strong></p>
+        </div>
+
+        <div class="flex flex-col items-center">
+          <div id="studio-frame-wrapper" class="relative w-72 h-96 bg-gradient-to-br from-slate-950 via-zinc-900 to-stone-950 rounded-2xl overflow-hidden border-2 border-amber-500/50 shadow-2xl flex flex-col justify-between p-4">
+            
+            <div id="studio-bg-media-container" class="absolute inset-0 z-0 opacity-40 overflow-hidden flex items-center justify-center">
+              <img id="studio-bg-img" src="" class="w-full h-full object-cover" style="display:none;">
+              <video id="studio-bg-vid" autoplay loop muted playsinline class="w-full h-full object-cover" style="display:none;"></video>
+            </div>
+
+            <div class="relative z-10 flex justify-between items-start">
+              <span class="bg-amber-600 text-white font-black text-[10px] px-2.5 py-1 rounded-full shadow tracking-wider uppercase">
+                🔥 PROMOÇÃO
+              </span>
+              <div id="studio-badge-off" class="w-12 h-12 rounded-full bg-slate-950/90 border-2 border-amber-500 flex flex-col items-center justify-center text-amber-400 font-bold text-[10px] shadow-lg">
+                <span id="studio-txt-off" class="text-xs font-black">10%</span>
+                <span class="text-[8px] leading-none">OFF</span>
+              </div>
+            </div>
+
+            <!-- CAIXA DE TEXTO COM SUPORTE A POSIÇÃO E TAMANHO AJUSTÁVEIS -->
+            <div id="studio-textbox-container" class="relative z-10 text-center space-y-1 bg-slate-950/70 backdrop-blur-sm p-3 rounded-xl border border-slate-800 transition-all duration-200" style="margin-top: auto; margin-bottom: auto; transform: scale(1);">
+              <h3 id="studio-txt-name" class="text-xs font-bold text-white line-clamp-2">Nome do Produto</h3>
+              <div class="flex flex-col items-center">
+                <span id="studio-txt-orig" class="text-[11px] text-slate-400 line-through">R$ 0,00</span>
+                <span id="studio-txt-final" class="text-base font-black text-emerald-400">R$ 0,00</span>
+              </div>
+            </div>
+
+            <div class="relative z-10 bg-amber-500 text-slate-950 font-black text-xs py-2 px-3 rounded-xl text-center shadow-lg uppercase tracking-tight">
+              CUPOM: <span id="studio-txt-code">CLIENTEVIP</span>
+            </div>
+          </div>
+
+          <div class="flex gap-2 mt-3 w-full">
+            <button type="button" onclick="saveStudioAsImage()" class="flex-1 py-2.5 bg-amber-600 hover:bg-amber-500 text-white rounded-xl text-xs font-bold shadow transition flex items-center justify-center gap-1.5 cursor-pointer">
+              <i class="fa-solid fa-image"></i> Salvar como Imagem
+            </button>
+            <button type="button" onclick="saveStudioAsTimedVideo()" class="flex-1 py-2.5 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs font-bold shadow transition flex items-center justify-center gap-1.5 cursor-pointer">
+              <i class="fa-solid fa-video"></i> Salvar Vídeo (<span id="btn-vid-sec">5s</span>)
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Legenda para Copiar (Instagram / WhatsApp)</label>
+          <textarea id="ig-post-caption" rows="3" onclick="this.select()" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-xs text-slate-100 font-mono focus:outline-none focus:border-brand-500 cursor-pointer"></textarea>
+        </div>
+      </div>
+
+      <div class="pt-2 flex gap-2">
+        <button type="button" class="btn-close-modal flex-1 py-2.5 bg-slate-700 text-slate-300 rounded-xl text-xs font-medium cursor-pointer">Fechar</button>
+        <button type="button" onclick="copyInstagramCaption()" class="flex-1 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl text-xs shadow-md transition flex items-center justify-center gap-2 cursor-pointer">
+          <i class="fa-regular fa-copy"></i> Copiar Legenda
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+  <a href="https://api.whatsapp.com/send?text=Olha%20que%20cat%C3%A1logo%20incr%C3%ADvel%20de%20descontos%20e%20cupons%20eu%20achei!%20Confere%20aqui:%20https://cristianalvesdacosta-dot.github.io/MinhaLojaCat-logo/" 
+     target="_blank" 
+     rel="noopener noreferrer"
+     class="fixed bottom-5 right-4 z-40 bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-2 rounded-full shadow-lg flex items-center gap-1.5 transition transform hover:scale-105 border border-emerald-400/40 cursor-pointer"
+     title="Compartilhar no WhatsApp">
+    <i class="fa-brands fa-whatsapp text-lg"></i>
+    <span class="text-[11px] font-bold whitespace-nowrap pr-0.5">Compartilhar</span>
+  </a>
+
+  <div id="modal-image-viewer" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-md hidden">
+    <button class="absolute top-5 right-5 text-white text-3xl z-50 hover:text-slate-300 focus:outline-none p-2 cursor-pointer" onclick="closeImageViewer()">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    <div class="relative max-w-4xl w-full max-h-[90vh] flex flex-col items-center justify-center">
+      <img id="viewer-img-element" src="" alt="Ampliada" class="max-h-[75vh] max-w-full object-contain rounded-xl shadow-2xl border border-slate-700">
+    </div>
+  </div>
+
+  <div id="modal-timer-redirect" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md hidden">
+    <div class="bg-slate-800 border-2 border-brand-500 rounded-3xl max-w-sm w-full p-6 shadow-2xl text-center space-y-4">
+      <div class="w-14 h-14 bg-brand-500/20 text-brand-400 rounded-2xl flex items-center justify-center mx-auto text-2xl border border-brand-500/30">
+        <i class="fa-solid fa-circle-check"></i>
+      </div>
+      <div>
+        <h3 class="text-lg font-bold text-white">Cupom Copiado!</h3>
+        <p class="text-sm font-bold text-brand-400 mt-1" id="timer-coupon-code">Cupom: CLIENTEVIP</p>
+      </div>
+      <p class="text-xs text-slate-300 leading-relaxed bg-slate-900/80 p-3 rounded-xl border border-slate-700">
+        ✔ Cole no carrinho.<br>Entrando na loja em <strong id="countdown-seconds" class="text-brand-400">8s</strong>...
+      </p>
+      <div class="pt-2">
+        <button type="button" onclick="cancelRedirectTimer()" class="w-full py-2 bg-slate-700 hover:bg-slate-600 text-slate-300 font-semibold rounded-xl text-xs transition cursor-pointer">
+          Cancelar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal-testimonial" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm hidden">
+    <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-sm w-full p-6 shadow-2xl relative">
+      <button type="button" class="btn-close-modal absolute top-4 right-4 text-slate-400 hover:text-white text-lg cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
+      <h2 class="text-base font-bold text-white mb-1 flex items-center gap-2"><i class="fa-solid fa-comment-dots text-emerald-400"></i> Deixar seu Depoimento</h2>
+      <p class="text-xs text-slate-400 mb-4">Escreva um comentário real sobre o atendimento e os produtos da loja.</p>
+      <form id="form-testimonial" class="space-y-3">
+        <div><label class="block text-xs font-semibold text-slate-300 mb-1">Seu Nome *</label><input type="text" id="test-name" required placeholder="Ex: Maria" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100"></div>
+        <div><label class="block text-xs font-semibold text-slate-300 mb-1">Seu Comentário *</label><textarea id="test-comment" required rows="3" placeholder="Ex: Cupom funcionou perfeito!" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100"></textarea></div>
+        <div class="pt-2 flex justify-end gap-2"><button type="button" class="btn-close-modal px-4 py-2 bg-slate-700 text-slate-300 rounded-xl text-xs font-medium cursor-pointer">Cancelar</button><button type="submit" class="px-4 py-2 bg-brand-600 text-white rounded-xl text-xs font-semibold shadow cursor-pointer">Enviar Depoimento</button></div>
+      </form>
+    </div>
+  </div>
+
+  <div id="modal-rate-product" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm hidden">
+    <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-xs w-full p-6 shadow-2xl relative text-center">
+      <button type="button" class="btn-close-modal absolute top-4 right-4 text-slate-400 hover:text-white text-lg cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
+      <div class="w-12 h-12 bg-amber-500/20 text-amber-400 rounded-2xl flex items-center justify-center mx-auto mb-3 text-xl border border-amber-500/30"><i class="fa-solid fa-star"></i></div>
+      <h2 class="text-base font-bold text-white mb-1">Avaliar Produto</h2>
+      <p id="rate-product-title" class="text-xs text-slate-400 mb-4 truncate font-medium"></p>
+      <div class="flex justify-center gap-2 text-2xl text-amber-400 mb-4">
+        <button type="button" onclick="submitRating(1)" class="hover:scale-125 transition cursor-pointer"><i class="fa-solid fa-star"></i></button>
+        <button type="button" onclick="submitRating(2)" class="hover:scale-125 transition cursor-pointer"><i class="fa-solid fa-star"></i></button>
+        <button type="button" onclick="submitRating(3)" class="hover:scale-125 transition cursor-pointer"><i class="fa-solid fa-star"></i></button>
+        <button type="button" onclick="submitRating(4)" class="hover:scale-125 transition cursor-pointer"><i class="fa-solid fa-star"></i></button>
+        <button type="button" onclick="submitRating(5)" class="hover:scale-125 transition cursor-pointer"><i class="fa-solid fa-star"></i></button>
+      </div>
+      <p class="text-[10px] text-slate-500">Escolha a nota de 1 a 5 estrelas.</p>
+    </div>
+  </div>
+
+  <footer class="border-t border-slate-800 py-6 text-center text-xs text-slate-500 mt-auto">
+    <p>© Catálogo Digital. Todos os direitos reservados.</p>
+  </footer>
+
+  <div id="modal-auth" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm hidden">
+    <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-lg w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+      <button class="btn-close-modal absolute top-4 right-4 text-slate-400 hover:text-white text-lg cursor-pointer">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div id="panel-unlogged">
+        <div class="text-center mb-6">
+          <div class="w-12 h-12 bg-brand-500/10 text-brand-500 rounded-xl flex items-center justify-center mx-auto mb-2 text-xl border border-brand-500/20">
+            <i class="fa-solid fa-lock"></i>
+          </div>
+          <h2 class="text-xl font-bold text-white">Painel Administrativo</h2>
+          <p class="text-xs text-slate-400 mt-1">Acesse com sua senha exclusiva.</p>
+        </div>
+        <form id="form-auth" class="space-y-4">
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">E-mail</label>
+            <input type="email" id="auth-email" value="cristianalvesdacosta@gmail.com" readonly class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-400 cursor-not-allowed">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Senha de Acesso</label>
+            <input type="password" id="auth-password" required placeholder="Digite sua senha..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
+          </div>
+          <button type="submit" id="btn-auth-submit" class="w-full py-2.5 bg-brand-600 hover:bg-brand-500 text-white font-semibold rounded-xl text-sm transition shadow-lg shadow-brand-600/35 cursor-pointer">
+            Entrar no Painel
+          </button>
+        </form>
+      </div>
+
+      <div id="panel-logged" class="hidden space-y-6">
+        <div class="p-3.5 bg-brand-500/10 border border-brand-500/30 rounded-xl flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="relative flex h-3 w-3">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-400 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-3 w-3 bg-brand-500"></span>
+            </span>
+            <span class="text-sm font-bold text-brand-400">Modo Administrativo Ativo</span>
+          </div>
+          <button id="btn-logout" type="button" class="px-2.5 py-1 text-xs font-semibold bg-red-500/20 hover:bg-red-500/30 text-red-300 rounded-lg border border-red-500/30 transition cursor-pointer">
+            <i class="fa-solid fa-right-from-bracket mr-1"></i> Sair
+          </button>
+        </div>
+
+        <div class="p-4 bg-brand-500/10 border border-brand-500/30 rounded-2xl space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-brand-400 uppercase tracking-wider flex items-center gap-1.5">
+              <i class="fa-solid fa-bolt"></i> Gestão Rápida do Cupom Único da Loja
+            </span>
+          </div>
+          <p class="text-[11px] text-slate-300 leading-relaxed">
+            Quando um cliente usar o cupom na compra, clique abaixo para dar baixa no uso de <strong>todos os produtos de uma vez só</strong>:
+          </p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+            <button type="button" onclick="decreaseAllProductsUsage(1)" class="py-2 px-3 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs font-bold transition shadow-md flex items-center justify-center gap-1.5 cursor-pointer">
+              <i class="fa-solid fa-minus-circle"></i> Baixa Global (-1 em Todos)
+            </button>
+            <button type="button" onclick="openCustomBatchModal()" class="py-2 px-3 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-xl text-xs font-semibold transition flex items-center justify-center gap-1.5 cursor-pointer">
+              <i class="fa-solid fa-sliders"></i> Ajustar Outra Qtd
+            </button>
+          </div>
+        </div>
+
+        <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-700/80 space-y-4">
+          <h3 id="form-prod-title" class="text-sm font-bold text-white flex items-center gap-2">
+            <i class="fa-solid fa-box text-brand-500"></i> Cadastrar Novo Produto
+          </h3>
+          <form id="form-product" class="space-y-4">
+            <input type="hidden" id="product-id">
+
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Nome do Produto *</label>
+              <input type="text" id="product-name" required placeholder="Ex: Desodorante Perfume Essencial" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Categoria *</label>
+              <select id="product-category" required class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
+                <option value="Perfumaria">Perfumaria</option>
+                <option value="Corpo e Banho">Corpo e Banho</option>
+                <option value="Cabelos">Cabelos</option>
+                <option value="Maquiagem">Maquiagem</option>
+                <option value="Rosto">Rosto</option>
+                <option value="Infantil">Infantil</option>
+              </select>
+            </div>
+
+            <div class="flex items-center gap-2 pt-1">
+              <input type="checkbox" id="product-featured" class="w-4 h-4 rounded bg-slate-800 border-slate-700 text-brand-600 focus:ring-brand-500">
+              <label for="product-featured" class="text-xs font-medium text-slate-300 cursor-pointer">
+                🔥 Marcar como Produto em Destaque
+              </label>
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Subir Foto ou Vídeo / GIF do Produto</label>
+              <input type="file" id="product-media-file" accept="image/*,video/mp4,video/webm,image/gif" class="w-full text-xs text-slate-400 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-slate-700 file:text-slate-200 hover:file:bg-slate-600 cursor-pointer">
+            </div>
+
+            <div id="preview-media-container" class="hidden">
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Mídia Atual:</label>
+              <div id="preview-media-box" class="flex items-center gap-3"></div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Preço Original (R$) *</label>
+                <input type="number" step="0.01" id="product-price" required placeholder="Ex: 159.90" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Desconto (%)</label>
+                <select id="product-discount-percent" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
+                  <option value="0">Sem desconto</option>
+                  <option value="5">5% OFF</option>
+                  <option value="10" selected>10% OFF (Seu Cupom)</option>
+                  <option value="15">15% OFF</option>
+                  <option value="20">20% OFF</option>
+                  <option value="25">25% OFF</option>
+                  <option value="30">30% OFF</option>
+                  <option value="35">35% OFF</option>
+                  <option value="40">40% OFF</option>
+                  <option value="50">50% OFF</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Descrição</label>
+              <textarea id="product-description" rows="3" placeholder="Insira a descrição..." class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500"></textarea>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Link do Produto</label>
+                <input type="url" id="product-link" placeholder="https://..." class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Cupom</label>
+                <input type="text" id="product-code" value="CLIENTEVIP" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Validade do Cupom (Dias)</label>
+              <input type="number" id="product-validity-days" min="1" value="30" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
+            </div>
+
+            <div class="p-3 bg-slate-800/60 rounded-xl border border-slate-700/60 space-y-3">
+              <span class="text-xs font-bold text-brand-400 uppercase tracking-wider block">Estoque & Usos</span>
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-[11px] font-medium text-slate-300 mb-1">Estoque Total</label>
+                  <input type="number" id="product-total-uses" min="1" required value="30" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
+                </div>
+                <div>
+                  <label class="block text-[11px] font-medium text-slate-300 mb-1">Já Utilizado</label>
+                  <input type="number" id="product-used-count" min="0" required value="0" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
+                </div>
+              </div>
+            </div>
+
+            <div class="flex justify-end gap-2">
+              <button type="button" id="btn-cancel-prod-edit" onclick="resetProductForm()" class="hidden px-4 py-2 bg-slate-700 hover:bg-slate-600 text-slate-300 rounded-xl text-xs font-medium cursor-pointer">Cancelar</button>
+              <button type="submit" class="w-full py-2.5 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs font-bold shadow-md transition cursor-pointer">
+                Salvar Produto
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <div class="pt-4 border-t border-slate-700/60 space-y-4">
+          <h3 class="text-sm font-bold text-slate-200 flex items-center gap-2">
+            <i class="fa-solid fa-sliders text-brand-500"></i> Personalizar Capa, Logo e Link da Loja
+          </h3>
+          <form id="form-profile" class="space-y-4">
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Nome / Título da Loja</label>
+              <input type="text" id="profile-title" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Biografia</label>
+              <textarea id="profile-bio" rows="2" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500"></textarea>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-brand-400 mb-1">Link da Loja Oficial (Banner)</label>
+              <input type="url" id="profile-store-link" placeholder="https://..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Capa / Banner</label>
+                <input type="file" id="profile-cover-file" accept="image/*" class="w-full text-xs text-slate-400 file:mr-2 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:bg-slate-700 file:text-slate-200">
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Logo</label>
+                <input type="file" id="profile-logo-file" accept="image/*" class="w-full text-xs text-slate-400 file:mr-2 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:bg-slate-700 file:text-slate-200">
+              </div>
+            </div>
+            <button type="submit" class="w-full py-2 bg-slate-700 hover:bg-slate-600 text-slate-200 rounded-xl text-xs font-bold transition cursor-pointer">
+              Salvar Perfil e Capa
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal-admin-manage" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm hidden">
+    <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-lg w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+      <button class="btn-close-modal absolute top-4 right-4 text-slate-400 hover:text-white text-lg cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
+      <h2 class="text-base font-bold text-white mb-2 flex items-center gap-2">
+        <i class="fa-solid fa-list-check text-brand-500"></i> Gerenciar Produtos & Estatísticas
+      </h2>
+      <p class="text-xs text-slate-400 mb-4">Acompanhe cliques, edite ou exclua os itens.</p>
+      <div id="admin-products-list" class="space-y-3"></div>
+    </div>
+  </div>
+
+  <div id="modal-quick-use" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm hidden">
+    <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-sm w-full p-6 shadow-2xl relative">
+      <button class="btn-close-modal absolute top-4 right-4 text-slate-400 hover:text-white text-lg cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
+      <h2 class="text-base font-bold text-white mb-2"><i class="fa-solid fa-calculator text-brand-500"></i> Atualizar Estoque</h2>
+      <p id="quick-use-product-name" class="text-xs font-medium text-slate-400 mb-4 truncate"></p>
+      <form id="form-quick-use" class="space-y-4">
+        <input type="hidden" id="quick-use-id">
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Quantidade Já Usada</label>
+          <input type="number" id="quick-use-val" min="0" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
+        </div>
+        <div class="pt-2 flex justify-end gap-2">
+          <button type="button" class="btn-close-modal px-4 py-2 bg-slate-700 text-slate-300 rounded-xl text-xs font-medium">Cancelar</button>
+          <button type="submit" class="px-4 py-2 bg-brand-600 text-white rounded-xl text-xs font-semibold">Salvar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="modal-batch-use" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm hidden">
+    <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-sm w-full p-6 shadow-2xl relative">
+      <button class="btn-close-modal absolute top-4 right-4 text-slate-400 hover:text-white text-lg cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
+      <h2 class="text-base font-bold text-white mb-2"><i class="fa-solid fa-layer-group text-brand-500"></i> Baixa Global em Lote</h2>
+      <p class="text-xs text-slate-400 mb-4">Adicionar usos a <strong>TODOS OS PRODUTOS</strong>:</p>
+      <form id="form-batch-use" class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Quantidade a adicionar</label>
+          <input type="number" id="batch-use-val" min="1" value="1" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
+        </div>
+        <div class="pt-2 flex justify-end gap-2">
+          <button type="button" class="btn-close-modal px-4 py-2 bg-slate-700 text-slate-300 rounded-xl text-xs font-medium">Cancelar</button>
+          <button type="submit" class="px-4 py-2 bg-brand-600 text-white rounded-xl text-xs font-semibold">Aplicar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 max-w-xs w-full bg-slate-800 border border-slate-700 text-slate-100 px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3">
+    <i id="toast-icon" class="fa-solid fa-circle-check text-brand-500 text-lg"></i>
+    <span id="toast-msg" class="text-xs font-medium">Sucesso!</span>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { 
+      getAuth, 
+      signInWithEmailAndPassword,
+      signOut,
+      onAuthStateChanged 
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { 
+      getFirestore, 
+      doc, 
+      setDoc, 
+      collection, 
+      onSnapshot, 
+      addDoc, 
+      updateDoc, 
+      deleteDoc,
+      writeBatch,
+      increment
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyA2ZuYtBx7_yFL2Nwvg3X7TfsrolnUfFBE",
+      authDomain: "minhalojacatalogo-1febf.firebaseapp.com",
+      projectId: "minhalojacatalogo-1febf",
+      storageBucket: "minhalojacatalogo-1febf.firebasestorage.app",
+      messagingSenderId: "802481935569",
+      appId: "1:802481935569:web:f91376c8abfb11f0e561f0",
+      measurementId: "G-XBWR1SED5Z"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    let currentUser = null;
+    let productsList = [];
+    let testimonialsList = [];
+    let activeCategory = 'all';
+    let activeRatingProdId = null;
+
+    let profileData = {
+      title: "Meu Catálogo Digital",
+      bio: "Confira nossos produtos e cupons de desconto abaixo.",
+      storeLink: "",
+      cover: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&q=80",
+      logo: "https://via.placeholder.com/150?text=LOGO"
+    };
+    let currentUploadedMedia = "";
+    let currentMediaType = "image";
+    let activeStudioProd = null;
+    let selectedDuration = 5; 
+    let boxTopOffset = 0; // Controle de posição vertical
+    let boxScaleFactor = 1; // Controle de escala/tamanho
+    let redirectTimer = null;
+    let redirectInterval = null;
+
+    function showToast(msg, type = 'success') {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toast-msg');
+      const toastIcon = document.getElementById('toast-icon');
+
+      toastMsg.innerText = msg;
+      toastIcon.className = type === 'error' 
+        ? "fa-solid fa-circle-exclamation text-red-500 text-lg" 
+        : "fa-solid fa-circle-check text-brand-500 text-lg";
+
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0'), 3500);
+    }
+
+    async function trackRealVisit() {
+      try {
+        const visitRef = doc(db, 'settings', 'visits');
+        await setDoc(visitRef, { count: increment(1) }, { merge: true });
+      } catch (err) {}
+    }
+
+    function listenRealVisits() {
+      onSnapshot(doc(db, 'settings', 'visits'), (docSnap) => {
+        if (docSnap.exists()) {
+          document.getElementById('visitor-counter').innerText = `${docSnap.data().count || 0} acessos`;
+        }
+      });
+    }
+
+    window.filterByCategory = (cat) => {
+      activeCategory = cat;
+      document.querySelectorAll('.category-btn').forEach(btn => {
+        btn.className = "category-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 whitespace-nowrap transition border border-slate-700 cursor-pointer";
+        if (btn.innerText.includes(cat) || (cat === 'all' && btn.innerText === 'Todas')) {
+          btn.className = "category-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-brand-600 text-white whitespace-nowrap transition shadow cursor-pointer";
+        }
+      });
+      renderProducts();
+    };
+
+    window.openRateModal = (prodId, prodName) => {
+      activeRatingProdId = prodId;
+      document.getElementById('rate-product-title').innerText = prodName;
+      document.getElementById('modal-rate-product').classList.remove('hidden');
+    };
+
+    window.submitRating = async (ratingVal) => {
+      if (!activeRatingProdId) return;
+      const prod = productsList.find(p => p.id === activeRatingProdId);
+      if (!prod) return;
+      let totalRatings = Number(prod.totalRatings) || 0;
+      let sumRatings = Number(prod.sumRatings) || 0;
+      totalRatings += 1;
+      sumRatings += ratingVal;
+      const newAverage = (sumRatings / totalRatings).toFixed(1);
+      try {
+        await updateDoc(doc(db, 'products', activeRatingProdId), { totalRatings, sumRatings, ratingAverage: newAverage });
+        showToast(`Avaliação salva!`);
+        document.getElementById('modal-rate-product').classList.add('hidden');
+      } catch (err) {
+        showToast("Erro ao avaliar", "error");
+      }
+    };
+
+    window.openTestimonialModal = () => document.getElementById('modal-testimonial').classList.remove('hidden');
+
+    document.getElementById('form-testimonial').onsubmit = async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('test-name').value;
+      const comment = document.getElementById('test-comment').value;
+      try {
+        await addDoc(collection(db, 'testimonials'), { name, comment, createdAt: new Date().toISOString() });
+        showToast("Depoimento enviado!");
+        document.getElementById('form-testimonial').reset();
+        document.getElementById('modal-testimonial').classList.add('hidden');
+      } catch(err) {
+        showToast("Erro", "error");
+      }
+    };
+
+    window.copyCoupon = (codeText) => {
+      navigator.clipboard.writeText(codeText || "CLIENTEVIP").then(() => {
+        showToast(`Cupom "${codeText || "CLIENTEVIP"}" copiado!`);
+      });
+    };
+
+    window.openStoreBannerLink = (event) => {
+      event.preventDefault();
+      const storeLink = profileData.storeLink || "";
+      if (!storeLink) {
+        showToast("Configure o link da sua loja no Painel!", "error");
+        document.getElementById('modal-auth').classList.remove('hidden');
+        return;
+      }
+      openProductAndCopyCoupon(null, storeLink, "CLIENTEVIP");
+    };
+
+    window.openProductAndCopyCoupon = async (prodId, productUrl, couponCode) => {
+      const couponToCopy = couponCode || "CLIENTEVIP";
+      navigator.clipboard.writeText(couponToCopy).catch(() => {});
+      if (prodId) {
+        try { await updateDoc(doc(db, 'products', prodId), { linkClicks: increment(1) }); } catch (e) {}
+      }
+      document.getElementById('timer-coupon-code').innerText = `Cupom: ${couponToCopy}`;
+      document.getElementById('modal-timer-redirect').classList.remove('hidden');
+
+      let secondsLeft = 8;
+      const countdownElem = document.getElementById('countdown-seconds');
+      countdownElem.innerText = `${secondsLeft}s`;
+
+      if (redirectTimer) clearTimeout(redirectTimer);
+      if (redirectInterval) clearInterval(redirectInterval);
+
+      redirectInterval = setInterval(() => {
+        secondsLeft--;
+        if (secondsLeft >= 0) countdownElem.innerText = `${secondsLeft}s`;
+      }, 1000);
+
+      redirectTimer = setTimeout(() => {
+        clearInterval(redirectInterval);
+        if (productUrl) window.location.href = productUrl;
+      }, 8000);
+    };
+
+    window.cancelRedirectTimer = () => {
+      if (redirectTimer) clearTimeout(redirectTimer);
+      if (redirectInterval) clearInterval(redirectInterval);
+      document.getElementById('modal-timer-redirect').classList.add('hidden');
+    };
+
+    window.setVideoDuration = (sec) => {
+      selectedDuration = sec;
+      document.getElementById('selected-duration-label').innerText = `${sec} segundos`;
+      document.getElementById('btn-vid-sec').innerText = `${sec}s`;
+
+      document.querySelectorAll('.duration-btn').forEach(btn => {
+        const matches = btn.innerText.includes(`${sec}s`);
+        btn.className = matches 
+          ? "duration-btn py-1.5 bg-brand-600 text-white rounded-lg text-xs font-bold transition shadow cursor-pointer"
+          : "duration-btn py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-semibold transition border border-slate-700 cursor-pointer";
+      });
+    };
+
+    // ABRIR O ESTÚDIO COM OS DADOS CARREGADOS E OS INPUTS EDITÁVEIS
+    window.openInstagramPostModal = (prodId) => {
+      const prod = productsList.find(p => p.id === prodId);
+      if (!prod) {
+        showToast("Produto não encontrado.", "error");
+        return;
+      }
+      activeStudioProd = prod;
+
+      // Preenche os inputs de edição rápida no estúdio
+      document.getElementById('edit-studio-name').value = prod.name || "";
+      document.getElementById('edit-studio-orig').value = prod.price || "";
+      document.getElementById('edit-studio-disc').value = prod.discountPercent || 10;
+      document.getElementById('edit-studio-code').value = prod.code || "CLIENTEVIP";
+
+      boxTopOffset = 0;
+      boxScaleFactor = 1;
+      applyBoxTransform();
+      updateStudioLiveText();
+
+      const defaultMedia = prod.mediaUrl || prod.image || "";
+      applyStudioBackground(defaultMedia, prod.mediaType || "image");
+
+      document.getElementById('modal-instagram-post').classList.remove('hidden');
+    };
+
+    // ATUALIZAÇÃO EM TEMPO REAL CONFORME O USUÁRIO EDITA NO ESTÚDIO
+    window.updateStudioLiveText = () => {
+      const name = document.getElementById('edit-studio-name').value;
+      const orig = Number(document.getElementById('edit-studio-orig').value) || 0;
+      const disc = Number(document.getElementById('edit-studio-disc').value) || 0;
+      const code = document.getElementById('edit-studio-code').value;
+
+      let finalPrice = disc > 0 ? (orig - (orig * (disc / 100))).toFixed(2).replace('.', ',') : orig.toFixed(2).replace('.', ',');
+
+      document.getElementById('studio-txt-name').innerText = name;
+      document.getElementById('studio-txt-orig').innerText = orig > 0 ? `R$ ${orig.toFixed(2).replace('.', ',')}` : "";
+      document.getElementById('studio-txt-final').innerText = `R$ ${finalPrice}`;
+      document.getElementById('studio-txt-off').innerText = `${disc}%`;
+      document.getElementById('studio-txt-code').innerText = code;
+
+      const statusText = `🔥 *OFERTA ESPECIAL!* 🔥\n\n` +
+        `📦 *${name}*\n\n` +
+        (disc > 0 ? `💰 De R$ ${orig.toFixed(2).replace('.', ',')} por apenas *R$ ${finalPrice}* (${disc}% OFF)\n` : `💰 Apenas: *R$ ${finalPrice}*\n`) +
+        `🎟️ Cupom de Desconto: *${code}*\n\n` +
+        `🛒 Garanta já o seu no link oficial:\n${activeStudioProd ? (activeStudioProd.link || window.location.href) : window.location.href}`;
+
+      document.getElementById('ig-post-caption').value = statusText;
+    };
+
+    // FUNÇÕES DE MOVER E REDIMENSIONAR A CAIXA
+    window.adjustBoxPosition = (direction) => {
+      if (direction === 'up') boxTopOffset -= 15;
+      if (direction === 'down') boxTopOffset += 15;
+      applyBoxTransform();
+    };
+
+    window.adjustBoxScale = (type) => {
+      if (type === 'larger' && boxScaleFactor < 1.3) boxScaleFactor += 0.1;
+      if (type === 'smaller' && boxScaleFactor > 0.7) boxScaleFactor -= 0.1;
+      applyBoxTransform();
+    };
+
+    function applyBoxTransform() {
+      const box = document.getElementById('studio-textbox-container');
+      box.style.transform = `translateY(${boxTopOffset}px) scale(${boxScaleFactor})`;
+    }
+
+    function applyStudioBackground(mediaSrc, type) {
+      const imgElem = document.getElementById('studio-bg-img');
+      const vidElem = document.getElementById('studio-bg-vid');
+
+      if (!mediaSrc) {
+        imgElem.style.display = 'none';
+        vidElem.style.display = 'none';
+        return;
+      }
+
+      if (type === 'video' || mediaSrc.includes('data:video')) {
+        imgElem.style.display = 'none';
+        vidElem.style.display = 'block';
+        vidElem.src = mediaSrc;
+      } else {
+        vidElem.style.display = 'none';
+        imgElem.style.display = 'block';
+        imgElem.src = mediaSrc;
+      }
+    }
+
+    document.getElementById('studio-bg-file').onchange = (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      const isVid = file.type.startsWith('video');
+      reader.readAsDataURL(file);
+      reader.onload = (event) => {
+        applyStudioBackground(event.target.result, isVid ? 'video' : 'image');
+        showToast("Fundo da moldura atualizado!");
+      };
+    };
+
+    window.saveStudioAsImage = () => {
+      const frameNode = document.getElementById('studio-frame-wrapper');
+      showToast("Gerando imagem...");
+
+      html2canvas(frameNode, { scale: 3, useCORS: true, backgroundColor: null }).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'moldura-promocao.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+        showToast("Imagem salva com sucesso!");
+      }).catch(err => {
+        showToast("Erro ao gerar imagem", "error");
+      });
+    };
+
+    window.saveStudioAsTimedVideo = async () => {
+      const frameNode = document.getElementById('studio-frame-wrapper');
+      showToast(`Gerando vídeo de ${selectedDuration} segundos... Aguarde.`);
+
+      try {
+        const canvas = document.createElement('canvas');
+        canvas.width = 720;
+        canvas.height = 960;
+        const ctx = canvas.getContext('2d');
+
+        const renderedCanvas = await html2canvas(frameNode, { scale: 2, useCORS: true, backgroundColor: null });
+
+        const fps = 30;
+        const totalFrames = selectedDuration * fps;
+        const stream = canvas.captureStream(fps);
+        const recorder = new MediaRecorder(stream, { mimeType: 'video/webm;codecs=vp9' });
+        
+        let chunks = [];
+        recorder.ondataavailable = e => chunks.push(e.data);
+        recorder.onstop = () => {
+          const blob = new Blob(chunks, { type: 'video/webm' });
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = url;
+          link.download = `story-${selectedDuration}segundos.webm`;
+          link.click();
+          showToast(`Vídeo de ${selectedDuration}s gerado com sucesso!`);
+        };
+
+        recorder.start();
+
+        let currentFrame = 0;
+        const interval = setInterval(() => {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.drawImage(renderedCanvas, 0, 0, canvas.width, canvas.height);
+          currentFrame++;
+
+          if (currentFrame >= totalFrames) {
+            clearInterval(interval);
+            recorder.stop();
+          }
+        }, 1000 / fps);
+
+      } catch (err) {
+        showToast("Seu navegador não suporta gravação direta de vídeo. Use 'Salvar como Imagem'.", "error");
+      }
+    };
+
+    window.copyInstagramCaption = () => {
+      const textarea = document.getElementById('ig-post-caption');
+      textarea.select();
+      navigator.clipboard.writeText(textarea.value).then(() => showToast("Legenda copiada!"));
+    };
+
+    window.openImageViewer = (imgUrl) => {
+      document.getElementById('viewer-img-element').src = imgUrl;
+      document.getElementById('modal-image-viewer').classList.remove('hidden');
+    };
+
+    window.closeImageViewer = () => {
+      document.getElementById('modal-image-viewer').classList.add('hidden');
+    };
+
+    window.decreaseAllProductsUsage = async (qtyToSubtract = 1) => {
+      if (productsList.length === 0) return showToast("Nenhum produto cadastrado.", "error");
+      if (!confirm(`Confirmar baixa de -${qtyToSubtract} para TODOS os ${productsList.length} produtos?`)) return;
+      try {
+        const batch = writeBatch(db);
+        productsList.forEach(prod => {
+          const prodRef = doc(db, 'products', prod.id);
+          const newUsed = (Number(prod.usedCount) || 0) + Number(qtyToSubtract);
+          batch.update(prodRef, { usedCount: newUsed, used: newUsed });
+        });
+        await batch.commit();
+        showToast("Baixa global realizada!");
+      } catch (err) {
+        showToast("Erro: " + err.message, "error");
+      }
+    };
+
+    window.openCustomBatchModal = () => document.getElementById('modal-batch-use').classList.remove('hidden');
+
+    document.getElementById('form-batch-use').onsubmit = async (e) => {
+      e.preventDefault();
+      const val = Number(document.getElementById('batch-use-val').value);
+      document.getElementById('modal-batch-use').classList.add('hidden');
+      await window.decreaseAllProductsUsage(val);
+    };
+
+    document.getElementById('product-media-file').onchange = (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      currentMediaType = file.type.startsWith('video') ? 'video' : 'image';
+      reader.readAsDataURL(file);
+      reader.onload = (event) => {
+        currentUploadedMedia = event.target.result;
+        const box = document.getElementById('preview-media-box');
+        box.innerHTML = currentMediaType === 'video' ? `<span class="text-xs text-brand-400 font-bold">Vídeo carregado</span>` : `<img src="${currentUploadedMedia}" class="w-16 h-16 rounded-xl object-cover">`;
+        document.getElementById('preview-media-container').classList.remove('hidden');
+      };
+    };
+
+    function processImageFile(file) {
+      return new Promise((resolve) => {
+        if (!file) return resolve(null);
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (event) => {
+          const img = new Image();
+          img.src = event.target.result;
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            let w = img.width, h = img.height;
+            if (w > 1000) { h *= 1000 / w; w = 1000; }
+            canvas.width = w; canvas.height = h;
+            canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+            resolve(canvas.toDataURL('image/jpeg', 0.85));
+          };
+        };
+      });
+    }
+
+    onAuthStateChanged(auth, (user) => {
+      currentUser = user;
+      document.getElementById('panel-unlogged').classList.toggle('hidden', !!user);
+      document.getElementById('panel-logged').classList.toggle('hidden', !user);
+      if (user) {
+        document.getElementById('profile-title').value = profileData.title || "";
+        document.getElementById('profile-bio').value = profileData.bio || "";
+        document.getElementById('profile-store-link').value = profileData.storeLink || "";
+      }
+      renderProducts();
+    });
+
+    function setupDataListeners() {
+      onSnapshot(doc(db, 'settings', 'profile'), (snap) => {
+        if (snap.exists()) {
+          profileData = { ...profileData, ...snap.data() };
+          document.getElementById('display-title').innerText = profileData.title;
+          document.getElementById('display-bio').innerText = profileData.bio;
+          if (profileData.cover) document.getElementById('display-cover').style.backgroundImage = `url('${profileData.cover}')`;
+          if (profileData.logo) document.getElementById('display-logo').src = profileData.logo;
+        }
+      });
+
+      onSnapshot(collection(db, 'products'), (snap) => {
+        productsList = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        renderProducts();
+        if (currentUser) renderAdminProductsList();
+      });
+
+      onSnapshot(collection(db, 'testimonials'), (snap) => {
+        testimonialsList = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        const ticker = document.getElementById('testimonials-ticker');
+        if (ticker) {
+          ticker.innerHTML = testimonialsList.length === 0 ? `<div class="text-xs text-slate-400 italic">Nenhum depoimento ainda.</div>` : testimonialsList.map(t => `
+            <div class="inline-flex items-center gap-3 bg-slate-900 border border-slate-700 px-4 py-2 rounded-xl flex-shrink-0">
+              <div class="w-7 h-7 rounded-full bg-emerald-500/20 text-emerald-400 font-bold flex items-center justify-center text-xs">${t.name.charAt(0).toUpperCase()}</div>
+              <div><div class="text-xs font-bold text-white">${t.name}</div><div class="text-xs text-slate-300">"${t.comment}"</div></div>
+            </div>
+          `).join('');
+        }
+      });
+    }
+
+    function renderProducts() {
+      const grid = document.getElementById('products-grid');
+      const emptyState = document.getElementById('empty-state');
+      const searchVal = document.getElementById('input-search').value.toLowerCase().trim();
+      const filterStatus = document.getElementById('filter-status').value;
+
+      document.getElementById('stat-total-products').innerText = `${productsList.length} Produtos`;
+
+      let filtered = productsList.filter(prod => {
+        const matchesSearch = (prod.name && prod.name.toLowerCase().includes(searchVal)) || (prod.code && prod.code.toLowerCase().includes(searchVal));
+        const matchesCategory = activeCategory === 'all' || prod.category === activeCategory;
+        const total = Number(prod.totalUses) || 1;
+        const used = Number(prod.usedCount) || 0;
+        const isSoldOut = (Math.max(0, total - used) <= 0);
+
+        if (filterStatus === 'available' && isSoldOut) return false;
+        if (filterStatus === 'soldout' && !isSoldOut) return false;
+        return matchesSearch && matchesCategory;
+      });
+
+      if (filtered.length === 0) {
+        grid.innerHTML = '';
+        emptyState.classList.remove('hidden');
+        return;
+      }
+      emptyState.classList.add('hidden');
+
+      grid.innerHTML = filtered.map(prod => {
+        const total = Number(prod.totalUses) || 1;
+        const used = Number(prod.usedCount) || 0;
+        const remaining = Math.max(0, total - used);
+        const isSoldOut = (remaining <= 0);
+        const percentRemaining = Math.max(0, 100 - Math.round((used / total) * 100));
+
+        const mediaUrl = prod.mediaUrl || prod.image || "https://via.placeholder.com/400x300?text=Sem+Mídia";
+        const isVideo = prod.mediaType === 'video' || mediaUrl.includes('data:video');
+        const orig = prod.price ? Number(prod.price) : null;
+        const disc = Number(prod.discountPercent) || 0;
+        const finalPrice = orig && disc > 0 ? (orig - (orig * (disc / 100))).toFixed(2).replace('.', ',') : (orig ? orig.toFixed(2).replace('.', ',') : null);
+
+        return `
+          <div class="glass-card rounded-2xl overflow-hidden border border-slate-800 flex flex-col justify-between group">
+            <div>
+              <div class="relative h-48 w-full bg-slate-800 overflow-hidden cursor-pointer" onclick="openImageViewer('${mediaUrl}')">
+                ${isVideo ? `<video src="${mediaUrl}" autoplay loop muted playsinline class="w-full h-full object-cover"></video>` : `<img src="${mediaUrl}" class="w-full h-full object-cover group-hover:scale-105 transition">`}
+                ${isSoldOut ? `<div class="absolute inset-0 bg-slate-950/80 flex items-center justify-center"><span class="px-3 py-1 bg-red-600 text-white text-xs font-black rounded-full uppercase">Esgotado</span></div>` : ''}
+                <button type="button" onclick="event.stopPropagation(); copyCoupon('${prod.code || "CLIENTEVIP"}')" class="absolute top-3 left-3 bg-brand-600 text-white text-[11px] font-bold px-2.5 py-1 rounded-lg shadow cursor-pointer">
+                  <i class="fa-solid fa-ticket"></i> Cupom: ${prod.code || "CLIENTEVIP"}
+                </button>
+              </div>
+              <div class="p-4">
+                <h3 class="font-bold text-slate-100 text-base">${prod.name}</h3>
+                ${orig ? `<div class="flex items-baseline gap-2 mt-2"><span class="text-lg font-black text-brand-400">R$ ${finalPrice}</span>${disc > 0 ? `<span class="text-xs text-slate-400 line-through">R$ ${orig.toFixed(2).replace('.', ',')}</span>` : ''}</div>` : ''}
+                <p class="text-xs text-slate-400 mt-2">${prod.description || ''}</p>
+                <div class="mt-4 p-3 bg-slate-900 rounded-xl border border-slate-800">
+                  <div class="flex items-center justify-between text-xs mb-1"><span class="text-slate-400">Estoque</span><span class="text-slate-200">${remaining} de ${total}</span></div>
+                  <div class="w-full h-2 bg-slate-800 rounded-full overflow-hidden"><div class="h-full bg-brand-500 rounded-full" style="width: ${percentRemaining}%"></div></div>
+                </div>
+              </div>
+            </div>
+            <div class="p-4 pt-0 flex gap-2">
+              ${prod.link ? `<button type="button" onclick="openProductAndCopyCoupon('${prod.id}', '${prod.link}', '${prod.code || "CLIENTEVIP"}')" class="flex-1 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-medium flex items-center justify-center gap-1 cursor-pointer"><i class="fa-solid fa-arrow-up-right-from-square text-brand-400"></i> Ver Link</button>` : ''}
+              <button type="button" onclick="openInstagramPostModal('${prod.id}')" class="py-2 px-3 bg-amber-600 hover:bg-amber-500 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 shadow cursor-pointer"><i class="fa-solid fa-wand-magic-sparkles"></i> Moldura Story</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderAdminProductsList() {
+      const container = document.getElementById('admin-products-list');
+      if (!container) return;
+      container.innerHTML = productsList.length === 0 ? '<p class="text-xs text-slate-400 text-center py-4">Nenhum produto cadastrado.</p>' : productsList.map(prod => `
+        <div class="bg-slate-900 p-3.5 rounded-xl border border-slate-700 space-y-2">
+          <div class="flex items-center justify-between"><h4 class="text-xs font-bold text-white truncate">${prod.name}</h4><span class="text-[10px] text-brand-400">${prod.linkClicks || 0} cliques</span></div>
+          <div class="flex justify-end gap-1.5 pt-1 border-t border-slate-800">
+            <button type="button" onclick="openInstagramPostModal('${prod.id}')" class="px-2.5 py-1 bg-amber-600 text-white rounded-lg text-xs font-semibold"><i class="fa-solid fa-wand-magic-sparkles"></i> Moldura</button>
+            <button type="button" onclick="openQuickUseModal('${prod.id}')" class="px-2.5 py-1 bg-brand-600/20 text-brand-300 rounded-lg text-xs">Estoque</button>
+            <button type="button" onclick="openEditProductModal('${prod.id}')" class="px-2.5 py-1 bg-slate-800 text-slate-300 rounded-lg text-xs">Editar</button>
+            <button type="button" onclick="deleteProduct('${prod.id}')" class="px-2.5 py-1 bg-red-500/10 text-red-400 rounded-lg text-xs">Excluir</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    document.querySelectorAll('.btn-close-modal').forEach(btn => btn.onclick = () => btn.closest('.fixed').classList.add('hidden'));
+    document.getElementById('btn-auth-open').onclick = () => document.getElementById('modal-auth').classList.remove('hidden');
+
+    document.getElementById('form-auth').onsubmit = async (e) => {
+      e.preventDefault();
+      if (document.getElementById('auth-password').value !== "6424906c") return showToast("Senha incorreta!", "error");
+      try {
+        await signInWithEmailAndPassword(auth, "cristianalvesdacosta@gmail.com", "6424906c");
+        showToast("Bem-vindo!");
+        document.getElementById('modal-auth').classList.add('hidden');
+      } catch (err) { showToast("Erro: " + err.message, "error"); }
+    };
+
+    document.getElementById('btn-logout').onclick = () => signOut(auth);
+
+    document.getElementById('form-profile').onsubmit = async (e) => {
+      e.preventDefault();
+      const coverFile = document.getElementById('profile-cover-file').files[0];
+      const logoFile = document.getElementById('profile-logo-file').files[0];
+      let newCover = profileData.cover, newLogo = profileData.logo;
+      if (coverFile) newCover = await processImageFile(coverFile);
+      if (logoFile) newLogo = await processImageFile(logoFile);
+
+      await setDoc(doc(db, 'settings', 'profile'), {
+        title: document.getElementById('profile-title').value,
+        bio: document.getElementById('profile-bio').value,
+        storeLink: document.getElementById('profile-store-link').value,
+        cover: newCover, logo: newLogo
+      }, { merge: true });
+      showToast("Perfil salvo!");
+    };
+
+    window.resetProductForm = () => {
+      document.getElementById('form-product').reset();
+      currentUploadedMedia = "";
+      document.getElementById('preview-media-container').classList.add('hidden');
+      document.getElementById('product-id').value = "";
+      document.getElementById('form-prod-title').innerHTML = `<i class="fa-solid fa-box text-brand-500"></i> Cadastrar Novo Produto`;
+      document.getElementById('btn-cancel-prod-edit').classList.add('hidden');
+    };
+
+    window.openEditProductModal = (prodId) => {
+      const prod = productsList.find(p => p.id === prodId);
+      if (!prod) return;
+      document.getElementById('modal-admin-manage').classList.add('hidden');
+      document.getElementById('product-id').value = prod.id;
+      document.getElementById('product-name').value = prod.name || "";
+      document.getElementById('product-category').value = prod.category || "Perfumaria";
+      document.getElementById('product-price').value = prod.price || "";
+      document.getElementById('product-discount-percent').value = prod.discountPercent || "10";
+      document.getElementById('product-description').value = prod.description || "";
+      document.getElementById('product-link').value = prod.link || "";
+      document.getElementById('product-code').value = prod.code || "CLIENTEVIP";
+      document.getElementById('product-total-uses').value = prod.totalUses || 30;
+      document.getElementById('product-used-count').value = prod.usedCount || 0;
+      currentUploadedMedia = prod.mediaUrl || prod.image || "";
+      document.getElementById('form-prod-title').innerHTML = `<i class="fa-solid fa-pen-to-square text-brand-500"></i> Editando Produto`;
+      document.getElementById('btn-cancel-prod-edit').classList.remove('hidden');
+      document.getElementById('modal-auth').classList.remove('hidden');
+    };
+
+    document.getElementById('form-product').onsubmit = async (e) => {
+      e.preventDefault();
+      const id = document.getElementById('product-id').value;
+      const data = {
+        name: document.getElementById('product-name').value,
+        category: document.getElementById('product-category').value,
+        isFeatured: document.getElementById('product-featured').checked,
+        price: document.getElementById('product-price').value,
+        discountPercent: document.getElementById('product-discount-percent').value,
+        description: document.getElementById('product-description').value,
+        link: document.getElementById('product-link').value,
+        code: document.getElementById('product-code').value || "CLIENTEVIP",
+        validityDays: Number(document.getElementById('product-validity-days').value) || 30,
+        totalUses: Number(document.getElementById('product-total-uses').value),
+        usedCount: Number(document.getElementById('product-used-count').value),
+        mediaUrl: currentUploadedMedia,
+        mediaType: currentMediaType,
+        image: currentUploadedMedia
+      };
+
+      if (id) {
+        await updateDoc(doc(db, 'products', id), data);
+        showToast("Produto atualizado!");
+      } else {
+        data.linkClicks = 0;
+        data.createdAt = new Date().toISOString();
+        await addDoc(collection(db, 'products'), data);
+        showToast("Produto cadastrado!");
+      }
+      resetProductForm();
+    };
+
+    window.openQuickUseModal = (prodId) => {
+      const prod = productsList.find(p => p.id === prodId);
+      if (!prod) return;
+      document.getElementById('modal-admin-manage').classList.add('hidden');
+      document.getElementById('quick-use-id').value = prod.id;
+      document.getElementById('quick-use-product-name').innerText = prod.name;
+      document.getElementById('quick-use-val').value = prod.usedCount || 0;
+      document.getElementById('modal-quick-use').classList.remove('hidden');
+    };
+
+    document.getElementById('form-quick-use').onsubmit = async (e) => {
+      e.preventDefault();
+      const id = document.getElementById('quick-use-id').value;
+      const val = Number(document.getElementById('quick-use-val').value);
+      await updateDoc(doc(db, 'products', id), { usedCount: val, used: val });
+      showToast("Estoque atualizado!");
+      document.getElementById('modal-quick-use').classList.add('hidden');
+    };
+
+    window.deleteProduct = async (prodId) => {
+      if (!confirm("Excluir produto?")) return;
+      await deleteDoc(doc(db, 'products', prodId));
+      showToast("Removido.");
+      renderAdminProductsList();
+    };
+
+    const panelLogged = document.getElementById('panel-logged');
+    if (panelLogged && !document.getElementById('btn-open-admin-manage')) {
+      const div = document.createElement('div');
+      div.innerHTML = `<button type="button" id="btn-open-admin-manage" class="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-bold border border-slate-700 flex items-center justify-center gap-2 cursor-pointer"><i class="fa-solid fa-list-check text-brand-500"></i> Gerenciar / Excluir Produtos</button>`;
+      panelLogged.insertBefore(div, panelLogged.firstChild);
+      document.getElementById('btn-open-admin-manage').onclick = () => {
+        renderAdminProductsList();
+        document.getElementById('modal-admin-manage').classList.remove('hidden');
+      };
+    }
+
+    document.getElementById('input-search').oninput = renderProducts;
+    document.getElementById('filter-status').onchange = renderProducts;
+
+    trackRealVisit();
+    listenRealVisits();
+    setupDataListeners();
+  </script>
 </body>
 </html>
