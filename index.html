@@ -467,7 +467,7 @@
 
           <div class="p-3 bg-slate-800/80 rounded-xl border border-brand-500/30 space-y-2">
             <label class="block text-xs font-bold text-brand-400 flex items-center gap-1.5">
-              <i class="fa-solid fa-wand-magic-sparkles"></i> Importar via Link (Puxa Nome, Preço, Foto + Descrição Inteligente)
+              <i class="fa-solid fa-wand-magic-sparkles"></i> Importação Limpa via Link Natura
             </label>
             <div class="flex gap-2">
               <input type="url" id="auto-import-link" placeholder="Cole o link do produto aqui..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-slate-100 focus:outline-none focus:border-brand-500">
@@ -475,7 +475,7 @@
                 <i class="fa-solid fa-download"></i> Puxar
               </button>
             </div>
-            <p class="text-[10px] text-slate-400">O sistema puxa o nome e foto do link e preenche automaticamente uma descrição rica e profissional!</p>
+            <p class="text-[10px] text-slate-400">Puxa a foto e aplica automaticamente a descrição técnica e olfativa limpa!</p>
           </div>
 
           <form id="form-product" class="space-y-4">
@@ -740,12 +740,12 @@
     let redirectTimer = null;
     let redirectInterval = null;
 
-    // BANCO DE DADOS INTELIGENTE DE DESCRIÇÕES NATURA
+    // BANCO INTELIGENTE DE DESCRIÇÕES TÉCNICAS E OLFATIVAS
     const smartDescriptions = {
-      "homem dom": "Amadeirado intenso. A força da raiz priprioca combinada com a viciante baunilha negra e madeiras densas. Uma fragrância marcante e de altíssimo impacto.\n\n• Gota Olfativa:\n- Saída: cardamomo, pimenta preta e cypriol.\n- Corpo: baunilha negra, fava tonka, folhas de violeta.\n- Fundo: priprioca, guaiaco, sândalo, vetiver.",
+      "homem dom": "Amadeirado intenso. A força da raiz priprioca combinada com a viciante baunilha negra e madeiras densas. Fragrância marcante de alto impacto.\n\n• Gota Olfativa:\n- Saída: cardamomo, pimenta preta e cypriol.\n- Corpo: baunilha negra, fava tonka, folhas de violeta.\n- Fundo: priprioca, guaiaco, sândalo, vetiver.",
       "essencial": "Amadeirado intenso. Sofisticação e elegância para homens que marcam presença. Combinação nobre de cedro, patchouli, notas ambaradas e cacau.\n\n• Gota Olfativa:\n- Saída: bergamota, cardamomo, noz-moscada.\n- Corpo: cedro, patchouli, gerânio.\n- Fundo: âmbar, sândalo, cacau, musc.",
-      "kaiak": "Aromático ultrarrefrescante. O banho de energia e explosão de notas cítricas e aquosas ideal para o dia a dia e prática de esportes.\n\n• Gota Olfativa:\n- Saída: bergamota, mandarina, notas aquosas.\n- Corpo: muguet, cravo, sândalo.\n- Fundo: musc, musgo de carvalho, sândalo.",
-      "ekos": "Fragrância inspirada na biodiversidade brasileira. Hidratação profunda com ativos da Amazônia que cuidam da pele e perfumam suavemente com notas naturais e acolhedoras."
+      "kaiak": "Aromático ultrarrefrescante. O banho de energia e explosão de notas cítricas e aquosas ideal para o dia a dia e prática de esportes.\n\n• Gota Olfativa:\n- Saída: bergamota, mandarina, notas aquosas.\n- Corpo: muguet, cravo, sândalo.\n- Fundo: musc, musgo de carvalho.",
+      "ekos": "Fragrância inspirada na biodiversidade brasileira. Hidratação profunda com ativos da Amazônia que cuidam da pele e perfumam com notas naturais e acolhedoras."
     };
 
     // CONTROLE DO CHAT ASSISTENTE DE VENDAS
@@ -781,7 +781,6 @@
       }, 400);
     };
 
-    // CONTROLE DOS BOTÕES DE ÍCONES DO PAINEL ADMINISTRATIVO
     window.openAdminModalSection = (sectionId) => {
       document.querySelectorAll('.admin-sub-section').forEach(sec => sec.classList.add('hidden'));
       document.getElementById(sectionId).classList.remove('hidden');
@@ -795,7 +794,6 @@
       document.querySelectorAll('.admin-sub-section').forEach(sec => sec.classList.add('hidden'));
     };
 
-    // 🚀 FUNÇÃO DE IMPULSIONAR DESTAQUES RÁPIDO
     function renderRocketList() {
       const container = document.getElementById('rocket-products-list');
       if (!container) return;
@@ -823,7 +821,6 @@
       }
     };
 
-    // 📊 RELATÓRIO DE CLIQUES
     function renderStatsList() {
       const container = document.getElementById('stats-products-list');
       if (!container) return;
@@ -840,7 +837,6 @@
       `).join('');
     }
 
-    // RENOVAÇÃO GLOBAL DE CUPONS EM MASSA
     document.getElementById('form-global-coupon').onsubmit = async (e) => {
       e.preventDefault();
       const newCode = document.getElementById('global-coupon-code').value.trim().toUpperCase();
@@ -1103,7 +1099,7 @@
       renderPreviewGallery();
     };
 
-    // PUXA O NOME E FOTO DO LINK E APLICA A DESCRIÇÃO INTELIGENTE AUTOMÁTICA
+    // IMPORTAÇÃO INTELIGENTE COM LIMPEZA DE TÍTULO E DESCRIÇÃO PROFISSIONAL
     window.fetchProductFromLink = async () => {
       const urlInput = document.getElementById('auto-import-link').value.trim();
       if (!urlInput) {
@@ -1111,20 +1107,21 @@
         return;
       }
 
-      showToast("Puxando nome, foto e gerando descrição...", "success");
+      showToast("Puxando foto e aplicando descrição limpa...", "success");
       try {
         const response = await fetch(`https://api.microlink.io/?url=${encodeURIComponent(urlInput)}`);
         const json = await response.json();
         currentFetchedImages = [];
 
-        let productName = "";
+        let cleanName = "";
 
         if (json.status === 'success' && json.data) {
           const data = json.data;
           
           if (data.title) {
-            productName = data.title.split('|')[0].split('- Natura')[0].split(' - Natura')[0].trim();
-            document.getElementById('product-name').value = productName;
+            // Remove lixos comuns de títulos da web (como "| Natura", "- Loja Oficial", etc)
+            cleanName = data.title.split('|')[0].split('- Natura')[0].split(' - Natura')[0].split('Consultoria')[0].trim();
+            document.getElementById('product-name').value = cleanName;
           }
 
           if (data.image && data.image.url) {
@@ -1132,9 +1129,15 @@
           }
         }
 
-        // Procura no banco inteligente se o nome corresponde a algum produto padrão
+        // Se não conseguiu puxar o nome direto ou veio algo estranho, limpa
+        if (!cleanName || cleanName.length < 3) {
+          cleanName = "Produto Natura";
+          document.getElementById('product-name').value = cleanName;
+        }
+
+        // Aplica a descrição inteligente baseada no nome limpo
         let foundDescription = "";
-        const nameLower = productName.toLowerCase();
+        const nameLower = cleanName.toLowerCase();
         for (let key in smartDescriptions) {
           if (nameLower.includes(key)) {
             foundDescription = smartDescriptions[key];
@@ -1142,19 +1145,18 @@
           }
         }
 
-        // Se encontrou no banco inteligente, preenche. Se não, bota uma descrição padrão linda de consultoria
         if (foundDescription) {
           document.getElementById('product-description').value = foundDescription;
         } else {
-          document.getElementById('product-description').value = `Produto original Natura com garantia de qualidade e alta perfumação. Aproveite nosso cupom exclusivo para garantir o seu com desconto especial!`;
+          document.getElementById('product-description').value = `Produto original Natura com garantia de qualidade e alta performance. Aproveite o cupom exclusivo para garantir o seu com desconto especial!`;
         }
 
         renderPreviewGallery();
-        showToast("Produto importado com descrição profissional!");
+        showToast("Importado com sucesso!");
         document.getElementById('product-link').value = urlInput;
         document.getElementById('product-code').value = "CLIENTEVIP";
       } catch (err) {
-        showToast("Preencha manualmente se necessário.", "error");
+        showToast("Erro ao importar. Preencha os campos manualmente.", "error");
       }
     };
 
