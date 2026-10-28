@@ -185,7 +185,7 @@
     </div>
   </main>
 
-  <!-- MODAL DE ESTÚDIO / MOLDURA STORY (EXCLUSIVO NO PAINEL DO ADMINISTRADOR) -->
+  <!-- MODAL DE ESTÚDIO / MOLDURA STORY COM BARRAS DE NITIDEZ E TRANSPARÊNCIA -->
   <div id="modal-instagram-post" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-sm hidden">
     <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-lg w-full p-6 shadow-2xl relative max-h-[95vh] overflow-y-auto space-y-4">
       <button class="btn-close-modal absolute top-4 right-4 text-slate-400 hover:text-white text-lg cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
@@ -196,7 +196,7 @@
         </div>
         <div>
           <h2 class="text-base font-bold text-white">Estúdio de Moldura e Story</h2>
-          <p class="text-xs text-slate-400">Edite dados, ajuste a posição/tamanho e escolha o tempo do vídeo.</p>
+          <p class="text-xs text-slate-400">Ajuste nitidez, transparências, posição e exporte com salvamento direto.</p>
         </div>
       </div>
 
@@ -206,6 +206,27 @@
             <i class="fa-solid fa-upload"></i> Subir Imagem, GIF ou Vídeo de Fundo
           </label>
           <input type="file" id="studio-bg-file" accept="image/*,video/mp4,video/webm,image/gif" class="w-full text-xs text-slate-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-amber-600 file:text-white hover:file:bg-amber-500 cursor-pointer">
+        </div>
+
+        <!-- BARRAS DE CONTROLE DE NITIDEZ E TRANSPARÊNCIA -->
+        <div class="p-3 bg-slate-900 rounded-xl border border-slate-700 space-y-3">
+          <span class="block text-xs font-bold text-emerald-400 uppercase tracking-wider"><i class="fa-solid fa-sliders"></i> Ajustes de Nitidez e Fundo</span>
+          
+          <div class="space-y-1">
+            <div class="flex justify-between text-[11px] text-slate-300">
+              <span>Nitidez / Opacidade do Fundo:</span>
+              <span id="lbl-bg-opacity" class="font-bold text-amber-400">60%</span>
+            </div>
+            <input type="range" id="range-bg-opacity" min="10" max="100" value="60" oninput="updateStudioAppearance()" class="w-full accent-amber-500 cursor-pointer">
+          </div>
+
+          <div class="space-y-1">
+            <div class="flex justify-between text-[11px] text-slate-300">
+              <span>Transparência da Caixa de Texto:</span>
+              <span id="lbl-box-opacity" class="font-bold text-brand-400">70%</span>
+            </div>
+            <input type="range" id="range-box-opacity" min="20" max="100" value="70" oninput="updateStudioAppearance()" class="w-full accent-brand-500 cursor-pointer">
+          </div>
         </div>
 
         <div class="p-3 bg-slate-900 rounded-xl border border-slate-700 space-y-3">
@@ -261,7 +282,7 @@
         <div class="flex flex-col items-center">
           <div id="studio-frame-wrapper" class="relative w-72 h-96 bg-gradient-to-br from-slate-950 via-zinc-900 to-stone-950 rounded-2xl overflow-hidden border-2 border-amber-500/50 shadow-2xl flex flex-col justify-between p-4">
             
-            <div id="studio-bg-media-container" class="absolute inset-0 z-0 opacity-40 overflow-hidden flex items-center justify-center">
+            <div id="studio-bg-media-container" class="absolute inset-0 z-0 overflow-hidden flex items-center justify-center">
               <img id="studio-bg-img" src="" class="w-full h-full object-cover" style="display:none;">
               <video id="studio-bg-vid" autoplay loop muted playsinline class="w-full h-full object-cover" style="display:none;"></video>
             </div>
@@ -765,8 +786,6 @@
     let selectedDuration = 5;
     let boxTopOffset = 0;
     let boxScaleFactor = 1;
-    let currentUploadedMedia = "";
-    let currentMediaType = "image";
 
     let redirectTimer = null;
     let redirectInterval = null;
@@ -920,7 +939,7 @@
       document.getElementById('modal-timer-redirect').classList.add('hidden');
     };
 
-    // FUNÇÕES DO ESTÚDIO DE MOLDURA E STORY (EXCLUSIVO NO PAINEL)
+    // FUNÇÕES DO ESTÚDIO DE MOLDURA E STORY
     window.openInstagramPostModal = (prodId) => {
       const prod = productsList.find(p => p.id === prodId);
       if (!prod) return;
@@ -931,10 +950,15 @@
       document.getElementById('edit-studio-disc').value = prod.discountPercent || 10;
       document.getElementById('edit-studio-code').value = prod.code || "CLIENTEVIP";
 
+      // Reset sliders para valores ideais
+      document.getElementById('range-bg-opacity').value = 60;
+      document.getElementById('range-box-opacity').value = 70;
+
       boxTopOffset = 0;
       boxScaleFactor = 1;
       applyBoxTransform();
       updateStudioLiveText();
+      updateStudioAppearance();
 
       let defaultMedia = "";
       if (Array.isArray(prod.images) && prod.images.length > 0) defaultMedia = prod.images[0];
@@ -965,6 +989,23 @@
         `🛒 Garanta já o seu no link:\n${activeStudioProd ? (activeStudioProd.link || window.location.href) : window.location.href}`;
 
       document.getElementById('ig-post-caption').value = statusText;
+    };
+
+    window.updateStudioAppearance = () => {
+      const bgVal = document.getElementById('range-bg-opacity').value;
+      const boxVal = document.getElementById('range-box-opacity').value;
+
+      document.getElementById('lbl-bg-opacity').innerText = `${bgVal}%`;
+      document.getElementById('lbl-box-opacity').innerText = `${boxVal}%`;
+
+      // Aplica opacidade/nitidez no fundo
+      const bgContainer = document.getElementById('studio-bg-media-container');
+      bgContainer.style.opacity = bgVal / 100;
+
+      // Aplica transparência na caixa de texto
+      const boxContainer = document.getElementById('studio-textbox-container');
+      const alphaHex = Math.round((boxVal / 100) * 255).toString(16).padStart(2, '0');
+      boxContainer.style.backgroundColor = `#020617${alphaHex}`; // base slate-950 com transparência dinâmica
     };
 
     window.adjustBoxPosition = (direction) => {
@@ -1030,18 +1071,23 @@
       });
     };
 
+    // FUNÇÃO CORRIGIDA DE SALVAR IMAGEM COM DOWNLOAD FORÇADO
     window.saveStudioAsImage = () => {
       const frameNode = document.getElementById('studio-frame-wrapper');
       showToast("Gerando imagem...");
       html2canvas(frameNode, { scale: 3, useCORS: true, backgroundColor: null }).then(canvas => {
+        const dataUrl = canvas.toDataURL('image/png');
         const link = document.createElement('a');
-        link.download = 'moldura-story.png';
-        link.href = canvas.toDataURL('image/png');
+        link.href = dataUrl;
+        link.download = `moldura-story-${Date.now()}.png`;
+        document.body.appendChild(link);
         link.click();
-        showToast("Imagem salva!");
+        document.body.removeChild(link);
+        showToast("Imagem salva com sucesso!");
       }).catch(() => showToast("Erro ao gerar imagem", "error"));
     };
 
+    // FUNÇÃO CORRIGIDA DE SALVAR VÍDEO COM DOWNLOAD FORÇADO
     window.saveStudioAsTimedVideo = async () => {
       const frameNode = document.getElementById('studio-frame-wrapper');
       showToast(`Gerando vídeo de ${selectedDuration}s...`);
@@ -1062,9 +1108,11 @@
           const url = URL.createObjectURL(blob);
           const link = document.createElement('a');
           link.href = url;
-          link.download = `story-${selectedDuration}s.webm`;
+          link.download = `story-${selectedDuration}s-${Date.now()}.webm`;
+          document.body.appendChild(link);
           link.click();
-          showToast("Vídeo salvo!");
+          document.body.removeChild(link);
+          showToast("Vídeo salvo com sucesso!");
         };
         recorder.start();
         let currentFrame = 0;
