@@ -185,7 +185,7 @@
     </div>
   </main>
 
-  <!-- MODAL DE ESTÚDIO / MOLDURA STORY COM BARRAS DE NITIDEZ E TRANSPARÊNCIA -->
+  <!-- MODAL DE ESTÚDIO / MOLDURA STORY CORRIGIDO PARA CAPTURAR O FUNDO PERFEITAMENTE -->
   <div id="modal-instagram-post" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-sm hidden">
     <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-lg w-full p-6 shadow-2xl relative max-h-[95vh] overflow-y-auto space-y-4">
       <button class="btn-close-modal absolute top-4 right-4 text-slate-400 hover:text-white text-lg cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
@@ -196,7 +196,7 @@
         </div>
         <div>
           <h2 class="text-base font-bold text-white">Estúdio de Moldura e Story</h2>
-          <p class="text-xs text-slate-400">Ajuste nitidez, transparências, posição e exporte com salvamento direto.</p>
+          <p class="text-xs text-slate-400">Ajuste nitidez, transparências, posição e salve perfeitamente na galeria.</p>
         </div>
       </div>
 
@@ -214,18 +214,18 @@
           
           <div class="space-y-1">
             <div class="flex justify-between text-[11px] text-slate-300">
-              <span>Nitidez / Opacidade do Fundo:</span>
-              <span id="lbl-bg-opacity" class="font-bold text-amber-400">60%</span>
+              <span>Nitidez / Opacidade da Imagem de Fundo:</span>
+              <span id="lbl-bg-opacity" class="font-bold text-amber-400">80%</span>
             </div>
-            <input type="range" id="range-bg-opacity" min="10" max="100" value="60" oninput="updateStudioAppearance()" class="w-full accent-amber-500 cursor-pointer">
+            <input type="range" id="range-bg-opacity" min="10" max="100" value="80" oninput="updateStudioAppearance()" class="w-full accent-amber-500 cursor-pointer">
           </div>
 
           <div class="space-y-1">
             <div class="flex justify-between text-[11px] text-slate-300">
               <span>Transparência da Caixa de Texto:</span>
-              <span id="lbl-box-opacity" class="font-bold text-brand-400">70%</span>
+              <span id="lbl-box-opacity" class="font-bold text-brand-400">75%</span>
             </div>
-            <input type="range" id="range-box-opacity" min="20" max="100" value="70" oninput="updateStudioAppearance()" class="w-full accent-brand-500 cursor-pointer">
+            <input type="range" id="range-box-opacity" min="20" max="100" value="75" oninput="updateStudioAppearance()" class="w-full accent-brand-500 cursor-pointer">
           </div>
         </div>
 
@@ -280,12 +280,17 @@
         </div>
 
         <div class="flex flex-col items-center">
-          <div id="studio-frame-wrapper" class="relative w-72 h-96 bg-gradient-to-br from-slate-950 via-zinc-900 to-stone-950 rounded-2xl overflow-hidden border-2 border-amber-500/50 shadow-2xl flex flex-col justify-between p-4">
+          <!-- MOLDURA STORY COM IMAGEM DE FUNDO REAL EM TAG IMG PARA O CAPTURADOR RECONHECER -->
+          <div id="studio-frame-wrapper" class="relative w-72 h-96 bg-slate-950 rounded-2xl overflow-hidden border-2 border-amber-500/50 shadow-2xl flex flex-col justify-between p-4">
             
-            <div id="studio-bg-media-container" class="absolute inset-0 z-0 overflow-hidden flex items-center justify-center">
-              <img id="studio-bg-img" src="" class="w-full h-full object-cover" style="display:none;">
+            <!-- CAMADA DE FUNDO REAL -->
+            <div id="studio-bg-media-container" class="absolute inset-0 z-0 overflow-hidden flex items-center justify-center transition-opacity duration-200">
+              <img id="studio-bg-img" src="" crossorigin="anonymous" class="w-full h-full object-cover" style="display:none;">
               <video id="studio-bg-vid" autoplay loop muted playsinline class="w-full h-full object-cover" style="display:none;"></video>
             </div>
+
+            <!-- SOBREPOSIÇÃO ESCURA PARA DAR CONTRASTE SE NECESSÁRIO -->
+            <div class="absolute inset-0 z-0 bg-black/30 pointer-events-none"></div>
 
             <div class="relative z-10 flex justify-between items-start">
               <span class="bg-amber-600 text-white font-black text-[10px] px-2.5 py-1 rounded-full shadow tracking-wider uppercase">
@@ -297,10 +302,10 @@
               </div>
             </div>
 
-            <div id="studio-textbox-container" class="relative z-10 text-center space-y-1 bg-slate-950/70 backdrop-blur-sm p-3 rounded-xl border border-slate-800 transition-all duration-200" style="margin-top: auto; margin-bottom: auto; transform: scale(1);">
+            <div id="studio-textbox-container" class="relative z-10 text-center space-y-1 backdrop-blur-sm p-3 rounded-xl border border-slate-700/60 transition-all duration-200 shadow-xl" style="margin-top: auto; margin-bottom: auto; transform: scale(1); background-color: rgba(2, 6, 23, 0.75);">
               <h3 id="studio-txt-name" class="text-xs font-bold text-white line-clamp-2">Nome do Produto</h3>
               <div class="flex flex-col items-center">
-                <span id="studio-txt-orig" class="text-[11px] text-slate-400 line-through">R$ 0,00</span>
+                <span id="studio-txt-orig" class="text-[11px] text-slate-300 line-through">R$ 0,00</span>
                 <span id="studio-txt-final" class="text-base font-black text-emerald-400">R$ 0,00</span>
               </div>
             </div>
@@ -950,9 +955,9 @@
       document.getElementById('edit-studio-disc').value = prod.discountPercent || 10;
       document.getElementById('edit-studio-code').value = prod.code || "CLIENTEVIP";
 
-      // Reset sliders para valores ideais
-      document.getElementById('range-bg-opacity').value = 60;
-      document.getElementById('range-box-opacity').value = 70;
+      // Padrão: fundo 80% nítido e caixa de texto com leve transparência
+      document.getElementById('range-bg-opacity').value = 80;
+      document.getElementById('range-box-opacity').value = 75;
 
       boxTopOffset = 0;
       boxScaleFactor = 1;
@@ -998,14 +1003,16 @@
       document.getElementById('lbl-bg-opacity').innerText = `${bgVal}%`;
       document.getElementById('lbl-box-opacity').innerText = `${boxVal}%`;
 
-      // Aplica opacidade/nitidez no fundo
-      const bgContainer = document.getElementById('studio-bg-media-container');
-      bgContainer.style.opacity = bgVal / 100;
+      // Aplica a nitidez / opacidade diretamente na imagem de fundo real
+      const bgImg = document.getElementById('studio-bg-img');
+      const bgVid = document.getElementById('studio-bg-vid');
+      bgImg.style.opacity = bgVal / 100;
+      bgVid.style.opacity = bgVal / 100;
 
       // Aplica transparência na caixa de texto
       const boxContainer = document.getElementById('studio-textbox-container');
       const alphaHex = Math.round((boxVal / 100) * 255).toString(16).padStart(2, '0');
-      boxContainer.style.backgroundColor = `#020617${alphaHex}`; // base slate-950 com transparência dinâmica
+      boxContainer.style.backgroundColor = `#020617${alphaHex}`;
     };
 
     window.adjustBoxPosition = (direction) => {
@@ -1071,11 +1078,11 @@
       });
     };
 
-    // FUNÇÃO CORRIGIDA DE SALVAR IMAGEM COM DOWNLOAD FORÇADO
+    // FUNÇÃO DE SALVAR IMAGEM GARANTINDO O FUNDO E A NITIDEZ
     window.saveStudioAsImage = () => {
       const frameNode = document.getElementById('studio-frame-wrapper');
-      showToast("Gerando imagem...");
-      html2canvas(frameNode, { scale: 3, useCORS: true, backgroundColor: null }).then(canvas => {
+      showToast("Gerando imagem completa...");
+      html2canvas(frameNode, { scale: 3, useCORS: true, allowTaint: true, backgroundColor: "#020617" }).then(canvas => {
         const dataUrl = canvas.toDataURL('image/png');
         const link = document.createElement('a');
         link.href = dataUrl;
@@ -1083,11 +1090,11 @@
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-        showToast("Imagem salva com sucesso!");
+        showToast("Imagem salva na galeria!");
       }).catch(() => showToast("Erro ao gerar imagem", "error"));
     };
 
-    // FUNÇÃO CORRIGIDA DE SALVAR VÍDEO COM DOWNLOAD FORÇADO
+    // FUNÇÃO DE SALVAR VÍDEO GARANTINDO O FUNDO E A NITIDEZ
     window.saveStudioAsTimedVideo = async () => {
       const frameNode = document.getElementById('studio-frame-wrapper');
       showToast(`Gerando vídeo de ${selectedDuration}s...`);
@@ -1096,7 +1103,7 @@
         canvas.width = 720;
         canvas.height = 960;
         const ctx = canvas.getContext('2d');
-        const renderedCanvas = await html2canvas(frameNode, { scale: 2, useCORS: true, backgroundColor: null });
+        const renderedCanvas = await html2canvas(frameNode, { scale: 2, useCORS: true, allowTaint: true, backgroundColor: "#020617" });
         const fps = 30;
         const totalFrames = selectedDuration * fps;
         const stream = canvas.captureStream(fps);
