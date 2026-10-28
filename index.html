@@ -308,7 +308,7 @@
     <p>© Catálogo Digital. Todos os direitos reservados.</p>
   </footer>
 
-  <!-- MODAL DE LOGIN (CONTA FIXA ADMINISTRADOR) -->
+  <!-- MODAL DE LOGIN (COM O SEU E-MAIL CORRETO) -->
   <div id="modal-auth" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm hidden">
     <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-lg w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
       <button class="btn-close-modal absolute top-4 right-4 text-slate-400 hover:text-white text-lg">
@@ -327,7 +327,7 @@
         <form id="form-auth" class="space-y-4">
           <div>
             <label class="block text-xs font-semibold text-slate-300 mb-1">E-mail</label>
-            <input type="email" id="auth-email" value="christianalvesdacosta@gmail.com" readonly class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-400 cursor-not-allowed">
+            <input type="email" id="auth-email" value="cristianalvesdacosta@gmail.com" readonly class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-400 cursor-not-allowed">
           </div>
 
           <div>
@@ -888,7 +888,6 @@
       img.src = mainImgUrl;
       
       img.onload = () => {
-        // Desenha imagem centralizada dentro da caixa
         ctx.save();
         ctx.beginPath();
         ctx.roundRect(120, 300, 840, 840, 30);
@@ -905,7 +904,7 @@
     };
 
     function finishCanvasDrawing(ctx, canvas, prod, originalPrice, finalPrice, discount, couponCode) {
-      // 4. Nome do Produto (Quebra de linha automática)
+      // 4. Nome do Produto
       ctx.fillStyle = '#ffffff';
       ctx.font = 'bold 50px Inter, sans-serif';
       ctx.textAlign = 'center';
@@ -962,7 +961,6 @@
       document.getElementById('ig-download-img-btn').href = dataUrl;
     }
 
-    // Função auxiliar para quebrar texto longo no Canvas
     function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
       const words = text.split(' ');
       let line = '';
@@ -979,7 +977,6 @@
             y += lineHeight;
             linesCount++;
           } else {
-            // Se passar de 2 linhas, coloca reticências
             line = line.trim() + '...';
             break;
           }
@@ -1660,7 +1657,7 @@
       }
 
       try {
-        await signInWithEmailAndPassword(auth, "christianalvesdacosta@gmail.com", password);
+        await signInWithEmailAndPassword(auth, "cristianalvesdacosta@gmail.com", password);
         showToast("Bem-vindo ao Painel, Cristian!");
         document.getElementById('modal-auth').classList.add('hidden');
       } catch (err) {
