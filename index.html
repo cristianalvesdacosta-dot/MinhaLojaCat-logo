@@ -37,7 +37,7 @@
 </head>
 <body class="h-full font-sans antialiased selection:bg-brand-500 selection:text-white flex flex-col min-h-screen relative">
 
-  <!-- HEADER COMPACTO E MINIMALISTA -->
+  <!-- HEADER -->
   <header class="sticky top-0 z-40 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 px-3 sm:px-4 py-2.5">
     <div class="max-w-4xl mx-auto flex items-center justify-between gap-2">
       
@@ -79,14 +79,13 @@
   <main class="flex-grow max-w-4xl w-full mx-auto pb-16">
     <div class="relative w-full">
       <!-- BANNER / CAPA CLICÁVEL -->
-      <a id="display-cover-link" href="#" onclick="openStoreBannerLink(event)" class="block group relative overflow-hidden cursor-pointer" title="Clique para acessar a Loja Natura Oficial com Cupom">
+      <a id="display-cover-link" href="#" onclick="openStoreBannerLink(event)" class="block group relative overflow-hidden cursor-pointer" title="Clique para acessar a Loja Oficial com Cupom">
         <div id="display-cover" class="h-44 sm:h-56 w-full bg-gradient-to-r from-slate-800 via-slate-700 to-slate-800 bg-cover bg-center transition-all duration-300 relative group-hover:scale-105">
           <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-black/30"></div>
         </div>
 
-        <!-- INDICADOR DE CLIQUE NO BANNER -->
         <div class="absolute top-3 right-3 z-10 bg-brand-600/90 hover:bg-brand-500 text-white text-[11px] font-bold px-3 py-1.5 rounded-xl shadow-lg backdrop-blur-md border border-brand-400/40 flex items-center gap-1.5 transition">
-          <i class="fa-solid fa-bag-shopping"></i> Acessar Loja Natura <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+          <i class="fa-solid fa-bag-shopping"></i> Acessar Loja Oficial <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
         </div>
       </a>
 
@@ -155,7 +154,7 @@
         </div>
       </div>
 
-      <!-- BOTÕES DE CATEGORIAS DA NATURA -->
+      <!-- BOTÕES DE CATEGORIAS -->
       <div class="flex items-center gap-2 overflow-x-auto py-1 no-scrollbar" id="category-filters">
         <button onclick="filterByCategory('all')" class="category-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-brand-600 text-white whitespace-nowrap transition shadow cursor-pointer">Todas</button>
         <button onclick="filterByCategory('Perfumaria')" class="category-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 whitespace-nowrap transition border border-slate-700 cursor-pointer">Perfumaria</button>
@@ -183,39 +182,37 @@
     </div>
   </main>
 
-  <!-- MODAL DE CRIADOR DE ARTE ESTILO POST / STORY -->
+  <!-- MODAL DE VISUALIZAÇÃO DE STATUS / STORIES (SUPORTA IMAGEM OU VÍDEO PRONTO DE 5s) -->
   <div id="modal-instagram-post" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm hidden">
     <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-lg w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto space-y-4">
       <button class="btn-close-modal absolute top-4 right-4 text-slate-400 hover:text-white text-lg cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
       
       <div class="flex items-center gap-2.5">
-        <div class="w-10 h-10 bg-emerald-600 rounded-xl flex items-center justify-center text-white text-lg shadow">
-          <i class="fa-solid fa-wand-magic-sparkles"></i>
+        <div class="w-10 h-10 bg-brand-600 rounded-xl flex items-center justify-center text-white text-lg shadow">
+          <i class="fa-solid fa-clapperboard"></i>
         </div>
         <div>
-          <h2 class="text-base font-bold text-white">Criador de Arte para Instagram / Status</h2>
-          <p class="text-xs text-slate-400">Baixe a arte pronta profissional gerada abaixo.</p>
+          <h2 class="text-base font-bold text-white">Post / Story Pronto para Instagram</h2>
+          <p class="text-xs text-slate-400">Baixe sua arte ou seu mini-vídeo exclusivo de 5 segundos.</p>
         </div>
       </div>
 
       <div class="space-y-4">
-        <!-- CANVAS OCULTO PARA DESENHAR O POST PROFISSIONAL -->
-        <canvas id="marketing-canvas" width="1080" height="1350" class="hidden"></canvas>
-
-        <div>
-          <label class="block text-xs font-semibold text-slate-300 mb-1">1. Arte Pronta no Padrão Profissional (Toque e segure para baixar)</label>
-          <div class="bg-slate-900 p-3 rounded-xl border border-slate-700 flex justify-center">
-            <img id="ig-preview-img" src="" alt="Arte Pronta" class="w-64 h-80 object-contain rounded-xl border border-slate-700 shadow bg-slate-950">
+        <div class="bg-slate-900 p-4 rounded-xl border border-slate-700 flex flex-col items-center">
+          <!-- EXIBIÇÃO DINÂMICA (IMAGEM OU VÍDEO) -->
+          <div id="story-media-container" class="relative w-full max-w-xs h-80 rounded-xl overflow-hidden border border-slate-700 shadow bg-slate-800 flex items-center justify-center">
+            <!-- Inserido dinamicamente via JS -->
           </div>
-          <div class="text-center mt-2.5">
-            <a id="ig-download-img-btn" href="#" download="arte-promocao-natura.png" class="inline-flex items-center gap-2 px-4 py-2 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs font-bold transition shadow cursor-pointer">
-              <i class="fa-solid fa-download"></i> Baixar Imagem Pronta para o Celular
+          
+          <div class="text-center mt-3">
+            <a id="ig-download-media-btn" href="#" target="_blank" download class="inline-flex items-center gap-2 px-4 py-2 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs font-bold transition shadow cursor-pointer">
+              <i class="fa-solid fa-download"></i> Baixar Mídia para o Celular
             </a>
           </div>
         </div>
 
         <div>
-          <label class="block text-xs font-semibold text-slate-300 mb-1">2. Texto / Legenda do Post (Toque para selecionar e copiar)</label>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Texto da Legenda (Toque para selecionar e copiar)</label>
           <textarea id="ig-post-caption" rows="4" onclick="this.select()" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-xs text-slate-100 font-mono focus:outline-none focus:border-brand-500 cursor-pointer"></textarea>
         </div>
       </div>
@@ -380,22 +377,8 @@
             <i class="fa-solid fa-box text-brand-500"></i> Cadastrar Novo Produto
           </h3>
 
-          <div class="p-3 bg-slate-800/80 rounded-xl border border-brand-500/30 space-y-2">
-            <label class="block text-xs font-bold text-brand-400 flex items-center gap-1.5">
-              <i class="fa-solid fa-wand-magic-sparkles"></i> Importar Rápido via Link (Puxa Múltiplas Fotos)
-            </label>
-            <div class="flex gap-2">
-              <input type="url" id="auto-import-link" placeholder="Cole o link do produto aqui..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-slate-100 focus:outline-none focus:border-brand-500">
-              <button type="button" id="btn-fetch-link" onclick="fetchProductFromLink()" class="px-3 py-1.5 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs font-bold transition flex-shrink-0 flex items-center gap-1 cursor-pointer">
-                <i class="fa-solid fa-download"></i> Puxar
-              </button>
-            </div>
-            <p class="text-[10px] text-slate-400">Clique no X vermelho de qualquer imagem abaixo para removê-la antes de salvar!</p>
-          </div>
-
           <form id="form-product" class="space-y-4">
             <input type="hidden" id="product-id">
-            <input type="hidden" id="fetched-image-url">
 
             <div>
               <label class="block text-xs font-semibold text-slate-300 mb-1">Nome do Produto *</label>
@@ -403,7 +386,7 @@
             </div>
 
             <div>
-              <label class="block text-xs font-semibold text-slate-300 mb-1">Categoria Natura *</label>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Categoria *</label>
               <select id="product-category" required class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
                 <option value="Perfumaria">Perfumaria</option>
                 <option value="Corpo e Banho">Corpo e Banho</option>
@@ -417,18 +400,22 @@
             <div class="flex items-center gap-2 pt-1">
               <input type="checkbox" id="product-featured" class="w-4 h-4 rounded bg-slate-800 border-slate-700 text-brand-600 focus:ring-brand-500">
               <label for="product-featured" class="text-xs font-medium text-slate-300 cursor-pointer">
-                🔥 Marcar como Produto em Destaque / Mais Vendido
+                🔥 Marcar como Produto em Destaque
               </label>
             </div>
 
-            <div>
-              <label class="block text-xs font-semibold text-slate-300 mb-1">Adicionar Fotos Manualmente (Opcional)</label>
-              <input type="file" id="product-image-file" accept="image/*" multiple class="w-full text-xs text-slate-400 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-slate-700 file:text-slate-200 hover:file:bg-slate-600">
+            <!-- CAMPO PARA SUBIR A ARTE / FOTO / VÍDEO CURTO DE 5s -->
+            <div class="p-3 bg-slate-800/80 rounded-xl border border-brand-500/30 space-y-2">
+              <label class="block text-xs font-bold text-brand-400 flex items-center gap-1.5">
+                <i class="fa-solid fa-photo-film"></i> Subir Imagem ou Mini-Vídeo (Até 5s para Story/Status)
+              </label>
+              <input type="file" id="product-media-file" accept="image/*,video/mp4,video/webm" class="w-full text-xs text-slate-400 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-brand-600 file:text-white hover:file:bg-brand-500 cursor-pointer">
+              <p class="text-[10px] text-slate-400">Você pode subir uma arte pronta em PNG/JPEG ou um videozinho curto sem som!</p>
             </div>
 
-            <div id="preview-container" class="hidden">
-              <label class="block text-xs font-semibold text-slate-300 mb-1">Fotos do Produto (Clique no X para apagar indesejadas):</label>
-              <div id="preview-gallery" class="flex items-center gap-3 overflow-x-auto py-2 no-scrollbar"></div>
+            <div id="preview-media-container" class="hidden">
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Mídia Atual do Produto:</label>
+              <div id="preview-media-box" class="flex items-center gap-3"></div>
             </div>
 
             <div class="grid grid-cols-2 gap-3">
@@ -454,13 +441,13 @@
             </div>
 
             <div>
-              <label class="block text-xs font-semibold text-slate-300 mb-1">Descrição do Produto (Ilimitada)</label>
-              <textarea id="product-description" rows="3" placeholder="Insira toda a descrição, fragrâncias, observações..." class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500"></textarea>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Descrição do Produto</label>
+              <textarea id="product-description" rows="3" placeholder="Insira a descrição, fragrância, observações..." class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500"></textarea>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label class="block text-xs font-semibold text-slate-300 mb-1">Link do Produto (Afiliado / Loja)</label>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Link do Produto (Loja)</label>
                 <input type="url" id="product-link" placeholder="https://..." class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
               </div>
               <div>
@@ -470,15 +457,15 @@
             </div>
 
             <div>
-              <label class="block text-xs font-semibold text-slate-300 mb-1">Validade do Cupom (Dias a partir de hoje)</label>
-              <input type="number" id="product-validity-days" min="1" value="30" placeholder="Ex: 30" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Validade do Cupom (Dias)</label>
+              <input type="number" id="product-validity-days" min="1" value="30" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
             </div>
 
             <div class="p-3 bg-slate-800/60 rounded-xl border border-slate-700/60 space-y-3">
               <span class="text-xs font-bold text-brand-400 uppercase tracking-wider block">Controle de Estoque & Usos</span>
               <div class="grid grid-cols-2 gap-3">
                 <div>
-                  <label class="block text-[11px] font-medium text-slate-300 mb-1">Total de Estoque / Limite</label>
+                  <label class="block text-[11px] font-medium text-slate-300 mb-1">Estoque Total</label>
                   <input type="number" id="product-total-uses" min="1" required value="30" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
                 </div>
                 <div>
@@ -509,14 +496,13 @@
             </div>
 
             <div>
-              <label class="block text-xs font-semibold text-slate-300 mb-1">Biografia / Descrição da Loja</label>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Biografia da Loja</label>
               <textarea id="profile-bio" rows="2" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500"></textarea>
             </div>
 
             <div>
-              <label class="block text-xs font-bold text-brand-400 mb-1">Link da Sua Loja Natura Oficial (Para o Banner)</label>
-              <input type="url" id="profile-store-link" placeholder="https://www.natura.com.br/consultoria/seu-nome" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
-              <p class="text-[10px] text-slate-400 mt-1">Ao clicar em qualquer lugar do banner/capa, o cliente será redirecionado para este link!</p>
+              <label class="block text-xs font-bold text-brand-400 mb-1">Link da Sua Loja Oficial (Para o Banner)</label>
+              <input type="url" id="profile-store-link" placeholder="https://..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -549,9 +535,9 @@
       </button>
 
       <h2 class="text-base font-bold text-white mb-2 flex items-center gap-2">
-        <i class="fa-solid fa-list-check text-brand-500"></i> Gerenciar Produtos & Estatísticas de Cliques
+        <i class="fa-solid fa-list-check text-brand-500"></i> Gerenciar Produtos & Estatísticas
       </h2>
-      <p class="text-xs text-slate-400 mb-4">Acompanhe os cliques nos links, compartilhe nas redes ou edite e exclua os itens.</p>
+      <p class="text-xs text-slate-400 mb-4">Acompanhe cliques, edite ou exclua os itens.</p>
 
       <div id="admin-products-list" class="space-y-3"></div>
     </div>
@@ -593,11 +579,11 @@
       <h2 class="text-base font-bold text-white mb-2 flex items-center gap-2">
         <i class="fa-solid fa-layer-group text-brand-500"></i> Dar Baixa Global em Lote
       </h2>
-      <p class="text-xs text-slate-400 mb-4">Digite a quantidade de usos que deseja somar ao contador de <strong>TODOS OS PRODUTOS</strong> de uma só vez:</p>
+      <p class="text-xs text-slate-400 mb-4">Adicionar usos a <strong>TODOS OS PRODUTOS</strong>:</p>
 
       <form id="form-batch-use" class="space-y-4">
         <div>
-          <label class="block text-xs font-semibold text-slate-300 mb-1">Quantidade a adicionar ao 'Já Usado'</label>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Quantidade a adicionar</label>
           <input type="number" id="batch-use-val" min="1" value="1" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
         </div>
 
@@ -662,7 +648,8 @@
       cover: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&q=80",
       logo: "https://via.placeholder.com/150?text=LOGO"
     };
-    let currentFetchedImages = [];
+    let currentUploadedMedia = "";
+    let currentMediaType = "image";
     let redirectTimer = null;
     let redirectInterval = null;
 
@@ -769,7 +756,7 @@
       const storeLink = profileData.storeLink || "";
 
       if (!storeLink) {
-        showToast("Configure o link da sua loja Natura no Painel!", "error");
+        showToast("Configure o link da sua loja no Painel!", "error");
         document.getElementById('modal-auth').classList.remove('hidden');
         return;
       }
@@ -824,7 +811,7 @@
       document.getElementById('modal-timer-redirect').classList.add('hidden');
     };
 
-    // GERADOR DE ARTE ESTILO POST / STORY DA NATURA VIA CANVAS (INSTANTÂNEO)
+    // ABRIR O MODAL DE STATUS / STORY DIRETAMENTE COM A MÍDIA SUBIDA PELO USUÁRIO (IMAGEM OU VÍDEO 5s)
     window.openInstagramPostModal = (prodId) => {
       const prod = productsList.find(p => p.id === prodId);
       if (!prod) {
@@ -836,17 +823,22 @@
       const discount = Number(prod.discountPercent) || 0;
       let finalPrice = discount > 0 ? (originalPrice - (originalPrice * (discount / 100))).toFixed(2).replace('.', ',') : originalPrice.toFixed(2).replace('.', ',');
 
-      let prodImages = [];
-      if (Array.isArray(prod.images) && prod.images.length > 0) prodImages = prod.images;
-      else if (prod.image) prodImages = [prod.image];
-      else prodImages = ["https://via.placeholder.com/400x300?text=Sem+Imagem"];
-
-      const mainImgUrl = prodImages[0];
+      const mediaUrl = prod.mediaUrl || prod.image || "https://via.placeholder.com/400x300?text=Sem+Mídia";
+      const isVideo = prod.mediaType === 'video' || mediaUrl.includes('data:video');
       const couponCode = prod.code || "CLIENTEVIP";
       const productLink = prod.link || window.location.href;
 
-      // Monta o texto do post/status
-      const statusText = `🔥 *OFERTA ESPECIAL NATURA!* 🔥\n\n` +
+      const mediaContainer = document.getElementById('story-media-container');
+      if (isVideo) {
+        mediaContainer.innerHTML = `<video src="${mediaUrl}" autoplay loop muted playsinline class="w-full h-full object-cover"></video>`;
+      } else {
+        mediaContainer.innerHTML = `<img src="${mediaUrl}" alt="Mídia" class="w-full h-full object-cover">`;
+      }
+
+      document.getElementById('ig-download-media-btn').href = mediaUrl;
+      document.getElementById('ig-download-media-btn').download = isVideo ? "story-promocao.mp4" : "arte-promocao.png";
+
+      const statusText = `🔥 *OFERTA ESPECIAL!* 🔥\n\n` +
         `📦 *${prod.name}*\n\n` +
         (discount > 0 ? `💰 De R$ ${originalPrice.toFixed(2).replace('.', ',')} por apenas *R$ ${finalPrice}* (${discount}% OFF)\n` : `💰 Apenas: *R$ ${finalPrice}*\n`) +
         (prod.description ? `📝 ${prod.description}\n\n` : `\n`) +
@@ -855,162 +847,7 @@
 
       document.getElementById('ig-post-caption').value = statusText;
       document.getElementById('modal-instagram-post').classList.remove('hidden');
-
-      // Desenha o Post Profissional no Canvas
-      const canvas = document.getElementById('marketing-canvas');
-      const ctx = canvas.getContext('2d');
-
-      // 1. Fundo Luxuoso Natura (Gradiente Marrom / Dourado)
-      const bgGrad = ctx.createLinearGradient(0, 0, 0, 1350);
-      bgGrad.addColorStop(0, '#2d1512');
-      bgGrad.addColorStop(0.5, '#45221d');
-      bgGrad.addColorStop(1, '#1a0b09');
-      ctx.fillStyle = bgGrad;
-      ctx.fillRect(0, 0, 1080, 1350);
-
-      // 2. Faixa Superior (Promoção por Tempo Limitado)
-      ctx.fillStyle = '#d97706';
-      ctx.roundRect(80, 60, 540, 85, 42);
-      ctx.fill();
-      ctx.fillStyle = '#ffffff';
-      ctx.font = 'bold 36px Inter, sans-serif';
-      ctx.textAlign = 'left';
-      ctx.fillText('🛍️ PROMOÇÃO ESPECIAL', 115, 117);
-
-      // 3. Selo de Desconto Circular no Canto Superior Direito (Estilo da referência)
-      ctx.save();
-      ctx.beginPath();
-      ctx.arc(900, 120, 110, 0, Math.PI * 2);
-      ctx.fillStyle = '#1c120f';
-      ctx.fill();
-      ctx.lineWidth = 6;
-      ctx.strokeStyle = '#f59e0b';
-      ctx.stroke();
-
-      ctx.fillStyle = '#f59e0b';
-      ctx.font = 'bold 24px Inter, sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillText('OFERTA', 900, 75);
-      ctx.fillStyle = '#ffffff';
-      ctx.font = 'bold 50px Inter, sans-serif';
-      ctx.fillText(`${discount}%`, 900, 130);
-      ctx.font = 'bold 28px Inter, sans-serif';
-      ctx.fillStyle = '#f59e0b';
-      ctx.fillText('OFF', 900, 165);
-      ctx.restore();
-
-      // 4. Carrega e Desenha a Foto do Produto Centralizada
-      const img = new Image();
-      img.crossOrigin = "anonymous";
-      img.src = mainImgUrl;
-
-      img.onload = () => {
-        // Caixa de Fundo da Foto
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
-        ctx.roundRect(140, 180, 800, 620, 30);
-        ctx.fill();
-        ctx.lineWidth = 3;
-        ctx.strokeStyle = 'rgba(245, 158, 11, 0.3)';
-        ctx.stroke();
-
-        // Desenha a foto preservando proporção
-        const hRatio = 580 / img.height;
-        const wRatio = 760 / img.width;
-        const ratio = Math.min(hRatio, wRatio);
-        const centerShiftX = (760 - img.width * ratio) / 2;
-        const centerShiftY = (580 - img.height * ratio) / 2;
-
-        ctx.save();
-        ctx.beginPath();
-        ctx.roundRect(160, 200, 760, 580, 20);
-        ctx.clip();
-        ctx.drawImage(img, 0, 0, img.width, img.height, 160 + centerShiftX, 200 + centerShiftY, img.width * ratio, img.height * ratio);
-        ctx.restore();
-
-        finishPostCanvas(ctx, canvas, prod, originalPrice, finalPrice, discount, couponCode);
-      };
-
-      img.onerror = () => {
-        finishPostCanvas(ctx, canvas, prod, originalPrice, finalPrice, discount, couponCode);
-      };
     };
-
-    function finishPostCanvas(ctx, canvas, prod, originalPrice, finalPrice, discount, couponCode) {
-      // 5. Nome do Produto
-      ctx.fillStyle = '#ffffff';
-      ctx.font = 'bold 44px Inter, sans-serif';
-      ctx.textAlign = 'center';
-      wrapPostText(ctx, prod.name, 540, 850, 920, 52);
-
-      // 6. Preços
-      if (originalPrice > 0) {
-        if (discount > 0) {
-          ctx.fillStyle = '#d1d5db';
-          ctx.font = '30px Inter, sans-serif';
-          ctx.fillText(`De R$ ${originalPrice.toFixed(2).replace('.', ',')}`, 540, 955);
-
-          ctx.fillStyle = '#22c55e';
-          ctx.font = 'bold 64px Inter, sans-serif';
-          ctx.fillText(`Por R$ ${finalPrice}`, 540, 1035);
-        } else {
-          ctx.fillStyle = '#22c55e';
-          ctx.font = 'bold 64px Inter, sans-serif';
-          ctx.fillText(`R$ ${finalPrice}`, 540, 1020);
-        }
-      }
-
-      // 7. Caixa de Cupom de Desconto Dourada embaixo
-      ctx.fillStyle = '#1c120f';
-      ctx.roundRect(100, 1080, 880, 120, 30);
-      ctx.fill();
-      ctx.lineWidth = 4;
-      ctx.strokeStyle = '#f59e0b';
-      ctx.stroke();
-
-      ctx.fillStyle = '#fbbf24';
-      ctx.font = 'bold 26px Inter, sans-serif';
-      ctx.fillText('CUPOM DE DESCONTO EXCLUSIVO:', 540, 1130);
-
-      ctx.fillStyle = '#ffffff';
-      ctx.font = 'bold 42px Inter, sans-serif';
-      ctx.fillText(couponCode, 540, 1178);
-
-      // 8. Rodapé
-      ctx.fillStyle = '#9ca3af';
-      ctx.font = '22px Inter, sans-serif';
-      ctx.fillText('Compre com segurança e entrega rápida • Catálogo Oficial', 540, 1290);
-
-      // Joga no Preview da Imagem
-      const dataUrl = canvas.toDataURL('image/png');
-      document.getElementById('ig-preview-img').src = dataUrl;
-      document.getElementById('ig-download-img-btn').href = dataUrl;
-    }
-
-    function wrapPostText(ctx, text, x, y, maxWidth, lineHeight) {
-      const words = text.split(' ');
-      let line = '';
-      let linesCount = 0;
-
-      for(let n = 0; n < words.length; n++) {
-        const testLine = line + words[n] + ' ';
-        const metrics = ctx.measureText(testLine);
-        const testWidth = metrics.width;
-        if (testWidth > maxWidth && n > 0) {
-          if (linesCount < 2) {
-            ctx.fillText(line, x, y);
-            line = words[n] + ' ';
-            y += lineHeight;
-            linesCount++;
-          } else {
-            line = line.trim() + '...';
-            break;
-          }
-        } else {
-          line = testLine;
-        }
-      }
-      ctx.fillText(line.trim(), x, y);
-    }
 
     window.copyInstagramCaption = () => {
       const textarea = document.getElementById('ig-post-caption');
@@ -1019,7 +856,7 @@
       
       try {
         navigator.clipboard.writeText(textarea.value).then(() => {
-          showToast("Legenda de Post copiada com sucesso!");
+          showToast("Legenda copiada com sucesso!");
         }).catch(() => {
           document.execCommand('copy');
           showToast("Legenda copiada!");
@@ -1107,106 +944,27 @@
       }
     };
 
-    window.renderPreviewGallery = () => {
-      const previewContainer = document.getElementById('preview-container');
-      const previewGallery = document.getElementById('preview-gallery');
+    // LEITOR DO ARQUIVO DE MÍDIA (FOTO OU VÍDEO CURTO)
+    document.getElementById('product-media-file').onchange = (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
 
-      if (currentFetchedImages.length === 0) {
-        previewContainer.classList.add('hidden');
-        document.getElementById('fetched-image-url').value = "";
-        return;
-      }
+      const reader = new FileReader();
+      currentMediaType = file.type.startsWith('video') ? 'video' : 'image';
 
-      document.getElementById('fetched-image-url').value = JSON.stringify(currentFetchedImages);
-
-      previewGallery.innerHTML = currentFetchedImages.map((imgUrl, index) => `
-        <div class="relative group flex-shrink-0">
-          <img src="${imgUrl}" class="w-16 h-16 rounded-xl object-cover border border-slate-700">
-          <button type="button" onclick="removeFetchedImage(${index})" class="absolute -top-1.5 -right-1.5 bg-red-600 hover:bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-[10px] font-bold shadow-md transition cursor-pointer" title="Remover imagem">
-            <i class="fa-solid fa-xmark"></i>
-          </button>
-        </div>
-      `).join('');
-
-      previewContainer.classList.remove('hidden');
-    };
-
-    window.removeFetchedImage = (index) => {
-      currentFetchedImages.splice(index, 1);
-      renderPreviewGallery();
-      showToast("Imagem removida da lista.");
-    };
-
-    window.fetchProductFromLink = async () => {
-      const urlInput = document.getElementById('auto-import-link').value.trim();
-      if (!urlInput) {
-        showToast("Cole o link do produto primeiro!", "error");
-        return;
-      }
-
-      showToast("Buscando dados e fotos...", "success");
-
-      try {
-        const microlinkUrl = `https://api.microlink.io/?url=${encodeURIComponent(urlInput)}`;
-        const response = await fetch(microlinkUrl);
-        const json = await response.json();
-
-        currentFetchedImages = [];
-
-        if (json.status === 'success' && json.data) {
-          const data = json.data;
-
-          if (data.title) {
-            const cleanTitle = data.title.split('|')[0].split('- Natura')[0].trim();
-            document.getElementById('product-name').value = cleanTitle;
-          }
-
-          if (data.description) {
-            document.getElementById('product-description').value = data.description;
-          }
-
-          if (data.image && data.image.url) {
-            const imgUrl = data.image.url;
-            if (!imgUrl.toLowerCase().includes('logo') && !imgUrl.toLowerCase().includes('icon')) {
-              currentFetchedImages.push(imgUrl);
-            }
-          }
+      reader.readAsDataURL(file);
+      reader.onload = (event) => {
+        currentUploadedMedia = event.target.result;
+        const box = document.getElementById('preview-media-box');
+        
+        if (currentMediaType === 'video') {
+          box.innerHTML = `<video src="${currentUploadedMedia}" autoplay loop muted playsinline class="w-16 h-16 rounded-xl object-cover border border-slate-700"></video> <span class="text-xs text-brand-400 font-bold">Mini-vídeo carregado com sucesso!</span>`;
+        } else {
+          box.innerHTML = `<img src="${currentUploadedMedia}" class="w-16 h-16 rounded-xl object-cover border border-slate-700"> <span class="text-xs text-brand-400 font-bold">Imagem carregada com sucesso!</span>`;
         }
-
-        try {
-          const fallbackUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(urlInput)}`;
-          const res = await fetch(fallbackUrl);
-          const dataJson = await res.json();
-          if (dataJson.contents) {
-            const parser = new DOMParser();
-            const docHtml = parser.parseFromString(dataJson.contents, 'text/html');
-            
-            const allImages = docHtml.querySelectorAll('meta[property="og:image"], meta[name="twitter:image"], img');
-            allImages.forEach(tag => {
-              const url = tag.getAttribute('content') || tag.getAttribute('src');
-              if (url && url.startsWith('http')) {
-                const lowerUrl = url.toLowerCase();
-                const isLogoOrIcon = lowerUrl.includes('logo') || lowerUrl.includes('icon') || lowerUrl.includes('avatar') || lowerUrl.includes('banner') || lowerUrl.includes('social');
-                const isProductPhoto = lowerUrl.includes('product') || lowerUrl.includes('natura') || lowerUrl.includes('p/') || lowerUrl.includes('zoom') || lowerUrl.includes('large');
-
-                if (!isLogoOrIcon && isProductPhoto && !currentFetchedImages.includes(url) && currentFetchedImages.length < 4) {
-                  currentFetchedImages.push(url);
-                }
-              }
-            });
-          }
-        } catch (e) {}
-
-        renderPreviewGallery();
-        showToast(`${currentFetchedImages.length} foto(s) carregada(s) com sucesso!`);
-
-        document.getElementById('product-link').value = urlInput;
-        document.getElementById('product-code').value = "CLIENTEVIP";
-        document.getElementById('product-discount-percent').value = "10";
-
-      } catch (err) {
-        showToast("O site bloqueou a extração. Preencha manualmente.", "error");
-      }
+        document.getElementById('preview-media-container').classList.remove('hidden');
+        showToast("Mídia pronta para salvar!");
+      };
     };
 
     function processImageFile(file) {
@@ -1306,7 +1064,7 @@
       const ticker = document.getElementById('testimonials-ticker');
       if (!ticker) return;
       if (testimonialsList.length === 0) {
-        ticker.innerHTML = `<div class="text-xs text-slate-400 italic py-1">Nenhum depoimento ainda. Seja o primeiro a deixar uma avaliação!</div>`;
+        ticker.innerHTML = `<div class="text-xs text-slate-400 italic py-1">Nenhum depoimento ainda. Seja o primeiro a avaliar!</div>`;
         return;
       }
       const loopList = testimonialsList.length > 2 ? [...testimonialsList, ...testimonialsList] : testimonialsList;
@@ -1336,13 +1094,6 @@
         document.getElementById('display-logo').src = profileData.logo;
       }
     }
-
-    window.setMainImage = (prodId, imgUrl) => {
-      const imgElement = document.getElementById(`prod-img-${prodId}`);
-      if (imgElement) {
-        imgElement.src = imgUrl;
-      }
-    };
 
     function renderProducts() {
       const grid = document.getElementById('products-grid');
@@ -1392,19 +1143,8 @@
         if (percentRemaining < 20) barColor = "bg-red-500";
         else if (percentRemaining < 50) barColor = "bg-amber-500";
 
-        const imgPlaceholder = "https://via.placeholder.com/400x300?text=Sem+Imagem";
-
-        let prodImages = [];
-        if (Array.isArray(prod.images) && prod.images.length > 0) {
-          prodImages = prod.images;
-        } else if (prod.image) {
-          prodImages = [prod.image];
-        } else {
-          prodImages = [imgPlaceholder];
-        }
-
-        const mainImg = prodImages[0];
-        const encodedImagesJson = encodeURIComponent(JSON.stringify(prodImages));
+        const mediaUrl = prod.mediaUrl || prod.image || "https://via.placeholder.com/400x300?text=Sem+Mídia";
+        const isVideo = prod.mediaType === 'video' || mediaUrl.includes('data:video');
 
         const originalPrice = prod.price ? Number(prod.price) : null;
         const discountPercent = Number(prod.discountPercent) || 0;
@@ -1421,78 +1161,40 @@
         const ratingAvg = prod.ratingAverage || "5.0";
         const ratingCount = prod.totalRatings || 0;
 
-        let daysLeftText = "";
-        if (prod.createdAt) {
-          const createdDate = new Date(prod.createdAt);
-          const validityDays = Number(prod.validityDays) || 30;
-          const expiryDate = new Date(createdDate.getTime() + (validityDays * 24 * 60 * 60 * 1000));
-          const today = new Date();
-          const diffTime = expiryDate - today;
-          const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-          if (diffDays > 0) {
-            if (diffDays <= 5) {
-              daysLeftText = `<span class="text-[10px] bg-red-500/20 text-red-400 font-bold px-2 py-0.5 rounded-full border border-red-500/30 animate-pulse"><i class="fa-solid fa-clock mr-1"></i>Expira em ${diffDays} ${diffDays === 1 ? 'dia' : 'dias'}!</span>`;
-            } else {
-              daysLeftText = `<span class="text-[10px] bg-slate-800 text-slate-300 font-medium px-2 py-0.5 rounded-full border border-slate-700"><i class="fa-regular fa-clock mr-1"></i>Validade: ${diffDays} dias restantes</span>`;
-            }
-          } else {
-            daysLeftText = `<span class="text-[10px] bg-red-600/20 text-red-400 font-bold px-2 py-0.5 rounded-full border border-red-600/30">Cupom Expirado</span>`;
-          }
-        }
-
         return `
           <div class="glass-card rounded-2xl overflow-hidden border border-slate-800 flex flex-col justify-between hover:border-slate-700 transition group">
             <div>
-              <div class="relative h-48 w-full bg-slate-800 overflow-hidden cursor-pointer" onclick="openImageViewer('${mainImg}', '${encodedImagesJson}')">
-                <img id="prod-img-${prod.id}" src="${mainImg}" alt="${prod.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.src='${imgPlaceholder}'">
-                
-                <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
-                  <span class="px-2.5 py-1 bg-slate-900/80 backdrop-blur-sm text-white text-xs rounded-full font-medium">
-                    <i class="fa-solid fa-expand mr-1"></i> Ver Álbum
+              <div class="relative h-48 w-full bg-slate-800 overflow-hidden cursor-pointer" onclick="openImageViewer('${mediaUrl}', '[\"${mediaUrl}\"]')">
+                ${isVideo ? `
+                  <video src="${mediaUrl}" autoplay loop muted playsinline class="w-full h-full object-cover group-hover:scale-105 transition duration-500"></video>
+                  <span class="absolute top-3 right-3 bg-brand-600 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow">
+                    <i class="fa-solid fa-video mr-1"></i> Vídeo 5s
                   </span>
-                </div>
+                ` : `
+                  <img src="${mediaUrl}" alt="${prod.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                `}
 
                 ${isSoldOut ? `
                   <div class="absolute inset-0 bg-slate-950/80 backdrop-blur-xs flex items-center justify-center">
                     <span class="px-3 py-1 bg-red-600/90 text-white text-xs font-black tracking-widest rounded-full uppercase shadow-lg border border-red-400/30 animate-pulse">
-                      <i class="fa-solid fa-ban mr-1"></i> Produto Esgotado
+                      <i class="fa-solid fa-ban mr-1"></i> Esgotado
                     </span>
                   </div>
                 ` : ''}
 
-                <button type="button" onclick="event.stopPropagation(); copyCoupon('${couponCode}')" title="Clique para copiar o cupom" class="absolute top-3 left-3 bg-brand-600/90 hover:bg-brand-500 text-white text-[11px] font-bold px-2.5 py-1 rounded-lg shadow border border-brand-400/30 transition flex items-center gap-1.5 cursor-pointer z-10">
+                <button type="button" onclick="event.stopPropagation(); copyCoupon('${couponCode}')" class="absolute top-3 left-3 bg-brand-600/90 hover:bg-brand-500 text-white text-[11px] font-bold px-2.5 py-1 rounded-lg shadow border border-brand-400/30 transition flex items-center gap-1.5 cursor-pointer z-10">
                   <i class="fa-solid fa-ticket"></i> Cupom: ${couponCode} <i class="fa-regular fa-copy text-[10px] opacity-80"></i>
                 </button>
 
                 ${prod.isFeatured ? `
-                  <span class="absolute top-3 right-3 bg-amber-500 text-slate-950 font-black text-[10px] px-2.5 py-1 rounded-lg shadow-lg uppercase tracking-wider flex items-center gap-1 z-10">
+                  <span class="absolute top-3 right-16 bg-amber-500 text-slate-950 font-black text-[10px] px-2 py-1 rounded-lg shadow uppercase z-10">
                     <i class="fa-solid fa-fire"></i> Destaque
-                  </span>
-                ` : ''}
-
-                ${prodImages.length > 1 ? `
-                  <span class="absolute bottom-3 right-3 bg-slate-950/80 text-white text-[10px] font-semibold px-2 py-0.5 rounded-full backdrop-blur-sm border border-slate-700">
-                    <i class="fa-solid fa-images mr-1"></i>${prodImages.length} fotos
                   </span>
                 ` : ''}
               </div>
 
-              ${prodImages.length > 1 ? `
-                <div class="flex items-center gap-1.5 px-4 pt-2.5 overflow-x-auto no-scrollbar">
-                  ${prodImages.map((imgUrl) => `
-                    <button type="button" onclick="setMainImage('${prod.id}', '${imgUrl}')" class="focus:outline-none flex-shrink-0 cursor-pointer">
-                      <img src="${imgUrl}" class="w-10 h-10 rounded-lg object-cover border border-slate-700 hover:border-brand-500 transition">
-                    </button>
-                  `).join('')}
-                </div>
-              ` : ''}
-
               <div class="p-4">
-                <div class="flex items-start justify-between gap-2">
-                  <h3 class="font-bold text-slate-100 text-base leading-snug">${prod.name}</h3>
-                  ${daysLeftText}
-                </div>
+                <h3 class="font-bold text-slate-100 text-base leading-snug">${prod.name}</h3>
 
                 <div class="flex items-center justify-between mt-3 pt-2 border-t border-slate-800">
                   <div class="flex items-center gap-1 text-amber-400 text-xs font-bold">
@@ -1500,7 +1202,7 @@
                     <span>${ratingAvg}</span>
                     <span class="text-slate-500 font-normal">(${ratingCount})</span>
                   </div>
-                  <button type="button" onclick="openRateModal('${prod.id}', '${prod.name.replace(/'/g, "")}')" class="text-[11px] bg-slate-800 hover:bg-slate-700 text-amber-400 font-semibold px-2.5 py-1 rounded-lg border border-amber-500/20 transition flex items-center gap-1 cursor-pointer">
+                  <button type="button" onclick="openRateModal('${prod.id}', '${prod.name.replace(/'/g, "")}')" class="text-[11px] bg-slate-800 hover:bg-slate-700 text-amber-400 font-semibold px-2.5 py-1 rounded-lg border border-amber-500/20 transition cursor-pointer">
                     <i class="fa-regular fa-star"></i> Avaliar
                   </button>
                 </div>
@@ -1519,7 +1221,7 @@
                   </div>
                 ` : ''}
 
-                <p class="text-xs text-slate-400 mt-2 whitespace-pre-line">${prod.description || prod.desc || 'Sem descrição.'}</p>
+                <p class="text-xs text-slate-400 mt-2 whitespace-pre-line">${prod.description || 'Sem descrição.'}</p>
 
                 <div class="mt-4 p-3 bg-slate-900/80 rounded-xl border border-slate-800/80">
                   <div class="flex items-center justify-between text-xs font-semibold mb-1.5">
@@ -1532,11 +1234,6 @@
                   <div class="w-full h-2 bg-slate-800 rounded-full overflow-hidden p-0.5 border border-slate-700/50">
                     <div class="h-full ${barColor} rounded-full transition-all duration-500" style="width: ${percentRemaining}%"></div>
                   </div>
-
-                  <div class="flex justify-between items-center text-[10px] text-slate-400 mt-1.5">
-                    <span>Usados: <strong class="text-slate-300">${usedCount}</strong></span>
-                    <span>${percentRemaining}% Restante</span>
-                  </div>
                 </div>
               </div>
             </div>
@@ -1547,8 +1244,8 @@
                   <i class="fa-solid fa-arrow-up-right-from-square text-brand-400"></i> Ver Link
                 </button>
               ` : ''}
-              <button type="button" onclick="openInstagramPostModal('${prod.id}')" class="py-2 px-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 shadow transition cursor-pointer" title="Gerar Arte para Status / Story">
-                <i class="fa-solid fa-wand-magic-sparkles text-sm"></i> Status / Story
+              <button type="button" onclick="openInstagramPostModal('${prod.id}')" class="py-2 px-3 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 shadow transition cursor-pointer" title="Gerar Story / Status">
+                <i class="fa-solid fa-clapperboard text-sm"></i> Status / Story
               </button>
             </div>
           </div>
@@ -1575,23 +1272,23 @@
                 <div class="flex items-center gap-3 mt-0.5">
                   <span class="text-[10px] text-slate-400">Usos: ${prod.usedCount || 0} / ${prod.totalUses || 30}</span>
                   <span class="text-[10px] font-bold text-brand-400 bg-brand-500/10 px-2 py-0.5 rounded-full border border-brand-500/20">
-                    <i class="fa-solid fa-mouse-pointer mr-1"></i> ${clicks} ${clicks === 1 ? 'clique no link' : 'cliques nos links'}
+                    <i class="fa-solid fa-mouse-pointer mr-1"></i> ${clicks} cliques
                   </span>
                 </div>
               </div>
             </div>
             
             <div class="flex items-center justify-end gap-1.5 pt-1 border-t border-slate-800">
-              <button type="button" onclick="openInstagramPostModal('${prod.id}')" class="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-semibold flex items-center gap-1 cursor-pointer" title="Gerar Arte Status">
-                <i class="fa-solid fa-wand-magic-sparkles"></i> Status
+              <button type="button" onclick="openInstagramPostModal('${prod.id}')" class="px-2.5 py-1 bg-brand-600 hover:bg-brand-500 text-white rounded-lg text-xs font-semibold flex items-center gap-1 cursor-pointer">
+                <i class="fa-solid fa-clapperboard"></i> Status
               </button>
-              <button type="button" onclick="openQuickUseModal('${prod.id}')" class="px-2.5 py-1 bg-brand-600/20 hover:bg-brand-600/30 text-brand-300 rounded-lg text-xs font-medium border border-brand-500/30 cursor-pointer" title="Atualizar Uso">
+              <button type="button" onclick="openQuickUseModal('${prod.id}')" class="px-2.5 py-1 bg-brand-600/20 text-brand-300 rounded-lg text-xs font-medium border border-brand-500/30 cursor-pointer">
                 <i class="fa-solid fa-pen-to-square"></i>
               </button>
-              <button type="button" onclick="openEditProductModal('${prod.id}')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-medium border border-slate-700 cursor-pointer" title="Editar">
+              <button type="button" onclick="openEditProductModal('${prod.id}')" class="px-2.5 py-1 bg-slate-800 text-slate-300 rounded-lg text-xs font-medium border border-slate-700 cursor-pointer">
                 <i class="fa-solid fa-gear"></i>
               </button>
-              <button type="button" onclick="deleteProduct('${prod.id}')" class="px-2.5 py-1 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-lg text-xs font-medium border border-red-500/20 cursor-pointer" title="Excluir">
+              <button type="button" onclick="deleteProduct('${prod.id}')" class="px-2.5 py-1 bg-red-500/10 text-red-400 rounded-lg text-xs font-medium border border-red-500/20 cursor-pointer">
                 <i class="fa-solid fa-trash"></i>
               </button>
             </div>
@@ -1657,7 +1354,7 @@
         await setDoc(doc(db, 'settings', 'profile'), {
           title, bio, storeLink, cover: newCover, logo: newLogo, updatedAt: new Date().toISOString()
         }, { merge: true });
-        showToast("Perfil e link da loja salvos!");
+        showToast("Perfil salvo!");
       } catch (err) {
         showToast("Erro ao salvar: " + err.message, "error");
       }
@@ -1665,11 +1362,9 @@
 
     window.resetProductForm = () => {
       document.getElementById('form-product').reset();
-      document.getElementById('auto-import-link').value = "";
-      document.getElementById('fetched-image-url').value = "";
-      currentFetchedImages = [];
-      document.getElementById('preview-gallery').innerHTML = "";
-      document.getElementById('preview-container').classList.add('hidden');
+      currentUploadedMedia = "";
+      currentMediaType = "image";
+      document.getElementById('preview-media-container').classList.add('hidden');
       document.getElementById('product-id').value = "";
       document.getElementById('product-code').value = "CLIENTEVIP";
       document.getElementById('product-validity-days').value = "30";
@@ -1689,22 +1384,25 @@
       document.getElementById('product-featured').checked = !!prod.isFeatured;
       document.getElementById('product-price').value = prod.price || "";
       document.getElementById('product-discount-percent').value = prod.discountPercent || "10";
-      document.getElementById('product-description').value = prod.description || prod.desc || "";
+      document.getElementById('product-description').value = prod.description || "";
       document.getElementById('product-link').value = prod.link || "";
       document.getElementById('product-code').value = prod.code || "CLIENTEVIP";
       document.getElementById('product-validity-days').value = prod.validityDays || "30";
-      document.getElementById('product-total-uses').value = prod.totalUses || prod.total || 30;
-      document.getElementById('product-used-count').value = prod.usedCount || prod.used || 0;
+      document.getElementById('product-total-uses').value = prod.totalUses || 30;
+      document.getElementById('product-used-count').value = prod.usedCount || 0;
 
-      let prodImages = [];
-      if (Array.isArray(prod.images) && prod.images.length > 0) {
-        prodImages = prod.images;
-      } else if (prod.image) {
-        prodImages = [prod.image];
+      currentUploadedMedia = prod.mediaUrl || prod.image || "";
+      currentMediaType = prod.mediaType || "image";
+
+      const box = document.getElementById('preview-media-box');
+      if (currentUploadedMedia) {
+        if (currentMediaType === 'video') {
+          box.innerHTML = `<video src="${currentUploadedMedia}" autoplay loop muted playsinline class="w-16 h-16 rounded-xl object-cover border border-slate-700"></video> <span class="text-xs text-brand-400 font-bold">Mini-vídeo cadastrado</span>`;
+        } else {
+          box.innerHTML = `<img src="${currentUploadedMedia}" class="w-16 h-16 rounded-xl object-cover border border-slate-700"> <span class="text-xs text-brand-400 font-bold">Imagem cadastrada</span>`;
+        }
+        document.getElementById('preview-media-container').classList.remove('hidden');
       }
-
-      currentFetchedImages = [...prodImages];
-      renderPreviewGallery();
 
       document.getElementById('form-prod-title').innerHTML = `<i class="fa-solid fa-pen-to-square text-brand-500"></i> Editando Produto`;
       document.getElementById('btn-cancel-prod-edit').classList.remove('hidden');
@@ -1725,35 +1423,29 @@
       const validityDays = Number(document.getElementById('product-validity-days').value) || 30;
       const totalUses = Number(document.getElementById('product-total-uses').value);
       const usedCount = Number(document.getElementById('product-used-count').value);
-      
-      const imgFiles = Array.from(document.getElementById('product-image-file').files);
-
-      let newImages = [];
-      if (imgFiles.length > 0) {
-        newImages = await Promise.all(imgFiles.map(file => processImageFile(file)));
-      } else {
-        newImages = [...currentFetchedImages];
-      }
 
       try {
         if (id) {
           const prodDocRef = doc(db, 'products', id);
           const existing = productsList.find(p => p.id === id);
           
-          const finalImages = newImages.length > 0 ? newImages : (existing.images || (existing.image ? [existing.image] : []));
+          const finalMedia = currentUploadedMedia ? currentUploadedMedia : (existing.mediaUrl || existing.image || "");
+          const finalMediaType = currentUploadedMedia ? currentMediaType : (existing.mediaType || "image");
 
           await updateDoc(prodDocRef, {
             name, category, isFeatured, price, discountPercent, description, link, code, validityDays, totalUses, usedCount,
-            images: finalImages,
-            image: finalImages[0] || "",
+            mediaUrl: finalMedia,
+            mediaType: finalMediaType,
+            image: finalMedia,
             updatedAt: new Date().toISOString()
           });
-          showToast("Produto atualizado!");
+          showToast("Produto atualizado com sucesso!");
         } else {
           await addDoc(collection(db, 'products'), {
             name, category, isFeatured, price, discountPercent, description, link, code, validityDays, totalUses, usedCount,
-            images: newImages,
-            image: newImages[0] || "",
+            mediaUrl: currentUploadedMedia,
+            mediaType: currentMediaType,
+            image: currentUploadedMedia,
             linkClicks: 0,
             createdAt: new Date().toISOString()
           });
