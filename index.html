@@ -41,7 +41,6 @@
   <header class="sticky top-0 z-40 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 px-3 sm:px-4 py-2.5">
     <div class="max-w-4xl mx-auto flex items-center justify-between gap-2">
       
-      <!-- LADO ESQUERDO: ÍCONE + TÍTULO COM SUBTÍTULO E SELO -->
       <div class="flex items-center gap-2.5 min-w-0">
         <div class="bg-gradient-to-tr from-brand-600 to-emerald-400 p-2 rounded-xl text-white shadow-lg shadow-brand-500/20 flex-shrink-0">
           <i class="fa-solid fa-store text-base sm:text-lg"></i>
@@ -51,12 +50,10 @@
           <div class="flex items-center gap-1.5 leading-tight">
             <span class="font-bold text-sm sm:text-base tracking-tight text-white truncate">Meu Catálogo</span>
             
-            <!-- SELO DE VERIFICADO -->
             <span class="text-emerald-400 text-xs flex-shrink-0" title="Verificado">
               <i class="fa-solid fa-circle-check"></i>
             </span>
 
-            <!-- CONTADOR DE ACESSOS DISCRETO -->
             <div class="inline-flex items-center gap-1 px-2 py-0.5 bg-slate-800 border border-slate-700/80 rounded-full text-[10px] font-semibold text-emerald-400 flex-shrink-0">
               <span class="relative flex h-1.5 w-1.5">
                 <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
@@ -70,7 +67,6 @@
         </div>
       </div>
 
-      <!-- LADO DIREITO: BOTÃO PAINEL SOMENTE ÍCONE (MINIMALISTA) -->
       <div class="flex items-center flex-shrink-0">
         <button id="btn-auth-open" title="Acessar Painel Administrativo" class="w-9 h-9 sm:w-10 sm:h-10 text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 rounded-xl transition border border-slate-700 flex items-center justify-center text-sm shadow-sm">
           <i class="fa-solid fa-user-gear"></i>
@@ -179,7 +175,49 @@
     </div>
   </main>
 
-  <!-- BOTÃO FLUTUANTE DE COMPARTILHAMENTO COM O LINK COMPLETO DA LOJA -->
+  <!-- MODAL GERADOR DE POST PARA O INSTAGRAM -->
+  <div id="modal-instagram-post" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm hidden">
+    <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-lg w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto space-y-4">
+      <button class="btn-close-modal absolute top-4 right-4 text-slate-400 hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
+      
+      <div class="flex items-center gap-2">
+        <div class="w-10 h-10 bg-gradient-to-tr from-amber-500 via-pink-500 to-purple-600 rounded-xl flex items-center justify-center text-white text-lg shadow">
+          <i class="fa-brands fa-instagram"></i>
+        </div>
+        <div>
+          <h2 class="text-base font-bold text-white">Gerador de Post para o Instagram</h2>
+          <p class="text-xs text-slate-400">Legenda pronta e foto para postar no Feed ou Stories.</p>
+        </div>
+      </div>
+
+      <div class="space-y-3">
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Foto Principal do Produto</label>
+          <div class="bg-slate-900 p-3 rounded-xl border border-slate-700 flex justify-center">
+            <img id="ig-preview-img" src="" alt="Foto Produto" class="w-36 h-36 object-cover rounded-xl border border-slate-700 shadow">
+          </div>
+          <div class="text-center mt-2">
+            <a id="ig-download-img-btn" href="#" download="produto-instagram.jpg" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-200 rounded-xl text-xs font-bold transition">
+              <i class="fa-solid fa-download text-brand-400"></i> Baixar Foto para o Celular
+            </a>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Legenda Pronta para Copiar</label>
+          <textarea id="ig-post-caption" rows="6" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-xs text-slate-100 font-mono focus:outline-none focus:border-brand-500" readonly></textarea>
+        </div>
+      </div>
+
+      <div class="pt-2 flex gap-2">
+        <button type="button" class="btn-close-modal flex-1 py-2.5 bg-slate-700 text-slate-300 rounded-xl text-xs font-medium">Fechar</button>
+        <button type="button" onclick="copyInstagramCaption()" class="flex-1 py-2.5 bg-gradient-to-r from-amber-500 via-pink-500 to-purple-600 text-white font-bold rounded-xl text-xs shadow-md transition hover:opacity-90 flex items-center justify-center gap-2">
+          <i class="fa-regular fa-copy"></i> Copiar Legenda
+        </button>
+      </div>
+    </div>
+  </div>
+
   <a href="https://api.whatsapp.com/send?text=Olha%20que%20cat%C3%A1logo%20incr%C3%ADvel%20de%20descontos%20e%20cupons%20eu%20achei!%20Confere%20aqui:%20https://cristianalvesdacosta-dot.github.io/MinhaLojaCat-logo/" 
      target="_blank" 
      rel="noopener noreferrer"
@@ -211,7 +249,7 @@
       </div>
 
       <p class="text-xs text-slate-300 leading-relaxed bg-slate-900/80 p-3 rounded-xl border border-slate-700">
-        ✔ Cole-o no carrinho da Natura para aplicar seu desconto.<br>
+        ✔ Cole-o no carrinho para aplicar seu desconto.<br>
         Entrando na loja em <strong id="countdown-seconds" class="text-brand-400">8s</strong>...
       </p>
 
@@ -259,6 +297,7 @@
     <p>© Catálogo Digital. Todos os direitos reservados.</p>
   </footer>
 
+  <!-- MODAL DE LOGIN (CONTA FIXA ADMINISTRADOR) -->
   <div id="modal-auth" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm hidden">
     <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-lg w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
       <button class="btn-close-modal absolute top-4 right-4 text-slate-400 hover:text-white text-lg">
@@ -270,32 +309,25 @@
           <div class="w-12 h-12 bg-brand-500/10 text-brand-500 rounded-xl flex items-center justify-center mx-auto mb-2 text-xl border border-brand-500/20">
             <i class="fa-solid fa-lock"></i>
           </div>
-          <h2 id="auth-modal-title" class="text-xl font-bold text-white">Entrar no Painel</h2>
-          <p class="text-xs text-slate-400 mt-1">Acesse com e-mail e senha ou crie sua conta para gerenciar seu catálogo.</p>
+          <h2 class="text-xl font-bold text-white">Painel Administrativo</h2>
+          <p class="text-xs text-slate-400 mt-1">Acesse com sua senha exclusiva de administrador.</p>
         </div>
 
         <form id="form-auth" class="space-y-4">
           <div>
             <label class="block text-xs font-semibold text-slate-300 mb-1">E-mail</label>
-            <input type="email" id="auth-email" required placeholder="seu@email.com" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
+            <input type="email" id="auth-email" value="christianalvesdacosta@gmail.com" readonly class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-400 cursor-not-allowed">
           </div>
 
           <div>
-            <label class="block text-xs font-semibold text-slate-300 mb-1">Senha</label>
-            <input type="password" id="auth-password" required minlength="6" placeholder="******" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Senha de Acesso</label>
+            <input type="password" id="auth-password" required placeholder="Digite sua senha..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
           </div>
 
           <button type="submit" id="btn-auth-submit" class="w-full py-2.5 bg-brand-600 hover:bg-brand-500 text-white font-semibold rounded-xl text-sm transition shadow-lg shadow-brand-600/30">
             Entrar no Painel
           </button>
         </form>
-
-        <div class="mt-4 pt-4 border-t border-slate-700/60 text-center">
-          <p class="text-xs text-slate-400" id="auth-toggle-text">
-            Não tem usuário e senha? 
-            <button id="btn-toggle-auth-mode" type="button" class="text-brand-400 font-semibold hover:underline">Criar conta agora</button>
-          </p>
-        </div>
       </div>
 
       <div id="panel-logged" class="hidden space-y-6">
@@ -359,7 +391,6 @@
               <input type="text" id="product-name" required placeholder="Ex: Desodorante Perfume Essencial" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
             </div>
 
-            <!-- SELEÇÃO DA CATEGORIA NATURA -->
             <div>
               <label class="block text-xs font-semibold text-slate-300 mb-1">Categoria Natura *</label>
               <select id="product-category" required class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
@@ -372,7 +403,6 @@
               </select>
             </div>
 
-            <!-- OPÇÃO DE MARCAR DESTAQUE -->
             <div class="flex items-center gap-2 pt-1">
               <input type="checkbox" id="product-featured" class="w-4 h-4 rounded bg-slate-800 border-slate-700 text-brand-600 focus:ring-brand-500">
               <label for="product-featured" class="text-xs font-medium text-slate-300 cursor-pointer">
@@ -431,7 +461,6 @@
             <div>
               <label class="block text-xs font-semibold text-slate-300 mb-1">Validade do Cupom (Dias a partir de hoje)</label>
               <input type="number" id="product-validity-days" min="1" value="30" placeholder="Ex: 30" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
-              <p class="text-[10px] text-slate-400 mt-1">O sistema calculará automaticamente a contagem regressiva baseada no dia em que o produto foi cadastrado/atualizado.</p>
             </div>
 
             <div class="p-3 bg-slate-800/60 rounded-xl border border-slate-700/60 space-y-3">
@@ -502,10 +531,10 @@
         <i class="fa-solid fa-xmark"></i>
       </button>
 
-      <h2 class="text-base font-bold text-white mb-4 flex items-center gap-2">
-        <i class="fa-solid fa-list-check text-brand-500"></i> Gerenciar Produtos Cadastrados
+      <h2 class="text-base font-bold text-white mb-2 flex items-center gap-2">
+        <i class="fa-solid fa-list-check text-brand-500"></i> Gerenciar Produtos & Estatísticas de Cliques
       </h2>
-      <p class="text-xs text-slate-400 mb-4">Aqui você pode atualizar o estoque/uso, editar ou excluir seus produtos com total segurança.</p>
+      <p class="text-xs text-slate-400 mb-4">Acompanhe os cliques nos links, compartilhe nas redes ou edite e exclua os itens.</p>
 
       <div id="admin-products-list" class="space-y-3"></div>
     </div>
@@ -573,7 +602,6 @@
     import { 
       getAuth, 
       signInWithEmailAndPassword,
-      createUserWithEmailAndPassword,
       signOut,
       onAuthStateChanged 
     } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -616,9 +644,7 @@
       cover: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&q=80",
       logo: "https://via.placeholder.com/150?text=LOGO"
     };
-    let isAuthModeLogin = true;
     let currentFetchedImages = [];
-
     let redirectTimer = null;
     let redirectInterval = null;
 
@@ -720,12 +746,21 @@
       });
     };
 
-    window.openProductAndCopyCoupon = (productUrl, couponCode) => {
+    window.openProductAndCopyCoupon = async (prodId, productUrl, couponCode) => {
       const couponToCopy = couponCode || "CLIENTEVIP";
 
       navigator.clipboard.writeText(couponToCopy).catch(err => {
         console.warn("Aviso na cópia:", err);
       });
+
+      if (prodId) {
+        try {
+          const prodRef = doc(db, 'products', prodId);
+          await updateDoc(prodRef, { linkClicks: increment(1) });
+        } catch (e) {
+          console.warn("Erro ao atualizar contador de cliques:", e);
+        }
+      }
 
       document.getElementById('timer-coupon-code').innerText = `Cupom: ${couponToCopy}`;
       document.getElementById('modal-timer-redirect').classList.remove('hidden');
@@ -756,6 +791,108 @@
       if (redirectTimer) clearTimeout(redirectTimer);
       if (redirectInterval) clearInterval(redirectInterval);
       document.getElementById('modal-timer-redirect').classList.add('hidden');
+    };
+
+    // GERADOR DE POST PARA O INSTAGRAM
+    window.openInstagramPostModal = (prodId) => {
+      const prod = productsList.find(p => p.id === prodId);
+      if (!prod) return;
+
+      const originalPrice = prod.price ? Number(prod.price) : 0;
+      const discount = Number(prod.discountPercent) || 0;
+      let finalPrice = discount > 0 ? (originalPrice - (originalPrice * (discount / 100))).toFixed(2).replace('.', ',') : originalPrice.toFixed(2).replace('.', ',');
+
+      let prodImages = [];
+      if (Array.isArray(prod.images) && prod.images.length > 0) prodImages = prod.images;
+      else if (prod.image) prodImages = [prod.image];
+      else prodImages = ["https://via.placeholder.com/400x300?text=Sem+Imagem"];
+
+      const mainImg = prodImages[0];
+      const couponCode = prod.code || "CLIENTEVIP";
+      const productLink = prod.link || window.location.href;
+
+      const captionText = `✨ ${prod.name} ✨\n\n` +
+        (discount > 0 ? `🔥 De R$ ${originalPrice.toFixed(2).replace('.', ',')} por apenas *R$ ${finalPrice}* (${discount}% OFF)\n` : `💰 Valor: *R$ ${finalPrice}*\n`) +
+        (prod.description ? `📝 ${prod.description}\n\n` : `\n`) +
+        `🎟️ Use o cupom: *${couponCode}*\n\n` +
+        `🛒 Compre agora acessando o link na bio ou clique aqui:\n${productLink}\n\n` +
+        `#Natura #Promocao #Desconto #CupomDeDesconto #PerfumariaNatura #Beleza #Achadinhos`;
+
+      document.getElementById('ig-preview-img').src = mainImg;
+      document.getElementById('ig-download-img-btn').href = mainImg;
+      document.getElementById('ig-post-caption').value = captionText;
+      document.getElementById('modal-instagram-post').classList.remove('hidden');
+    };
+
+    window.copyInstagramCaption = () => {
+      const textarea = document.getElementById('ig-post-caption');
+      textarea.select();
+      textarea.setSelectionRange(0, 99999);
+      navigator.clipboard.writeText(textarea.value).then(() => {
+        showToast("Legenda do Instagram copiada com sucesso!");
+      }).catch(() => {
+        showToast("Erro ao copiar legenda", "error");
+      });
+    };
+
+    window.shareProductPromo = async (prodId, prodName, prodLink, prodCode, prodPrice, prodDiscount) => {
+      const originalPrice = prodPrice ? Number(prodPrice) : 0;
+      const discount = Number(prodDiscount) || 0;
+      let finalPrice = discount > 0 ? (originalPrice - (originalPrice * (discount / 100))).toFixed(2).replace('.', ',') : originalPrice.toFixed(2).replace('.', ',');
+
+      const shareText = `🔥 *${prodName}* 🔥\n\n` +
+        (discount > 0 ? `💰 Por apenas: *R$ ${finalPrice}* (${discount}% OFF)\n` : `💰 Valor: *R$ ${finalPrice}*\n`) +
+        `🎟️ Cupom de Desconto: *${prodCode || 'CLIENTEVIP'}*\n\n` +
+        `🛒 Garanta já o seu clicando no link:\n${prodLink || window.location.href}`;
+
+      if (prodId) {
+        try {
+          await updateDoc(doc(db, 'products', prodId), { linkClicks: increment(1) });
+        } catch(e) {}
+      }
+
+      let filesArray = [];
+      try {
+        const prod = productsList.find(p => p.id === prodId);
+        if (prod) {
+          let imgs = [];
+          if (Array.isArray(prod.images) && prod.images.length > 0) imgs = prod.images;
+          else if (prod.image) imgs = [prod.image];
+
+          if (imgs.length > 0) {
+            showToast("Preparando imagens para divulgação...", "success");
+            for (let imgUrl of imgs.slice(0, 3)) {
+              const response = await fetch(imgUrl);
+              const blob = await response.blob();
+              filesArray.push(new File([blob], 'produto-natura.jpg', { type: blob.type }));
+            }
+          }
+        }
+      } catch (err) {}
+
+      if (navigator.share) {
+        try {
+          const shareData = {
+            title: prodName,
+            text: shareText,
+            url: prodLink || window.location.href
+          };
+
+          if (filesArray.length > 0 && navigator.canShare && navigator.canShare({ files: filesArray })) {
+            shareData.files = filesArray;
+          }
+
+          await navigator.share(shareData);
+          showToast("Compartilhado com sucesso!");
+          return;
+        } catch (err) {}
+      }
+
+      navigator.clipboard.writeText(shareText).then(() => {
+        showToast("Texto de divulgação copiado!");
+      }).catch(() => {
+        showToast("Erro ao copiar", "error");
+      });
     };
 
     window.openImageViewer = (imgUrl, allImagesJson) => {
@@ -831,7 +968,7 @@
       e.preventDefault();
       const val = Number(document.getElementById('batch-use-val').value);
       if (val > 0) {
-        closeModal('modal-batch-use');
+        document.getElementById('modal-batch-use').classList.add('hidden');
         await window.decreaseAllProductsUsage(val);
       }
     };
@@ -866,7 +1003,6 @@
       showToast("Imagem removida da lista.");
     };
 
-    // FUNÇÃO DE PUXAR VIA LINK ESTÁVEL (MICROLINK) COM SUPORTE A MÚLTIPLAS FOTOS
     window.fetchProductFromLink = async () => {
       const urlInput = document.getElementById('auto-import-link').value.trim();
       if (!urlInput) {
@@ -895,7 +1031,6 @@
             document.getElementById('product-description').value = data.description;
           }
 
-          // Pega a imagem principal do Microlink
           if (data.image && data.image.url) {
             const imgUrl = data.image.url;
             if (!imgUrl.toLowerCase().includes('logo') && !imgUrl.toLowerCase().includes('icon')) {
@@ -904,7 +1039,6 @@
           }
         }
 
-        // Tenta buscar fotos adicionais se disponíveis no metadado da página
         try {
           const fallbackUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(urlInput)}`;
           const res = await fetch(fallbackUrl);
@@ -927,9 +1061,7 @@
               }
             });
           }
-        } catch (e) {
-          console.warn("Aviso na busca complementar de imagens.", e);
-        }
+        } catch (e) {}
 
         renderPreviewGallery();
         showToast(`${currentFetchedImages.length} foto(s) carregada(s) com sucesso!`);
@@ -939,7 +1071,6 @@
         document.getElementById('product-discount-percent').value = "10";
 
       } catch (err) {
-        console.error("Erro na extração:", err);
         showToast("O site bloqueou a extração. Preencha manualmente.", "error");
       }
     };
@@ -1275,12 +1406,15 @@
               </div>
             </div>
 
-            <div class="p-4 pt-0">
+            <div class="p-4 pt-0 flex gap-2">
               ${prod.link ? `
-                <button type="button" onclick="openProductAndCopyCoupon('${prod.link}', '${couponCode}')" class="w-full py-2 px-3 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-medium flex items-center justify-center gap-2 border border-slate-700 transition cursor-pointer">
-                  <i class="fa-solid fa-arrow-up-right-from-square text-brand-400"></i> Ver Link do Produto
+                <button type="button" onclick="openProductAndCopyCoupon('${prod.id}', '${prod.link}', '${couponCode}')" class="flex-1 py-2 px-3 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-medium flex items-center justify-center gap-2 border border-slate-700 transition cursor-pointer">
+                  <i class="fa-solid fa-arrow-up-right-from-square text-brand-400"></i> Ver Link
                 </button>
               ` : ''}
+              <button type="button" onclick="openInstagramPostModal('${prod.id}')" class="py-2 px-3 bg-gradient-to-tr from-amber-500/20 via-pink-500/20 to-purple-600/20 hover:opacity-80 text-pink-300 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 border border-pink-500/30 transition" title="Gerar Post para o Instagram">
+                <i class="fa-brands fa-instagram text-sm"></i>
+              </button>
             </div>
           </div>
         `;
@@ -1296,25 +1430,39 @@
         return;
       }
 
-      container.innerHTML = productsList.map(prod => `
-        <div class="bg-slate-900 p-3 rounded-xl border border-slate-700 flex items-center justify-between gap-2">
-          <div class="truncate">
-            <h4 class="text-xs font-bold text-white truncate">${prod.name}</h4>
-            <span class="text-[10px] text-slate-400">Usados: ${prod.usedCount || 0} / Total: ${prod.totalUses || 30}</span>
+      container.innerHTML = productsList.map(prod => {
+        const clicks = prod.linkClicks || 0;
+        return `
+          <div class="bg-slate-900 p-3.5 rounded-xl border border-slate-700 space-y-2">
+            <div class="flex items-center justify-between gap-2">
+              <div class="truncate">
+                <h4 class="text-xs font-bold text-white truncate">${prod.name}</h4>
+                <div class="flex items-center gap-3 mt-0.5">
+                  <span class="text-[10px] text-slate-400">Usos: ${prod.usedCount || 0} / ${prod.totalUses || 30}</span>
+                  <span class="text-[10px] font-bold text-brand-400 bg-brand-500/10 px-2 py-0.5 rounded-full border border-brand-500/20">
+                    <i class="fa-solid fa-mouse-pointer mr-1"></i> ${clicks} ${clicks === 1 ? 'clique no link' : 'cliques nos links'}
+                  </span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="flex items-center justify-end gap-1.5 pt-1 border-t border-slate-800">
+              <button onclick="openInstagramPostModal('${prod.id}')" class="px-2.5 py-1 bg-gradient-to-tr from-amber-500/20 via-pink-500/20 to-purple-600/20 text-pink-300 rounded-lg text-xs font-semibold border border-pink-500/30 flex items-center gap-1" title="Gerar Post Instagram">
+                <i class="fa-brands fa-instagram"></i> Post IG
+              </button>
+              <button onclick="openQuickUseModal('${prod.id}')" class="px-2.5 py-1 bg-brand-600/20 hover:bg-brand-600/30 text-brand-300 rounded-lg text-xs font-medium border border-brand-500/30" title="Atualizar Uso">
+                <i class="fa-solid fa-pen-to-square"></i>
+              </button>
+              <button onclick="openEditProductModal('${prod.id}')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-medium border border-slate-700" title="Editar">
+                <i class="fa-solid fa-gear"></i>
+              </button>
+              <button onclick="deleteProduct('${prod.id}')" class="px-2.5 py-1 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-lg text-xs font-medium border border-red-500/20" title="Excluir">
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            </div>
           </div>
-          <div class="flex items-center gap-1 flex-shrink-0">
-            <button onclick="openQuickUseModal('${prod.id}')" class="px-2.5 py-1 bg-brand-600/20 hover:bg-brand-600/30 text-brand-300 rounded-lg text-xs font-medium border border-brand-500/30" title="Atualizar Uso">
-              <i class="fa-solid fa-pen-to-square"></i>
-            </button>
-            <button onclick="openEditProductModal('${prod.id}')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-medium border border-slate-700" title="Editar">
-              <i class="fa-solid fa-gear"></i>
-            </button>
-            <button onclick="deleteProduct('${prod.id}')" class="px-2.5 py-1 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-lg text-xs font-medium border border-red-500/20" title="Excluir">
-              <i class="fa-solid fa-trash"></i>
-            </button>
-          </div>
-        </div>
-      `).join('');
+        `;
+      }).join('');
     }
 
     function closeModal(id) {
@@ -1329,52 +1477,28 @@
       document.getElementById('modal-auth').classList.remove('hidden');
     };
 
-    function attachToggleAuthListener() {
-      const toggleBtn = document.getElementById('btn-toggle-auth-mode');
-      if (toggleBtn) {
-        toggleBtn.onclick = () => {
-          isAuthModeLogin = !isAuthModeLogin;
-          const title = document.getElementById('auth-modal-title');
-          const submitBtn = document.getElementById('btn-auth-submit');
-          const toggleText = document.getElementById('auth-toggle-text');
-
-          if (isAuthModeLogin) {
-            title.innerText = "Entrar no Painel";
-            submitBtn.innerText = "Entrar no Painel";
-            toggleText.innerHTML = `Não tem usuário e senha? <button id="btn-toggle-auth-mode" type="button" class="text-brand-400 font-semibold hover:underline">Criar conta agora</button>`;
-          } else {
-            title.innerText = "Criar Usuário e Senha";
-            submitBtn.innerText = "Cadastrar e Entrar";
-            toggleText.innerHTML = `Já possui usuário e senha? <button id="btn-toggle-auth-mode" type="button" class="text-brand-400 font-semibold hover:underline">Fazer Login</button>`;
-          }
-          attachToggleAuthListener();
-        };
-      }
-    }
-    attachToggleAuthListener();
-
     document.getElementById('form-auth').onsubmit = async (e) => {
       e.preventDefault();
-      const email = document.getElementById('auth-email').value;
       const password = document.getElementById('auth-password').value;
 
+      if (password !== "6424906c") {
+        showToast("Senha de administrador incorreta!", "error");
+        return;
+      }
+
       try {
-        if (isAuthModeLogin) {
-          await signInWithEmailAndPassword(auth, email, password);
-          showToast("Login realizado!");
-        } else {
-          await createUserWithEmailAndPassword(auth, email, password);
-          showToast("Usuário criado e ativado!");
-        }
+        await signInWithEmailAndPassword(auth, "christianalvesdacosta@gmail.com", password);
+        showToast("Bem-vindo ao Painel, Cristian!");
+        document.getElementById('modal-auth').classList.add('hidden');
       } catch (err) {
-        showToast("Erro: " + err.message, "error");
+        showToast("Erro ao autenticar: " + err.message, "error");
       }
     };
 
     document.getElementById('btn-logout').onclick = async () => {
       try {
         await signOut(auth);
-        showToast("Você saiu.");
+        showToast("Você saiu do painel.");
       } catch (err) {
         showToast("Erro ao sair.", "error");
       }
@@ -1448,6 +1572,7 @@
 
       document.getElementById('form-prod-title').innerHTML = `<i class="fa-solid fa-pen-to-square text-brand-500"></i> Editando Produto`;
       document.getElementById('btn-cancel-prod-edit').classList.remove('hidden');
+      document.getElementById('modal-auth').classList.remove('hidden');
     };
 
     document.getElementById('form-product').onsubmit = async (e) => {
@@ -1493,6 +1618,7 @@
             name, category, isFeatured, price, discountPercent, description, link, code, validityDays, totalUses, usedCount,
             images: newImages,
             image: newImages[0] || "",
+            linkClicks: 0,
             createdAt: new Date().toISOString()
           });
           showToast("Produto cadastrado com sucesso!");
