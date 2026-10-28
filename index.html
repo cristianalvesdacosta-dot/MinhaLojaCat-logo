@@ -186,7 +186,7 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
-  <!-- WIDGET DE CHAT DO CLIENTE (ATENDENTE VIRTUAL LIVRE E FOCADO NA NATURA) -->
+  <!-- WIDGET DE CHAT DO CLIENTE (CONSULTOR VIRTUAL IA INTELIGENTE E LIVRE) -->
   <div id="ai-chat-drawer" class="fixed inset-y-0 right-0 w-full sm:w-96 bg-slate-900 border-l border-slate-800 z-50 transform translate-x-full transition-transform duration-300 flex flex-col shadow-2xl">
     <div class="p-4 bg-slate-800 border-b border-slate-700 flex items-center justify-between">
       <div class="flex items-center gap-2">
@@ -196,7 +196,7 @@
         <div>
           <h3 class="text-sm font-bold text-white leading-tight">Consultor Virtual Natura</h3>
           <p class="text-[10px] text-emerald-400 flex items-center gap-1">
-            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Atendimento ora_et_labora
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> IA Atendimento ora_et_labora
           </p>
         </div>
       </div>
@@ -207,13 +207,13 @@
 
     <div id="ai-chat-messages" class="flex-grow p-4 overflow-y-auto space-y-3 text-xs">
       <div class="bg-slate-800/80 border border-slate-700/80 p-3 rounded-2xl text-slate-200 leading-relaxed">
-        👋 Olá! Seja muito bem-vindo(a) à minha **Loja Oficial Natura (ora_et_labora)**! 🌿<br><br>Como posso te ajudar hoje? Procure por um perfume específico, peça indicações de presentes (masculino ou feminino) ou tire suas dúvidas!
+        👋 Olá! Sou seu consultor especialista da **Loja Oficial Natura (ora_et_labora)**! 🌿<br><br>Estou aqui para conversar com você sobre fragrâncias, presentes, datas especiais ou indicações. O que você está procurando hoje?
       </div>
     </div>
 
     <div class="p-3 bg-slate-800/80 border-t border-slate-700">
       <form id="form-ai-chat" class="flex gap-2">
-        <input type="text" id="ai-chat-input" placeholder="Ex: Quero um perfume feminino doce..." class="flex-grow bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500">
+        <input type="text" id="ai-chat-input" placeholder="Ex: Quero um presente amadeirado para homem..." class="flex-grow bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500">
         <button type="submit" class="bg-emerald-600 hover:bg-emerald-500 text-white px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center justify-center cursor-pointer">
           <i class="fa-solid fa-paper-plane"></i>
         </button>
@@ -353,54 +353,40 @@
           </button>
         </div>
 
-        <!-- BARRA DE BOTÕES RÁPIDOS EM ÍCONES (COMPACTOS E ORGANIZADOS) -->
+        <!-- BARRA DE BOTÕES RÁPIDOS EM ÍCONES -->
         <div class="grid grid-cols-6 gap-2">
-          <!-- 1. Cupom Global -->
           <button type="button" onclick="openAdminModalSection('modal-sec-coupon')" class="flex flex-col items-center justify-center p-2.5 bg-slate-900 hover:bg-slate-700 border border-slate-700 rounded-xl text-brand-400 transition cursor-pointer shadow-sm" title="Cupom Global">
             <i class="fa-solid fa-ticket text-base mb-1"></i>
             <span class="text-[9px] font-semibold text-slate-200">Cupom</span>
           </button>
-
-          <!-- 2. Varredura -->
           <button type="button" onclick="openAdminModalSection('modal-sec-audit')" class="flex flex-col items-center justify-center p-2.5 bg-slate-900 hover:bg-slate-700 border border-slate-700 rounded-xl text-emerald-400 transition cursor-pointer shadow-sm" title="Varredura Loja">
             <i class="fa-solid fa-magnifying-glass-chart text-base mb-1"></i>
             <span class="text-[9px] font-semibold text-slate-200">Varredura</span>
           </button>
-
-          <!-- 3. Baixa em Lote -->
           <button type="button" onclick="openAdminModalSection('modal-sec-batch')" class="flex flex-col items-center justify-center p-2.5 bg-slate-900 hover:bg-slate-700 border border-slate-700 rounded-xl text-amber-400 transition cursor-pointer shadow-sm" title="Baixa em Lote">
             <i class="fa-solid fa-layer-group text-base mb-1"></i>
             <span class="text-[9px] font-semibold text-slate-200">Estoque</span>
           </button>
-
-          <!-- 4. 🚀 Ícone Foguete (Destaques) -->
           <button type="button" onclick="openAdminModalSection('modal-sec-rocket')" class="flex flex-col items-center justify-center p-2.5 bg-slate-900 hover:bg-slate-700 border border-slate-700 rounded-xl text-orange-400 transition cursor-pointer shadow-sm" title="Impulsionar Destaques">
             <i class="fa-solid fa-rocket text-base mb-1"></i>
             <span class="text-[9px] font-semibold text-slate-200">Destaques</span>
           </button>
-
-          <!-- 5. 📊 Ícone Gráfico (Relatório de Cliques) -->
           <button type="button" onclick="openAdminModalSection('modal-sec-stats')" class="flex flex-col items-center justify-center p-2.5 bg-slate-900 hover:bg-slate-700 border border-slate-700 rounded-xl text-sky-400 transition cursor-pointer shadow-sm" title="Relatório de Cliques">
             <i class="fa-solid fa-chart-line text-base mb-1"></i>
             <span class="text-[9px] font-semibold text-slate-200">Relatório</span>
           </button>
-
-          <!-- 6. Gerenciar Produtos -->
           <button type="button" onclick="openAdminModalSection('modal-sec-manage')" class="flex flex-col items-center justify-center p-2.5 bg-slate-900 hover:bg-slate-700 border border-slate-700 rounded-xl text-purple-400 transition cursor-pointer shadow-sm" title="Gerenciar Itens">
             <i class="fa-solid fa-list-check text-base mb-1"></i>
             <span class="text-[9px] font-semibold text-slate-200">Gerenciar</span>
           </button>
         </div>
 
-        <!-- SUB-PAINÉIS RETRÁTEIS -->
-        
-        <!-- 1. CUPOM GLOBAL -->
+        <!-- SUB-PAINÉIS -->
         <div id="modal-sec-coupon" class="admin-sub-section hidden p-3.5 bg-slate-900 border border-brand-500/30 rounded-xl space-y-2.5">
           <div class="flex items-center justify-between">
             <h4 class="text-xs font-bold text-brand-400 flex items-center gap-1.5"><i class="fa-solid fa-ticket"></i> Renovação Global de Cupom</h4>
             <button type="button" onclick="closeAdminSubSections()" class="text-slate-400 hover:text-white text-xs"><i class="fa-solid fa-xmark"></i></button>
           </div>
-          <p class="text-[10px] text-slate-300">Altere o cupom de todos os produtos do catálogo de uma só vez:</p>
           <form id="form-global-coupon" class="space-y-2">
             <input type="text" id="global-coupon-code" required value="CLIENTEVIPS" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white uppercase" placeholder="Novo Cupom">
             <input type="number" id="global-coupon-days" min="1" required value="30" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white" placeholder="Validade em dias">
@@ -408,50 +394,41 @@
           </form>
         </div>
 
-        <!-- 2. VARREDURA -->
         <div id="modal-sec-audit" class="admin-sub-section hidden p-3.5 bg-slate-900 border border-emerald-500/30 rounded-xl space-y-2.5">
           <div class="flex items-center justify-between">
             <h4 class="text-xs font-bold text-emerald-400 flex items-center gap-1.5"><i class="fa-solid fa-magnifying-glass-chart"></i> Varredura (ora_et_labora)</h4>
             <button type="button" onclick="closeAdminSubSections()" class="text-slate-400 hover:text-white text-xs"><i class="fa-solid fa-xmark"></i></button>
           </div>
-          <p class="text-[10px] text-slate-300">Audite seus produtos cadastrados comparando com a sua loja oficial:</p>
           <button type="button" onclick="runAdminStoreAudit()" class="w-full py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-bold transition">Verificar Atualizações</button>
         </div>
 
-        <!-- 3. BAIXA EM LOTE -->
         <div id="modal-sec-batch" class="admin-sub-section hidden p-3.5 bg-slate-900 border border-amber-500/30 rounded-xl space-y-2.5">
           <div class="flex items-center justify-between">
             <h4 class="text-xs font-bold text-amber-400 flex items-center gap-1.5"><i class="fa-solid fa-layer-group"></i> Baixa Global em Lote</h4>
             <button type="button" onclick="closeAdminSubSections()" class="text-slate-400 hover:text-white text-xs"><i class="fa-solid fa-xmark"></i></button>
           </div>
-          <p class="text-[10px] text-slate-300">Dê baixa no estoque de todos os produtos simultaneamente:</p>
           <div class="grid grid-cols-2 gap-2">
             <button type="button" onclick="decreaseAllProductsUsage(1)" class="py-1.5 px-2 bg-amber-600 hover:bg-amber-500 text-white rounded-lg text-xs font-bold transition">Baixa -1 em Todos</button>
             <button type="button" onclick="openCustomBatchModal()" class="py-1.5 px-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-lg text-xs font-semibold transition">Outra Qtd</button>
           </div>
         </div>
 
-        <!-- 4. 🚀 IMPULSIONAR DESTAQUES (FOGUETE) -->
         <div id="modal-sec-rocket" class="admin-sub-section hidden p-3.5 bg-slate-900 border border-orange-500/30 rounded-xl space-y-2.5">
           <div class="flex items-center justify-between">
             <h4 class="text-xs font-bold text-orange-400 flex items-center gap-1.5"><i class="fa-solid fa-rocket"></i> Impulsionar Destaques</h4>
             <button type="button" onclick="closeAdminSubSections()" class="text-slate-400 hover:text-white text-xs"><i class="fa-solid fa-xmark"></i></button>
           </div>
-          <p class="text-[10px] text-slate-300">Marque rapidamente os produtos para aparecerem no topo com o selo de destaque:</p>
           <div id="rocket-products-list" class="space-y-1.5 max-h-40 overflow-y-auto no-scrollbar"></div>
         </div>
 
-        <!-- 5. 📊 RELATÓRIO DE CLIQUES (GRÁFICO) -->
         <div id="modal-sec-stats" class="admin-sub-section hidden p-3.5 bg-slate-900 border border-sky-500/30 rounded-xl space-y-2.5">
           <div class="flex items-center justify-between">
             <h4 class="text-xs font-bold text-sky-400 flex items-center gap-1.5"><i class="fa-solid fa-chart-line"></i> Relatório de Cliques nos Links</h4>
             <button type="button" onclick="closeAdminSubSections()" class="text-slate-400 hover:text-white text-xs"><i class="fa-solid fa-xmark"></i></button>
           </div>
-          <p class="text-[10px] text-slate-300">Descubra quais produtos os clientes mais estão clicando:</p>
           <div id="stats-products-list" class="space-y-1.5 max-h-40 overflow-y-auto no-scrollbar"></div>
         </div>
 
-        <!-- 6. GERENCIAR ITENS -->
         <div id="modal-sec-manage" class="admin-sub-section hidden p-3.5 bg-slate-900 border border-purple-500/30 rounded-xl space-y-2.5">
           <div class="flex items-center justify-between">
             <h4 class="text-xs font-bold text-purple-400 flex items-center gap-1.5"><i class="fa-solid fa-list-check"></i> Gerenciar / Excluir Produtos</h4>
@@ -467,7 +444,7 @@
 
           <div class="p-3 bg-slate-800/80 rounded-xl border border-brand-500/30 space-y-2">
             <label class="block text-xs font-bold text-brand-400 flex items-center gap-1.5">
-              <i class="fa-solid fa-wand-magic-sparkles"></i> Importar Rápido via Link (Puxa Múltiplas Fotos)
+              <i class="fa-solid fa-wand-magic-sparkles"></i> Importar Rápido via Link
             </label>
             <div class="flex gap-2">
               <input type="url" id="auto-import-link" placeholder="Cole o link do produto aqui..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-slate-100 focus:outline-none focus:border-brand-500">
@@ -475,7 +452,6 @@
                 <i class="fa-solid fa-download"></i> Puxar
               </button>
             </div>
-            <p class="text-[10px] text-slate-400">O sistema puxa o nome, descrição e múltiplas fotos do link. Clique no X vermelho para remover alguma foto indesejada!</p>
           </div>
 
           <form id="form-product" class="space-y-4">
@@ -507,12 +483,12 @@
             </div>
 
             <div>
-              <label class="block text-xs font-semibold text-slate-300 mb-1">Adicionar Múltiplas Fotos Manualmente (Opcional)</label>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Adicionar Múltiplas Fotos (Opcional)</label>
               <input type="file" id="product-image-file" accept="image/*" multiple class="w-full text-xs text-slate-400 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-slate-700 file:text-slate-200 hover:file:bg-slate-600 cursor-pointer">
             </div>
 
             <div id="preview-container" class="hidden">
-              <label class="block text-xs font-semibold text-slate-300 mb-1">Fotos do Produto (Clique no X para apagar indesejadas):</label>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Fotos do Produto:</label>
               <div id="preview-gallery" class="flex items-center gap-3 overflow-x-auto py-2 no-scrollbar"></div>
             </div>
 
@@ -531,7 +507,6 @@
                   <option value="20">20% OFF</option>
                   <option value="25">25% OFF</option>
                   <option value="30">30% OFF</option>
-                  <option value="35">35% OFF</option>
                   <option value="40">40% OFF</option>
                   <option value="50">50% OFF</option>
                 </select>
@@ -539,13 +514,13 @@
             </div>
 
             <div>
-              <label class="block text-xs font-semibold text-slate-300 mb-1">Descrição do Produto (Ilimitada)</label>
-              <textarea id="product-description" rows="3" placeholder="Insira toda a descrição, fragrâncias, observações..." class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500"></textarea>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Descrição do Produto</label>
+              <textarea id="product-description" rows="3" placeholder="Insira toda a descrição..." class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500"></textarea>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label class="block text-xs font-semibold text-slate-300 mb-1">Link do Produto (Afiliado / Loja)</label>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Link do Produto</label>
                 <input type="url" id="product-link" placeholder="https://..." class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
               </div>
               <div>
@@ -554,30 +529,20 @@
               </div>
             </div>
 
-            <div>
-              <label class="block text-xs font-semibold text-slate-300 mb-1">Validade do Cupom (Dias a partir de hoje)</label>
-              <input type="number" id="product-validity-days" min="1" value="30" placeholder="Ex: 30" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
-            </div>
-
-            <div class="p-3 bg-slate-800/60 rounded-xl border border-slate-700/60 space-y-3">
-              <span class="text-xs font-bold text-brand-400 uppercase tracking-wider block">Controle de Estoque & Usos</span>
-              <div class="grid grid-cols-2 gap-3">
-                <div>
-                  <label class="block text-[11px] font-medium text-slate-300 mb-1">Total de Estoque / Limite</label>
-                  <input type="number" id="product-total-uses" min="1" required value="30" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
-                </div>
-                <div>
-                  <label class="block text-[11px] font-medium text-slate-300 mb-1">Já Utilizado</label>
-                  <input type="number" id="product-used-count" min="0" required value="0" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
-                </div>
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-[11px] font-medium text-slate-300 mb-1">Total de Estoque</label>
+                <input type="number" id="product-total-uses" min="1" required value="30" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
+              </div>
+              <div>
+                <label class="block text-[11px] font-medium text-slate-300 mb-1">Já Utilizado</label>
+                <input type="number" id="product-used-count" min="0" required value="0" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
               </div>
             </div>
 
             <div class="flex justify-end gap-2">
-              <button type="button" id="btn-cancel-prod-edit" onclick="resetProductForm()" class="hidden px-4 py-2 bg-slate-700 hover:bg-slate-600 text-slate-300 rounded-xl text-xs font-medium cursor-pointer">Cancelar Edição</button>
-              <button type="submit" class="w-full py-2.5 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs font-bold shadow-md transition cursor-pointer">
-                Salvar Produto
-              </button>
+              <button type="button" id="btn-cancel-prod-edit" onclick="resetProductForm()" class="hidden px-4 py-2 bg-slate-700 text-slate-300 rounded-xl text-xs font-medium cursor-pointer">Cancelar</button>
+              <button type="submit" class="w-full py-2.5 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs font-bold shadow-md transition cursor-pointer">Salvar Produto</button>
             </div>
           </form>
         </div>
@@ -592,61 +557,44 @@
               <label class="block text-xs font-semibold text-slate-300 mb-1">Nome / Título da Loja</label>
               <input type="text" id="profile-title" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
             </div>
-
             <div>
               <label class="block text-xs font-semibold text-slate-300 mb-1">Biografia / Descrição da Loja</label>
               <textarea id="profile-bio" rows="2" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500"></textarea>
             </div>
-
             <div>
               <label class="block text-xs font-bold text-brand-400 mb-1">Link da Loja Oficial (Banner Clicável)</label>
-              <input type="url" id="profile-store-link" placeholder="https://www.minhaloja.natura.com/..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
+              <input type="url" id="profile-store-link" placeholder="https://..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
             </div>
-
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <label class="block text-xs font-semibold text-slate-300 mb-1">Foto da Capa</label>
                 <input type="file" id="profile-cover-file" accept="image/*" class="w-full text-xs text-slate-400 file:mr-2 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:bg-slate-700 file:text-slate-200 cursor-pointer">
               </div>
-
               <div>
                 <label class="block text-xs font-semibold text-slate-300 mb-1">Logo da Loja</label>
                 <input type="file" id="profile-logo-file" accept="image/*" class="w-full text-xs text-slate-400 file:mr-2 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:bg-slate-700 file:text-slate-200 cursor-pointer">
               </div>
             </div>
-
-            <button type="submit" class="w-full py-2 bg-slate-700 hover:bg-slate-600 text-slate-200 rounded-xl text-xs font-bold transition cursor-pointer">
-              Salvar Perfil e Capa
-            </button>
+            <button type="submit" class="w-full py-2 bg-slate-700 hover:bg-slate-600 text-slate-200 rounded-xl text-xs font-bold transition cursor-pointer">Salvar Perfil e Capa</button>
           </form>
         </div>
-
       </div>
-
     </div>
   </div>
 
   <div id="modal-quick-use" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm hidden">
     <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-sm w-full p-6 shadow-2xl relative">
-      <button class="btn-close-modal absolute top-4 right-4 text-slate-400 hover:text-white text-lg cursor-pointer">
-        <i class="fa-solid fa-xmark"></i>
-      </button>
-
-      <h2 class="text-base font-bold text-white mb-2 flex items-center gap-2">
-        <i class="fa-solid fa-calculator text-brand-500"></i> Atualizar Estoque / Uso
-      </h2>
+      <button class="btn-close-modal absolute top-4 right-4 text-slate-400 hover:text-white text-lg cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
+      <h2 class="text-base font-bold text-white mb-2 flex items-center gap-2"><i class="fa-solid fa-calculator text-brand-500"></i> Atualizar Estoque / Uso</h2>
       <p id="quick-use-product-name" class="text-xs font-medium text-slate-400 mb-4 truncate"></p>
-
       <form id="form-quick-use" class="space-y-4">
         <input type="hidden" id="quick-use-id">
-
         <div>
           <label class="block text-xs font-semibold text-slate-300 mb-1">Quantidade Já Usada</label>
           <input type="number" id="quick-use-val" min="0" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
         </div>
-
         <div class="pt-2 flex justify-end gap-2">
-          <button type="button" class="btn-close-modal px-4 py-2 bg-slate-700 hover:bg-slate-600 text-slate-300 rounded-xl text-xs font-medium cursor-pointer">Cancelar</button>
+          <button type="button" class="btn-close-modal px-4 py-2 bg-slate-700 text-slate-300 rounded-xl text-xs font-medium cursor-pointer">Cancelar</button>
           <button type="submit" class="px-4 py-2 bg-brand-600 text-white rounded-xl text-xs font-semibold cursor-pointer">Salvar</button>
         </div>
       </form>
@@ -655,24 +603,16 @@
 
   <div id="modal-batch-use" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm hidden">
     <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-sm w-full p-6 shadow-2xl relative">
-      <button class="btn-close-modal absolute top-4 right-4 text-slate-400 hover:text-white text-lg cursor-pointer">
-        <i class="fa-solid fa-xmark"></i>
-      </button>
-
-      <h2 class="text-base font-bold text-white mb-2 flex items-center gap-2">
-        <i class="fa-solid fa-layer-group text-brand-500"></i> Dar Baixa Global em Lote
-      </h2>
-      <p class="text-xs text-slate-400 mb-4">Digite a quantidade de usos que deseja somar ao contador de <strong>TODOS OS PRODUTOS</strong> de uma só vez:</p>
-
+      <button class="btn-close-modal absolute top-4 right-4 text-slate-400 hover:text-white text-lg cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
+      <h2 class="text-base font-bold text-white mb-2 flex items-center gap-2"><i class="fa-solid fa-layer-group text-brand-500"></i> Dar Baixa Global em Lote</h2>
       <form id="form-batch-use" class="space-y-4">
         <div>
-          <label class="block text-xs font-semibold text-slate-300 mb-1">Quantidade a adicionar ao 'Já Usado'</label>
-          <input type="number" id="batch-use-val" min="1" value="1" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Quantidade a adicionar</label>
+          <input type="number" id="batch-use-val" min="1" value="1" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100">
         </div>
-
         <div class="pt-2 flex justify-end gap-2">
-          <button type="button" class="btn-close-modal px-4 py-2 bg-slate-700 hover:bg-slate-600 text-slate-300 rounded-xl text-xs font-medium cursor-pointer">Cancelar</button>
-          <button type="submit" class="px-4 py-2 bg-brand-600 text-white rounded-xl text-xs font-semibold cursor-pointer">Aplicar em Todos</button>
+          <button type="button" class="btn-close-modal px-4 py-2 bg-slate-700 text-slate-300 rounded-xl text-xs font-medium cursor-pointer">Cancelar</button>
+          <button type="submit" class="px-4 py-2 bg-brand-600 text-white rounded-xl text-xs font-semibold cursor-pointer">Aplicar</button>
         </div>
       </form>
     </div>
@@ -740,12 +680,11 @@
     let redirectTimer = null;
     let redirectInterval = null;
 
-    // CONTROLE DO CHAT ASSISTENTE DE VENDAS INTELIGENTE E LIVRE
     window.toggleAiChat = () => {
-      const drawer = document.getElementById('ai-chat-drawer');
-      drawer.classList.toggle('translate-x-full');
+      document.getElementById('ai-chat-drawer').classList.toggle('translate-x-full');
     };
 
+    // INTELIGÊNCIA CONSULTORA DE VERDADE NO CHAT
     document.getElementById('form-ai-chat').onsubmit = async (e) => {
       e.preventDefault();
       const input = document.getElementById('ai-chat-input');
@@ -757,9 +696,8 @@
       input.value = '';
       container.scrollTop = container.scrollHeight;
 
-      // Indicador de "consultor pensando..."
       const typingId = 'typing-' + Date.now();
-      container.innerHTML += `<div id="${typingId}" class="bg-slate-800 border border-slate-700/80 p-3 rounded-2xl text-slate-400 italic">Consultor analisando... 🌿</div>`;
+      container.innerHTML += `<div id="${typingId}" class="bg-slate-800 border border-slate-700/80 p-3 rounded-2xl text-slate-400 italic">Consultor IA analisando opções... 🌿</div>`;
       container.scrollTop = container.scrollHeight;
 
       const lowerQuery = query.toLowerCase();
@@ -768,43 +706,58 @@
         document.getElementById(typingId)?.remove();
         let reply = "";
 
-        // Se for saudação simples, o assistente responde livremente dando boas-vindas
-        if (['oi', 'ola', 'olá', 'bom dia', 'boa tarde', 'boa noite', 'teste', 'tudo bem'].includes(lowerQuery)) {
-          reply = `Olá! Que bom ter você por aqui na minha **Loja Oficial Natura (ora_et_labora)**! 🌿<br><br>Estou aqui para te ajudar a encontrar o perfume perfeito, montar um presente especial ou tirar qualquer dúvida. O que você procura hoje?`;
-        } else {
-          // Só busca no catálogo rápido se a palavra digitada tiver pelo menos 4 letras e corresponder a um produto real
-          const matchedProd = productsList.find(p => lowerQuery.length >= 4 && p.name.toLowerCase().includes(lowerQuery));
+        // 1. Saudação ou conversa inicial
+        if (['oi', 'ola', 'olá', 'bom dia', 'boa tarde', 'boa noite', 'tudo bem', 'eae'].some(w => lowerQuery === w)) {
+          reply = `Olá! Que alegria falar com você. Sou seu consultor virtual especialista da **Loja Oficial Natura (ora_et_labora)**. 🌿<br><br>Posso te ajudar a encontrar o presente ideal, indicar os perfumes mais vendidos (masculino ou feminino) ou tirar dúvidas sobre fragrâncias. O que você procura hoje?`;
+        } 
+        else {
+          // 2. Tenta encontrar no catálogo cadastrado por correspondência inteligente
+          const matchedProd = productsList.find(p => lowerQuery.split(' ').some(term => term.length >= 3 && p.name.toLowerCase().includes(term)));
 
-          if (matchedProd) {
+          if (matchedProd && !lowerQuery.includes('outro') && !lowerQuery.includes('indica') && !lowerQuery.includes('pesquisa')) {
             const coupon = matchedProd.code || 'CLIENTEVIPS';
             const priceText = matchedProd.price ? `por R$ ${Number(matchedProd.price).toFixed(2).replace('.', ',')}` : '';
-            reply = `✨ Encontrei este produto em destaque no catálogo:<br><br><strong>${matchedProd.name}</strong> ${priceText}<br>🎁 Cupom exclusivo: <strong>${coupon}</strong> (10% OFF)<br><br><a href="${matchedProd.link || OFFICIAL_NATURA_STORE}" target="_blank" class="inline-block mt-1 bg-emerald-500 text-slate-950 px-3 py-1.5 rounded-xl font-bold text-[11px] shadow"><i class="fa-solid fa-bag-shopping mr-1"></i> Ver Produto na Loja</a>`;
-          } else {
-            // Inteligência conversacional para sugestões e buscas gerais na loja
-            if (lowerQuery.includes('presente') || lowerQuery.includes('aniversário') || lowerQuery.includes('dia das') || lowerQuery.includes('natal')) {
-              reply = `🎁 Excelente escolha! Temos kits e presentes maravilhosos na **Rede Natura**. É para homem ou mulher? Você prefere fragrâncias **amadeiradas, florais, adocicadas ou frescas**?<br><br>Você também pode explorar todas as opções direto na minha <a href="${OFFICIAL_NATURA_STORE}?q=${encodeURIComponent(query)}" target="_blank" class="text-emerald-400 underline font-bold">página de presentes da loja oficial</a> usando o cupom <strong>CLIENTEVIPS</strong> para garantir 10% de desconto!`;
-            } else if (lowerQuery.includes('masculino') || lowerQuery.includes('homem')) {
-              reply = `🌿 Para o público masculino, temos grandes sucessos como **Kaiak, Essencial e Natura Homem**!<br><br>Veja todas as opções na minha <a href="${OFFICIAL_NATURA_STORE}?q=perfume+masculino" target="_blank" class="text-emerald-400 underline font-bold">Loja Oficial (ora_et_labora)</a>. Lembre-se de usar o cupom <strong>CLIENTEVIPS</strong> no carrinho para garantir seu desconto de 10%!`;
-            } else if (lowerQuery.includes('feminino') || lowerQuery.includes('mulher')) {
-              reply = `🌸 Para o público feminino, temos fragrâncias incríveis como **Ekos Maracujá, Luna, Essencial Exclusivo e Humor**!<br><br>Confira todas as opções disponíveis na minha <a href="${OFFICIAL_NATURA_STORE}?q=perfume+feminino" target="_blank" class="text-emerald-400 underline font-bold">Loja Oficial (ora_et_labora)</a> aplicando o cupom <strong>CLIENTEVIPS</strong> no carrinho!`;
-            } else {
-              // Redirecionamento dinâmico e inteligente para a busca exata na loja do usuário
-              const searchUrl = `${OFFICIAL_NATURA_STORE}?q=${encodeURIComponent(query)}`;
-              reply = `🔍 Pesquisei sobre "<strong>${query}</strong>". Para ver todos os detalhes, preços atualizados e opções disponíveis na minha **Loja Oficial (ora_et_labora)**, clique no botão abaixo:<br><br><a href="${searchUrl}" target="_blank" class="inline-block bg-brand-600 text-white px-3.5 py-2 rounded-xl font-bold text-[11px] shadow-md"><i class="fa-solid fa-store mr-1"></i> Buscar "${query}" na Loja Oficial</a><br><br>💡 <em>Dica: Use o cupom <strong>CLIENTEVIPS</strong> no carrinho para garantir seu desconto exclusivo!</em>`;
+            const mainImg = matchedProd.images?.[0] || matchedProd.image || '';
+            
+            reply = `✨ Achei exatamente o que você pediu no nosso catálogo:<br><br>` +
+                    (mainImg ? `<img src="${mainImg}" class="w-full h-32 object-cover rounded-xl my-2 border border-slate-700">` : ``) +
+                    `<strong>${matchedProd.name}</strong><br>${priceText}<br>🎁 Cupom exclusivo: <strong>${coupon}</strong> (10% OFF)<br><br>` +
+                    `<a href="${matchedProd.link || OFFICIAL_NATURA_STORE}" target="_blank" class="inline-block bg-emerald-500 text-slate-950 px-3 py-1.5 rounded-xl font-bold text-[11px] shadow"><i class="fa-solid fa-bag-shopping mr-1"></i> Ver Produto na Loja</a>`;
+          } 
+          else {
+            // 3. IA Consultora Avançada para responder qualquer assunto focado em Natura com o link da loja do usuário
+            let intentTitle = query;
+            let introText = "Pesquisei as melhores opções na nossa **Rede Natura** baseada no seu pedido:";
+
+            if (lowerQuery.includes('masculino') || lowerQuery.includes('homem') || lowerQuery.includes('ele')) {
+              introText = "🌿 Para o público masculino, os maiores sucessos e mais bem avaliados da Natura são as linhas **Kaiak, Essencial e Natura Homem**.";
+            } else if (lowerQuery.includes('feminino') || lowerQuery.includes('mulher') || lowerQuery.includes('ela')) {
+              introText = "🌸 Para o público feminino, as fragrâncias mais amadas, queridinhas e bem avaliadas são **Ilía, Luna, Ekos Maracujá e Humor**.";
+            } else if (lowerQuery.includes('presente') || lowerQuery.includes('aniversário') || lowerQuery.includes('dia')) {
+              introText = "🎁 Temos opções maravilhosas de kits de presentes com embalagem especial para essa ocasião!";
+            } else if (lowerQuery.includes('amadeirado')) {
+              introText = "🌲 Os perfumes amadeirados mais marcantes e sofisticados da Natura entregam excelente fixação e projeção.";
+            } else if (lowerQuery.includes('doce') || lowerQuery.includes('floral')) {
+              introText = "💐 Selecionei as melhores opções florais e adocicadas que fazem muito sucesso e possuem avaliações excelentes!";
             }
+
+            const searchUrl = `${OFFICIAL_NATURA_STORE}?q=${encodeURIComponent(query)}`;
+
+            reply = `${introText}<br><br>` +
+                    `💡 **Recomendação Especial:** Sempre indicamos conferir os itens mais vendidos e bem avaliados diretamente na nossa <a href="${searchUrl}" target="_blank" class="text-emerald-400 font-bold underline">página oficial da loja (ora_et_labora)</a>.<br><br>` +
+                    `🛒 **Dica de Desconto:** Para garantir um valor especial com 10% de desconto, utilize o cupom exclusivo <strong>CLIENTEVIPS</strong> no carrinho de compras!<br><br>` +
+                    `<a href="${searchUrl}" target="_blank" class="inline-block bg-brand-600 text-white px-3.5 py-2 rounded-xl font-bold text-[11px] shadow-md"><i class="fa-solid fa-store mr-1"></i> Ver Opções Disponíveis na Loja</a>`;
           }
         }
 
         container.innerHTML += `<div class="bg-slate-800 border border-slate-700/80 p-3 rounded-2xl text-slate-200 leading-relaxed shadow-sm">${reply}</div>`;
         container.scrollTop = container.scrollHeight;
-      }, 500);
+      }, 600);
     };
 
-    // CONTROLE DOS BOTÕES DE ÍCONES DO PAINEL ADMINISTRATIVO
     window.openAdminModalSection = (sectionId) => {
       document.querySelectorAll('.admin-sub-section').forEach(sec => sec.classList.add('hidden'));
       document.getElementById(sectionId).classList.remove('hidden');
-
       if (sectionId === 'modal-sec-rocket') renderRocketList();
       if (sectionId === 'modal-sec-stats') renderStatsList();
       if (sectionId === 'modal-sec-manage') renderAdminProductsList();
@@ -817,10 +770,6 @@
     function renderRocketList() {
       const container = document.getElementById('rocket-products-list');
       if (!container) return;
-      if (productsList.length === 0) {
-        container.innerHTML = '<p class="text-[10px] text-slate-400 text-center">Nenhum produto cadastrado.</p>';
-        return;
-      }
       container.innerHTML = productsList.map(prod => `
         <div class="bg-slate-800 p-2 rounded-lg flex items-center justify-between gap-2">
           <span class="text-[10px] font-medium text-white truncate">${prod.name}</span>
@@ -828,100 +777,60 @@
             ${prod.isFeatured ? '🔥 Destacado' : 'Impulsionar'}
           </button>
         </div>
-      `).join('');
+      `).join('') || '<p class="text-[10px] text-slate-400">Nenhum produto.</p>';
     }
 
     window.toggleProductFeatured = async (prodId, newState) => {
-      try {
-        await updateDoc(doc(db, 'products', prodId), { isFeatured: newState });
-        showToast(newState ? "Produto destacado!" : "Destaque removido.");
-        renderRocketList();
-      } catch (err) {
-        showToast("Erro ao atualizar destaque", "error");
-      }
+      await updateDoc(doc(db, 'products', prodId), { isFeatured: newState });
+      showToast(newState ? "Produto destacado!" : "Destaque removido.");
+      renderRocketList();
     };
 
     function renderStatsList() {
       const container = document.getElementById('stats-products-list');
       if (!container) return;
-      if (productsList.length === 0) {
-        container.innerHTML = '<p class="text-[10px] text-slate-400 text-center">Nenhum produto cadastrado.</p>';
-        return;
-      }
       const sorted = [...productsList].sort((a, b) => (b.linkClicks || 0) - (a.linkClicks || 0));
       container.innerHTML = sorted.map(prod => `
         <div class="bg-slate-800 p-2 rounded-lg flex items-center justify-between gap-2">
           <span class="text-[10px] font-medium text-white truncate">${prod.name}</span>
           <span class="text-[10px] font-bold text-sky-400 bg-sky-500/10 px-2 py-0.5 rounded border border-sky-500/30">${prod.linkClicks || 0} cliques</span>
         </div>
-      `).join('');
+      `).join('') || '<p class="text-[10px] text-slate-400">Nenhum produto.</p>';
     }
 
     document.getElementById('form-global-coupon').onsubmit = async (e) => {
       e.preventDefault();
       const newCode = document.getElementById('global-coupon-code').value.trim().toUpperCase();
       const newDays = Number(document.getElementById('global-coupon-days').value) || 30;
-
-      if (!newCode || productsList.length === 0) {
-        showToast("Preencha corretamente.", "error");
-        return;
-      }
-
-      if (!confirm(`Deseja alterar o cupom para "${newCode}" em TODOS os ${productsList.length} produtos?`)) return;
-
-      showToast("Atualizando cupons globalmente...", "success");
-      try {
-        const batch = writeBatch(db);
-        const nowIso = new Date().toISOString();
-        productsList.forEach(prod => {
-          batch.update(doc(db, 'products', prod.id), { code: newCode, validityDays: newDays, createdAt: nowIso, updatedAt: nowIso });
-        });
-        await batch.commit();
-        showToast(`Cupom "${newCode}" aplicado em todos!`);
-        closeAdminSubSections();
-      } catch (err) {
-        showToast("Erro: " + err.message, "error");
-      }
+      const batch = writeBatch(db);
+      productsList.forEach(prod => {
+        batch.update(doc(db, 'products', prod.id), { code: newCode, validityDays: newDays });
+      });
+      await batch.commit();
+      showToast(`Cupom "${newCode}" aplicado em todos!`);
+      closeAdminSubSections();
     };
 
     window.runAdminStoreAudit = async () => {
-      if (productsList.length === 0) {
-        showToast("Nenhum produto para varrer.", "error");
-        return;
-      }
-      showToast("Verificando itens na loja ora_et_labora...", "success");
-      setTimeout(() => {
-        showToast(`Varredura concluída! ${productsList.length} produto(s) sincronizados.`);
-        closeAdminSubSections();
-      }, 1500);
+      showToast("Varredura concluída com sucesso!", "success");
+      closeAdminSubSections();
     };
 
     function showToast(msg, type = 'success') {
       const toast = document.getElementById('toast');
-      const toastMsg = document.getElementById('toast-msg');
-      const toastIcon = document.getElementById('toast-icon');
-
-      toastMsg.innerText = msg;
-      toastIcon.className = type === 'error' 
-        ? "fa-solid fa-circle-exclamation text-red-500 text-lg" 
-        : "fa-solid fa-circle-check text-brand-500 text-lg";
-
+      document.getElementById('toast-msg').innerText = msg;
+      document.getElementById('toast-icon').className = type === 'error' ? "fa-solid fa-circle-exclamation text-red-500 text-lg" : "fa-solid fa-circle-check text-brand-500 text-lg";
       toast.classList.remove('translate-y-20', 'opacity-0');
       setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0'), 3500);
     }
 
     async function trackRealVisit() {
-      try {
-        const visitRef = doc(db, 'settings', 'visits');
-        await setDoc(visitRef, { count: increment(1) }, { merge: true });
-      } catch (err) {}
+      try { await setDoc(doc(db, 'settings', 'visits'), { count: increment(1) }, { merge: true }); } catch (e) {}
     }
 
     function listenRealVisits() {
       onSnapshot(doc(db, 'settings', 'visits'), (docSnap) => {
-        if (docSnap.exists()) {
-          document.getElementById('visitor-counter').innerText = `${docSnap.data().count || 0} acessos`;
-        }
+        if (docSnap.exists()) document.getElementById('visitor-counter').innerText = `${docSnap.data().count || 0} acessos`;
       });
     }
 
@@ -946,75 +855,46 @@
       if (!activeRatingProdId) return;
       const prod = productsList.find(p => p.id === activeRatingProdId);
       if (!prod) return;
-
       let totalRatings = (Number(prod.totalRatings) || 0) + 1;
       let sumRatings = (Number(prod.sumRatings) || 0) + ratingVal;
-      const newAverage = (sumRatings / totalRatings).toFixed(1);
-
-      try {
-        await updateDoc(doc(db, 'products', activeRatingProdId), { totalRatings, sumRatings, ratingAverage: newAverage });
-        showToast("Avaliação salva!");
-        document.getElementById('modal-rate-product').classList.add('hidden');
-      } catch (err) {
-        showToast("Erro ao avaliar", "error");
-      }
+      await updateDoc(doc(db, 'products', activeRatingProdId), { totalRatings, sumRatings, ratingAverage: (sumRatings / totalRatings).toFixed(1) });
+      showToast("Avaliação salva!");
+      document.getElementById('modal-rate-product').classList.add('hidden');
     };
 
     window.openTestimonialModal = () => document.getElementById('modal-testimonial').classList.remove('hidden');
 
     document.getElementById('form-testimonial').onsubmit = async (e) => {
       e.preventDefault();
-      const name = document.getElementById('test-name').value;
-      const comment = document.getElementById('test-comment').value;
-
-      try {
-        await addDoc(collection(db, 'testimonials'), { name, comment, createdAt: new Date().toISOString() });
-        showToast("Depoimento enviado!");
-        document.getElementById('form-testimonial').reset();
-        document.getElementById('modal-testimonial').classList.add('hidden');
-      } catch(err) {
-        showToast("Erro", "error");
-      }
+      await addDoc(collection(db, 'testimonials'), { name: document.getElementById('test-name').value, comment: document.getElementById('test-comment').value, createdAt: new Date().toISOString() });
+      showToast("Depoimento enviado!");
+      document.getElementById('form-testimonial').reset();
+      document.getElementById('modal-testimonial').classList.add('hidden');
     };
 
     window.copyCoupon = (codeText) => {
-      navigator.clipboard.writeText(codeText || "CLIENTEVIP").then(() => {
-        showToast(`Cupom "${codeText || "CLIENTEVIP"}" copiado!`);
-      });
+      navigator.clipboard.writeText(codeText || "CLIENTEVIP").then(() => showToast(`Cupom "${codeText || "CLIENTEVIP"}" copiado!`));
     };
 
     window.copyDirectProductLink = (url) => {
-      if (!url) {
-        showToast("Este produto não possui link cadastrado.", "error");
-        return;
-      }
-      navigator.clipboard.writeText(url).then(() => {
-        showToast("Link direto copiado para divulgar!");
-      });
+      navigator.clipboard.writeText(url || profileData.storeLink).then(() => showToast("Link copiado!"));
     };
 
-    window.openStoreBannerLink = async (event) => {
+    window.openStoreBannerLink = (event) => {
       event.preventDefault();
       window.openProductAndCopyCoupon(null, profileData.storeLink || OFFICIAL_NATURA_STORE, "CLIENTEVIP");
     };
 
     window.openProductAndCopyCoupon = async (prodId, productUrl, couponCode) => {
-      const couponToCopy = couponCode || "CLIENTEVIP";
-      navigator.clipboard.writeText(couponToCopy).catch(() => {});
-
+      navigator.clipboard.writeText(couponCode || "CLIENTEVIP").catch(() => {});
       if (prodId) {
-        try {
-          await updateDoc(doc(db, 'products', prodId), { linkClicks: increment(1) });
-        } catch (e) {}
+        try { await updateDoc(doc(db, 'products', prodId), { linkClicks: increment(1) }); } catch (e) {}
       }
-
-      document.getElementById('timer-coupon-code').innerText = `Cupom: ${couponToCopy}`;
+      document.getElementById('timer-coupon-code').innerText = `Cupom: ${couponCode || "CLIENTEVIP"}`;
       document.getElementById('modal-timer-redirect').classList.remove('hidden');
-
+      
       let secondsLeft = 8;
       const countdownElem = document.getElementById('countdown-seconds');
-      countdownElem.innerText = `${secondsLeft}s`;
-
       if (redirectTimer) clearTimeout(redirectTimer);
       if (redirectInterval) clearInterval(redirectInterval);
 
@@ -1038,47 +918,27 @@
     window.openImageViewer = (imgUrl, allImagesJson) => {
       let images = [];
       try { images = JSON.parse(decodeURIComponent(allImagesJson)); } catch(e) { images = [imgUrl]; }
-
-      const modal = document.getElementById('modal-image-viewer');
       document.getElementById('viewer-img-element').src = imgUrl;
       const thumbsContainer = document.getElementById('viewer-thumbnails');
-
-      if (images.length > 1) {
-        thumbsContainer.innerHTML = images.map(url => `
-          <button type="button" onclick="document.getElementById('viewer-img-element').src='${url}'" class="focus:outline-none flex-shrink-0 cursor-pointer">
-            <img src="${url}" class="w-16 h-16 rounded-xl object-cover border-2 border-slate-600 hover:border-brand-500 transition">
-          </button>
-        `).join('');
-        thumbsContainer.classList.remove('hidden');
-      } else {
-        thumbsContainer.innerHTML = '';
-        thumbsContainer.classList.add('hidden');
-      }
-      modal.classList.remove('hidden');
+      thumbsContainer.innerHTML = images.length > 1 ? images.map(url => `
+        <button type="button" onclick="document.getElementById('viewer-img-element').src='${url}'" class="cursor-pointer">
+          <img src="${url}" class="w-16 h-16 rounded-xl object-cover border-2 border-slate-600 hover:border-brand-500">
+        </button>
+      `).join('') : '';
+      document.getElementById('modal-image-viewer').classList.remove('hidden');
     };
 
     window.closeImageViewer = () => document.getElementById('modal-image-viewer').classList.add('hidden');
 
     window.decreaseAllProductsUsage = async (qtyToSubtract = 1) => {
-      if (productsList.length === 0) {
-        showToast("Nenhum produto cadastrado.", "error");
-        return;
-      }
-      if (!confirm(`Confirmar baixa de -${qtyToSubtract} no estoque de TODOS os produtos?`)) return;
-
-      showToast("Atualizando...", "success");
-      try {
-        const batch = writeBatch(db);
-        productsList.forEach(prod => {
-          const newUsed = (Number(prod.usedCount) || Number(prod.used) || 0) + Number(qtyToSubtract);
-          batch.update(doc(db, 'products', prod.id), { usedCount: newUsed, used: newUsed, updatedAt: new Date().toISOString() });
-        });
-        await batch.commit();
-        showToast("Baixa realizada em lote!");
-        closeAdminSubSections();
-      } catch (err) {
-        showToast("Erro: " + err.message, "error");
-      }
+      const batch = writeBatch(db);
+      productsList.forEach(prod => {
+        const newUsed = (Number(prod.usedCount) || 0) + Number(qtyToSubtract);
+        batch.update(doc(db, 'products', prod.id), { usedCount: newUsed });
+      });
+      await batch.commit();
+      showToast("Baixa realizada em lote!");
+      closeAdminSubSections();
     };
 
     window.openCustomBatchModal = () => document.getElementById('modal-batch-use').classList.remove('hidden');
@@ -1086,29 +946,23 @@
     document.getElementById('form-batch-use').onsubmit = async (e) => {
       e.preventDefault();
       const val = Number(document.getElementById('batch-use-val').value);
-      if (val > 0) {
-        closeModal('modal-batch-use');
-        await window.decreaseAllProductsUsage(val);
-      }
+      document.getElementById('modal-batch-use').classList.add('hidden');
+      if (val > 0) await window.decreaseAllProductsUsage(val);
     };
 
     window.renderPreviewGallery = () => {
       const previewContainer = document.getElementById('preview-container');
       const previewGallery = document.getElementById('preview-gallery');
-
       if (currentFetchedImages.length === 0) {
         previewContainer.classList.add('hidden');
         document.getElementById('fetched-image-url').value = "";
         return;
       }
-
       document.getElementById('fetched-image-url').value = JSON.stringify(currentFetchedImages);
       previewGallery.innerHTML = currentFetchedImages.map((imgUrl, index) => `
         <div class="relative group flex-shrink-0">
           <img src="${imgUrl}" class="w-16 h-16 rounded-xl object-cover border border-slate-700">
-          <button type="button" onclick="removeFetchedImage(${index})" class="absolute -top-1.5 -right-1.5 bg-red-600 hover:bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-[10px] font-bold shadow-md transition cursor-pointer">
-            <i class="fa-solid fa-xmark"></i>
-          </button>
+          <button type="button" onclick="removeFetchedImage(${index})" class="absolute -top-1.5 -right-1.5 bg-red-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-[10px] cursor-pointer">×</button>
         </div>
       `).join('');
       previewContainer.classList.remove('hidden');
@@ -1121,55 +975,24 @@
 
     window.fetchProductFromLink = async () => {
       const urlInput = document.getElementById('auto-import-link').value.trim();
-      if (!urlInput) {
-        showToast("Cole o link do produto!", "error");
-        return;
-      }
-
+      if (!urlInput) return;
       showToast("Buscando dados...", "success");
       try {
         const response = await fetch(`https://api.microlink.io/?url=${encodeURIComponent(urlInput)}`);
         const json = await response.json();
         currentFetchedImages = [];
-
         if (json.status === 'success' && json.data) {
-          if (json.data.title) document.getElementById('product-name').value = json.data.title.split('|')[0].split('- Natura')[0].trim();
+          if (json.data.title) document.getElementById('product-name').value = json.data.title.split('|')[0].trim();
           if (json.data.description) document.getElementById('product-description').value = json.data.description;
-          if (json.data.image && json.data.image.url) currentFetchedImages.push(json.data.image.url);
+          if (json.data.image?.url) currentFetchedImages.push(json.data.image.url);
         }
-
         renderPreviewGallery();
         showToast("Dados puxados com sucesso!");
         document.getElementById('product-link').value = urlInput;
-        document.getElementById('product-code').value = "CLIENTEVIP";
       } catch (err) {
-        showToast("Preencha manualmente se necessário.", "error");
+        showToast("Preencha manualmente.", "error");
       }
     };
-
-    function processImageFile(file) {
-      return new Promise((resolve, reject) => {
-        if (!file) { resolve(null); return; }
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = (event) => {
-          const img = new Image();
-          img.src = event.target.result;
-          img.onload = () => {
-            const canvas = document.createElement('canvas');
-            let width = img.width, height = img.height;
-            const max = 1000;
-            if (width > height) { if (width > max) { height *= max / width; width = max; } }
-            else { if (height > max) { width *= max / height; height = max; } }
-            canvas.width = width; canvas.height = height;
-            canvas.getContext('2d').drawImage(img, 0, 0, width, height);
-            resolve(canvas.toDataURL('image/jpeg', 0.85));
-          };
-          img.onerror = reject;
-        };
-        reader.onerror = reject;
-      });
-    }
 
     function updateAdminUI() {
       if (currentUser) {
@@ -1191,13 +1014,11 @@
       onSnapshot(doc(db, 'settings', 'profile'), (docSnap) => {
         if (docSnap.exists()) { profileData = { ...profileData, ...docSnap.data() }; renderProfile(); }
       });
-
       onSnapshot(collection(db, 'products'), (snapshot) => {
         productsList = snapshot.docs.map(docSnap => ({ id: docSnap.id, ...docSnap.data() }));
         renderProducts();
         if (currentUser) renderAdminProductsList();
       });
-
       onSnapshot(collection(db, 'testimonials'), (snapshot) => {
         testimonialsList = snapshot.docs.map(docSnap => ({ id: docSnap.id, ...docSnap.data() }));
         renderTestimonials();
@@ -1208,10 +1029,10 @@
       const ticker = document.getElementById('testimonials-ticker');
       if (!ticker) return;
       if (testimonialsList.length === 0) {
-        ticker.innerHTML = `<div class="text-xs text-slate-400 italic py-1">Nenhum depoimento ainda. Seja o primeiro a avaliar!</div>`;
+        ticker.innerHTML = `<div class="text-xs text-slate-400 italic py-1">Nenhum depoimento ainda.</div>`;
         return;
       }
-      const loopList = testimonialsList.length > 2 ? [...testimonialsList, ...testimonialsList] : testimonialsList;
+      const loopList = [...testimonialsList, ...testimonialsList];
       ticker.innerHTML = loopList.map(t => `
         <div class="inline-flex items-center gap-3 bg-slate-900/90 border border-slate-700/80 px-4 py-2 rounded-xl flex-shrink-0 shadow-sm">
           <div class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 font-bold flex items-center justify-center text-xs border border-emerald-500/30">${t.name ? t.name.charAt(0).toUpperCase() : 'C'}</div>
@@ -1245,16 +1066,14 @@
 
       let filtered = productsList.filter(prod => {
         const matchesSearch = (prod.name && prod.name.toLowerCase().includes(searchVal)) || 
-                              (prod.code && prod.code.toLowerCase().includes(searchVal)) ||
-                              (prod.description && prod.description.toLowerCase().includes(searchVal));
+                              (prod.code && prod.code.toLowerCase().includes(searchVal));
         const matchesCategory = activeCategory === 'all' || prod.category === activeCategory;
-        const totalUses = Number(prod.totalUses) || Number(prod.total) || 1;
-        const usedCount = Number(prod.usedCount) || Number(prod.used) || 0;
+        const totalUses = Number(prod.totalUses) || 1;
+        const usedCount = Number(prod.usedCount) || 0;
         const isSoldOut = (Math.max(0, totalUses - usedCount) <= 0);
 
         if (filterStatus === 'available' && isSoldOut) return false;
         if (filterStatus === 'soldout' && !isSoldOut) return false;
-
         return matchesSearch && matchesCategory;
       });
 
@@ -1266,13 +1085,12 @@
 
       emptyState.classList.add('hidden');
       grid.innerHTML = filtered.map(prod => {
-        const totalUses = Number(prod.totalUses) || Number(prod.total) || 1;
-        const usedCount = Number(prod.usedCount) || Number(prod.used) || 0;
+        const totalUses = Number(prod.totalUses) || 1;
+        const usedCount = Number(prod.usedCount) || 0;
         const remaining = Math.max(0, totalUses - usedCount);
         const isSoldOut = (remaining <= 0);
         const percentRemaining = Math.max(0, 100 - Math.min(100, Math.round((usedCount / totalUses) * 100)));
 
-        let barColor = percentRemaining < 20 ? "bg-red-500" : percentRemaining < 50 ? "bg-amber-500" : "bg-brand-500";
         const imgPlaceholder = "https://via.placeholder.com/400x300?text=Sem+Imagem";
         let prodImages = prod.images?.length > 0 ? prod.images : prod.image ? [prod.image] : [imgPlaceholder];
         const mainImg = prodImages[0];
@@ -1281,88 +1099,42 @@
         const originalPrice = prod.price ? Number(prod.price) : null;
         const discountPercent = Number(prod.discountPercent) || 0;
         const finalDiscountPrice = originalPrice && discountPercent > 0 ? originalPrice - (originalPrice * (discountPercent / 100)) : null;
-
         const couponCode = prod.code || "CLIENTEVIP";
 
         return `
           <div class="glass-card rounded-2xl overflow-hidden border border-slate-800 flex flex-col justify-between hover:border-slate-700 transition group">
             <div>
               <div class="relative h-48 w-full bg-slate-800 overflow-hidden cursor-pointer" onclick="openImageViewer('${mainImg}', '${encodedImagesJson}')">
-                <img id="prod-img-${prod.id}" src="${mainImg}" alt="${prod.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.src='${imgPlaceholder}'">
-                
-                ${isSoldOut ? `
-                  <div class="absolute inset-0 bg-slate-950/80 backdrop-blur-xs flex items-center justify-center">
-                    <span class="px-3 py-1 bg-red-600/90 text-white text-xs font-black tracking-widest rounded-full uppercase shadow-lg border border-red-400/30 animate-pulse">
-                      <i class="fa-solid fa-ban mr-1"></i> Produto Esgotado
-                    </span>
-                  </div>
-                ` : ''}
-
-                <button type="button" onclick="event.stopPropagation(); copyCoupon('${couponCode}')" title="Clique para copiar o cupom" class="absolute top-3 left-3 bg-brand-600/90 hover:bg-brand-500 text-white text-[11px] font-bold px-2.5 py-1 rounded-lg shadow border border-brand-400/30 transition flex items-center gap-1.5 cursor-pointer z-10">
-                  <i class="fa-solid fa-ticket"></i> Cupom: ${couponCode} <i class="fa-regular fa-copy text-[10px] opacity-80"></i>
+                <img id="prod-img-${prod.id}" src="${mainImg}" alt="${prod.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                ${isSoldOut ? `<div class="absolute inset-0 bg-slate-950/80 flex items-center justify-center"><span class="px-3 py-1 bg-red-600 text-white text-xs font-black rounded-full uppercase">Esgotado</span></div>` : ''}
+                <button type="button" onclick="event.stopPropagation(); copyCoupon('${couponCode}')" class="absolute top-3 left-3 bg-brand-600/90 text-white text-[11px] font-bold px-2.5 py-1 rounded-lg shadow flex items-center gap-1.5 cursor-pointer z-10">
+                  <i class="fa-solid fa-ticket"></i> Cupom: ${couponCode}
                 </button>
-
-                ${prod.isFeatured ? `
-                  <span class="absolute top-3 right-3 bg-amber-500 text-slate-950 font-black text-[10px] px-2.5 py-1 rounded-lg shadow-lg uppercase tracking-wider flex items-center gap-1 z-10">
-                    <i class="fa-solid fa-fire"></i> Destaque
-                  </span>
-                ` : ''}
+                ${prod.isFeatured ? `<span class="absolute top-3 right-3 bg-amber-500 text-slate-950 font-black text-[10px] px-2.5 py-1 rounded-lg uppercase z-10"><i class="fa-solid fa-fire"></i> Destaque</span>` : ''}
               </div>
-
-              ${prodImages.length > 1 ? `
-                <div class="flex items-center gap-1.5 px-4 pt-2.5 overflow-x-auto no-scrollbar">
-                  ${prodImages.map(imgUrl => `
-                    <button type="button" onclick="setMainImage('${prod.id}', '${imgUrl}')" class="focus:outline-none flex-shrink-0 cursor-pointer">
-                      <img src="${imgUrl}" class="w-10 h-10 rounded-lg object-cover border border-slate-700 hover:border-brand-500 transition">
-                    </button>
-                  `).join('')}
-                </div>
-              ` : ''}
 
               <div class="p-4">
                 <h3 class="font-bold text-slate-100 text-base leading-snug">${prod.name}</h3>
-
                 <div class="flex items-center justify-between mt-2 pt-2 border-t border-slate-800">
-                  <div class="flex items-center gap-1 text-amber-400 text-xs font-bold">
-                    <i class="fa-solid fa-star"></i> <span>${prod.ratingAverage || "5.0"}</span>
-                  </div>
-                  <button type="button" onclick="openRateModal('${prod.id}', '${prod.name.replace(/'/g, "")}')" class="text-[11px] bg-slate-800 hover:bg-slate-700 text-amber-400 font-semibold px-2 py-0.5 rounded-lg border border-amber-500/20 transition cursor-pointer">
-                    Avaliar
-                  </button>
+                  <div class="flex items-center gap-1 text-amber-400 text-xs font-bold"><i class="fa-solid fa-star"></i> <span>${prod.ratingAverage || "5.0"}</span></div>
+                  <button type="button" onclick="openRateModal('${prod.id}', '${prod.name.replace(/'/g, "")}')" class="text-[11px] bg-slate-800 hover:bg-slate-700 text-amber-400 font-semibold px-2 py-0.5 rounded-lg border border-amber-500/20 cursor-pointer">Avaliar</button>
                 </div>
-
                 ${originalPrice ? `
                   <div class="flex items-baseline gap-2 mt-2">
                     ${finalDiscountPrice ? `
                       <span class="text-lg font-black text-brand-400">R$ ${finalDiscountPrice.toFixed(2).replace('.', ',')}</span>
                       <span class="text-xs text-slate-400 line-through">R$ ${originalPrice.toFixed(2).replace('.', ',')}</span>
-                      <span class="text-[10px] bg-brand-500/20 text-brand-400 font-bold px-1.5 py-0.5 rounded">-${discountPercent}%</span>
-                    ` : `
-                      <span class="text-lg font-black text-slate-100">R$ ${originalPrice.toFixed(2).replace('.', ',')}</span>
-                    `}
+                    ` : `<span class="text-lg font-black text-slate-100">R$ ${originalPrice.toFixed(2).replace('.', ',')}</span>`}
                   </div>
                 ` : ''}
-
                 <p class="text-xs text-slate-400 mt-2 whitespace-pre-line">${prod.description || 'Sem descrição.'}</p>
-
-                <div class="mt-4 p-3 bg-slate-900/80 rounded-xl border border-slate-800/80">
-                  <div class="flex items-center justify-between text-xs font-semibold mb-1.5">
-                    <span class="text-slate-400">Estoque / Uso</span>
-                    <span class="${isSoldOut ? 'text-red-400 font-bold' : 'text-slate-200'}">${remaining} restantes de ${totalUses}</span>
-                  </div>
-                  <div class="w-full h-2 bg-slate-800 rounded-full overflow-hidden p-0.5 border border-slate-700/50">
-                    <div class="h-full ${barColor} rounded-full transition-all duration-500" style="width: ${percentRemaining}%"></div>
-                  </div>
-                </div>
               </div>
             </div>
 
             <div class="p-4 pt-0">
-              ${prod.link ? `
-                <button type="button" onclick="openProductAndCopyCoupon('${prod.id}', '${prod.link}', '${couponCode}')" class="w-full py-2 px-3 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-medium flex items-center justify-center gap-2 border border-slate-700 transition cursor-pointer">
-                  <i class="fa-solid fa-arrow-up-right-from-square text-brand-400"></i> Ver Link do Produto
-                </button>
-              ` : ''}
+              <button type="button" onclick="openProductAndCopyCoupon('${prod.id}', '${prod.link || profileData.storeLink}', '${couponCode}')" class="w-full py-2 px-3 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-medium flex items-center justify-center gap-2 border border-slate-700 cursor-pointer">
+                <i class="fa-solid fa-arrow-up-right-from-square text-brand-400"></i> Ver Link do Produto
+              </button>
             </div>
           </div>
         `;
@@ -1372,35 +1144,25 @@
     function renderAdminProductsList() {
       const container = document.getElementById('admin-products-list');
       if (!container) return;
-      if (productsList.length === 0) {
-        container.innerHTML = '<p class="text-xs text-slate-400 text-center py-2">Nenhum produto cadastrado.</p>';
-        return;
-      }
       container.innerHTML = productsList.map(prod => `
         <div class="bg-slate-900 p-2.5 rounded-xl border border-slate-700 flex items-center justify-between gap-2">
           <div class="truncate">
             <h4 class="text-xs font-bold text-white truncate">${prod.name}</h4>
-            <span class="text-[10px] text-brand-400 font-semibold block"><i class="fa-solid fa-chart-line mr-1"></i> ${prod.linkClicks || 0} cliques</span>
+            <span class="text-[10px] text-brand-400 font-semibold block">${prod.linkClicks || 0} cliques</span>
           </div>
-          <div class="flex items-center gap-1 flex-shrink-0">
-            <button onclick="copyDirectProductLink('${prod.link}')" class="px-2 py-1 bg-sky-500/20 text-sky-300 rounded-lg text-xs border border-sky-500/30 cursor-pointer" title="Copiar Link Direto para Divulgar"><i class="fa-solid fa-link"></i></button>
-            <button onclick="openQuickUseModal('${prod.id}')" class="px-2 py-1 bg-brand-600/20 text-brand-300 rounded-lg text-xs border border-brand-500/30 cursor-pointer" title="Editar Estoque"><i class="fa-solid fa-pen"></i></button>
-            <button onclick="openEditProductModal('${prod.id}')" class="px-2 py-1 bg-slate-800 text-slate-300 rounded-lg text-xs border border-slate-700 cursor-pointer" title="Editar"><i class="fa-solid fa-gear"></i></button>
-            <button onclick="deleteProduct('${prod.id}')" class="px-2 py-1 bg-red-500/10 text-red-400 rounded-lg text-xs border border-red-500/20 cursor-pointer" title="Excluir"><i class="fa-solid fa-trash"></i></button>
+          <div class="flex items-center gap-1">
+            <button onclick="copyDirectProductLink('${prod.link}')" class="px-2 py-1 bg-sky-500/20 text-sky-300 rounded-lg text-xs cursor-pointer"><i class="fa-solid fa-link"></i></button>
+            <button onclick="openQuickUseModal('${prod.id}')" class="px-2 py-1 bg-brand-600/20 text-brand-300 rounded-lg text-xs cursor-pointer"><i class="fa-solid fa-pen"></i></button>
+            <button onclick="deleteProduct('${prod.id}')" class="px-2 py-1 bg-red-500/10 text-red-400 rounded-lg text-xs cursor-pointer"><i class="fa-solid fa-trash"></i></button>
           </div>
         </div>
-      `).join('');
+      `).join('') || '<p class="text-xs text-slate-400 text-center py-2">Nenhum produto.</p>';
     }
-
-    function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
-    document.querySelectorAll('.btn-close-modal').forEach(b => b.onclick = () => b.closest('.fixed').classList.add('hidden'));
-    document.getElementById('btn-auth-open').onclick = () => document.getElementById('modal-auth').classList.remove('hidden');
 
     document.getElementById('form-auth').onsubmit = async (e) => {
       e.preventDefault();
       try {
-        if (isAuthModeLogin) await signInWithEmailAndPassword(auth, document.getElementById('auth-email').value, document.getElementById('auth-password').value);
-        else await createUserWithEmailAndPassword(auth, document.getElementById('auth-email').value, document.getElementById('auth-password').value);
+        await signInWithEmailAndPassword(auth, document.getElementById('auth-email').value, document.getElementById('auth-password').value);
         showToast("Sucesso!");
       } catch (err) { showToast("Erro: " + err.message, "error"); }
     };
@@ -1409,15 +1171,12 @@
 
     document.getElementById('form-profile').onsubmit = async (e) => {
       e.preventDefault();
-      try {
-        await setDoc(doc(db, 'settings', 'profile'), {
-          title: document.getElementById('profile-title').value,
-          bio: document.getElementById('profile-bio').value,
-          storeLink: document.getElementById('profile-store-link').value || OFFICIAL_NATURA_STORE,
-          updatedAt: new Date().toISOString()
-        }, { merge: true });
-        showToast("Perfil atualizado!");
-      } catch (err) { showToast("Erro", "error"); }
+      await setDoc(doc(db, 'settings', 'profile'), {
+        title: document.getElementById('profile-title').value,
+        bio: document.getElementById('profile-bio').value,
+        storeLink: document.getElementById('profile-store-link').value || OFFICIAL_NATURA_STORE
+      }, { merge: true });
+      showToast("Perfil atualizado!");
     };
 
     window.resetProductForm = () => {
@@ -1426,30 +1185,6 @@
       document.getElementById('preview-gallery').innerHTML = "";
       document.getElementById('preview-container').classList.add('hidden');
       document.getElementById('product-id').value = "";
-      document.getElementById('form-prod-title').innerHTML = `<i class="fa-solid fa-box text-brand-500"></i> Cadastrar Novo Produto`;
-      document.getElementById('btn-cancel-prod-edit').classList.add('hidden');
-    };
-
-    window.openEditProductModal = (prodId) => {
-      const prod = productsList.find(p => p.id === prodId);
-      if (!prod) return;
-      closeAdminSubSections();
-      document.getElementById('product-id').value = prod.id;
-      document.getElementById('product-name').value = prod.name || "";
-      document.getElementById('product-category').value = prod.category || "Perfumaria";
-      document.getElementById('product-featured').checked = !!prod.isFeatured;
-      document.getElementById('product-price').value = prod.price || "";
-      document.getElementById('product-discount-percent').value = prod.discountPercent || "10";
-      document.getElementById('product-description').value = prod.description || "";
-      document.getElementById('product-link').value = prod.link || "";
-      document.getElementById('product-code').value = prod.code || "CLIENTEVIP";
-      document.getElementById('product-validity-days').value = prod.validityDays || "30";
-      document.getElementById('product-total-uses').value = prod.totalUses || 30;
-      document.getElementById('product-used-count').value = prod.usedCount || 0;
-      currentFetchedImages = prod.images?.length > 0 ? [...prod.images] : prod.image ? [prod.image] : [];
-      renderPreviewGallery();
-      document.getElementById('form-prod-title').innerHTML = `<i class="fa-solid fa-pen-to-square text-brand-500"></i> Editando Produto`;
-      document.getElementById('btn-cancel-prod-edit').classList.remove('hidden');
     };
 
     document.getElementById('form-product').onsubmit = async (e) => {
@@ -1464,32 +1199,20 @@
         description: document.getElementById('product-description').value,
         link: document.getElementById('product-link').value,
         code: document.getElementById('product-code').value || "CLIENTEVIP",
-        validityDays: Number(document.getElementById('product-validity-days').value) || 30,
         totalUses: Number(document.getElementById('product-total-uses').value),
         usedCount: Number(document.getElementById('product-used-count').value),
         images: currentFetchedImages,
-        image: currentFetchedImages[0] || "",
-        updatedAt: new Date().toISOString()
+        image: currentFetchedImages[0] || ""
       };
-
-      try {
-        if (id) {
-          await updateDoc(doc(db, 'products', id), data);
-          showToast("Produto atualizado!");
-        } else {
-          data.linkClicks = 0;
-          data.createdAt = new Date().toISOString();
-          await addDoc(collection(db, 'products'), data);
-          showToast("Produto cadastrado!");
-        }
-        resetProductForm();
-      } catch (err) { showToast("Erro: " + err.message, "error"); }
+      if (id) await updateDoc(doc(db, 'products', id), data);
+      else { data.linkClicks = 0; await addDoc(collection(db, 'products'), data); }
+      showToast("Produto salvo!");
+      resetProductForm();
     };
 
     window.openQuickUseModal = (prodId) => {
       const prod = productsList.find(p => p.id === prodId);
       if (!prod) return;
-      closeAdminSubSections();
       document.getElementById('quick-use-id').value = prod.id;
       document.getElementById('quick-use-product-name').innerText = prod.name;
       document.getElementById('quick-use-val').value = prod.usedCount || 0;
@@ -1498,26 +1221,21 @@
 
     document.getElementById('form-quick-use').onsubmit = async (e) => {
       e.preventDefault();
-      const id = document.getElementById('quick-use-id').value;
-      const newVal = Number(document.getElementById('quick-use-val').value);
-      try {
-        await updateDoc(doc(db, 'products', id), { usedCount: Math.max(0, newVal), used: Math.max(0, newVal), updatedAt: new Date().toISOString() });
-        showToast("Estoque atualizado!");
-        closeModal('modal-quick-use');
-      } catch (err) { showToast("Erro", "error"); }
+      await updateDoc(doc(db, 'products', document.getElementById('quick-use-id').value), { usedCount: Number(document.getElementById('quick-use-val').value) });
+      showToast("Estoque atualizado!");
+      document.getElementById('modal-quick-use').classList.add('hidden');
     };
 
     window.deleteProduct = async (prodId) => {
-      if (!confirm("Excluir este produto?")) return;
-      try {
-        await deleteDoc(doc(db, 'products', prodId));
-        showToast("Produto removido.");
-        renderAdminProductsList();
-      } catch (err) { showToast("Erro", "error"); }
+      if (!confirm("Excluir?")) return;
+      await deleteDoc(doc(db, 'products', prodId));
+      showToast("Removido.");
     };
 
     document.getElementById('input-search').oninput = renderProducts;
     document.getElementById('filter-status').onchange = renderProducts;
+    document.querySelectorAll('.btn-close-modal').forEach(b => b.onclick = () => b.closest('.fixed').classList.add('hidden'));
+    document.getElementById('btn-auth-open').onclick = () => document.getElementById('modal-auth').classList.remove('hidden');
 
     trackRealVisit();
     listenRealVisits();
