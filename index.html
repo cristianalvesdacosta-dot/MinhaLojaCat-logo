@@ -1,63 +1,50 @@
 <!DOCTYPE html>
-<html lang="pt-BR" class="h-full bg-slate-900 text-slate-100">
+<html lang="pt-BR" class="h-full bg-slate-950 text-slate-100">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Catálogo Digital</title>
+  <title>Catálogo Digital Pro</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-
   <script>
     tailwind.config = {
       darkMode: 'class',
       theme: {
         extend: {
           fontFamily: { sans: ['Inter', 'sans-serif'] },
-          colors: { brand: { 50: '#f0fdf4', 100: '#dcfce7', 500: '#22c55e', 600: '#16a34a', 700: '#15803d' } }
+          colors: { brand: { 400: '#4ade80', 500: '#22c55e', 600: '#16a34a', 700: '#15803d' } }
         }
       }
     }
   </script>
-
   <style>
-    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: #0f172a; }
     ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
-    ::-webkit-scrollbar-thumb:hover { background: #475569; }
-    .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); }
-    
-    @keyframes ticker {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
-    }
-    .animate-ticker { animation: ticker 10s linear infinite; }
+    .glass-card { background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.06); }
+    @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+    .animate-ticker { animation: ticker 18s linear infinite; }
     .animate-ticker:hover { animation-play-state: paused; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    .studio-frame { width: 320px; height: 568px; position: relative; overflow: hidden; border-radius: 1.25rem; }
   </style>
 </head>
-<body class="h-full font-sans antialiased selection:bg-brand-500 selection:text-white flex flex-col min-h-screen relative">
+<body class="h-full font-sans antialiased flex flex-col min-h-screen">
 
-  <!-- HEADER COMPACTO E MINIMALISTA -->
-  <header class="sticky top-0 z-40 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 px-3 sm:px-4 py-2.5">
+  <!-- HEADER -->
+  <header class="sticky top-0 z-40 bg-slate-950/90 backdrop-blur-xl border-b border-slate-800/80 px-3 sm:px-4 py-2.5">
     <div class="max-w-4xl mx-auto flex items-center justify-between gap-2">
-      
-      <!-- LADO ESQUERDO: ÍCONE + TÍTULO COM SUBTÍTULO E SELO -->
       <div class="flex items-center gap-2.5 min-w-0">
-        <div class="bg-gradient-to-tr from-brand-600 to-emerald-400 p-2 rounded-xl text-white shadow-lg shadow-brand-500/20 flex-shrink-0">
-          <i class="fa-solid fa-store text-base sm:text-lg"></i>
+        <div class="bg-gradient-to-tr from-brand-600 to-emerald-400 p-2 rounded-xl text-white shadow-lg shadow-brand-500/20">
+          <i class="fa-solid fa-store text-base"></i>
         </div>
-        
         <div class="truncate">
-          <div class="flex items-center gap-1.5 leading-tight">
-            <span class="font-bold text-sm sm:text-base tracking-tight text-white truncate">Meu Catálogo</span>
-            
-            <!-- SELO DE VERIFICADO -->
-            <span class="text-emerald-400 text-xs flex-shrink-0" title="Verificado">
-              <i class="fa-solid fa-circle-check"></i>
-            </span>
-
-            <!-- CONTADOR DE ACESSOS DISCRETO -->
-            <div class="inline-flex items-center gap-1 px-2 py-0.5 bg-slate-800 border border-slate-700/80 rounded-full text-[10px] font-semibold text-emerald-400 flex-shrink-0">
+          <div class="flex items-center gap-1.5">
+            <span class="font-bold text-sm sm:text-base text-white truncate">Meu Catálogo</span>
+            <span class="text-emerald-400 text-xs"><i class="fa-solid fa-circle-check"></i></span>
+            <div class="inline-flex items-center gap-1 px-2 py-0.5 bg-slate-800/80 border border-slate-700/60 rounded-full text-[10px] font-semibold text-emerald-400">
               <span class="relative flex h-1.5 w-1.5">
                 <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                 <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
@@ -65,44 +52,33 @@
               <span id="visitor-counter">0 acessos</span>
             </div>
           </div>
-          
           <p class="text-[11px] text-slate-400 truncate mt-0.5">Cupons e Descontos Exclusivos</p>
         </div>
       </div>
-
-      <!-- LADO DIREITO: BOTÃO PAINEL SOMENTE ÍCONE -->
-      <div class="flex items-center flex-shrink-0">
-        <button id="btn-auth-open" title="Acessar Painel Administrativo" class="w-9 h-9 sm:w-10 sm:h-10 text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 rounded-xl transition border border-slate-700 flex items-center justify-center text-sm shadow-sm cursor-pointer">
-          <i class="fa-solid fa-user-gear"></i>
-        </button>
-      </div>
-
+      <button id="btn-auth-open" class="w-9 h-9 sm:w-10 sm:h-10 text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 rounded-xl border border-slate-700 flex items-center justify-center">
+        <i class="fa-solid fa-user-gear"></i>
+      </button>
     </div>
   </header>
 
-  <main class="flex-grow max-w-4xl w-full mx-auto pb-16">
+  <main class="flex-grow max-w-4xl w-full mx-auto pb-20">
+    <!-- BANNER -->
     <div class="relative w-full">
-      <!-- BANNER CLICÁVEL -->
-      <a id="display-cover-link" href="#" onclick="openStoreBannerLink(event)" class="block group relative overflow-hidden cursor-pointer">
-        <div id="display-cover" class="h-44 sm:h-56 w-full bg-gradient-to-r from-slate-800 via-slate-700 to-slate-800 bg-cover bg-center transition-all duration-300 relative group-hover:scale-105">
-          <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-black/30"></div>
+      <a href="#" onclick="openStoreBannerLink(event)" class="block group relative overflow-hidden">
+        <div id="display-cover" class="h-44 sm:h-56 w-full bg-gradient-to-r from-slate-800 via-slate-700 to-slate-800 bg-cover bg-center group-hover:scale-105 transition-transform duration-500">
+          <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-black/40"></div>
         </div>
-        <div class="absolute top-3 right-3 z-10 bg-brand-600/90 hover:bg-brand-500 text-white text-[11px] font-bold px-3 py-1.5 rounded-xl shadow-lg backdrop-blur-md border border-brand-400/40 flex items-center gap-1.5 transition">
-          <i class="fa-solid fa-bag-shopping"></i> Acessar Loja Oficial <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+        <div class="absolute top-3 right-3 z-10 bg-brand-600/95 text-white text-[11px] font-bold px-3 py-1.5 rounded-xl shadow-lg flex items-center gap-1.5">
+          <i class="fa-solid fa-bag-shopping"></i> Acessar Loja Oficial
         </div>
       </a>
-
       <div class="px-4 sm:px-6 relative -mt-16 sm:-mt-20">
         <div class="flex flex-col sm:flex-row items-center sm:items-end gap-4 text-center sm:text-left">
-          <div class="relative group">
-            <img id="display-logo" src="https://via.placeholder.com/150?text=LOGO" alt="Logo Loja" class="w-28 h-28 sm:w-32 sm:h-32 rounded-2xl object-cover border-4 border-slate-900 shadow-xl bg-slate-800">
-          </div>
-          
+          <img id="display-logo" src="https://via.placeholder.com/150?text=LOGO" class="w-28 h-28 sm:w-32 sm:h-32 rounded-2xl object-cover border-4 border-slate-950 shadow-2xl bg-slate-800">
           <div class="flex-1 pb-1">
-            <h1 id="display-title" class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Nome da sua Loja</h1>
-            <p id="display-bio" class="text-slate-400 text-sm mt-1 max-w-2xl leading-relaxed">Sua biografia ou descrição do catálogo digital aparece aqui.</p>
+            <h1 id="display-title" class="text-2xl sm:text-3xl font-extrabold text-white">Nome da sua Loja</h1>
+            <p id="display-bio" class="text-slate-400 text-sm mt-1">Sua biografia aparece aqui.</p>
           </div>
-
           <div class="flex items-center gap-2 text-xs font-semibold px-3 py-1.5 rounded-full bg-slate-800/80 border border-slate-700 text-slate-300">
             <i class="fa-solid fa-boxes-stacked text-brand-500"></i>
             <span id="stat-total-products">0 Produtos</span>
@@ -110,614 +86,376 @@
         </div>
       </div>
     </div>
-    
-    <div style="margin-top: 10px; text-align: center;">
-      <a href="https://wa.me/5519997648211?text=Olá!%20Procuro%20um%20produto%20específico%20do%20Ciclo%20que%20não%20encontrei%20no%20catálogo." 
-         target="_blank" 
-         style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; background-color: #1f2937; color: #25d366; padding: 10px 20px; border-radius: 20px; text-decoration: none; font-weight: bold; font-size: 14px; border: 1px solid #25d366; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
-          <path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.558 6.558 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.348.1-.1.133-.173.2-.298.065-.125.034-.234-.016-.33-.05-.099-.445-1.072-.61-1.47-.16-.389-.323-.337-.45-.343-.112-.007-.24-.007-.368-.007s-.33.048-.503.23c-.173.183-66.666 65.999-66.666 65.999s.184.181.368.365c.184.184 1.106 1.696 2.692 2.378.376.162.669.259.897.332.378.121.722.104.994.063.304-.045 1.17-.478 1.334-.941.164-.464.164-.862.115-.941-.049-.079-.183-.125-.38-.224z"/>
-        </svg>
-        Pedir outro produto no WhatsApp
+
+    <!-- WHATSAPP -->
+    <div class="mt-5 text-center px-4">
+      <a href="https://wa.me/5519997648211?text=Olá!%20Procuro%20um%20produto%20específico." target="_blank"
+         class="inline-flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-[#25d366] px-5 py-2.5 rounded-2xl text-sm font-bold border border-[#25d366]/40">
+        <i class="fa-brands fa-whatsapp text-lg"></i> Pedir outro produto no WhatsApp
       </a>
     </div>
 
-    <!-- CARROSSEL DE DEPOIMENTOS -->
+    <!-- DEPOIMENTOS -->
     <div class="px-4 sm:px-6 mt-6">
-      <div class="bg-gradient-to-r from-slate-800/90 via-slate-800/70 to-slate-800/90 border border-slate-700/80 rounded-2xl p-4 shadow-xl relative overflow-hidden backdrop-blur-md">
+      <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4">
         <div class="flex items-center justify-between mb-3">
           <div class="flex items-center gap-2">
             <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
             <h3 class="text-xs font-bold text-emerald-400 uppercase tracking-wider">Avaliações & Depoimentos</h3>
           </div>
-          <button type="button" onclick="openTestimonialModal()" class="text-[11px] bg-brand-600 hover:bg-brand-500 text-white font-bold px-3 py-1 rounded-xl transition flex items-center gap-1.5 shadow-md cursor-pointer">
-            <i class="fa-solid fa-star text-amber-300"></i> Avaliar Loja
+          <button onclick="openTestimonialModal()" class="text-[11px] bg-brand-600 hover:bg-brand-500 text-white font-bold px-3 py-1 rounded-xl flex items-center gap-1.5">
+            <i class="fa-solid fa-star text-amber-300"></i> Avaliar
           </button>
         </div>
-
-        <div class="relative w-full overflow-hidden py-1">
+        <div class="overflow-hidden">
           <div id="testimonials-ticker" class="flex gap-4 animate-ticker whitespace-nowrap"></div>
         </div>
       </div>
     </div>
 
+    <!-- FILTROS -->
     <div class="px-4 sm:px-6 mt-6 space-y-3">
-      <div class="flex flex-col sm:flex-row gap-3 items-center justify-between">
+      <div class="flex flex-col sm:flex-row gap-3">
         <div class="relative w-full sm:w-80">
           <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
-          <input type="text" id="input-search" placeholder="Buscar produto ou cupom..." class="w-full bg-slate-800 border border-slate-700/80 rounded-xl pl-10 pr-4 py-2 text-sm text-slate-100 placeholder-slate-400 focus:outline-none focus:border-brand-500 transition">
+          <input type="text" id="input-search" placeholder="Buscar produto ou cupom..." class="w-full bg-slate-900 border border-slate-800 rounded-xl pl-10 pr-4 py-2.5 text-sm focus:outline-none focus:border-brand-500">
         </div>
-
-        <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
-          <select id="filter-status" class="bg-slate-800 border border-slate-700/80 text-xs sm:text-sm text-slate-300 rounded-xl px-3 py-2 focus:outline-none focus:border-brand-500">
-            <option value="all">Todos os Produtos</option>
-            <option value="available">Em Estoque</option>
-            <option value="soldout">Esgotados</option>
-          </select>
-        </div>
+        <select id="filter-status" class="bg-slate-900 border border-slate-800 text-sm text-slate-300 rounded-xl px-3 py-2.5">
+          <option value="all">Todos</option>
+          <option value="available">Em Estoque</option>
+          <option value="soldout">Esgotados</option>
+        </select>
       </div>
-
-      <!-- BOTÕES DE CATEGORIAS DA NATURA -->
-      <div class="flex items-center gap-2 overflow-x-auto py-1 no-scrollbar" id="category-filters">
-        <button onclick="filterByCategory('all')" class="category-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-brand-600 text-white whitespace-nowrap transition shadow cursor-pointer">Todas</button>
-        <button onclick="filterByCategory('Perfumaria')" class="category-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 whitespace-nowrap transition border border-slate-700 cursor-pointer">Perfumaria</button>
-        <button onclick="filterByCategory('Corpo e Banho')" class="category-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 whitespace-nowrap transition border border-slate-700 cursor-pointer">Corpo & Banho</button>
-        <button onclick="filterByCategory('Cabelos')" class="category-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 whitespace-nowrap transition border border-slate-700 cursor-pointer">Cabelos</button>
-        <button onclick="filterByCategory('Maquiagem')" class="category-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 whitespace-nowrap transition border border-slate-700 cursor-pointer">Maquiagem</button>
-        <button onclick="filterByCategory('Rosto')" class="category-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 whitespace-nowrap transition border border-slate-700 cursor-pointer">Rosto</button>
-        <button onclick="filterByCategory('Infantil')" class="category-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 whitespace-nowrap transition border border-slate-700 cursor-pointer">Infantil</button>
+      <div class="flex gap-2 overflow-x-auto no-scrollbar" id="category-filters">
+        <button onclick="filterByCategory('all')" class="category-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-brand-600 text-white whitespace-nowrap">Todas</button>
+        <button onclick="filterByCategory('Perfumaria')" class="category-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-900 text-slate-300 border border-slate-800 whitespace-nowrap">Perfumaria</button>
+        <button onclick="filterByCategory('Corpo e Banho')" class="category-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-900 text-slate-300 border border-slate-800 whitespace-nowrap">Corpo & Banho</button>
+        <button onclick="filterByCategory('Cabelos')" class="category-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-900 text-slate-300 border border-slate-800 whitespace-nowrap">Cabelos</button>
+        <button onclick="filterByCategory('Maquiagem')" class="category-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-900 text-slate-300 border border-slate-800 whitespace-nowrap">Maquiagem</button>
+        <button onclick="filterByCategory('Rosto')" class="category-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-900 text-slate-300 border border-slate-800 whitespace-nowrap">Rosto</button>
+        <button onclick="filterByCategory('Infantil')" class="category-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-900 text-slate-300 border border-slate-800 whitespace-nowrap">Infantil</button>
       </div>
     </div>
 
+    <!-- PRODUTOS -->
     <div class="px-4 sm:px-6 mt-6">
-      <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-        <div class="bg-slate-800/50 rounded-2xl p-4 border border-slate-800 animate-pulse h-80"></div>
-        <div class="bg-slate-800/50 rounded-2xl p-4 border border-slate-800 animate-pulse h-80"></div>
-      </div>
-
-      <div id="empty-state" class="hidden text-center py-16 px-4">
-        <div class="w-16 h-16 bg-slate-800 text-slate-500 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
-          <i class="fa-solid fa-box-open"></i>
-        </div>
+      <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+      <div id="empty-state" class="hidden text-center py-16">
+        <div class="w-16 h-16 bg-slate-900 text-slate-500 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl"><i class="fa-solid fa-box-open"></i></div>
         <h3 class="text-lg font-semibold text-slate-300">Nenhum produto encontrado</h3>
-        <p class="text-slate-500 text-sm mt-1">Nenhum produto cadastrado no catálogo até o momento.</p>
       </div>
     </div>
   </main>
 
-  <!-- MODAL DE ESTÚDIO PROFISSIONAL DARK (TIKTOK / REELS / TELEGRAM) -->
-  <div id="modal-instagram-post" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-sm hidden">
-    <div class="bg-slate-900 border border-slate-700 rounded-3xl max-w-lg w-full p-6 shadow-2xl relative max-h-[95vh] overflow-y-auto space-y-4">
-      <button class="btn-close-modal absolute top-4 right-4 text-slate-400 hover:text-white text-lg cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
-      
-      <div class="flex items-center gap-2.5">
-        <div class="w-10 h-10 bg-gradient-to-tr from-brand-600 to-emerald-400 rounded-xl flex items-center justify-center text-white text-lg shadow-lg">
-          <i class="fa-solid fa-wand-magic-sparkles"></i>
-        </div>
-        <div>
-          <h2 class="text-base font-bold text-white">Estúdio Dark Profissional</h2>
-          <p class="text-xs text-slate-400">Gere artes limpas e vídeos perfeitos para TikTok, Reels e Telegram.</p>
-        </div>
-      </div>
-
-      <div class="space-y-4">
-        <!-- EDIÇÃO RÁPIDA -->
-        <div class="p-3 bg-slate-950 rounded-2xl border border-slate-800 space-y-3">
-          <span class="block text-xs font-bold text-brand-400 uppercase tracking-wider"><i class="fa-solid fa-pen-to-square"></i> Edição Rápida do Criativo</span>
-          <div class="space-y-2">
-            <div>
-              <label class="block text-[10px] text-slate-400 mb-1">Nome do Produto</label>
-              <input type="text" id="edit-studio-name" oninput="updateStudioLiveText()" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-100 focus:outline-none focus:border-brand-500">
-            </div>
-            <div class="grid grid-cols-2 gap-2">
-              <div>
-                <label class="block text-[10px] text-slate-400 mb-1">Preço Original (R$)</label>
-                <input type="number" step="0.01" id="edit-studio-orig" oninput="updateStudioLiveText()" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-100 focus:outline-none focus:border-brand-500">
-              </div>
-              <div>
-                <label class="block text-[10px] text-slate-400 mb-1">Desconto (%)</label>
-                <input type="number" id="edit-studio-disc" oninput="updateStudioLiveText()" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-100 focus:outline-none focus:border-brand-500">
-              </div>
-            </div>
-            <div>
-              <label class="block text-[10px] text-slate-400 mb-1">Cupom de Desconto</label>
-              <input type="text" id="edit-studio-code" oninput="updateStudioLiveText()" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-100 focus:outline-none focus:border-brand-500">
-            </div>
-          </div>
-        </div>
-
-        <!-- TEMPO DO VÍDEO -->
-        <div class="p-3 bg-slate-950 rounded-2xl border border-slate-800 space-y-2">
-          <label class="block text-xs font-bold text-brand-400 flex items-center gap-1.5">
-            <i class="fa-solid fa-stopwatch"></i> Duração do Vídeo (TikTok / Reels):
-          </label>
-          <div class="grid grid-cols-5 gap-1.5">
-            <button type="button" onclick="setVideoDuration(5)" class="duration-btn py-1.5 bg-brand-600 text-white rounded-xl text-xs font-bold transition shadow cursor-pointer">5s</button>
-            <button type="button" onclick="setVideoDuration(10)" class="duration-btn py-1.5 bg-slate-900 hover:bg-slate-800 text-slate-300 rounded-xl text-xs font-semibold transition border border-slate-800 cursor-pointer">10s</button>
-            <button type="button" onclick="setVideoDuration(15)" class="duration-btn py-1.5 bg-slate-900 hover:bg-slate-800 text-slate-300 rounded-xl text-xs font-semibold transition border border-slate-800 cursor-pointer">15s</button>
-            <button type="button" onclick="setVideoDuration(20)" class="duration-btn py-1.5 bg-slate-900 hover:bg-slate-800 text-slate-300 rounded-xl text-xs font-semibold transition border border-slate-800 cursor-pointer">20s</button>
-            <button type="button" onclick="setVideoDuration(25)" class="duration-btn py-1.5 bg-slate-900 hover:bg-slate-800 text-slate-300 rounded-xl text-xs font-semibold transition border border-slate-800 cursor-pointer">25s</button>
-          </div>
-          <p class="text-[10px] text-slate-400">Tempo selecionado: <strong id="selected-duration-label" class="text-brand-400">5 segundos</strong></p>
-        </div>
-
-        <!-- VISUALIZAÇÃO DO CRIATIVO (PADRÃO DARK PROFISSIONAL) -->
-        <div class="flex flex-col items-center">
-          <div id="studio-frame-wrapper" class="relative w-72 h-[480px] bg-[#09090b] rounded-3xl overflow-hidden border border-slate-800 shadow-2xl flex flex-col justify-between p-5 text-slate-100">
-            
-            <!-- CABEÇALHO DO STORY -->
-            <div class="flex justify-between items-center z-10">
-              <div class="inline-flex items-center gap-1.5 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 px-3 py-1 rounded-full text-[10px] font-black tracking-widest uppercase">
-                <i class="fa-solid fa-fire text-amber-400"></i> OFERTA IMPERDÍVEL
-              </div>
-              <div class="bg-amber-500 text-slate-950 font-black text-xs px-2.5 py-1 rounded-full shadow">
-                <span id="studio-txt-off">10%</span> OFF
-              </div>
-            </div>
-
-            <!-- FOTO DO PRODUTO CENTRALIZADA COM ALTA NITIDEZ -->
-            <div class="relative z-10 my-auto flex items-center justify-center py-2">
-              <div class="w-48 h-48 rounded-2xl bg-slate-900 border border-slate-800 p-2 shadow-2xl overflow-hidden flex items-center justify-center">
-                <img id="studio-prod-img" src="" crossorigin="anonymous" class="w-full h-full object-cover rounded-xl">
-              </div>
-            </div>
-
-            <!-- BLOCO DE TEXTOS E PREÇOS -->
-            <div class="relative z-10 space-y-2 text-center bg-slate-950/80 backdrop-blur-md p-4 rounded-2xl border border-slate-800/80 shadow-xl">
-              <h3 id="studio-txt-name" class="text-xs font-bold text-white line-clamp-2 leading-snug">Nome do Produto</h3>
-              
-              <div class="flex items-center justify-center gap-2 pt-1">
-                <span id="studio-txt-orig" class="text-xs text-slate-400 line-through">R$ 0,00</span>
-                <span id="studio-txt-final" class="text-xl font-black text-emerald-400">R$ 0,00</span>
-              </div>
-            </div>
-
-            <!-- BOTÃO DE CUPOM RODAPÉ -->
-            <div class="relative z-10 bg-gradient-to-r from-brand-600 to-emerald-500 text-slate-950 font-black text-xs py-2.5 px-3 rounded-2xl text-center shadow-lg uppercase tracking-tight flex items-center justify-center gap-1.5">
-              <i class="fa-solid fa-ticket text-sm"></i> CUPOM: <span id="studio-txt-code" class="text-white">CLIENTEVIP</span>
-            </div>
-          </div>
-
-          <!-- BOTÕES DE DOWNLOAD DIRETOS -->
-          <div class="flex gap-2 mt-4 w-full">
-            <button type="button" onclick="saveStudioAsImage()" class="flex-1 py-3 bg-amber-600 hover:bg-amber-500 text-white rounded-2xl text-xs font-bold shadow-lg transition flex items-center justify-center gap-1.5 cursor-pointer">
-              <i class="fa-solid fa-image text-sm"></i> Baixar Imagem HD
-            </button>
-            <button type="button" id="btn-save-video" onclick="saveStudioAsTimedVideo()" class="flex-1 py-3 bg-brand-600 hover:bg-brand-500 text-white rounded-2xl text-xs font-bold shadow-lg transition flex items-center justify-center gap-1.5 cursor-pointer">
-              <i class="fa-solid fa-video text-sm"></i> Baixar Vídeo (<span id="btn-vid-sec">5s</span>)
-            </button>
-          </div>
-        </div>
-
-        <div>
-          <label class="block text-xs font-semibold text-slate-300 mb-1">Legenda Pronta para Copiar (TikTok / Telegram / Instagram)</label>
-          <textarea id="ig-post-caption" rows="3" onclick="this.select()" class="w-full bg-slate-950 border border-slate-800 rounded-2xl p-3 text-xs text-slate-100 font-mono focus:outline-none focus:border-brand-500 cursor-pointer"></textarea>
-        </div>
-      </div>
-
-      <div class="pt-2 flex gap-2">
-        <button type="button" class="btn-close-modal flex-1 py-2.5 bg-slate-800 text-slate-300 rounded-2xl text-xs font-medium cursor-pointer">Fechar</button>
-        <button type="button" onclick="copyInstagramCaption()" class="flex-1 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-2xl text-xs shadow-md transition flex items-center justify-center gap-2 cursor-pointer">
-          <i class="fa-regular fa-copy"></i> Copiar Legenda
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
-  <!-- BOTÃO FLUTUANTE DE COMPARTILHAMENTO -->
-  <a href="https://api.whatsapp.com/send?text=Olha%20que%20cat%C3%A1logo%20incr%C3%ADvel%20de%20descontos%20e%20cupons%20eu%20achei!%20Confere%20aqui:%20https://cristianalvesdacosta-dot.github.io/MinhaLojaCat-logo/" 
-     target="_blank" 
-     rel="noopener noreferrer"
-     class="fixed bottom-5 right-4 z-40 bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-2 rounded-full shadow-lg flex items-center gap-1.5 transition transform hover:scale-105 border border-emerald-400/40 cursor-pointer"
-     title="Compartilhar Catálogo no WhatsApp">
+  <!-- BOTÃO COMPARTILHAR -->
+  <a href="https://api.whatsapp.com/send?text=Olha%20esse%20catálogo%20de%20descontos:%20https://cristianalvesdacosta-dot.github.io/MinhaLojaCat-logo/" target="_blank"
+     class="fixed bottom-5 right-4 z-40 bg-emerald-600 hover:bg-emerald-500 text-white px-3.5 py-2.5 rounded-full shadow-xl flex items-center gap-1.5 border border-emerald-400/30">
     <i class="fa-brands fa-whatsapp text-lg"></i>
-    <span class="text-[11px] font-bold whitespace-nowrap pr-0.5">Compartilhar</span>
+    <span class="text-[11px] font-bold">Compartilhar</span>
   </a>
 
-  <div id="modal-image-viewer" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-md hidden">
-    <button class="absolute top-5 right-5 text-white text-3xl z-50 hover:text-slate-300 focus:outline-none p-2 cursor-pointer" onclick="closeImageViewer()">
-      <i class="fa-solid fa-xmark"></i>
-    </button>
-    <div class="relative max-w-4xl w-full max-h-[90vh] flex flex-col items-center justify-center">
-      <img id="viewer-img-element" src="" alt="Ampliada" class="max-h-[75vh] max-w-full object-contain rounded-xl shadow-2xl border border-slate-700">
-      <div id="viewer-thumbnails" class="flex items-center gap-2 mt-4 overflow-x-auto max-w-full p-2 no-scrollbar"></div>
+  <!-- ===================== MODAL ESTÚDIO ===================== -->
+  <div id="modal-instagram-post" class="fixed inset-0 z-50 flex items-center justify-center p-3 bg-black/90 backdrop-blur-md hidden">
+    <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-5xl w-full max-h-[96vh] overflow-y-auto">
+      <div class="sticky top-0 bg-slate-900/95 backdrop-blur border-b border-slate-800 px-5 py-4 flex items-center justify-between z-20">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-gradient-to-br from-amber-500 to-orange-600 rounded-xl flex items-center justify-center text-white"><i class="fa-solid fa-clapperboard"></i></div>
+          <div>
+            <h2 class="text-base font-bold text-white">Estúdio de Marketing</h2>
+            <p class="text-xs text-slate-400">Templates profissionais • TikTok / Reels / Telegram</p>
+          </div>
+        </div>
+        <button class="btn-close-modal w-9 h-9 rounded-xl bg-slate-800 text-slate-300 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="p-5 grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="space-y-4">
+          <div class="p-4 bg-slate-950 rounded-2xl border border-slate-800 space-y-3">
+            <label class="text-xs font-bold text-amber-400 uppercase"><i class="fa-solid fa-palette"></i> Template</label>
+            <div class="grid grid-cols-2 gap-2">
+              <button onclick="setStudioTemplate('promo')" class="template-btn px-3 py-2.5 rounded-xl text-xs font-bold bg-brand-600 text-white">🔥 Promo</button>
+              <button onclick="setStudioTemplate('luxury')" class="template-btn px-3 py-2.5 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 border border-slate-700">✨ Luxury</button>
+              <button onclick="setStudioTemplate('urgency')" class="template-btn px-3 py-2.5 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 border border-slate-700">⚡ Urgência</button>
+              <button onclick="setStudioTemplate('minimal')" class="template-btn px-3 py-2.5 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 border border-slate-700">🖤 Minimal</button>
+            </div>
+          </div>
+          <div class="p-4 bg-slate-950 rounded-2xl border border-slate-800 space-y-2">
+            <label class="text-xs font-bold text-amber-400"><i class="fa-solid fa-image"></i> Fundo (Imagem/Vídeo)</label>
+            <input type="file" id="studio-bg-file" accept="image/*,video/*" class="w-full text-xs text-slate-400 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:bg-amber-600 file:text-white">
+          </div>
+          <div class="p-4 bg-slate-950 rounded-2xl border border-slate-800 space-y-3">
+            <span class="text-xs font-bold text-emerald-400 uppercase"><i class="fa-solid fa-sliders"></i> Ajustes</span>
+            <div>
+              <div class="flex justify-between text-[11px] text-slate-300 mb-1"><span>Opacidade Fundo</span><span id="lbl-bg-opacity">85%</span></div>
+              <input type="range" id="range-bg-opacity" min="30" max="100" value="85" oninput="updateStudioAppearance()" class="w-full accent-amber-500">
+            </div>
+            <div>
+              <div class="flex justify-between text-[11px] text-slate-300 mb-1"><span>Overlay</span><span id="lbl-overlay">40%</span></div>
+              <input type="range" id="range-overlay" min="10" max="70" value="40" oninput="updateStudioAppearance()" class="w-full accent-brand-500">
+            </div>
+          </div>
+          <div class="p-4 bg-slate-950 rounded-2xl border border-slate-800 space-y-3">
+            <span class="text-xs font-bold text-brand-400 uppercase"><i class="fa-solid fa-pen"></i> Conteúdo</span>
+            <input type="text" id="edit-studio-name" oninput="updateStudioLiveText()" placeholder="Nome do produto" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm">
+            <div class="grid grid-cols-2 gap-3">
+              <input type="number" id="edit-studio-orig" oninput="updateStudioLiveText()" placeholder="Preço original" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm">
+              <input type="number" id="edit-studio-disc" oninput="updateStudioLiveText()" placeholder="% Desconto" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm">
+            </div>
+            <input type="text" id="edit-studio-code" oninput="updateStudioLiveText()" placeholder="Cupom" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm">
+          </div>
+          <div class="p-4 bg-slate-950 rounded-2xl border border-slate-800 space-y-3">
+            <label class="text-xs font-bold text-brand-400"><i class="fa-solid fa-stopwatch"></i> Duração do Vídeo</label>
+            <div class="grid grid-cols-5 gap-1.5">
+              <button onclick="setVideoDuration(5)" class="duration-btn py-2 bg-brand-600 text-white rounded-xl text-xs font-bold">5s</button>
+              <button onclick="setVideoDuration(8)" class="duration-btn py-2 bg-slate-800 text-slate-300 rounded-xl text-xs border border-slate-700">8s</button>
+              <button onclick="setVideoDuration(10)" class="duration-btn py-2 bg-slate-800 text-slate-300 rounded-xl text-xs border border-slate-700">10s</button>
+              <button onclick="setVideoDuration(15)" class="duration-btn py-2 bg-slate-800 text-slate-300 rounded-xl text-xs border border-slate-700">15s</button>
+              <button onclick="setVideoDuration(20)" class="duration-btn py-2 bg-slate-800 text-slate-300 rounded-xl text-xs border border-slate-700">20s</button>
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-col items-center">
+          <div id="studio-frame-wrapper" class="studio-frame bg-slate-950">
+            <div id="studio-bg-media-container" class="absolute inset-0">
+              <img id="studio-bg-img" class="w-full h-full object-cover" style="display:none">
+              <video id="studio-bg-vid" autoplay loop muted playsinline class="w-full h-full object-cover" style="display:none"></video>
+            </div>
+            <div id="studio-overlay" class="absolute inset-0 bg-black/40"></div>
+            <div class="relative z-10 h-full flex flex-col justify-between p-5">
+              <div class="flex justify-between items-start">
+                <div id="studio-badge-top" class="bg-gradient-to-r from-amber-500 to-orange-500 text-white font-black text-[11px] px-3 py-1.5 rounded-full">🔥 OFERTA ESPECIAL</div>
+                <div class="w-14 h-14 rounded-full bg-slate-950/90 border-2 border-amber-400 flex flex-col items-center justify-center text-amber-400 font-black">
+                  <span id="studio-txt-off" class="text-sm">10%</span>
+                  <span class="text-[9px]">OFF</span>
+                </div>
+              </div>
+              <div id="studio-textbox-container" class="text-center space-y-2">
+                <h3 id="studio-txt-name" class="text-lg font-extrabold text-white leading-tight">Nome do Produto</h3>
+                <div class="inline-block px-5 py-3 rounded-2xl bg-brand-600 shadow-2xl">
+                  <span id="studio-txt-orig" class="text-sm text-white/70 line-through block">R$ 0,00</span>
+                  <span id="studio-txt-final" class="text-3xl font-black text-white">R$ 0,00</span>
+                </div>
+              </div>
+              <div class="space-y-3">
+                <div class="bg-amber-400 text-slate-950 font-black text-sm py-3 px-4 rounded-2xl text-center">CUPOM: <span id="studio-txt-code">CLIENTEVIP</span></div>
+                <div class="text-center text-[11px] text-white/80">Use o cupom e garanta seu desconto</div>
+              </div>
+            </div>
+          </div>
+          <div class="flex gap-3 mt-5 w-full max-w-xs">
+            <button onclick="saveStudioAsImage()" class="flex-1 py-3 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2"><i class="fa-solid fa-image"></i> Imagem HD</button>
+            <button onclick="saveStudioAsTimedVideo()" class="flex-1 py-3 bg-gradient-to-r from-brand-600 to-emerald-500 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2"><i class="fa-solid fa-video"></i> Vídeo <span id="btn-vid-sec">5s</span></button>
+          </div>
+          <div class="w-full max-w-xs mt-4">
+            <textarea id="ig-post-caption" rows="3" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-xs font-mono" onclick="this.select()"></textarea>
+            <button onclick="copyInstagramCaption()" class="w-full mt-2 py-2.5 bg-emerald-600 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-2"><i class="fa-regular fa-copy"></i> Copiar Legenda</button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
-  <div id="modal-timer-redirect" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md hidden">
-    <div class="bg-slate-800 border-2 border-brand-500 rounded-3xl max-w-sm w-full p-6 shadow-2xl text-center space-y-4">
-      <div class="w-14 h-14 bg-brand-500/20 text-brand-400 rounded-2xl flex items-center justify-center mx-auto text-2xl border border-brand-500/30">
-        <i class="fa-solid fa-circle-check"></i>
-      </div>
-
-      <div>
-        <h3 class="text-lg font-bold text-white">Cupom Copiado!</h3>
-        <p class="text-sm font-bold text-brand-400 mt-1" id="timer-coupon-code">Cupom: CLIENTEVIP</p>
-      </div>
-
-      <p class="text-xs text-slate-300 leading-relaxed bg-slate-900/80 p-3 rounded-xl border border-slate-700">
-        ✔ Cole-o no carrinho da Natura para aplicar seu desconto.<br>
-        Entrando na loja em <strong id="countdown-seconds" class="text-brand-400">8s</strong>...
-      </p>
-
-      <div class="pt-2">
-        <button type="button" onclick="cancelRedirectTimer()" class="w-full py-2 bg-slate-700 hover:bg-slate-600 text-slate-300 font-semibold rounded-xl text-xs transition cursor-pointer">
-          Cancelar e Continuar no Catálogo
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- MODAL DE DEPOIMENTO -->
-  <div id="modal-testimonial" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm hidden">
-    <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-sm w-full p-6 shadow-2xl relative">
-      <button type="button" class="btn-close-modal absolute top-4 right-4 text-slate-400 hover:text-white text-lg cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
-      <h2 class="text-base font-bold text-white mb-1 flex items-center gap-2"><i class="fa-solid fa-comment-dots text-emerald-400"></i> Deixar seu Depoimento</h2>
-      <p class="text-xs text-slate-400 mb-4">Escreva um comentário real sobre o atendimento e os produtos da loja.</p>
-      <form id="form-testimonial" class="space-y-3">
-        <div><label class="block text-xs font-semibold text-slate-300 mb-1">Seu Nome *</label><input type="text" id="test-name" required placeholder="Ex: Maria" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100"></div>
-        <div><label class="block text-xs font-semibold text-slate-300 mb-1">Seu Comentário *</label><textarea id="test-comment" required rows="3" placeholder="Ex: Cupom funcionou perfeito!" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100"></textarea></div>
-        <div class="pt-2 flex justify-end gap-2"><button type="button" class="btn-close-modal px-4 py-2 bg-slate-700 text-slate-300 rounded-xl text-xs font-medium cursor-pointer">Cancelar</button><button type="submit" class="px-4 py-2 bg-brand-600 text-white rounded-xl text-xs font-semibold shadow cursor-pointer">Enviar Depoimento</button></div>
-      </form>
-    </div>
-  </div>
-
-  <!-- MODAL AVALIAÇÃO DE ESTRELAS -->
-  <div id="modal-rate-product" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm hidden">
-    <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-xs w-full p-6 shadow-2xl relative text-center">
-      <button type="button" class="btn-close-modal absolute top-4 right-4 text-slate-400 hover:text-white text-lg cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
-      <div class="w-12 h-12 bg-amber-500/20 text-amber-400 rounded-2xl flex items-center justify-center mx-auto mb-3 text-xl border border-amber-500/30"><i class="fa-solid fa-star"></i></div>
-      <h2 class="text-base font-bold text-white mb-1">Avaliar Produto</h2>
-      <p id="rate-product-title" class="text-xs text-slate-400 mb-4 truncate font-medium"></p>
-      <div class="flex justify-center gap-2 text-2xl text-amber-400 mb-4">
-        <button type="button" onclick="submitRating(1)" class="hover:scale-125 transition cursor-pointer"><i class="fa-solid fa-star"></i></button>
-        <button type="button" onclick="submitRating(2)" class="hover:scale-125 transition cursor-pointer"><i class="fa-solid fa-star"></i></button>
-        <button type="button" onclick="submitRating(3)" class="hover:scale-125 transition cursor-pointer"><i class="fa-solid fa-star"></i></button>
-        <button type="button" onclick="submitRating(4)" class="hover:scale-125 transition cursor-pointer"><i class="fa-solid fa-star"></i></button>
-        <button type="button" onclick="submitRating(5)" class="hover:scale-125 transition cursor-pointer"><i class="fa-solid fa-star"></i></button>
-      </div>
-      <p class="text-[10px] text-slate-500">Escolha a nota de 1 a 5 estrelas.</p>
-    </div>
-  </div>
-
-  <footer class="border-t border-slate-800 py-6 text-center text-xs text-slate-500 mt-auto">
-    <p>© Catálogo Digital. Todos os direitos reservados.</p>
-  </footer>
-
+  <!-- MODAL AUTH + ADMIN -->
   <div id="modal-auth" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm hidden">
-    <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-lg w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
-      <button class="btn-close-modal absolute top-4 right-4 text-slate-400 hover:text-white text-lg cursor-pointer">
-        <i class="fa-solid fa-xmark"></i>
-      </button>
+    <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-lg w-full p-6 max-h-[90vh] overflow-y-auto relative">
+      <button class="btn-close-modal absolute top-4 right-4 text-slate-400 hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
 
       <div id="panel-unlogged">
         <div class="text-center mb-6">
-          <div class="w-12 h-12 bg-brand-500/10 text-brand-500 rounded-xl flex items-center justify-center mx-auto mb-2 text-xl border border-brand-500/20">
-            <i class="fa-solid fa-lock"></i>
-          </div>
+          <div class="w-12 h-12 bg-brand-500/10 text-brand-500 rounded-xl flex items-center justify-center mx-auto mb-2 text-xl border border-brand-500/20"><i class="fa-solid fa-lock"></i></div>
           <h2 id="auth-modal-title" class="text-xl font-bold text-white">Entrar no Painel</h2>
-          <p class="text-xs text-slate-400 mt-1">Acesse com e-mail e senha ou crie sua conta para gerenciar seu catálogo.</p>
+          <p class="text-xs text-slate-400 mt-1">Acesse com e-mail e senha</p>
         </div>
-
         <form id="form-auth" class="space-y-4">
           <div>
             <label class="block text-xs font-semibold text-slate-300 mb-1">E-mail</label>
-            <input type="email" id="auth-email" required placeholder="seu@email.com" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
+            <input type="email" id="auth-email" required class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm">
           </div>
-
           <div>
             <label class="block text-xs font-semibold text-slate-300 mb-1">Senha</label>
-            <input type="password" id="auth-password" required minlength="6" placeholder="******" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
+            <input type="password" id="auth-password" required minlength="6" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm">
           </div>
-
-          <button type="submit" id="btn-auth-submit" class="w-full py-2.5 bg-brand-600 hover:bg-brand-500 text-white font-semibold rounded-xl text-sm transition shadow-lg shadow-brand-600/30 cursor-pointer">
-            Entrar no Painel
-          </button>
+          <button type="submit" id="btn-auth-submit" class="w-full py-2.5 bg-brand-600 hover:bg-brand-500 text-white font-semibold rounded-xl text-sm">Entrar no Painel</button>
         </form>
-
-        <div class="mt-4 pt-4 border-t border-slate-700/60 text-center">
-          <p class="text-xs text-slate-400" id="auth-toggle-text">
-            Não tem usuário e senha? 
-            <button id="btn-toggle-auth-mode" type="button" class="text-brand-400 font-semibold hover:underline cursor-pointer">Criar conta agora</button>
-          </p>
+        <div class="mt-4 pt-4 border-t border-slate-800 text-center">
+          <p class="text-xs text-slate-400" id="auth-toggle-text">Não tem conta? <button id="btn-toggle-auth-mode" type="button" class="text-brand-400 font-semibold">Criar conta</button></p>
         </div>
       </div>
 
-      <div id="panel-logged" class="hidden space-y-6">
+      <div id="panel-logged" class="hidden space-y-5">
         <div class="p-3.5 bg-brand-500/10 border border-brand-500/30 rounded-xl flex items-center justify-between">
           <div class="flex items-center gap-2">
-            <span class="relative flex h-3 w-3">
-              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-400 opacity-75"></span>
-              <span class="relative inline-flex rounded-full h-3 w-3 bg-brand-500"></span>
-            </span>
-            <span class="text-sm font-bold text-brand-400">Modo Administrativo Ativo</span>
+            <span class="relative flex h-3 w-3"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-400 opacity-75"></span><span class="relative inline-flex rounded-full h-3 w-3 bg-brand-500"></span></span>
+            <span class="text-sm font-bold text-brand-400">Modo Administrativo</span>
           </div>
-          <button id="btn-logout" type="button" class="px-2.5 py-1 text-xs font-semibold bg-red-500/20 hover:bg-red-500/30 text-red-300 rounded-lg border border-red-500/30 transition cursor-pointer">
-            <i class="fa-solid fa-right-from-bracket mr-1"></i> Sair
+          <button id="btn-logout" class="px-2.5 py-1 text-xs font-semibold bg-red-500/20 text-red-300 rounded-lg border border-red-500/30"><i class="fa-solid fa-right-from-bracket mr-1"></i>Sair</button>
+        </div>
+
+        <!-- LIMPAR TUDO -->
+        <div class="p-4 bg-red-500/10 border border-red-500/30 rounded-2xl space-y-3">
+          <div class="flex items-center gap-2">
+            <i class="fa-solid fa-trash-can text-red-400"></i>
+            <span class="text-xs font-bold text-red-400 uppercase">Finalizar Ciclo</span>
+          </div>
+          <p class="text-[11px] text-slate-300">Apaga todos os produtos de uma vez. Use no final do ciclo.</p>
+          <button onclick="clearAllProducts()" class="w-full py-2.5 bg-red-600 hover:bg-red-500 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2">
+            <i class="fa-solid fa-broom"></i> Limpar Todo o Catálogo
           </button>
         </div>
 
-        <div class="p-4 bg-brand-500/10 border border-brand-500/30 rounded-2xl space-y-3">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-bold text-brand-400 uppercase tracking-wider flex items-center gap-1.5">
-              <i class="fa-solid fa-bolt"></i> Gestão Rápida do Cupom Único da Loja
-            </span>
-          </div>
-          <p class="text-[11px] text-slate-300 leading-relaxed">
-            Seu cupom vale para a loja toda? Quando um cliente usar o cupom em qualquer compra, clique abaixo para dar baixa no uso de <strong>todos os produtos de uma vez só</strong>:
-          </p>
-          
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
-            <button type="button" onclick="decreaseAllProductsUsage(1)" class="py-2 px-3 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs font-bold transition shadow-md flex items-center justify-center gap-1.5 cursor-pointer">
-              <i class="fa-solid fa-minus-circle"></i> Baixa Global (-1 em Todos)
-            </button>
-            <button type="button" onclick="openCustomBatchModal()" class="py-2 px-3 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-xl text-xs font-semibold transition flex items-center justify-center gap-1.5 cursor-pointer">
-              <i class="fa-solid fa-sliders"></i> Ajustar Outra Qtd em Todos
-            </button>
-          </div>
+        <!-- IMPORTAÇÃO EM LOTE -->
+        <div class="p-4 bg-slate-950 rounded-xl border border-brand-500/30 space-y-3">
+          <label class="text-xs font-bold text-brand-400 flex items-center gap-1.5"><i class="fa-solid fa-layer-group"></i> Importar Vários Links</label>
+          <textarea id="bulk-import-links" rows="4" placeholder="Cole vários links, um por linha..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs"></textarea>
+          <button onclick="bulkImportProducts()" class="w-full py-2.5 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2">
+            <i class="fa-solid fa-download"></i> Importar Todos
+          </button>
         </div>
 
-        <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-700/80 space-y-4">
-          <h3 id="form-prod-title" class="text-sm font-bold text-white flex items-center gap-2">
-            <i class="fa-solid fa-box text-brand-500"></i> Cadastrar Novo Produto
-          </h3>
+        <!-- VERIFICADOR DE PREÇO -->
+        <div class="p-4 bg-slate-950 rounded-xl border border-amber-500/30 space-y-3">
+          <div class="flex items-center gap-2">
+            <i class="fa-solid fa-magnifying-glass-chart text-amber-400"></i>
+            <span class="text-xs font-bold text-amber-400 uppercase">Verificar Preços e Estoque</span>
+          </div>
+          <p class="text-[11px] text-slate-300">Compara os preços dos produtos cadastrados com os links da sua loja.</p>
+          <button onclick="checkPricesAndStock()" class="w-full py-2.5 bg-amber-600 hover:bg-amber-500 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2">
+            <i class="fa-solid fa-rotate"></i> Verificar Agora
+          </button>
+          <div id="price-check-results" class="hidden text-xs space-y-1"></div>
+        </div>
 
-          <div class="p-3 bg-slate-800/80 rounded-xl border border-brand-500/30 space-y-2">
-            <label class="block text-xs font-bold text-brand-400 flex items-center gap-1.5">
-              <i class="fa-solid fa-wand-magic-sparkles"></i> Importar Rápido via Link (Puxa Múltiplas Fotos)
-            </label>
+        <!-- CADASTRO DE PRODUTO -->
+        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-4">
+          <h3 id="form-prod-title" class="text-sm font-bold text-white flex items-center gap-2"><i class="fa-solid fa-box text-brand-500"></i> Cadastrar Produto</h3>
+          
+          <div class="p-3 bg-slate-900 rounded-xl border border-brand-500/20 space-y-2">
+            <label class="text-xs font-bold text-brand-400"><i class="fa-solid fa-wand-magic-sparkles"></i> Importar via Link</label>
             <div class="flex gap-2">
-              <input type="url" id="auto-import-link" placeholder="Cole o link do produto aqui..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-slate-100 focus:outline-none focus:border-brand-500">
-              <button type="button" id="btn-fetch-link" onclick="fetchProductFromLink()" class="px-3 py-1.5 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs font-bold transition flex-shrink-0 flex items-center gap-1 cursor-pointer">
-                <i class="fa-solid fa-download"></i> Puxar
-              </button>
+              <input type="url" id="auto-import-link" placeholder="Cole o link..." class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-1.5 text-xs">
+              <button onclick="fetchProductFromLink()" class="px-3 py-1.5 bg-brand-600 text-white rounded-xl text-xs font-bold"><i class="fa-solid fa-download"></i></button>
             </div>
-            <p class="text-[10px] text-slate-400">Clique no X vermelho de qualquer imagem abaixo para removê-la antes de salvar!</p>
           </div>
 
-          <form id="form-product" class="space-y-4">
+          <form id="form-product" class="space-y-3">
             <input type="hidden" id="product-id">
-            <input type="hidden" id="fetched-image-url">
-
-            <div>
-              <label class="block text-xs font-semibold text-slate-300 mb-1">Nome do Produto *</label>
-              <input type="text" id="product-name" required placeholder="Ex: Desodorante Perfume Essencial" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
+            <input type="text" id="product-name" required placeholder="Nome do Produto *" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm">
+            <select id="product-category" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm">
+              <option value="Perfumaria">Perfumaria</option>
+              <option value="Corpo e Banho">Corpo e Banho</option>
+              <option value="Cabelos">Cabelos</option>
+              <option value="Maquiagem">Maquiagem</option>
+              <option value="Rosto">Rosto</option>
+              <option value="Infantil">Infantil</option>
+            </select>
+            <div class="flex items-center gap-2">
+              <input type="checkbox" id="product-featured" class="w-4 h-4">
+              <label for="product-featured" class="text-xs text-slate-300">🔥 Destaque</label>
             </div>
-
-            <div>
-              <label class="block text-xs font-semibold text-slate-300 mb-1">Categoria Natura *</label>
-              <select id="product-category" required class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
-                <option value="Perfumaria">Perfumaria</option>
-                <option value="Corpo e Banho">Corpo e Banho</option>
-                <option value="Cabelos">Cabelos</option>
-                <option value="Maquiagem">Maquiagem</option>
-                <option value="Rosto">Rosto</option>
-                <option value="Infantil">Infantil</option>
+            <input type="file" id="product-image-file" accept="image/*" multiple class="w-full text-xs text-slate-400">
+            <div id="preview-container" class="hidden">
+              <div id="preview-gallery" class="flex gap-2 overflow-x-auto py-2"></div>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <input type="number" step="0.01" id="product-price" required placeholder="Preço Original *" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm">
+              <select id="product-discount-percent" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm">
+                <option value="0">Sem desconto</option>
+                <option value="5">5% OFF</option>
+                <option value="10" selected>10% OFF</option>
+                <option value="15">15% OFF</option>
+                <option value="20">20% OFF</option>
+                <option value="25">25% OFF</option>
+                <option value="30">30% OFF</option>
+                <option value="40">40% OFF</option>
+                <option value="50">50% OFF</option>
               </select>
             </div>
-
-            <div class="flex items-center gap-2 pt-1">
-              <input type="checkbox" id="product-featured" class="w-4 h-4 rounded bg-slate-800 border-slate-700 text-brand-600 focus:ring-brand-500 cursor-pointer">
-              <label for="product-featured" class="text-xs font-medium text-slate-300 cursor-pointer">
-                🔥 Marcar como Produto em Destaque / Mais Vendido
-              </label>
-            </div>
-
-            <div>
-              <label class="block text-xs font-semibold text-slate-300 mb-1">Adicionar Fotos Manualmente (Opcional)</label>
-              <input type="file" id="product-image-file" accept="image/*" multiple class="w-full text-xs text-slate-400 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-slate-700 file:text-slate-200 hover:file:bg-slate-600 cursor-pointer">
-            </div>
-
-            <div id="preview-container" class="hidden">
-              <label class="block text-xs font-semibold text-slate-300 mb-1">Fotos do Produto (Clique no X para apagar indesejadas):</label>
-              <div id="preview-gallery" class="flex items-center gap-3 overflow-x-auto py-2 no-scrollbar"></div>
-            </div>
-
+            <textarea id="product-description" rows="2" placeholder="Descrição" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm"></textarea>
             <div class="grid grid-cols-2 gap-3">
-              <div>
-                <label class="block text-xs font-semibold text-slate-300 mb-1">Preço Original (R$) *</label>
-                <input type="number" step="0.01" id="product-price" required placeholder="Ex: 159.90" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
-              </div>
-              <div>
-                <label class="block text-xs font-semibold text-slate-300 mb-1">Desconto (%)</label>
-                <select id="product-discount-percent" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
-                  <option value="0">Sem desconto</option>
-                  <option value="5">5% OFF</option>
-                  <option value="10" selected>10% OFF (Seu Cupom)</option>
-                  <option value="15">15% OFF</option>
-                  <option value="20">20% OFF</option>
-                  <option value="25">25% OFF</option>
-                  <option value="30">30% OFF</option>
-                  <option value="35">35% OFF</option>
-                  <option value="40">40% OFF</option>
-                  <option value="50">50% OFF</option>
-                </select>
-              </div>
+              <input type="url" id="product-link" placeholder="Link do Produto" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm">
+              <input type="text" id="product-code" value="CLIENTEVIP" placeholder="Cupom" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm">
             </div>
-
-            <div>
-              <label class="block text-xs font-semibold text-slate-300 mb-1">Descrição do Produto (Ilimitada)</label>
-              <textarea id="product-description" rows="3" placeholder="Insira toda a descrição, fragrâncias, observações..." class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500"></textarea>
+            <div class="grid grid-cols-2 gap-3">
+              <input type="number" id="product-total-uses" min="1" value="30" placeholder="Estoque Total" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm">
+              <input type="number" id="product-used-count" min="0" value="0" placeholder="Já Usado" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm">
             </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div>
-                <label class="block text-xs font-semibold text-slate-300 mb-1">Link do Produto (Afiliado / Loja)</label>
-                <input type="url" id="product-link" placeholder="https://..." class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
-              </div>
-              <div>
-                <label class="block text-xs font-semibold text-slate-300 mb-1">Cupom de Desconto</label>
-                <input type="text" id="product-code" value="CLIENTEVIP" placeholder="Ex: CLIENTEVIP" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
-              </div>
-            </div>
-
-            <div>
-              <label class="block text-xs font-semibold text-slate-300 mb-1">Validade do Cupom (Dias a partir de hoje)</label>
-              <input type="number" id="product-validity-days" min="1" value="30" placeholder="Ex: 30" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
-            </div>
-
-            <div class="p-3 bg-slate-800/60 rounded-xl border border-slate-700/60 space-y-3">
-              <span class="text-xs font-bold text-brand-400 uppercase tracking-wider block">Controle de Estoque & Usos</span>
-              <div class="grid grid-cols-2 gap-3">
-                <div>
-                  <label class="block text-[11px] font-medium text-slate-300 mb-1">Total de Estoque / Limite</label>
-                  <input type="number" id="product-total-uses" min="1" required value="30" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
-                </div>
-                <div>
-                  <label class="block text-[11px] font-medium text-slate-300 mb-1">Já Utilizado</label>
-                  <input type="number" id="product-used-count" min="0" required value="0" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
-                </div>
-              </div>
-            </div>
-
-            <div class="flex justify-end gap-2">
-              <button type="button" id="btn-cancel-prod-edit" onclick="resetProductForm()" class="hidden px-4 py-2 bg-slate-700 hover:bg-slate-600 text-slate-300 rounded-xl text-xs font-medium cursor-pointer">Cancelar Edição</button>
-              <button type="submit" class="w-full py-2.5 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs font-bold shadow-md transition cursor-pointer">
-                Salvar Produto
-              </button>
+            <input type="number" id="product-validity-days" min="1" value="30" placeholder="Validade (dias)" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm">
+            <div class="flex gap-2">
+              <button type="button" id="btn-cancel-prod-edit" onclick="resetProductForm()" class="hidden px-4 py-2 bg-slate-800 text-slate-300 rounded-xl text-xs">Cancelar</button>
+              <button type="submit" class="flex-1 py-2.5 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs font-bold">Salvar Produto</button>
             </div>
           </form>
         </div>
 
-        <div class="pt-4 border-t border-slate-700/60 space-y-4">
-          <h3 class="text-sm font-bold text-slate-200 flex items-center gap-2">
-            <i class="fa-solid fa-sliders text-brand-500"></i> Personalizar Capa e Perfil da Loja
-          </h3>
-
-          <form id="form-profile" class="space-y-4">
-            <div>
-              <label class="block text-xs font-semibold text-slate-300 mb-1">Nome / Título da Loja</label>
-              <input type="text" id="profile-title" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
+        <!-- PERFIL -->
+        <div class="pt-4 border-t border-slate-800 space-y-3">
+          <h3 class="text-sm font-bold text-slate-200 flex items-center gap-2"><i class="fa-solid fa-sliders text-brand-500"></i> Perfil da Loja</h3>
+          <form id="form-profile" class="space-y-3">
+            <input type="text" id="profile-title" placeholder="Nome da Loja" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-sm">
+            <textarea id="profile-bio" rows="2" placeholder="Biografia" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-sm"></textarea>
+            <input type="url" id="profile-store-link" placeholder="Link da Loja Oficial" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-sm">
+            <div class="grid grid-cols-2 gap-3">
+              <input type="file" id="profile-cover-file" accept="image/*" class="text-xs text-slate-400">
+              <input type="file" id="profile-logo-file" accept="image/*" class="text-xs text-slate-400">
             </div>
-
-            <div>
-              <label class="block text-xs font-semibold text-slate-300 mb-1">Biografia / Descrição da Loja</label>
-              <textarea id="profile-bio" rows="2" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500"></textarea>
-            </div>
-
-            <div>
-              <label class="block text-xs font-bold text-brand-400 mb-1">Link da Loja Oficial (Banner Clicável)</label>
-              <input type="url" id="profile-store-link" placeholder="https://www.minhaloja.natura.com/..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div>
-                <label class="block text-xs font-semibold text-slate-300 mb-1">Foto da Capa</label>
-                <input type="file" id="profile-cover-file" accept="image/*" class="w-full text-xs text-slate-400 file:mr-2 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:bg-slate-700 file:text-slate-200 cursor-pointer">
-              </div>
-
-              <div>
-                <label class="block text-xs font-semibold text-slate-300 mb-1">Logo da Loja</label>
-                <input type="file" id="profile-logo-file" accept="image/*" class="w-full text-xs text-slate-400 file:mr-2 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:bg-slate-700 file:text-slate-200 cursor-pointer">
-              </div>
-            </div>
-
-            <button type="submit" class="w-full py-2 bg-slate-700 hover:bg-slate-600 text-slate-200 rounded-xl text-xs font-bold transition cursor-pointer">
-              Salvar Perfil e Capa
-            </button>
+            <button type="submit" class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-bold">Salvar Perfil</button>
           </form>
         </div>
 
+        <!-- GERENCIAR PRODUTOS -->
+        <button onclick="openAdminManage()" class="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-bold border border-slate-700 flex items-center justify-center gap-2">
+          <i class="fa-solid fa-list-check text-brand-500"></i> Gerenciar Produtos Cadastrados
+        </button>
       </div>
-
     </div>
   </div>
 
-  <div id="modal-admin-manage" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm hidden">
-    <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-lg w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
-      <button class="btn-close-modal absolute top-4 right-4 text-slate-400 hover:text-white text-lg cursor-pointer">
-        <i class="fa-solid fa-xmark"></i>
-      </button>
-
-      <h2 class="text-base font-bold text-white mb-2 flex items-center gap-2">
-        <i class="fa-solid fa-list-check text-brand-500"></i> Gerenciar Produtos Cadastrados & Cliques
-      </h2>
-      <p class="text-xs text-slate-400 mb-4">Acompanhe quantas vezes os clientes clicaram nos links de cada produto, atualize estoques, edite ou crie a moldura de cada item.</p>
-
+  <!-- OUTROS MODAIS -->
+  <div id="modal-admin-manage" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 hidden">
+    <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-lg w-full p-6 max-h-[90vh] overflow-y-auto relative">
+      <button class="btn-close-modal absolute top-4 right-4 text-slate-400 text-lg"><i class="fa-solid fa-xmark"></i></button>
+      <h2 class="text-base font-bold text-white mb-4 flex items-center gap-2"><i class="fa-solid fa-list-check text-brand-500"></i> Gerenciar Produtos</h2>
       <div id="admin-products-list" class="space-y-3"></div>
     </div>
   </div>
 
-  <div id="modal-quick-use" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm hidden">
-    <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-sm w-full p-6 shadow-2xl relative">
-      <button class="btn-close-modal absolute top-4 right-4 text-slate-400 hover:text-white text-lg cursor-pointer">
-        <i class="fa-solid fa-xmark"></i>
-      </button>
-
-      <h2 class="text-base font-bold text-white mb-2 flex items-center gap-2">
-        <i class="fa-solid fa-calculator text-brand-500"></i> Atualizar Estoque / Uso
-      </h2>
-      <p id="quick-use-product-name" class="text-xs font-medium text-slate-400 mb-4 truncate"></p>
-
-      <form id="form-quick-use" class="space-y-4">
-        <input type="hidden" id="quick-use-id">
-
-        <div>
-          <label class="block text-xs font-semibold text-slate-300 mb-1">Quantidade Já Usada</label>
-          <input type="number" id="quick-use-val" min="0" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
-        </div>
-
-        <div class="pt-2 flex justify-end gap-2">
-          <button type="button" class="btn-close-modal px-4 py-2 bg-slate-700 hover:bg-slate-600 text-slate-300 rounded-xl text-xs font-medium cursor-pointer">Cancelar</button>
-          <button type="submit" class="px-4 py-2 bg-brand-600 text-white rounded-xl text-xs font-semibold cursor-pointer">Salvar</button>
-        </div>
+  <div id="modal-testimonial" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 hidden">
+    <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-sm w-full p-6 relative">
+      <button class="btn-close-modal absolute top-4 right-4 text-slate-400"><i class="fa-solid fa-xmark"></i></button>
+      <h2 class="text-base font-bold text-white mb-4">Deixar Depoimento</h2>
+      <form id="form-testimonial" class="space-y-3">
+        <input type="text" id="test-name" required placeholder="Seu nome" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-sm">
+        <textarea id="test-comment" required rows="3" placeholder="Seu comentário" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-sm"></textarea>
+        <button type="submit" class="w-full py-2.5 bg-brand-600 text-white rounded-xl text-xs font-bold">Enviar</button>
       </form>
     </div>
   </div>
 
-  <div id="modal-batch-use" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm hidden">
-    <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-sm w-full p-6 shadow-2xl relative">
-      <button class="btn-close-modal absolute top-4 right-4 text-slate-400 hover:text-white text-lg cursor-pointer">
-        <i class="fa-solid fa-xmark"></i>
-      </button>
-
-      <h2 class="text-base font-bold text-white mb-2 flex items-center gap-2">
-        <i class="fa-solid fa-layer-group text-brand-500"></i> Dar Baixa Global em Lote
-      </h2>
-      <p class="text-xs text-slate-400 mb-4">Digite a quantidade de usos que deseja somar ao contador de <strong>TODOS OS PRODUTOS</strong> de uma só vez:</p>
-
-      <form id="form-batch-use" class="space-y-4">
-        <div>
-          <label class="block text-xs font-semibold text-slate-300 mb-1">Quantidade a adicionar ao 'Já Usado'</label>
-          <input type="number" id="batch-use-val" min="1" value="1" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
-        </div>
-
-        <div class="pt-2 flex justify-end gap-2">
-          <button type="button" class="btn-close-modal px-4 py-2 bg-slate-700 hover:bg-slate-600 text-slate-300 rounded-xl text-xs font-medium cursor-pointer">Cancelar</button>
-          <button type="submit" class="px-4 py-2 bg-brand-600 text-white rounded-xl text-xs font-semibold cursor-pointer">Aplicar em Todos</button>
-        </div>
-      </form>
+  <div id="modal-timer-redirect" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 hidden">
+    <div class="bg-slate-900 border-2 border-brand-500 rounded-3xl max-w-sm w-full p-6 text-center space-y-4">
+      <div class="w-14 h-14 bg-brand-500/20 text-brand-400 rounded-2xl flex items-center justify-center mx-auto text-2xl"><i class="fa-solid fa-circle-check"></i></div>
+      <h3 class="text-lg font-bold text-white">Cupom Copiado!</h3>
+      <p class="text-sm font-bold text-brand-400" id="timer-coupon-code">Cupom: CLIENTEVIP</p>
+      <p class="text-xs text-slate-300">Entrando na loja em <strong id="countdown-seconds" class="text-brand-400">8s</strong>...</p>
+      <button onclick="cancelRedirectTimer()" class="w-full py-2.5 bg-slate-800 text-slate-300 rounded-xl text-xs">Cancelar</button>
     </div>
   </div>
 
-  <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 max-w-xs w-full bg-slate-800 border border-slate-700 text-slate-100 px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3">
+  <div id="modal-image-viewer" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 hidden">
+    <button onclick="closeImageViewer()" class="absolute top-5 right-5 text-white text-3xl"><i class="fa-solid fa-xmark"></i></button>
+    <img id="viewer-img-element" class="max-h-[75vh] max-w-full object-contain rounded-xl">
+  </div>
+
+  <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 max-w-xs bg-slate-900 border border-slate-700 px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3">
     <i id="toast-icon" class="fa-solid fa-circle-check text-brand-500 text-lg"></i>
     <span id="toast-msg" class="text-xs font-medium">Sucesso!</span>
   </div>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { 
-      getAuth, 
-      signInWithEmailAndPassword,
-      createUserWithEmailAndPassword,
-      signOut,
-      onAuthStateChanged 
-    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-    import { 
-      getFirestore, 
-      doc, 
-      setDoc, 
-      collection, 
-      onSnapshot, 
-      addDoc, 
-      updateDoc, 
-      deleteDoc,
-      writeBatch,
-      increment
-    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { getFirestore, doc, setDoc, collection, onSnapshot, addDoc, updateDoc, deleteDoc, writeBatch, increment } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyA2ZuYtBx7_yFL2Nwvg3X7TfsrolnUfFBE",
@@ -725,8 +463,7 @@
       projectId: "minhalojacatalogo-1febf",
       storageBucket: "minhalojacatalogo-1febf.firebasestorage.app",
       messagingSenderId: "802481935569",
-      appId: "1:802481935569:web:f91376c8abfb11f0e561f0",
-      measurementId: "G-XBWR1SED5Z"
+      appId: "1:802481935569:web:f91376c8abfb11f0e561f0"
     };
 
     const app = initializeApp(firebaseConfig);
@@ -737,190 +474,127 @@
     let productsList = [];
     let testimonialsList = [];
     let activeCategory = 'all';
-    let activeRatingProdId = null;
-
-    let profileData = {
-      title: "Meu Catálogo Digital",
-      bio: "Confira nossos produtos e cupons de desconto abaixo.",
-      storeLink: "",
-      cover: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&q=80",
-      logo: "https://via.placeholder.com/150?text=LOGO"
-    };
+    let profileData = { title: "Meu Catálogo Digital", bio: "Confira nossos produtos e cupons.", storeLink: "", cover: "", logo: "https://via.placeholder.com/150?text=LOGO" };
     let isAuthModeLogin = true;
     let currentFetchedImages = [];
     let activeStudioProd = null;
     let selectedDuration = 5;
-
+    let boxTopOffset = 0;
+    let boxScaleFactor = 1;
     let redirectTimer = null;
     let redirectInterval = null;
 
     function showToast(msg, type = 'success') {
       const toast = document.getElementById('toast');
-      const toastMsg = document.getElementById('toast-msg');
-      const toastIcon = document.getElementById('toast-icon');
-
-      toastMsg.innerText = msg;
-      toastIcon.className = type === 'error' 
-        ? "fa-solid fa-circle-exclamation text-red-500 text-lg" 
-        : "fa-solid fa-circle-check text-brand-500 text-lg";
-
+      document.getElementById('toast-msg').innerText = msg;
+      document.getElementById('toast-icon').className = type === 'error' ? "fa-solid fa-circle-exclamation text-red-500 text-lg" : "fa-solid fa-circle-check text-brand-500 text-lg";
       toast.classList.remove('translate-y-20', 'opacity-0');
       setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0'), 3500);
     }
 
+    // VISITAS
     async function trackRealVisit() {
-      try {
-        const visitRef = doc(db, 'settings', 'visits');
-        await setDoc(visitRef, { count: increment(1) }, { merge: true });
-      } catch (err) {}
+      try { await setDoc(doc(db, 'settings', 'visits'), { count: increment(1) }, { merge: true }); } catch(e){}
     }
-
     function listenRealVisits() {
-      onSnapshot(doc(db, 'settings', 'visits'), (docSnap) => {
-        if (docSnap.exists()) {
-          const totalVisits = docSnap.data().count || 0;
-          document.getElementById('visitor-counter').innerText = `${totalVisits} acessos`;
-        }
+      onSnapshot(doc(db, 'settings', 'visits'), (snap) => {
+        if (snap.exists()) document.getElementById('visitor-counter').innerText = `${snap.data().count || 0} acessos`;
       });
     }
 
-    window.filterByCategory = (cat) => {
-      activeCategory = cat;
-      document.querySelectorAll('.category-btn').forEach(btn => {
-        btn.className = "category-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 whitespace-nowrap transition border border-slate-700 cursor-pointer";
-        if (btn.innerText.includes(cat) || (cat === 'all' && btn.innerText === 'Todas')) {
-          btn.className = "category-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-brand-600 text-white whitespace-nowrap transition shadow cursor-pointer";
-        }
-      });
-      renderProducts();
-    };
-
-    window.openRateModal = (prodId, prodName) => {
-      activeRatingProdId = prodId;
-      document.getElementById('rate-product-title').innerText = prodName;
-      document.getElementById('modal-rate-product').classList.remove('hidden');
-    };
-
-    window.submitRating = async (ratingVal) => {
-      if (!activeRatingProdId) return;
-      const prod = productsList.find(p => p.id === activeRatingProdId);
-      if (!prod) return;
-
-      let totalRatings = Number(prod.totalRatings) || 0;
-      let sumRatings = Number(prod.sumRatings) || 0;
-
-      totalRatings += 1;
-      sumRatings += ratingVal;
-      const newAverage = (sumRatings / totalRatings).toFixed(1);
-
+    // LIMPAR TUDO
+    window.clearAllProducts = async () => {
+      if (productsList.length === 0) return showToast("Nenhum produto para apagar.", "error");
+      if (!confirm(`Apagar TODOS os ${productsList.length} produtos?\n\nEssa ação não pode ser desfeita.`)) return;
+      if (!confirm("Última confirmação: realmente limpar todo o catálogo?")) return;
+      showToast("Apagando produtos...");
       try {
-        await updateDoc(doc(db, 'products', activeRatingProdId), {
-          totalRatings, sumRatings, ratingAverage: newAverage
-        });
-        showToast(`Avaliação salva!`);
-        document.getElementById('modal-rate-product').classList.add('hidden');
-      } catch (err) {
-        showToast("Erro ao salvar avaliação", "error");
-      }
+        const batch = writeBatch(db);
+        productsList.forEach(p => batch.delete(doc(db, 'products', p.id)));
+        await batch.commit();
+        showToast("Catálogo limpo com sucesso!");
+      } catch(e) { showToast("Erro: " + e.message, "error"); }
     };
 
-    window.openTestimonialModal = () => document.getElementById('modal-testimonial').classList.remove('hidden');
-
-    document.getElementById('form-testimonial').onsubmit = async (e) => {
-      e.preventDefault();
-      const name = document.getElementById('test-name').value;
-      const comment = document.getElementById('test-comment').value;
-
-      try {
-        await addDoc(collection(db, 'testimonials'), { name, comment, createdAt: new Date().toISOString() });
-        showToast("Depoimento enviado com sucesso!");
-        document.getElementById('form-testimonial').reset();
-        document.getElementById('modal-testimonial').classList.add('hidden');
-      } catch(err) {
-        showToast("Erro ao enviar depoimento", "error");
-      }
-    };
-
-    window.copyCoupon = (codeText) => {
-      const couponToCopy = codeText || "CLIENTEVIP";
-      navigator.clipboard.writeText(couponToCopy).then(() => {
-        showToast(`Cupom "${couponToCopy}" copiado com sucesso!`);
-      });
-    };
-
-    window.openStoreBannerLink = async (event) => {
-      event.preventDefault();
-      const storeLink = profileData.storeLink || "";
-      if (!storeLink) {
-        showToast("Configure o link da sua loja no Painel Administrativo!", "error");
-        document.getElementById('modal-auth').classList.remove('hidden');
-        return;
-      }
-      window.openProductAndCopyCoupon(null, storeLink, "CLIENTEVIP");
-    };
-
-    window.openProductAndCopyCoupon = async (prodId, productUrl, couponCode) => {
-      const couponToCopy = couponCode || "CLIENTEVIP";
-
-      navigator.clipboard.writeText(couponToCopy).catch(() => {});
-
-      if (prodId) {
+    // IMPORTAÇÃO EM LOTE
+    window.bulkImportProducts = async () => {
+      const links = document.getElementById('bulk-import-links').value.split('\n').map(l => l.trim()).filter(l => l.startsWith('http'));
+      if (links.length === 0) return showToast("Cole pelo menos um link válido.", "error");
+      showToast(`Importando ${links.length} produtos...`);
+      let ok = 0, err = 0;
+      for (const link of links) {
         try {
-          await updateDoc(doc(db, 'products', prodId), {
-            linkClicks: increment(1)
+          const res = await fetch(`https://api.microlink.io/?url=${encodeURIComponent(link)}`);
+          const json = await res.json();
+          let name = "Produto", description = "", images = [];
+          if (json.status === 'success' && json.data) {
+            if (json.data.title) name = json.data.title.split('|')[0].split('- Natura')[0].trim();
+            if (json.data.description) description = json.data.description;
+            if (json.data.image?.url) images.push(json.data.image.url);
+          }
+          await addDoc(collection(db, 'products'), {
+            name, category: "Perfumaria", isFeatured: false, price: 0, discountPercent: 10,
+            description, link, code: "CLIENTEVIP", validityDays: 30, totalUses: 30, usedCount: 0,
+            images, image: images[0] || "", linkClicks: 0, createdAt: new Date().toISOString()
           });
-        } catch (e) {}
+          ok++;
+        } catch(e) { err++; }
       }
-
-      document.getElementById('timer-coupon-code').innerText = `Cupom: ${couponToCopy}`;
-      document.getElementById('modal-timer-redirect').classList.remove('hidden');
-
-      let secondsLeft = 8;
-      const countdownElem = document.getElementById('countdown-seconds');
-      countdownElem.innerText = `${secondsLeft}s`;
-
-      if (redirectTimer) clearTimeout(redirectTimer);
-      if (redirectInterval) clearInterval(redirectInterval);
-
-      redirectInterval = setInterval(() => {
-        secondsLeft--;
-        if (secondsLeft >= 0) {
-          countdownElem.innerText = `${secondsLeft}s`;
-        }
-      }, 1000);
-
-      redirectTimer = setTimeout(() => {
-        clearInterval(redirectInterval);
-        if (productUrl) {
-          window.location.href = productUrl;
-        }
-      }, 8000);
+      document.getElementById('bulk-import-links').value = "";
+      showToast(`Importado: ${ok} sucesso, ${err} erro(s)`);
     };
 
-    window.cancelRedirectTimer = () => {
-      if (redirectTimer) clearTimeout(redirectTimer);
-      if (redirectInterval) clearInterval(redirectInterval);
-      document.getElementById('modal-timer-redirect').classList.add('hidden');
+    // VERIFICADOR DE PREÇO
+    window.checkPricesAndStock = async () => {
+      if (productsList.length === 0) return showToast("Nenhum produto cadastrado.", "error");
+      const div = document.getElementById('price-check-results');
+      div.classList.remove('hidden');
+      div.innerHTML = `<p class="text-slate-400">Verificando ${productsList.length} produtos...</p>`;
+      let ok = 0, soldOut = [];
+      for (const prod of productsList) {
+        if (!prod.link) continue;
+        try {
+          const res = await fetch(`https://api.microlink.io/?url=${encodeURIComponent(prod.link)}`);
+          const json = await res.json();
+          if (json.status === 'success' && json.data) {
+            const text = ((json.data.title || "") + " " + (json.data.description || "")).toLowerCase();
+            if (text.includes("esgotado") || text.includes("indisponível") || text.includes("sem estoque")) {
+              soldOut.push(prod.name);
+            } else ok++;
+          }
+        } catch(e) {}
+      }
+      div.innerHTML = `
+        <p class="text-emerald-400 font-semibold">✅ ${ok} produtos ok</p>
+        <p class="text-amber-400 font-semibold">⚠️ ${soldOut.length} possivelmente esgotados</p>
+        \( {soldOut.length ? `<div class="mt-2 pt-2 border-t border-slate-700"> \){soldOut.map(n => `<p class="text-slate-400">• ${n}</p>`).join('')}</div>` : ''}
+      `;
+      showToast("Verificação concluída!");
     };
 
-    // FUNÇÕES DO ESTÚDIO PROFISSIONAL DARK
-    window.openInstagramPostModal = (prodId) => {
-      const prod = productsList.find(p => p.id === prodId);
+    // ESTÚDIO
+    window.setStudioTemplate = (t) => {
+      document.querySelectorAll('.template-btn').forEach(b => b.className = "template-btn px-3 py-2.5 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 border border-slate-700");
+      event.target.className = "template-btn px-3 py-2.5 rounded-xl text-xs font-bold bg-brand-600 text-white";
+      const badge = document.getElementById('studio-badge-top');
+      if (t === 'promo') badge.innerHTML = '🔥 OFERTA ESPECIAL';
+      if (t === 'luxury') badge.innerHTML = '✨ EXCLUSIVO';
+      if (t === 'urgency') badge.innerHTML = '⚡ ÚLTIMAS UNIDADES';
+      if (t === 'minimal') badge.innerHTML = 'DESTAQUE';
+    };
+
+    window.openInstagramPostModal = (id) => {
+      const prod = productsList.find(p => p.id === id);
       if (!prod) return;
       activeStudioProd = prod;
-
       document.getElementById('edit-studio-name').value = prod.name || "";
       document.getElementById('edit-studio-orig').value = prod.price || "";
       document.getElementById('edit-studio-disc').value = prod.discountPercent || 10;
       document.getElementById('edit-studio-code').value = prod.code || "CLIENTEVIP";
-
       updateStudioLiveText();
-
-      let defaultImg = "";
-      if (Array.isArray(prod.images) && prod.images.length > 0) defaultImg = prod.images[0];
-      else if (prod.image) defaultImg = prod.image;
-      
-      document.getElementById('studio-prod-img').src = defaultImg;
+      updateStudioAppearance();
+      const img = (prod.images && prod.images[0]) || prod.image || "";
+      applyStudioBackground(img, "image");
       document.getElementById('modal-instagram-post').classList.remove('hidden');
     };
 
@@ -929,737 +603,372 @@
       const orig = Number(document.getElementById('edit-studio-orig').value) || 0;
       const disc = Number(document.getElementById('edit-studio-disc').value) || 0;
       const code = document.getElementById('edit-studio-code').value;
-
-      let finalPrice = disc > 0 ? (orig - (orig * (disc / 100))).toFixed(2).replace('.', ',') : orig.toFixed(2).replace('.', ',');
-
+      const final = disc > 0 ? (orig - orig * disc / 100).toFixed(2).replace('.', ',') : orig.toFixed(2).replace('.', ',');
       document.getElementById('studio-txt-name').innerText = name;
       document.getElementById('studio-txt-orig').innerText = orig > 0 ? `R$ ${orig.toFixed(2).replace('.', ',')}` : "";
-      document.getElementById('studio-txt-final').innerText = `R$ ${finalPrice}`;
+      document.getElementById('studio-txt-final').innerText = `R$ ${final}`;
       document.getElementById('studio-txt-off').innerText = `${disc}%`;
       document.getElementById('studio-txt-code').innerText = code;
-
-      const statusText = `🔥 *OFERTA IMPERDÍVEL!* 🔥\n\n` +
-        `📦 *${name}*\n\n` +
-        (disc > 0 ? `💰 De R$ ${orig.toFixed(2).replace('.', ',')} por apenas *R$ ${finalPrice}* (${disc}% OFF)\n` : `💰 Apenas: *R$ ${finalPrice}*\n`) +
-        `🎟️ Cupom de Desconto: *${code}*\n\n` +
-        `🛒 Garanta já o seu no link:\n${activeStudioProd ? (activeStudioProd.link || window.location.href) : window.location.href}`;
-
-      document.getElementById('ig-post-caption').value = statusText;
+      document.getElementById('ig-post-caption').value = `🔥 *OFERTA ESPECIAL!* 🔥\n\n📦 *\( {name}*\n\n💰 De R \) \( {orig.toFixed(2).replace('.', ',')} por *R \) \( {final}* ( \){disc}% OFF)\n🎟️ Cupom: *${code}*\n\n🛒 ${activeStudioProd?.link || window.location.href}`;
     };
 
-    window.setVideoDuration = (sec) => {
-      selectedDuration = sec;
-      document.getElementById('selected-duration-label').innerText = `${sec} segundos`;
-      document.getElementById('btn-vid-sec').innerText = `${sec}s`;
-      document.querySelectorAll('.duration-btn').forEach(btn => {
-        const matches = btn.innerText.includes(`${sec}s`);
-        btn.className = matches 
-          ? "duration-btn py-1.5 bg-brand-600 text-white rounded-xl text-xs font-bold transition shadow cursor-pointer"
-          : "duration-btn py-1.5 bg-slate-900 hover:bg-slate-800 text-slate-300 rounded-xl text-xs font-semibold transition border border-slate-800 cursor-pointer";
+    window.updateStudioAppearance = () => {
+      const bg = document.getElementById('range-bg-opacity').value;
+      const ov = document.getElementById('range-overlay').value;
+      document.getElementById('lbl-bg-opacity').innerText = bg + "%";
+      document.getElementById('lbl-overlay').innerText = ov + "%";
+      document.getElementById('studio-bg-img').style.opacity = bg / 100;
+      document.getElementById('studio-bg-vid').style.opacity = bg / 100;
+      document.getElementById('studio-overlay').style.backgroundColor = `rgba(0,0,0,${ov/100})`;
+    };
+
+    function applyStudioBackground(src, type) {
+      const img = document.getElementById('studio-bg-img');
+      const vid = document.getElementById('studio-bg-vid');
+      if (!src) { img.style.display = 'none'; vid.style.display = 'none'; return; }
+      if (type === 'video') { img.style.display = 'none'; vid.style.display = 'block'; vid.src = src; }
+      else { vid.style.display = 'none'; img.style.display = 'block'; img.src = src; }
+    }
+
+    document.getElementById('studio-bg-file').onchange = (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => applyStudioBackground(ev.target.result, file.type.startsWith('video') ? 'video' : 'image');
+      reader.readAsDataURL(file);
+    };
+
+    window.setVideoDuration = (s) => {
+      selectedDuration = s;
+      document.getElementById('btn-vid-sec').innerText = s + "s";
+      document.querySelectorAll('.duration-btn').forEach(b => {
+        b.className = b.innerText.includes(s + "s") ? "duration-btn py-2 bg-brand-600 text-white rounded-xl text-xs font-bold" : "duration-btn py-2 bg-slate-800 text-slate-300 rounded-xl text-xs border border-slate-700";
       });
     };
 
-    // SALVAR IMAGEM HD PROFISSIONAL
     window.saveStudioAsImage = () => {
-      const frameNode = document.getElementById('studio-frame-wrapper');
-      showToast("Gerando imagem em alta resolução...");
-      html2canvas(frameNode, { scale: 4, useCORS: true, allowTaint: true, backgroundColor: "#09090b" }).then(canvas => {
-        const dataUrl = canvas.toDataURL('image/png', 1.0);
-        const link = document.createElement('a');
-        link.href = dataUrl;
-        link.download = `story-dark-hd-${Date.now()}.png`;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        showToast("Imagem HD salva com sucesso!");
-      }).catch(() => showToast("Erro ao gerar imagem", "error"));
+      showToast("Gerando imagem HD...");
+      html2canvas(document.getElementById('studio-frame-wrapper'), { scale: 3, useCORS: true, backgroundColor: "#020617" }).then(canvas => {
+        const a = document.createElement('a');
+        a.href = canvas.toDataURL('image/png');
+        a.download = `story-${Date.now()}.png`;
+        a.click();
+        showToast("Imagem salva!");
+      });
     };
 
-    // SALVAR VÍDEO CONFIÁVEL PARA TIKTOK / TELEGRAM (RESOLUÇÃO HD VERTICAL)
     window.saveStudioAsTimedVideo = async () => {
-      const frameNode = document.getElementById('studio-frame-wrapper');
-      const btnVid = document.getElementById('btn-save-video');
-      btnVid.innerHTML = `<i class="fa-solid fa-spinner fa-spin text-sm"></i> Renderizando...`;
-      showToast(`Criando vídeo de ${selectedDuration}s para TikTok/Telegram...`);
-
+      showToast(`Gerando vídeo ${selectedDuration}s...`);
       try {
         const canvas = document.createElement('canvas');
-        canvas.width = 1080; // Full HD Vertical
-        canvas.height = 1920;
+        canvas.width = 1080; canvas.height = 1920;
         const ctx = canvas.getContext('2d');
-        
-        const fps = 30;
-        const totalFrames = selectedDuration * fps;
-        const stream = canvas.captureStream(fps);
-        
-        let options = { mimeType: 'video/webm;codecs=vp9' };
-        if (!MediaRecorder.isTypeSupported(options.mimeType)) {
-          options = { mimeType: 'video/webm' };
-        }
-        
-        const recorder = new MediaRecorder(stream, options);
+        const stream = canvas.captureStream(24);
+        const recorder = new MediaRecorder(stream, { mimeType: 'video/webm;codecs=vp9' });
         let chunks = [];
-        
         recorder.ondataavailable = e => chunks.push(e.data);
         recorder.onstop = () => {
-          const blob = new Blob(chunks, { type: 'video/webm' });
-          const url = URL.createObjectURL(blob);
-          const link = document.createElement('a');
-          link.href = url;
-          link.download = `story-tiktok-${selectedDuration}s-${Date.now()}.webm`;
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-          
-          btnVid.innerHTML = `<i class="fa-solid fa-video text-sm"></i> Baixar Vídeo (${selectedDuration}s)`;
-          showToast("Vídeo salvo com sucesso!");
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(new Blob(chunks, { type: 'video/webm' }));
+          a.download = `story-${selectedDuration}s.webm`;
+          a.click();
+          showToast("Vídeo salvo!");
         };
-        
         recorder.start();
-        let currentFrame = 0;
-        
+        let frame = 0;
+        const total = selectedDuration * 24;
         const interval = setInterval(async () => {
-          try {
-            const renderedCanvas = await html2canvas(frameNode, { scale: 3, useCORS: true, allowTaint: true, backgroundColor: "#09090b" });
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.drawImage(renderedCanvas, 0, 0, canvas.width, canvas.height);
-          } catch (e) {}
-
-          currentFrame++;
-          if (currentFrame >= totalFrames) {
-            clearInterval(interval);
-            recorder.stop();
-          }
-        }, 1000 / fps);
-
-      } catch (err) {
-        btnVid.innerHTML = `<i class="fa-solid fa-video text-sm"></i> Baixar Vídeo (${selectedDuration}s)`;
-        showToast("Use 'Baixar Imagem HD' neste navegador.", "error");
-      }
+          const rendered = await html2canvas(document.getElementById('studio-frame-wrapper'), { scale: 2, useCORS: true, backgroundColor: "#020617" });
+          ctx.drawImage(rendered, 0, 0, 1080, 1920);
+          if (++frame >= total) { clearInterval(interval); recorder.stop(); }
+        }, 1000/24);
+      } catch(e) { showToast("Use a imagem HD neste navegador.", "error"); }
     };
 
     window.copyInstagramCaption = () => {
-      const textarea = document.getElementById('ig-post-caption');
-      textarea.select();
-      navigator.clipboard.writeText(textarea.value).then(() => showToast("Legenda copiada!"));
+      navigator.clipboard.writeText(document.getElementById('ig-post-caption').value);
+      showToast("Legenda copiada!");
     };
 
-    window.openImageViewer = (imgUrl, allImagesJson) => {
-      let images = [];
-      try { images = JSON.parse(decodeURIComponent(allImagesJson)); } catch(e) { images = [imgUrl]; }
-
-      const modal = document.getElementById('modal-image-viewer');
-      const mainImg = document.getElementById('viewer-img-element');
-      const thumbsContainer = document.getElementById('viewer-thumbnails');
-
-      mainImg.src = imgUrl;
-
-      if (images.length > 1) {
-        thumbsContainer.innerHTML = images.map(url => `
-          <button type="button" onclick="document.getElementById('viewer-img-element').src='${url}'" class="focus:outline-none flex-shrink-0 cursor-pointer">
-            <img src="${url}" class="w-16 h-16 rounded-xl object-cover border-2 border-slate-600 hover:border-brand-500 transition">
-          </button>
-        `).join('');
-        thumbsContainer.classList.remove('hidden');
-      } else {
-        thumbsContainer.innerHTML = '';
-        thumbsContainer.classList.add('hidden');
-      }
-
-      modal.classList.remove('hidden');
-    };
-
-    window.closeImageViewer = () => {
-      document.getElementById('modal-image-viewer').classList.add('hidden');
-    };
-
-    window.decreaseAllProductsUsage = async (qtyToSubtract = 1) => {
-      if (productsList.length === 0) {
-        showToast("Nenhum produto cadastrado para dar baixa.", "error");
-        return;
-      }
-
-      if (!confirm(`Confirmar baixa de -${qtyToSubtract} no estoque do cupom para TODOS os ${productsList.length} produtos?`)) {
-        return;
-      }
-
-      showToast("Atualizando produtos...", "success");
-
-      try {
-        const batch = writeBatch(db);
-
-        productsList.forEach(prod => {
-          const prodRef = doc(db, 'products', prod.id);
-          const currentUsed = Number(prod.usedCount) || Number(prod.used) || 0;
-          const newUsed = currentUsed + Number(qtyToSubtract);
-
-          batch.update(prodRef, {
-            usedCount: newUsed,
-            used: newUsed,
-            updatedAt: new Date().toISOString()
-          });
-        });
-
-        await batch.commit();
-        showToast(`Baixa realizada em lote!`);
-
-      } catch (err) {
-        showToast("Erro ao dar baixa em lote: " + err.message, "error");
-      }
-    };
-
-    window.openCustomBatchModal = () => {
-      document.getElementById('modal-batch-use').classList.remove('hidden');
-    };
-
-    document.getElementById('form-batch-use').onsubmit = async (e) => {
-      e.preventDefault();
-      const val = Number(document.getElementById('batch-use-val').value);
-      if (val > 0) {
-        closeModal('modal-batch-use');
-        await window.decreaseAllProductsUsage(val);
-      }
-    };
-
-    window.renderPreviewGallery = () => {
-      const previewContainer = document.getElementById('preview-container');
-      const previewGallery = document.getElementById('preview-gallery');
-
-      if (currentFetchedImages.length === 0) {
-        previewContainer.classList.add('hidden');
-        document.getElementById('fetched-image-url').value = "";
-        return;
-      }
-
-      document.getElementById('fetched-image-url').value = JSON.stringify(currentFetchedImages);
-
-      previewGallery.innerHTML = currentFetchedImages.map((imgUrl, index) => `
-        <div class="relative group flex-shrink-0">
-          <img src="${imgUrl}" class="w-16 h-16 rounded-xl object-cover border border-slate-700">
-          <button type="button" onclick="removeFetchedImage(${index})" class="absolute -top-1.5 -right-1.5 bg-red-600 hover:bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-[10px] font-bold shadow-md transition cursor-pointer" title="Remover imagem">
-            <i class="fa-solid fa-xmark"></i>
-          </button>
-        </div>
-      `).join('');
-
-      previewContainer.classList.remove('hidden');
-    };
-
-    window.removeFetchedImage = (index) => {
-      currentFetchedImages.splice(index, 1);
-      renderPreviewGallery();
-      showToast("Imagem removida.");
-    };
-
-    window.fetchProductFromLink = async () => {
-      const urlInput = document.getElementById('auto-import-link').value.trim();
-      if (!urlInput) {
-        showToast("Cole o link do produto primeiro!", "error");
-        return;
-      }
-
-      showToast("Buscando dados...", "success");
-
-      try {
-        const microlinkUrl = `https://api.microlink.io/?url=${encodeURIComponent(urlInput)}`;
-        const response = await fetch(microlinkUrl);
-        const json = await response.json();
-
-        currentFetchedImages = [];
-
-        if (json.status === 'success' && json.data) {
-          const data = json.data;
-
-          if (data.title) {
-            const cleanTitle = data.title.split('|')[0].split('- Natura')[0].trim();
-            document.getElementById('product-name').value = cleanTitle;
-          }
-
-          if (data.description) {
-            document.getElementById('product-description').value = data.description;
-          }
-
-          if (data.image && data.image.url) {
-            const imgUrl = data.image.url;
-            if (!imgUrl.toLowerCase().includes('logo') && !imgUrl.toLowerCase().includes('icon')) {
-              currentFetchedImages.push(imgUrl);
-            }
-          }
+    // RESTANTE DAS FUNÇÕES PRINCIPAIS
+    window.filterByCategory = (cat) => {
+      activeCategory = cat;
+      document.querySelectorAll('.category-btn').forEach(b => {
+        b.className = "category-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-900 text-slate-300 border border-slate-800 whitespace-nowrap";
+        if ((cat === 'all' && b.innerText === 'Todas') || b.innerText.includes(cat)) {
+          b.className = "category-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-brand-600 text-white whitespace-nowrap";
         }
-
-        try {
-          const fallbackUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(urlInput)}`;
-          const res = await fetch(fallbackUrl);
-          const dataJson = await res.json();
-          if (dataJson.contents) {
-            const parser = new DOMParser();
-            const docHtml = parser.parseFromString(dataJson.contents, 'text/html');
-            
-            const allImages = docHtml.querySelectorAll('meta[property="og:image"], meta[name="twitter:image"], img');
-            allImages.forEach(tag => {
-              const url = tag.getAttribute('content') || tag.getAttribute('src');
-              if (url && url.startsWith('http')) {
-                const lowerUrl = url.toLowerCase();
-                const isLogoOrIcon = lowerUrl.includes('logo') || lowerUrl.includes('icon') || lowerUrl.includes('avatar') || lowerUrl.includes('banner') || lowerUrl.includes('social');
-                const isProductPhoto = lowerUrl.includes('product') || lowerUrl.includes('natura') || lowerUrl.includes('p/') || lowerUrl.includes('zoom') || lowerUrl.includes('large');
-
-                if (!isLogoOrIcon && isProductPhoto && !currentFetchedImages.includes(url) && currentFetchedImages.length < 4) {
-                  currentFetchedImages.push(url);
-                }
-              }
-            });
-          }
-        } catch (e) {}
-
-        renderPreviewGallery();
-        showToast(`${currentFetchedImages.length} foto(s) carregada(s)!`);
-
-        document.getElementById('product-link').value = urlInput;
-        document.getElementById('product-code').value = "CLIENTEVIP";
-        document.getElementById('product-discount-percent').value = "10";
-
-      } catch (err) {
-        showToast("Preencha manualmente se necessário.", "error");
-      }
-    };
-
-    function processImageFile(file) {
-      return new Promise((resolve, reject) => {
-        if (!file) {
-          resolve(null);
-          return;
-        }
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = (event) => {
-          const img = new Image();
-          img.src = event.target.result;
-          img.onload = () => {
-            const canvas = document.createElement('canvas');
-            let width = img.width;
-            let height = img.height;
-            const maxWidth = 1000;
-            const maxHeight = 1000;
-            if (width > height) {
-              if (width > maxWidth) {
-                height *= maxWidth / width;
-                width = maxWidth;
-              }
-            } else {
-              if (height > maxHeight) {
-                width *= maxHeight / height;
-                height = maxHeight;
-              }
-            }
-
-            canvas.width = width;
-            canvas.height = height;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(img, 0, 0, width, height);
-
-            const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
-            resolve(dataUrl);
-          };
-          img.onerror = (error) => reject(error);
-        };
-        reader.onerror = (error) => reject(error);
       });
-    }
-
-    function updateAdminUI() {
-      const panelUnlogged = document.getElementById('panel-unlogged');
-      const panelLogged = document.getElementById('panel-logged');
-
-      if (currentUser) {
-        panelUnlogged.classList.add('hidden');
-        panelLogged.classList.remove('hidden');
-        
-        document.getElementById('profile-title').value = profileData.title || "";
-        document.getElementById('profile-bio').value = profileData.bio || "";
-        document.getElementById('profile-store-link').value = profileData.storeLink || "";
-      } else {
-        panelUnlogged.classList.remove('hidden');
-        panelLogged.classList.add('hidden');
-      }
       renderProducts();
-    }
+    };
 
-    onAuthStateChanged(auth, (user) => {
-      currentUser = user;
-      updateAdminUI();
-    });
+    window.openTestimonialModal = () => document.getElementById('modal-testimonial').classList.remove('hidden');
+    window.openStoreBannerLink = (e) => {
+      e.preventDefault();
+      if (!profileData.storeLink) return showToast("Configure o link da loja no painel.", "error");
+      openProductAndCopyCoupon(null, profileData.storeLink, "CLIENTEVIP");
+    };
 
-    function setupDataListeners() {
-      onSnapshot(doc(db, 'settings', 'profile'), (docSnap) => {
-        if (docSnap.exists()) {
-          profileData = { ...profileData, ...docSnap.data() };
-          renderProfile();
-        } else {
-          renderProfile();
-        }
-      });
+    window.openProductAndCopyCoupon = async (id, url, code) => {
+      navigator.clipboard.writeText(code || "CLIENTEVIP");
+      if (id) try { await updateDoc(doc(db, 'products', id), { linkClicks: increment(1) }); } catch(e){}
+      document.getElementById('timer-coupon-code').innerText = `Cupom: ${code || "CLIENTEVIP"}`;
+      document.getElementById('modal-timer-redirect').classList.remove('hidden');
+      let s = 8;
+      document.getElementById('countdown-seconds').innerText = s + "s";
+      if (redirectInterval) clearInterval(redirectInterval);
+      if (redirectTimer) clearTimeout(redirectTimer);
+      redirectInterval = setInterval(() => { s--; document.getElementById('countdown-seconds').innerText = s + "s"; }, 1000);
+      redirectTimer = setTimeout(() => { clearInterval(redirectInterval); if (url) window.location.href = url; }, 8000);
+    };
 
-      onSnapshot(collection(db, 'products'), (snapshot) => {
-        productsList = snapshot.docs.map(docSnap => ({
-          id: docSnap.id,
-          ...docSnap.data()
-        }));
-        renderProducts();
-        if (currentUser) renderAdminProductsList();
-      }, (error) => {});
+    window.cancelRedirectTimer = () => {
+      clearTimeout(redirectTimer); clearInterval(redirectInterval);
+      document.getElementById('modal-timer-redirect').classList.add('hidden');
+    };
 
-      onSnapshot(collection(db, 'testimonials'), (snapshot) => {
-        testimonialsList = snapshot.docs.map(docSnap => ({ id: docSnap.id, ...docSnap.data() }));
-        renderTestimonials();
-      });
-    }
-
-    function renderTestimonials() {
-      const ticker = document.getElementById('testimonials-ticker');
-      if (!ticker) return;
-      if (testimonialsList.length === 0) {
-        ticker.innerHTML = `<div class="text-xs text-slate-400 italic py-1">Nenhum depoimento ainda. Seja o primeiro a deixar uma avaliação!</div>`;
-        return;
-      }
-      const loopList = testimonialsList.length > 2 ? [...testimonialsList, ...testimonialsList] : testimonialsList;
-      ticker.innerHTML = loopList.map(t => `
-        <div class="inline-flex items-center gap-3 bg-slate-900/90 border border-slate-700/80 px-4 py-2 rounded-xl flex-shrink-0 shadow-sm">
-          <div class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 font-bold flex items-center justify-center text-xs border border-emerald-500/30">
-            ${t.name ? t.name.charAt(0).toUpperCase() : 'C'}
-          </div>
-          <div>
-            <div class="text-xs font-bold text-white flex items-center gap-1">
-              ${t.name} <i class="fa-solid fa-circle-check text-[10px] text-emerald-400"></i>
-            </div>
-            <div class="text-xs text-slate-300 max-w-xs truncate">"${t.comment}"</div>
-          </div>
-        </div>
-      `).join('');
-    }
-
-    function renderProfile() {
-      document.getElementById('display-title').innerText = profileData.title || "Meu Catálogo Digital";
-      document.getElementById('display-bio').innerText = profileData.bio || "";
-      
-      if (profileData.cover) {
-        document.getElementById('display-cover').style.backgroundImage = `url('${profileData.cover}')`;
-      }
-      if (profileData.logo) {
-        document.getElementById('display-logo').src = profileData.logo;
-      }
-    }
-
-    window.setMainImage = (prodId, imgUrl) => {
-      const imgElement = document.getElementById(`prod-img-${prodId}`);
-      if (imgElement) {
-        imgElement.src = imgUrl;
-      }
+    window.closeImageViewer = () => document.getElementById('modal-image-viewer').classList.add('hidden');
+    window.openImageViewer = (url) => {
+      document.getElementById('viewer-img-element').src = url;
+      document.getElementById('modal-image-viewer').classList.remove('hidden');
     };
 
     function renderProducts() {
       const grid = document.getElementById('products-grid');
-      const emptyState = document.getElementById('empty-state');
-      const totalStat = document.getElementById('stat-total-products');
-      const searchVal = document.getElementById('input-search').value.toLowerCase().trim();
-      const filterStatus = document.getElementById('filter-status').value;
+      const empty = document.getElementById('empty-state');
+      const search = document.getElementById('input-search').value.toLowerCase();
+      const status = document.getElementById('filter-status').value;
+      document.getElementById('stat-total-products').innerText = productsList.length + " Produtos";
 
-      totalStat.innerText = `${productsList.length} Produtos`;
-
-      let filtered = productsList.filter(prod => {
-        const matchesSearch = (prod.name && prod.name.toLowerCase().includes(searchVal)) || 
-                              (prod.code && prod.code.toLowerCase().includes(searchVal)) ||
-                              (prod.description && prod.description.toLowerCase().includes(searchVal));
-        
-        const matchesCategory = activeCategory === 'all' || prod.category === activeCategory;
-
-        const totalUses = Number(prod.totalUses) || Number(prod.total) || 1;
-        const usedCount = Number(prod.usedCount) || Number(prod.used) || 0;
-        const remaining = Math.max(0, totalUses - usedCount);
-        const isSoldOut = (remaining <= 0);
-
-        if (filterStatus === 'available' && isSoldOut) return false;
-        if (filterStatus === 'soldout' && !isSoldOut) return false;
-
-        return matchesSearch && matchesCategory;
+      let filtered = productsList.filter(p => {
+        const matchSearch = (p.name||"").toLowerCase().includes(search) || (p.code||"").toLowerCase().includes(search);
+        const matchCat = activeCategory === 'all' || p.category === activeCategory;
+        const total = Number(p.totalUses)||30;
+        const used = Number(p.usedCount)||0;
+        const soldOut = (total - used) <= 0;
+        if (status === 'available' && soldOut) return false;
+        if (status === 'soldout' && !soldOut) return false;
+        return matchSearch && matchCat;
       });
 
-      if (filtered.length === 0) {
-        grid.innerHTML = '';
-        emptyState.classList.remove('hidden');
+      if (filtered.length === 0) { grid.innerHTML = ''; empty.classList.remove('hidden'); return; }
+      empty.classList.add('hidden');
+
+      grid.innerHTML = filtered.map(p => {
+        const total = Number(p.totalUses)||30;
+        const used = Number(p.usedCount)||0;
+        const remaining = Math.max(0, total - used);
+        const soldOut = remaining <= 0;
+        const img = (p.images && p.images[0]) || p.image || "https://via.placeholder.com/400x300?text=Sem+Imagem";
+        const price = Number(p.price)||0;
+        const disc = Number(p.discountPercent)||0;
+        const final = disc > 0 ? (price - price*disc/100).toFixed(2).replace('.',',') : price.toFixed(2).replace('.',',');
+        return `
+          <div class="glass-card rounded-2xl overflow-hidden flex flex-col">
+            <div class="relative h-48 cursor-pointer" onclick="openImageViewer('${img}')">
+              <img src="${img}" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/400x300?text=Sem+Imagem'">
+              ${soldOut ? '<div class="absolute inset-0 bg-black/70 flex items-center justify-center"><span class="bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full">ESGOTADO</span></div>' : ''}
+              <button onclick="event.stopPropagation(); navigator.clipboard.writeText('${p.code||"CLIENTEVIP"}'); showToast('Cupom copiado!')" class="absolute top-3 left-3 bg-brand-600 text-white text-[11px] font-bold px-2.5 py-1 rounded-lg">Cupom: ${p.code||"CLIENTEVIP"}</button>
+            </div>
+            <div class="p-4 flex-1 flex flex-col">
+              <h3 class="font-bold text-slate-100 text-base">${p.name}</h3>
+              <p class="text-xs text-slate-400 mt-1">Categoria: ${p.category||'Geral'}</p>
+              \( {price ? `<div class="mt-2"><span class="text-lg font-black text-brand-400">R \) ${final}</span> \( {disc ? `<span class="text-xs text-slate-400 line-through ml-1">R \) ${price.toFixed(2).replace('.',',')}</span>` : ''}</div>` : ''}
+              <p class="text-xs text-slate-400 mt-2 line-clamp-2">${p.description||''}</p>
+              <div class="mt-3 text-xs text-slate-400">${remaining} restantes de ${total}</div>
+              <div class="mt-4">
+                \( {p.link ? `<button onclick="openProductAndCopyCoupon(' \){p.id}', '\( {p.link}', ' \){p.code||"CLIENTEVIP"}')" class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-medium border border-slate-700">Ver Produto</button>` : ''}
+              </div>
+            </div>
+          </div>`;
+      }).join('');
+    }
+
+    function renderProfile() {
+      document.getElementById('display-title').innerText = profileData.title || "Meu Catálogo";
+      document.getElementById('display-bio').innerText = profileData.bio || "";
+      if (profileData.cover) document.getElementById('display-cover').style.backgroundImage = `url('${profileData.cover}')`;
+      if (profileData.logo) document.getElementById('display-logo').src = profileData.logo;
+    }
+
+    function renderTestimonials() {
+      const ticker = document.getElementById('testimonials-ticker');
+      if (testimonialsList.length === 0) {
+        ticker.innerHTML = `<div class="text-xs text-slate-400 italic">Nenhum depoimento ainda.</div>`;
         return;
       }
-
-      emptyState.classList.add('hidden');
-
-      grid.innerHTML = filtered.map(prod => {
-        const totalUses = Number(prod.totalUses) || Number(prod.total) || 1;
-        const usedCount = Number(prod.usedCount) || Number(prod.used) || 0;
-        const remaining = Math.max(0, totalUses - usedCount);
-        const isSoldOut = (remaining <= 0);
-        
-        const percentUsed = Math.min(100, Math.round((usedCount / totalUses) * 100));
-        const percentRemaining = Math.max(0, 100 - percentUsed);
-
-        let barColor = "bg-brand-500";
-        if (percentRemaining < 20) barColor = "bg-red-500";
-        else if (percentRemaining < 50) barColor = "bg-amber-500";
-
-        const imgPlaceholder = "https://via.placeholder.com/400x300?text=Sem+Imagem";
-
-        let prodImages = [];
-        if (Array.isArray(prod.images) && prod.images.length > 0) {
-          prodImages = prod.images;
-        } else if (prod.image) {
-          prodImages = [prod.image];
-        } else {
-          prodImages = [imgPlaceholder];
-        }
-
-        const mainImg = prodImages[0];
-        const encodedImagesJson = encodeURIComponent(JSON.stringify(prodImages));
-
-        const originalPrice = prod.price ? Number(prod.price) : null;
-        const discountPercent = Number(prod.discountPercent) || 0;
-
-        let finalDiscountPrice = null;
-        if (originalPrice && discountPercent > 0) {
-          finalDiscountPrice = originalPrice - (originalPrice * (discountPercent / 100));
-        }
-
-        const formattedOriginal = originalPrice ? originalPrice.toFixed(2).replace('.', ',') : null;
-        const formattedDiscount = finalDiscountPrice ? finalDiscountPrice.toFixed(2).replace('.', ',') : null;
-
-        const couponCode = prod.code || "CLIENTEVIP";
-        const ratingAvg = prod.ratingAverage || "5.0";
-        const ratingCount = prod.totalRatings || 0;
-
-        let daysLeftText = "";
-        if (prod.createdAt) {
-          const createdDate = new Date(prod.createdAt);
-          const validityDays = Number(prod.validityDays) || 30;
-          const expiryDate = new Date(createdDate.getTime() + (validityDays * 24 * 60 * 60 * 1000));
-          const today = new Date();
-          const diffTime = expiryDate - today;
-          const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-          if (diffDays > 0) {
-            if (diffDays <= 5) {
-              daysLeftText = `<span class="text-[10px] bg-red-500/20 text-red-400 font-bold px-2 py-0.5 rounded-full border border-red-500/30 animate-pulse"><i class="fa-solid fa-clock mr-1"></i>Expira em ${diffDays} ${diffDays === 1 ? 'dia' : 'dias'}!</span>`;
-            } else {
-              daysLeftText = `<span class="text-[10px] bg-slate-800 text-slate-300 font-medium px-2 py-0.5 rounded-full border border-slate-700"><i class="fa-regular fa-clock mr-1"></i>Validade: ${diffDays} dias restantes</span>`;
-            }
-          } else {
-            daysLeftText = `<span class="text-[10px] bg-red-600/20 text-red-400 font-bold px-2 py-0.5 rounded-full border border-red-600/30">Cupom Expirado</span>`;
-          }
-        }
-
-        return `
-          <div class="glass-card rounded-2xl overflow-hidden border border-slate-800 flex flex-col justify-between hover:border-slate-700 transition group">
-            <div>
-              <div class="relative h-48 w-full bg-slate-800 overflow-hidden cursor-pointer" onclick="openImageViewer('${mainImg}', '${encodedImagesJson}')">
-                <img id="prod-img-${prod.id}" src="${mainImg}" alt="${prod.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.src='${imgPlaceholder}'">
-                
-                <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
-                  <span class="px-2.5 py-1 bg-slate-900/80 backdrop-blur-sm text-white text-xs rounded-full font-medium">
-                    <i class="fa-solid fa-expand mr-1"></i> Ver Álbum
-                  </span>
-                </div>
-
-                ${isSoldOut ? `
-                  <div class="absolute inset-0 bg-slate-950/80 backdrop-blur-xs flex items-center justify-center">
-                    <span class="px-3 py-1 bg-red-600/90 text-white text-xs font-black tracking-widest rounded-full uppercase shadow-lg border border-red-400/30 animate-pulse">
-                      <i class="fa-solid fa-ban mr-1"></i> Produto Esgotado
-                    </span>
-                  </div>
-                ` : ''}
-
-                <button type="button" onclick="event.stopPropagation(); copyCoupon('${couponCode}')" title="Clique para copiar o cupom" class="absolute top-3 left-3 bg-brand-600/90 hover:bg-brand-500 text-white text-[11px] font-bold px-2.5 py-1 rounded-lg shadow border border-brand-400/30 transition flex items-center gap-1.5 cursor-pointer z-10">
-                  <i class="fa-solid fa-ticket"></i> Cupom: ${couponCode} <i class="fa-regular fa-copy text-[10px] opacity-80"></i>
-                </button>
-
-                ${prod.isFeatured ? `
-                  <span class="absolute top-3 right-3 bg-amber-500 text-slate-950 font-black text-[10px] px-2.5 py-1 rounded-lg shadow-lg uppercase tracking-wider flex items-center gap-1 z-10">
-                    <i class="fa-solid fa-fire"></i> Destaque
-                  </span>
-                ` : ''}
-
-                ${prodImages.length > 1 ? `
-                  <span class="absolute bottom-3 right-3 bg-slate-950/80 text-white text-[10px] font-semibold px-2 py-0.5 rounded-full backdrop-blur-sm border border-slate-700">
-                    <i class="fa-solid fa-images mr-1"></i>${prodImages.length} fotos
-                  </span>
-                ` : ''}
-              </div>
-
-              ${prodImages.length > 1 ? `
-                <div class="flex items-center gap-1.5 px-4 pt-2.5 overflow-x-auto no-scrollbar">
-                  ${prodImages.map((imgUrl) => `
-                    <button type="button" onclick="setMainImage('${prod.id}', '${imgUrl}')" class="focus:outline-none flex-shrink-0 cursor-pointer">
-                      <img src="${imgUrl}" class="w-10 h-10 rounded-lg object-cover border border-slate-700 hover:border-brand-500 transition">
-                    </button>
-                  `).join('')}
-                </div>
-              ` : ''}
-
-              <div class="p-4">
-                <div class="flex items-start justify-between gap-2">
-                  <h3 class="font-bold text-slate-100 text-base leading-snug">${prod.name}</h3>
-                  ${daysLeftText}
-                </div>
-
-                <div class="flex items-center justify-between mt-3 pt-2 border-t border-slate-800">
-                  <div class="flex items-center gap-1 text-amber-400 text-xs font-bold">
-                    <i class="fa-solid fa-star"></i>
-                    <span>${ratingAvg}</span>
-                    <span class="text-slate-500 font-normal">(${ratingCount})</span>
-                  </div>
-                  <button type="button" onclick="openRateModal('${prod.id}', '${prod.name.replace(/'/g, "")}')" class="text-[11px] bg-slate-800 hover:bg-slate-700 text-amber-400 font-semibold px-2.5 py-1 rounded-lg border border-amber-500/20 transition flex items-center gap-1 cursor-pointer">
-                    <i class="fa-regular fa-star"></i> Avaliar
-                  </button>
-                </div>
-
-                <p class="text-xs text-slate-400 mt-2">Categoria: <strong class="text-slate-300">${prod.category || 'Geral'}</strong></p>
-
-                ${formattedOriginal ? `
-                  <div class="flex items-baseline gap-2 mt-2">
-                    ${formattedDiscount ? `
-                      <span class="text-lg font-black text-brand-400">R$ ${formattedDiscount}</span>
-                      <span class="text-xs text-slate-400 line-through">R$ ${formattedOriginal}</span>
-                      <span class="text-[10px] bg-brand-500/20 text-brand-400 font-bold px-1.5 py-0.5 rounded">-${discountPercent}%</span>
-                    ` : `
-                      <span class="text-lg font-black text-slate-100">R$ ${formattedOriginal}</span>
-                    `}
-                  </div>
-                ` : ''}
-
-                <p class="text-xs text-slate-400 mt-2 whitespace-pre-line">${prod.description || prod.desc || 'Sem descrição.'}</p>
-
-                <div class="mt-4 p-3 bg-slate-900/80 rounded-xl border border-slate-800/80">
-                  <div class="flex items-center justify-between text-xs font-semibold mb-1.5">
-                    <span class="text-slate-400">Estoque / Uso</span>
-                    <span class="${isSoldOut ? 'text-red-400 font-bold' : 'text-slate-200'}">
-                      ${remaining} restantes de ${totalUses}
-                    </span>
-                  </div>
-
-                  <div class="w-full h-2 bg-slate-800 rounded-full overflow-hidden p-0.5 border border-slate-700/50">
-                    <div class="h-full ${barColor} rounded-full transition-all duration-500" style="width: ${percentRemaining}%"></div>
-                  </div>
-
-                  <div class="flex justify-between items-center text-[10px] text-slate-400 mt-1.5">
-                    <span>Usados: <strong class="text-slate-300">${usedCount}</strong></span>
-                    <span>${percentRemaining}% Restante</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="p-4 pt-0">
-              ${prod.link ? `
-                <button type="button" onclick="openProductAndCopyCoupon('${prod.id}', '${prod.link}', '${couponCode}')" class="w-full py-2 px-3 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-medium flex items-center justify-center gap-2 border border-slate-700 transition cursor-pointer">
-                  <i class="fa-solid fa-arrow-up-right-from-square text-brand-400"></i> Ver Link do Produto
-                </button>
-              ` : ''}
-            </div>
-          </div>
-        `;
-      }).join('');
+      const list = testimonialsList.length > 2 ? [...testimonialsList, ...testimonialsList] : testimonialsList;
+      ticker.innerHTML = list.map(t => `
+        <div class="inline-flex items-center gap-3 bg-slate-900 border border-slate-700 px-4 py-2 rounded-xl">
+          <div class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 font-bold flex items-center justify-center text-xs">${(t.name||'C')[0].toUpperCase()}</div>
+          <div><div class="text-xs font-bold text-white">\( {t.name}</div><div class="text-xs text-slate-300 max-w-xs truncate">" \){t.comment}"</div></div>
+        </div>`).join('');
     }
 
     function renderAdminProductsList() {
       const container = document.getElementById('admin-products-list');
-      if (!container) return;
-
       if (productsList.length === 0) {
-        container.innerHTML = '<p class="text-xs text-slate-400 text-center py-4">Nenhum produto cadastrado ainda.</p>';
+        container.innerHTML = '<p class="text-xs text-slate-400 text-center py-4">Nenhum produto cadastrado.</p>';
         return;
       }
-
-      container.innerHTML = productsList.map(prod => `
-        <div class="bg-slate-900 p-3 rounded-xl border border-slate-700 flex items-center justify-between gap-2">
+      container.innerHTML = productsList.map(p => `
+        <div class="bg-slate-950 p-3 rounded-xl border border-slate-700 flex items-center justify-between gap-2">
           <div class="truncate">
-            <h4 class="text-xs font-bold text-white truncate">${prod.name}</h4>
-            <span class="text-[10px] text-brand-400 font-semibold block"><i class="fa-solid fa-chart-line mr-1"></i> ${prod.linkClicks || 0} cliques no link</span>
-            <span class="text-[10px] text-slate-400">Usados: ${prod.usedCount || 0} / Total: ${prod.totalUses || 30}</span>
+            <h4 class="text-xs font-bold text-white truncate">${p.name}</h4>
+            <span class="text-[10px] text-brand-400">${p.linkClicks||0} cliques</span>
           </div>
-          <div class="flex items-center gap-1 flex-shrink-0">
-            <button onclick="openInstagramPostModal('${prod.id}')" class="px-2.5 py-1 bg-amber-600 hover:bg-amber-500 text-white rounded-lg text-xs font-semibold cursor-pointer" title="Abrir Moldura / Story">
-              <i class="fa-solid fa-wand-magic-sparkles"></i>
-            </button>
-            <button onclick="openQuickUseModal('${prod.id}')" class="px-2.5 py-1 bg-brand-600/20 hover:bg-brand-600/30 text-brand-300 rounded-lg text-xs font-medium border border-brand-500/30 cursor-pointer" title="Atualizar Uso">
-              <i class="fa-solid fa-pen-to-square"></i>
-            </button>
-            <button onclick="openEditProductModal('${prod.id}')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-medium border border-slate-700 cursor-pointer" title="Editar">
-              <i class="fa-solid fa-gear"></i>
-            </button>
-            <button onclick="deleteProduct('${prod.id}')" class="px-2.5 py-1 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-lg text-xs font-medium border border-red-500/20 cursor-pointer" title="Excluir">
-              <i class="fa-solid fa-trash"></i>
-            </button>
+          <div class="flex gap-1">
+            <button onclick="openInstagramPostModal('${p.id}')" class="px-2 py-1 bg-amber-600 text-white rounded-lg text-xs"><i class="fa-solid fa-wand-magic-sparkles"></i></button>
+            <button onclick="openEditProductModal('${p.id}')" class="px-2 py-1 bg-slate-800 text-slate-300 rounded-lg text-xs"><i class="fa-solid fa-gear"></i></button>
+            <button onclick="deleteProduct('${p.id}')" class="px-2 py-1 bg-red-500/20 text-red-400 rounded-lg text-xs"><i class="fa-solid fa-trash"></i></button>
           </div>
-        </div>
-      `).join('');
+        </div>`).join('');
     }
 
-    function closeModal(id) {
-      document.getElementById(id).classList.add('hidden');
-    }
+    window.openAdminManage = () => {
+      renderAdminProductsList();
+      document.getElementById('modal-admin-manage').classList.remove('hidden');
+    };
 
-    document.querySelectorAll('.btn-close-modal').forEach(btn => {
-      btn.onclick = () => btn.closest('.fixed').classList.add('hidden');
-    });
-
-    document.getElementById('btn-auth-open').onclick = () => {
+    window.openEditProductModal = (id) => {
+      const p = productsList.find(x => x.id === id);
+      if (!p) return;
+      document.getElementById('product-id').value = p.id;
+      document.getElementById('product-name').value = p.name || "";
+      document.getElementById('product-category').value = p.category || "Perfumaria";
+      document.getElementById('product-featured').checked = !!p.isFeatured;
+      document.getElementById('product-price').value = p.price || "";
+      document.getElementById('product-discount-percent').value = p.discountPercent || 10;
+      document.getElementById('product-description').value = p.description || "";
+      document.getElementById('product-link').value = p.link || "";
+      document.getElementById('product-code').value = p.code || "CLIENTEVIP";
+      document.getElementById('product-total-uses').value = p.totalUses || 30;
+      document.getElementById('product-used-count').value = p.usedCount || 0;
+      document.getElementById('product-validity-days').value = p.validityDays || 30;
+      currentFetchedImages = Array.isArray(p.images) ? [...p.images] : (p.image ? [p.image] : []);
+      renderPreviewGallery();
+      document.getElementById('form-prod-title').innerHTML = `<i class="fa-solid fa-pen text-brand-500"></i> Editando Produto`;
+      document.getElementById('btn-cancel-prod-edit').classList.remove('hidden');
+      document.getElementById('modal-admin-manage').classList.add('hidden');
       document.getElementById('modal-auth').classList.remove('hidden');
     };
 
-    function attachToggleAuthListener() {
-      const toggleBtn = document.getElementById('btn-toggle-auth-mode');
-      if (toggleBtn) {
-        toggleBtn.onclick = () => {
-          isAuthModeLogin = !isAuthModeLogin;
-          const title = document.getElementById('auth-modal-title');
-          const submitBtn = document.getElementById('btn-auth-submit');
-          const toggleText = document.getElementById('auth-toggle-text');
+    window.deleteProduct = async (id) => {
+      if (!confirm("Excluir este produto?")) return;
+      try { await deleteDoc(doc(db, 'products', id)); showToast("Produto removido."); } catch(e) { showToast("Erro", "error"); }
+    };
 
-          if (isAuthModeLogin) {
-            title.innerText = "Entrar no Painel";
-            submitBtn.innerText = "Entrar no Painel";
-            toggleText.innerHTML = `Não tem usuário e senha? <button id="btn-toggle-auth-mode" type="button" class="text-brand-400 font-semibold hover:underline cursor-pointer">Criar conta agora</button>`;
-          } else {
-            title.innerText = "Criar Usuário e Senha";
-            submitBtn.innerText = "Cadastrar e Entrar";
-            toggleText.innerHTML = `Já possui usuário e senha? <button id="btn-toggle-auth-mode" type="button" class="text-brand-400 font-semibold hover:underline cursor-pointer">Fazer Login</button>`;
-          }
-          attachToggleAuthListener();
-        };
+    window.resetProductForm = () => {
+      document.getElementById('form-product').reset();
+      document.getElementById('product-id').value = "";
+      document.getElementById('product-code').value = "CLIENTEVIP";
+      currentFetchedImages = [];
+      document.getElementById('preview-container').classList.add('hidden');
+      document.getElementById('form-prod-title').innerHTML = `<i class="fa-solid fa-box text-brand-500"></i> Cadastrar Produto`;
+      document.getElementById('btn-cancel-prod-edit').classList.add('hidden');
+    };
+
+    window.renderPreviewGallery = () => {
+      const cont = document.getElementById('preview-container');
+      const gal = document.getElementById('preview-gallery');
+      if (currentFetchedImages.length === 0) { cont.classList.add('hidden'); return; }
+      gal.innerHTML = currentFetchedImages.map((url, i) => `
+        <div class="relative flex-shrink-0">
+          <img src="${url}" class="w-16 h-16 rounded-xl object-cover border border-slate-700">
+          <button onclick="currentFetchedImages.splice(${i},1); renderPreviewGallery()" class="absolute -top-1 -right-1 bg-red-600 text-white rounded-full w-5 h-5 text-[10px]"><i class="fa-solid fa-xmark"></i></button>
+        </div>`).join('');
+      cont.classList.remove('hidden');
+    };
+
+    window.fetchProductFromLink = async () => {
+      const url = document.getElementById('auto-import-link').value.trim();
+      if (!url) return showToast("Cole o link primeiro.", "error");
+      showToast("Buscando dados...");
+      try {
+        const res = await fetch(`https://api.microlink.io/?url=${encodeURIComponent(url)}`);
+        const json = await res.json();
+        currentFetchedImages = [];
+        if (json.status === 'success' && json.data) {
+          if (json.data.title) document.getElementById('product-name').value = json.data.title.split('|')[0].split('- Natura')[0].trim();
+          if (json.data.description) document.getElementById('product-description').value = json.data.description;
+          if (json.data.image?.url) currentFetchedImages.push(json.data.image.url);
+        }
+        document.getElementById('product-link').value = url;
+        document.getElementById('product-code').value = "CLIENTEVIP";
+        renderPreviewGallery();
+        showToast("Dados carregados!");
+      } catch(e) { showToast("Erro ao buscar. Preencha manualmente.", "error"); }
+    };
+
+    // AUTH
+    onAuthStateChanged(auth, (user) => {
+      currentUser = user;
+      const unlogged = document.getElementById('panel-unlogged');
+      const logged = document.getElementById('panel-logged');
+      if (user) {
+        unlogged.classList.add('hidden');
+        logged.classList.remove('hidden');
+        document.getElementById('profile-title').value = profileData.title || "";
+        document.getElementById('profile-bio').value = profileData.bio || "";
+        document.getElementById('profile-store-link').value = profileData.storeLink || "";
+      } else {
+        unlogged.classList.remove('hidden');
+        logged.classList.add('hidden');
       }
-    }
-    attachToggleAuthListener();
+      renderProducts();
+    });
 
     document.getElementById('form-auth').onsubmit = async (e) => {
       e.preventDefault();
       const email = document.getElementById('auth-email').value;
-      const password = document.getElementById('auth-password').value;
-
+      const pass = document.getElementById('auth-password').value;
       try {
-        if (isAuthModeLogin) {
-          await signInWithEmailAndPassword(auth, email, password);
-          showToast("Login realizado!");
-        } else {
-          await createUserWithEmailAndPassword(auth, email, password);
-          showToast("Usuário criado e ativado!");
-        }
-      } catch (err) {
-        showToast("Erro: " + err.message, "error");
-      }
+        if (isAuthModeLogin) await signInWithEmailAndPassword(auth, email, pass);
+        else await createUserWithEmailAndPassword(auth, email, pass);
+        showToast(isAuthModeLogin ? "Login realizado!" : "Conta criada!");
+      } catch(e) { showToast("Erro: " + e.message, "error"); }
     };
 
-    document.getElementById('btn-logout').onclick = async () => {
+    document.getElementById('btn-logout').onclick = () => signOut(auth);
+    document.getElementById('btn-toggle-auth-mode').onclick = () => {
+      isAuthModeLogin = !isAuthModeLogin;
+      document.getElementById('auth-modal-title').innerText = isAuthModeLogin ? "Entrar no Painel" : "Criar Conta";
+      document.getElementById('btn-auth-submit').innerText = isAuthModeLogin ? "Entrar no Painel" : "Cadastrar";
+      document.getElementById('auth-toggle-text').innerHTML = isAuthModeLogin ? `Não tem conta? <button id="btn-toggle-auth-mode" type="button" class="text-brand-400 font-semibold">Criar conta</button>` : `Já tem conta? <button id="btn-toggle-auth-mode" type="button" class="text-brand-400 font-semibold">Fazer Login</button>`;
+      document.getElementById('btn-toggle-auth-mode').onclick = arguments.callee;
+    };
+
+    document.getElementById('form-product').onsubmit = async (e) => {
+      e.preventDefault();
+      const id = document.getElementById('product-id').value;
+      const data = {
+        name: document.getElementById('product-name').value,
+        category: document.getElementById('product-category').value,
+        isFeatured: document.getElementById('product-featured').checked,
+        price: document.getElementById('product-price').value,
+        discountPercent: document.getElementById('product-discount-percent').value,
+        description: document.getElementById('product-description').value,
+        link: document.getElementById('product-link').value,
+        code: document.getElementById('product-code').value || "CLIENTEVIP",
+        totalUses: Number(document.getElementById('product-total-uses').value) || 30,
+        usedCount: Number(document.getElementById('product-used-count').value) || 0,
+        validityDays: Number(document.getElementById('product-validity-days').value) || 30,
+        images: currentFetchedImages,
+        image: currentFetchedImages[0] || "",
+        updatedAt: new Date().toISOString()
+      };
       try {
-        await signOut(auth);
-        showToast("Você saiu.");
-      } catch (err) {
-        showToast("Erro ao sair.", "error");
-      }
+        if (id) {
+          await updateDoc(doc(db, 'products', id), data);
+          showToast("Produto atualizado!");
+        } else {
+          data.linkClicks = 0;
+          data.createdAt = new Date().toISOString();
+          await addDoc(collection(db, 'products'), data);
+          showToast("Produto cadastrado!");
+        }
+        resetProductForm();
+      } catch(e) { showToast("Erro: " + e.message, "error"); }
     };
 
     document.getElementById('form-profile').onsubmit = async (e) => {
@@ -1667,189 +976,47 @@
       const title = document.getElementById('profile-title').value;
       const bio = document.getElementById('profile-bio').value;
       const storeLink = document.getElementById('profile-store-link').value;
-      const coverFile = document.getElementById('profile-cover-file').files[0];
-      const logoFile = document.getElementById('profile-logo-file').files[0];
-
-      let newCover = profileData.cover;
-      let newLogo = profileData.logo;
-
-      if (coverFile) newCover = await processImageFile(coverFile);
-      if (logoFile) newLogo = await processImageFile(logoFile);
-
       try {
-        await setDoc(doc(db, 'settings', 'profile'), {
-          title, bio, storeLink, cover: newCover, logo: newLogo, updatedAt: new Date().toISOString()
-        }, { merge: true });
+        await setDoc(doc(db, 'settings', 'profile'), { title, bio, storeLink, updatedAt: new Date().toISOString() }, { merge: true });
         showToast("Perfil atualizado!");
-      } catch (err) {
-        showToast("Erro ao salvar: " + err.message, "error");
-      }
+      } catch(e) { showToast("Erro", "error"); }
     };
 
-    window.resetProductForm = () => {
-      document.getElementById('form-product').reset();
-      document.getElementById('auto-import-link').value = "";
-      document.getElementById('fetched-image-url').value = "";
-      currentFetchedImages = [];
-      document.getElementById('preview-gallery').innerHTML = "";
-      document.getElementById('preview-container').classList.add('hidden');
-      document.getElementById('product-id').value = "";
-      document.getElementById('product-code').value = "CLIENTEVIP";
-      document.getElementById('product-validity-days').value = "30";
-      document.getElementById('product-featured').checked = false;
-      document.getElementById('form-prod-title').innerHTML = `<i class="fa-solid fa-box text-brand-500"></i> Cadastrar Novo Produto`;
-      document.getElementById('btn-cancel-prod-edit').classList.add('hidden');
-    };
-
-    window.openEditProductModal = (prodId) => {
-      const prod = productsList.find(p => p.id === prodId);
-      if (!prod) return;
-
-      closeModal('modal-admin-manage');
-      document.getElementById('product-id').value = prod.id;
-      document.getElementById('product-name').value = prod.name || "";
-      document.getElementById('product-category').value = prod.category || "Perfumaria";
-      document.getElementById('product-featured').checked = !!prod.isFeatured;
-      document.getElementById('product-price').value = prod.price || "";
-      document.getElementById('product-discount-percent').value = prod.discountPercent || "10";
-      document.getElementById('product-description').value = prod.description || prod.desc || "";
-      document.getElementById('product-link').value = prod.link || "";
-      document.getElementById('product-code').value = prod.code || "CLIENTEVIP";
-      document.getElementById('product-validity-days').value = prod.validityDays || "30";
-      document.getElementById('product-total-uses').value = prod.totalUses || prod.total || 30;
-      document.getElementById('product-used-count').value = prod.usedCount || prod.used || 0;
-
-      let prodImages = [];
-      if (Array.isArray(prod.images) && prod.images.length > 0) {
-        prodImages = prod.images;
-      } else if (prod.image) {
-        prodImages = [prod.image];
-      }
-
-      currentFetchedImages = [...prodImages];
-      renderPreviewGallery();
-
-      document.getElementById('form-prod-title').innerHTML = `<i class="fa-solid fa-pen-to-square text-brand-500"></i> Editando Produto`;
-      document.getElementById('btn-cancel-prod-edit').classList.remove('hidden');
-    };
-
-    document.getElementById('form-product').onsubmit = async (e) => {
+    document.getElementById('form-testimonial').onsubmit = async (e) => {
       e.preventDefault();
-      const id = document.getElementById('product-id').value;
-      const name = document.getElementById('product-name').value;
-      const category = document.getElementById('product-category').value;
-      const isFeatured = document.getElementById('product-featured').checked;
-      const price = document.getElementById('product-price').value;
-      const discountPercent = document.getElementById('product-discount-percent').value;
-      const description = document.getElementById('product-description').value;
-      const link = document.getElementById('product-link').value;
-      const code = document.getElementById('product-code').value || "CLIENTEVIP";
-      const validityDays = Number(document.getElementById('product-validity-days').value) || 30;
-      const totalUses = Number(document.getElementById('product-total-uses').value);
-      const usedCount = Number(document.getElementById('product-used-count').value);
-      
-      const imgFiles = Array.from(document.getElementById('product-image-file').files);
-
-      let newImages = [];
-      if (imgFiles.length > 0) {
-        newImages = await Promise.all(imgFiles.map(file => processImageFile(file)));
-      } else {
-        newImages = [...currentFetchedImages];
-      }
-
       try {
-        if (id) {
-          const prodDocRef = doc(db, 'products', id);
-          const existing = productsList.find(p => p.id === id);
-          
-          const finalImages = newImages.length > 0 ? newImages : (existing.images || (existing.image ? [existing.image] : []));
-
-          await updateDoc(prodDocRef, {
-            name, category, isFeatured, price, discountPercent, description, link, code, validityDays, totalUses, usedCount,
-            images: finalImages,
-            image: finalImages[0] || "",
-            updatedAt: new Date().toISOString()
-          });
-          showToast("Produto atualizado!");
-        } else {
-          await addDoc(collection(db, 'products'), {
-            name, category, isFeatured, price, discountPercent, description, link, code, validityDays, totalUses, usedCount,
-            images: newImages,
-            image: newImages[0] || "",
-            linkClicks: 0,
-            createdAt: new Date().toISOString()
-          });
-          showToast("Produto cadastrado com sucesso!");
-        }
-        resetProductForm();
-      } catch (err) {
-        showToast("Erro: " + err.message, "error");
-      }
-    };
-
-    window.openQuickUseModal = (prodId) => {
-      const prod = productsList.find(p => p.id === prodId);
-      if (!prod) return;
-
-      closeModal('modal-admin-manage');
-      document.getElementById('quick-use-id').value = prod.id;
-      document.getElementById('quick-use-product-name').innerText = prod.name;
-      document.getElementById('quick-use-val').value = prod.usedCount || prod.used || 0;
-      document.getElementById('modal-quick-use').classList.remove('hidden');
-    };
-
-    document.getElementById('form-quick-use').onsubmit = async (e) => {
-      e.preventDefault();
-      const id = document.getElementById('quick-use-id').value;
-      const newVal = Number(document.getElementById('quick-use-val').value);
-
-      try {
-        await updateDoc(doc(db, 'products', id), {
-          usedCount: Math.max(0, newVal),
-          used: Math.max(0, newVal),
-          updatedAt: new Date().toISOString()
+        await addDoc(collection(db, 'testimonials'), {
+          name: document.getElementById('test-name').value,
+          comment: document.getElementById('test-comment').value,
+          createdAt: new Date().toISOString()
         });
-        showToast("Estoque atualizado!");
-        closeModal('modal-quick-use');
-      } catch (err) {
-        showToast("Erro: " + err.message, "error");
-      }
+        showToast("Depoimento enviado!");
+        document.getElementById('form-testimonial').reset();
+        document.getElementById('modal-testimonial').classList.add('hidden');
+      } catch(e) { showToast("Erro", "error"); }
     };
 
-    window.deleteProduct = async (prodId) => {
-      if (!confirm("Excluir este produto?")) return;
-      try {
-        await deleteDoc(doc(db, 'products', prodId));
-        showToast("Produto removido.");
-        renderAdminProductsList();
-      } catch (err) {
-        showToast("Erro: " + err.message, "error");
-      }
-    };
-
-    const panelLogged = document.getElementById('panel-logged');
-    if (panelLogged && !document.getElementById('btn-open-admin-manage')) {
-      const manageDiv = document.createElement('div');
-      manageDiv.className = "pt-2";
-      manageDiv.innerHTML = `
-        <button type="button" id="btn-open-admin-manage" class="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-bold border border-slate-700 transition flex items-center justify-center gap-2 cursor-pointer">
-          <i class="fa-solid fa-list-check text-brand-500"></i> Gerenciar / Excluir Produtos Cadastrados
-        </button>
-      `;
-      panelLogged.insertBefore(manageDiv, panelLogged.firstChild);
-
-      document.getElementById('btn-open-admin-manage').onclick = () => {
-        renderAdminProductsList();
-        document.getElementById('modal-admin-manage').classList.remove('hidden');
-      };
-    }
+    // LISTENERS
+    onSnapshot(doc(db, 'settings', 'profile'), (snap) => {
+      if (snap.exists()) { profileData = { ...profileData, ...snap.data() }; renderProfile(); }
+    });
+    onSnapshot(collection(db, 'products'), (snap) => {
+      productsList = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      renderProducts();
+      if (currentUser) renderAdminProductsList();
+    });
+    onSnapshot(collection(db, 'testimonials'), (snap) => {
+      testimonialsList = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      renderTestimonials();
+    });
 
     document.getElementById('input-search').oninput = renderProducts;
     document.getElementById('filter-status').onchange = renderProducts;
+    document.getElementById('btn-auth-open').onclick = () => document.getElementById('modal-auth').classList.remove('hidden');
+    document.querySelectorAll('.btn-close-modal').forEach(btn => btn.onclick = () => btn.closest('.fixed').classList.add('hidden'));
 
     trackRealVisit();
     listenRealVisits();
-    setupDataListeners();
   </script>
 </body>
 </html>
