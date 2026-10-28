@@ -6,7 +6,7 @@
   <title>Catálogo Digital</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
   <script>
     tailwind.config = {
@@ -40,20 +40,14 @@
   <!-- HEADER -->
   <header class="sticky top-0 z-40 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 px-3 sm:px-4 py-2.5">
     <div class="max-w-4xl mx-auto flex items-center justify-between gap-2">
-      
       <div class="flex items-center gap-2.5 min-w-0">
         <div class="bg-gradient-to-tr from-brand-600 to-emerald-400 p-2 rounded-xl text-white shadow-lg shadow-brand-500/20 flex-shrink-0">
           <i class="fa-solid fa-store text-base sm:text-lg"></i>
         </div>
-        
         <div class="truncate">
           <div class="flex items-center gap-1.5 leading-tight">
             <span class="font-bold text-sm sm:text-base tracking-tight text-white truncate">Meu Catálogo</span>
-            
-            <span class="text-emerald-400 text-xs flex-shrink-0" title="Verificado">
-              <i class="fa-solid fa-circle-check"></i>
-            </span>
-
+            <span class="text-emerald-400 text-xs flex-shrink-0"><i class="fa-solid fa-circle-check"></i></span>
             <div class="inline-flex items-center gap-1 px-2 py-0.5 bg-slate-800 border border-slate-700/80 rounded-full text-[10px] font-semibold text-emerald-400 flex-shrink-0">
               <span class="relative flex h-1.5 w-1.5">
                 <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
@@ -62,28 +56,23 @@
               <span id="visitor-counter">0 acessos</span>
             </div>
           </div>
-          
           <p class="text-[11px] text-slate-400 truncate mt-0.5">Cupons e Descontos Exclusivos</p>
         </div>
       </div>
-
       <div class="flex items-center flex-shrink-0">
-        <button id="btn-auth-open" title="Acessar Painel Administrativo" class="w-9 h-9 sm:w-10 sm:h-10 text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 rounded-xl transition border border-slate-700 flex items-center justify-center text-sm shadow-sm cursor-pointer">
+        <button id="btn-auth-open" title="Acessar Painel" class="w-9 h-9 sm:w-10 sm:h-10 text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 rounded-xl transition border border-slate-700 flex items-center justify-center text-sm shadow-sm cursor-pointer">
           <i class="fa-solid fa-user-gear"></i>
         </button>
       </div>
-
     </div>
   </header>
 
   <main class="flex-grow max-w-4xl w-full mx-auto pb-16">
     <div class="relative w-full">
-      <!-- BANNER / CAPA CLICÁVEL -->
-      <a id="display-cover-link" href="#" onclick="openStoreBannerLink(event)" class="block group relative overflow-hidden cursor-pointer" title="Clique para acessar a Loja Oficial com Cupom">
+      <a id="display-cover-link" href="#" onclick="openStoreBannerLink(event)" class="block group relative overflow-hidden cursor-pointer">
         <div id="display-cover" class="h-44 sm:h-56 w-full bg-gradient-to-r from-slate-800 via-slate-700 to-slate-800 bg-cover bg-center transition-all duration-300 relative group-hover:scale-105">
           <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-black/30"></div>
         </div>
-
         <div class="absolute top-3 right-3 z-10 bg-brand-600/90 hover:bg-brand-500 text-white text-[11px] font-bold px-3 py-1.5 rounded-xl shadow-lg backdrop-blur-md border border-brand-400/40 flex items-center gap-1.5 transition">
           <i class="fa-solid fa-bag-shopping"></i> Acessar Loja Oficial <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
         </div>
@@ -92,14 +81,12 @@
       <div class="px-4 sm:px-6 relative -mt-16 sm:-mt-20">
         <div class="flex flex-col sm:flex-row items-center sm:items-end gap-4 text-center sm:text-left">
           <div class="relative group">
-            <img id="display-logo" src="https://via.placeholder.com/150?text=LOGO" alt="Logo Loja" class="w-28 h-28 sm:w-32 sm:h-32 rounded-2xl object-cover border-4 border-slate-900 shadow-xl bg-slate-800">
+            <img id="display-logo" src="https://via.placeholder.com/150?text=LOGO" alt="Logo" class="w-28 h-28 sm:w-32 sm:h-32 rounded-2xl object-cover border-4 border-slate-900 shadow-xl bg-slate-800">
           </div>
-          
           <div class="flex-1 pb-1">
             <h1 id="display-title" class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Nome da sua Loja</h1>
             <p id="display-bio" class="text-slate-400 text-sm mt-1 max-w-2xl leading-relaxed">Sua biografia ou descrição do catálogo digital aparece aqui.</p>
           </div>
-
           <div class="flex items-center gap-2 text-xs font-semibold px-3 py-1.5 rounded-full bg-slate-800/80 border border-slate-700 text-slate-300">
             <i class="fa-solid fa-boxes-stacked text-brand-500"></i>
             <span id="stat-total-products">0 Produtos</span>
@@ -119,7 +106,6 @@
       </a>
     </div>
 
-    <!-- CARROSSEL DE DEPOIMENTOS -->
     <div class="px-4 sm:px-6 mt-6">
       <div class="bg-gradient-to-r from-slate-800/90 via-slate-800/70 to-slate-800/90 border border-slate-700/80 rounded-2xl p-4 shadow-xl relative overflow-hidden backdrop-blur-md">
         <div class="flex items-center justify-between mb-3">
@@ -131,7 +117,6 @@
             <i class="fa-solid fa-star text-amber-300"></i> Avaliar Loja
           </button>
         </div>
-
         <div class="relative w-full overflow-hidden py-1">
           <div id="testimonials-ticker" class="flex gap-4 animate-ticker whitespace-nowrap"></div>
         </div>
@@ -144,7 +129,6 @@
           <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
           <input type="text" id="input-search" placeholder="Buscar produto ou cupom..." class="w-full bg-slate-800 border border-slate-700/80 rounded-xl pl-10 pr-4 py-2 text-sm text-slate-100 placeholder-slate-400 focus:outline-none focus:border-brand-500 transition">
         </div>
-
         <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
           <select id="filter-status" class="bg-slate-800 border border-slate-700/80 text-xs sm:text-sm text-slate-300 rounded-xl px-3 py-2 focus:outline-none focus:border-brand-500">
             <option value="all">Todos os Produtos</option>
@@ -154,7 +138,6 @@
         </div>
       </div>
 
-      <!-- BOTÕES DE CATEGORIAS -->
       <div class="flex items-center gap-2 overflow-x-auto py-1 no-scrollbar" id="category-filters">
         <button onclick="filterByCategory('all')" class="category-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-brand-600 text-white whitespace-nowrap transition shadow cursor-pointer">Todas</button>
         <button onclick="filterByCategory('Perfumaria')" class="category-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 whitespace-nowrap transition border border-slate-700 cursor-pointer">Perfumaria</button>
@@ -182,38 +165,88 @@
     </div>
   </main>
 
-  <!-- MODAL DE VISUALIZAÇÃO DE STATUS / STORIES (SUPORTA IMAGEM OU VÍDEO PRONTO DE 5s) -->
-  <div id="modal-instagram-post" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm hidden">
-    <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-lg w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto space-y-4">
+  <!-- MODAL DE ESTÚDIO / MOLDURA COM SELETOR DE TEMPO (5s, 10s, 15s, 20s, 25s) -->
+  <div id="modal-instagram-post" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-sm hidden">
+    <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-lg w-full p-6 shadow-2xl relative max-h-[95vh] overflow-y-auto space-y-4">
       <button class="btn-close-modal absolute top-4 right-4 text-slate-400 hover:text-white text-lg cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
       
       <div class="flex items-center gap-2.5">
         <div class="w-10 h-10 bg-brand-600 rounded-xl flex items-center justify-center text-white text-lg shadow">
-          <i class="fa-solid fa-clapperboard"></i>
+          <i class="fa-solid id-clapperboard"></i>
         </div>
         <div>
-          <h2 class="text-base font-bold text-white">Post / Story Pronto para Instagram</h2>
-          <p class="text-xs text-slate-400">Baixe sua arte ou seu mini-vídeo exclusivo de 5 segundos.</p>
+          <h2 class="text-base font-bold text-white">Estúdio de Moldura e Story</h2>
+          <p class="text-xs text-slate-400">Escolha a duração ideal do vídeo para o Instagram (5s até 25s) e suba sua mídia de fundo.</p>
         </div>
       </div>
 
       <div class="space-y-4">
-        <div class="bg-slate-900 p-4 rounded-xl border border-slate-700 flex flex-col items-center">
-          <!-- EXIBIÇÃO DINÂMICA (IMAGEM OU VÍDEO) -->
-          <div id="story-media-container" class="relative w-full max-w-xs h-80 rounded-xl overflow-hidden border border-slate-700 shadow bg-slate-800 flex items-center justify-center">
-            <!-- Inserido dinamicamente via JS -->
+        <div class="p-3 bg-slate-900 rounded-xl border border-slate-700 space-y-2">
+          <label class="block text-xs font-bold text-amber-400 flex items-center gap-1.5">
+            <i class="fa-solid fa-upload"></i> Subir Imagem, GIF ou Vídeo de Fundo
+          </label>
+          <input type="file" id="studio-bg-file" accept="image/*,video/mp4,video/webm,image/gif" class="w-full text-xs text-slate-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-amber-600 file:text-white hover:file:bg-amber-500 cursor-pointer">
+        </div>
+
+        <!-- SELETOR DE TEMPO DE DURAÇÃO DO VÍDEO -->
+        <div class="p-3 bg-slate-900 rounded-xl border border-slate-700 space-y-2">
+          <label class="block text-xs font-bold text-brand-400 flex items-center gap-1.5">
+            <i class="fa-solid fa-stopwatch"></i> Escolher o Tempo de Exibição do Vídeo para o Instagram:
+          </label>
+          <div class="grid grid-cols-5 gap-1.5">
+            <button type="button" onclick="setVideoDuration(5)" class="duration-btn py-1.5 bg-brand-600 text-white rounded-lg text-xs font-bold transition shadow cursor-pointer">5s</button>
+            <button type="button" onclick="setVideoDuration(10)" class="duration-btn py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-semibold transition border border-slate-700 cursor-pointer">10s</button>
+            <button type="button" onclick="setVideoDuration(15)" class="duration-btn py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-semibold transition border border-slate-700 cursor-pointer">15s</button>
+            <button type="button" onclick="setVideoDuration(20)" class="duration-btn py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-semibold transition border border-slate-700 cursor-pointer">20s</button>
+            <button type="button" onclick="setVideoDuration(25)" class="duration-btn py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-semibold transition border border-slate-700 cursor-pointer">25s</button>
           </div>
-          
-          <div class="text-center mt-3">
-            <a id="ig-download-media-btn" href="#" target="_blank" download class="inline-flex items-center gap-2 px-4 py-2 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs font-bold transition shadow cursor-pointer">
-              <i class="fa-solid fa-download"></i> Baixar Mídia para o Celular
-            </a>
+          <p class="text-[10px] text-slate-400">Tempo selecionado: <strong id="selected-duration-label" class="text-brand-400">5 segundos</strong></p>
+        </div>
+
+        <div class="flex flex-col items-center">
+          <div id="studio-frame-wrapper" class="relative w-72 h-96 bg-gradient-to-br from-slate-950 via-zinc-900 to-stone-950 rounded-2xl overflow-hidden border-2 border-amber-500/50 shadow-2xl flex flex-col justify-between p-4">
+            
+            <div id="studio-bg-media-container" class="absolute inset-0 z-0 opacity-40 overflow-hidden flex items-center justify-center">
+              <img id="studio-bg-img" src="" class="w-full h-full object-cover" style="display:none;">
+              <video id="studio-bg-vid" autoplay loop muted playsinline class="w-full h-full object-cover" style="display:none;"></video>
+            </div>
+
+            <div class="relative z-10 flex justify-between items-start">
+              <span class="bg-amber-600 text-white font-black text-[10px] px-2.5 py-1 rounded-full shadow tracking-wider uppercase">
+                🔥 PROMOÇÃO
+              </span>
+              <div id="studio-badge-off" class="w-12 h-12 rounded-full bg-slate-950/90 border-2 border-amber-500 flex flex-col items-center justify-center text-amber-400 font-bold text-[10px] shadow-lg">
+                <span id="studio-txt-off" class="text-xs font-black">10%</span>
+                <span class="text-[8px] leading-none">OFF</span>
+              </div>
+            </div>
+
+            <div class="relative z-10 text-center space-y-1 bg-slate-950/70 backdrop-blur-sm p-3 rounded-xl border border-slate-800">
+              <h3 id="studio-txt-name" class="text-xs font-bold text-white line-clamp-2">Nome do Produto</h3>
+              <div class="flex flex-col items-center">
+                <span id="studio-txt-orig" class="text-[11px] text-slate-400 line-through">R$ 0,00</span>
+                <span id="studio-txt-final" class="text-base font-black text-emerald-400">R$ 0,00</span>
+              </div>
+            </div>
+
+            <div class="relative z-10 bg-amber-500 text-slate-950 font-black text-xs py-2 px-3 rounded-xl text-center shadow-lg uppercase tracking-tight">
+              CUPOM: <span id="studio-txt-code">CLIENTEVIP</span>
+            </div>
+          </div>
+
+          <div class="flex gap-2 mt-3 w-full">
+            <button type="button" onclick="saveStudioAsImage()" class="flex-1 py-2.5 bg-amber-600 hover:bg-amber-500 text-white rounded-xl text-xs font-bold shadow transition flex items-center justify-center gap-1.5 cursor-pointer">
+              <i class="fa-solid fa-image"></i> Salvar como Imagem
+            </button>
+            <button type="button" onclick="saveStudioAsTimedVideo()" class="flex-1 py-2.5 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs font-bold shadow transition flex items-center justify-center gap-1.5 cursor-pointer">
+              <i class="fa-solid fa-video"></i> Salvar Vídeo (<span id="btn-vid-sec">5s</span>)
+            </button>
           </div>
         </div>
 
         <div>
-          <label class="block text-xs font-semibold text-slate-300 mb-1">Texto da Legenda (Toque para selecionar e copiar)</label>
-          <textarea id="ig-post-caption" rows="4" onclick="this.select()" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-xs text-slate-100 font-mono focus:outline-none focus:border-brand-500 cursor-pointer"></textarea>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Legenda para Copiar (Instagram / WhatsApp)</label>
+          <textarea id="ig-post-caption" rows="3" onclick="this.select()" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-xs text-slate-100 font-mono focus:outline-none focus:border-brand-500 cursor-pointer"></textarea>
         </div>
       </div>
 
@@ -226,11 +259,15 @@
     </div>
   </div>
 
+  <!-- BIBLIOTECAS PARA GERAR MOLDURA E VÍDEO COM DURAÇÃO EXATA -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://www.jsdelivr.com/package/npm/webm-writer-js"></script>
+
   <a href="https://api.whatsapp.com/send?text=Olha%20que%20cat%C3%A1logo%20incr%C3%ADvel%20de%20descontos%20e%20cupons%20eu%20achei!%20Confere%20aqui:%20https://cristianalvesdacosta-dot.github.io/MinhaLojaCat-logo/" 
      target="_blank" 
      rel="noopener noreferrer"
      class="fixed bottom-5 right-4 z-40 bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-2 rounded-full shadow-lg flex items-center gap-1.5 transition transform hover:scale-105 border border-emerald-400/40 cursor-pointer"
-     title="Compartilhar Catálogo no WhatsApp">
+     title="Compartilhar no WhatsApp">
     <i class="fa-brands fa-whatsapp text-lg"></i>
     <span class="text-[11px] font-bold whitespace-nowrap pr-0.5">Compartilhar</span>
   </a>
@@ -241,7 +278,6 @@
     </button>
     <div class="relative max-w-4xl w-full max-h-[90vh] flex flex-col items-center justify-center">
       <img id="viewer-img-element" src="" alt="Ampliada" class="max-h-[75vh] max-w-full object-contain rounded-xl shadow-2xl border border-slate-700">
-      <div id="viewer-thumbnails" class="flex items-center gap-2 mt-4 overflow-x-auto max-w-full p-2 no-scrollbar"></div>
     </div>
   </div>
 
@@ -250,20 +286,16 @@
       <div class="w-14 h-14 bg-brand-500/20 text-brand-400 rounded-2xl flex items-center justify-center mx-auto text-2xl border border-brand-500/30">
         <i class="fa-solid fa-circle-check"></i>
       </div>
-
       <div>
         <h3 class="text-lg font-bold text-white">Cupom Copiado!</h3>
         <p class="text-sm font-bold text-brand-400 mt-1" id="timer-coupon-code">Cupom: CLIENTEVIP</p>
       </div>
-
       <p class="text-xs text-slate-300 leading-relaxed bg-slate-900/80 p-3 rounded-xl border border-slate-700">
-        ✔ Cole-o no carrinho para aplicar seu desconto.<br>
-        Entrando na loja em <strong id="countdown-seconds" class="text-brand-400">8s</strong>...
+        ✔ Cole no carrinho.<br>Entrando na loja em <strong id="countdown-seconds" class="text-brand-400">8s</strong>...
       </p>
-
       <div class="pt-2">
         <button type="button" onclick="cancelRedirectTimer()" class="w-full py-2 bg-slate-700 hover:bg-slate-600 text-slate-300 font-semibold rounded-xl text-xs transition cursor-pointer">
-          Cancelar e Continuar no Catálogo
+          Cancelar
         </button>
       </div>
     </div>
@@ -318,20 +350,17 @@
             <i class="fa-solid fa-lock"></i>
           </div>
           <h2 class="text-xl font-bold text-white">Painel Administrativo</h2>
-          <p class="text-xs text-slate-400 mt-1">Acesse com sua senha exclusiva de administrador.</p>
+          <p class="text-xs text-slate-400 mt-1">Acesse com sua senha exclusiva.</p>
         </div>
-
         <form id="form-auth" class="space-y-4">
           <div>
             <label class="block text-xs font-semibold text-slate-300 mb-1">E-mail</label>
             <input type="email" id="auth-email" value="cristianalvesdacosta@gmail.com" readonly class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-400 cursor-not-allowed">
           </div>
-
           <div>
             <label class="block text-xs font-semibold text-slate-300 mb-1">Senha de Acesso</label>
             <input type="password" id="auth-password" required placeholder="Digite sua senha..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
           </div>
-
           <button type="submit" id="btn-auth-submit" class="w-full py-2.5 bg-brand-600 hover:bg-brand-500 text-white font-semibold rounded-xl text-sm transition shadow-lg shadow-brand-600/35 cursor-pointer">
             Entrar no Painel
           </button>
@@ -359,15 +388,14 @@
             </span>
           </div>
           <p class="text-[11px] text-slate-300 leading-relaxed">
-            Seu cupom vale para a loja toda? Quando um cliente usar o cupom em qualquer compra, clique abaixo para dar baixa no uso de <strong>todos os produtos de uma vez só</strong>:
+            Quando um cliente usar o cupom na compra, clique abaixo para dar baixa no uso de <strong>todos os produtos de uma vez só</strong>:
           </p>
-          
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
             <button type="button" onclick="decreaseAllProductsUsage(1)" class="py-2 px-3 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs font-bold transition shadow-md flex items-center justify-center gap-1.5 cursor-pointer">
               <i class="fa-solid fa-minus-circle"></i> Baixa Global (-1 em Todos)
             </button>
             <button type="button" onclick="openCustomBatchModal()" class="py-2 px-3 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-xl text-xs font-semibold transition flex items-center justify-center gap-1.5 cursor-pointer">
-              <i class="fa-solid fa-sliders"></i> Ajustar Outra Qtd em Todos
+              <i class="fa-solid fa-sliders"></i> Ajustar Outra Qtd
             </button>
           </div>
         </div>
@@ -376,7 +404,6 @@
           <h3 id="form-prod-title" class="text-sm font-bold text-white flex items-center gap-2">
             <i class="fa-solid fa-box text-brand-500"></i> Cadastrar Novo Produto
           </h3>
-
           <form id="form-product" class="space-y-4">
             <input type="hidden" id="product-id">
 
@@ -404,17 +431,13 @@
               </label>
             </div>
 
-            <!-- CAMPO PARA SUBIR A ARTE / FOTO / VÍDEO CURTO DE 5s -->
-            <div class="p-3 bg-slate-800/80 rounded-xl border border-brand-500/30 space-y-2">
-              <label class="block text-xs font-bold text-brand-400 flex items-center gap-1.5">
-                <i class="fa-solid fa-photo-film"></i> Subir Imagem ou Mini-Vídeo (Até 5s para Story/Status)
-              </label>
-              <input type="file" id="product-media-file" accept="image/*,video/mp4,video/webm" class="w-full text-xs text-slate-400 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-brand-600 file:text-white hover:file:bg-brand-500 cursor-pointer">
-              <p class="text-[10px] text-slate-400">Você pode subir uma arte pronta em PNG/JPEG ou um videozinho curto sem som!</p>
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Subir Foto ou Vídeo / GIF do Produto</label>
+              <input type="file" id="product-media-file" accept="image/*,video/mp4,video/webm,image/gif" class="w-full text-xs text-slate-400 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-slate-700 file:text-slate-200 hover:file:bg-slate-600 cursor-pointer">
             </div>
 
             <div id="preview-media-container" class="hidden">
-              <label class="block text-xs font-semibold text-slate-300 mb-1">Mídia Atual do Produto:</label>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Mídia Atual:</label>
               <div id="preview-media-box" class="flex items-center gap-3"></div>
             </div>
 
@@ -441,18 +464,18 @@
             </div>
 
             <div>
-              <label class="block text-xs font-semibold text-slate-300 mb-1">Descrição do Produto</label>
-              <textarea id="product-description" rows="3" placeholder="Insira a descrição, fragrância, observações..." class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500"></textarea>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Descrição</label>
+              <textarea id="product-description" rows="3" placeholder="Insira a descrição..." class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500"></textarea>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label class="block text-xs font-semibold text-slate-300 mb-1">Link do Produto (Loja)</label>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Link do Produto</label>
                 <input type="url" id="product-link" placeholder="https://..." class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
               </div>
               <div>
-                <label class="block text-xs font-semibold text-slate-300 mb-1">Cupom de Desconto</label>
-                <input type="text" id="product-code" value="CLIENTEVIP" placeholder="Ex: CLIENTEVIP" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Cupom</label>
+                <input type="text" id="product-code" value="CLIENTEVIP" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
               </div>
             </div>
 
@@ -462,7 +485,7 @@
             </div>
 
             <div class="p-3 bg-slate-800/60 rounded-xl border border-slate-700/60 space-y-3">
-              <span class="text-xs font-bold text-brand-400 uppercase tracking-wider block">Controle de Estoque & Usos</span>
+              <span class="text-xs font-bold text-brand-400 uppercase tracking-wider block">Estoque & Usos</span>
               <div class="grid grid-cols-2 gap-3">
                 <div>
                   <label class="block text-[11px] font-medium text-slate-300 mb-1">Estoque Total</label>
@@ -476,7 +499,7 @@
             </div>
 
             <div class="flex justify-end gap-2">
-              <button type="button" id="btn-cancel-prod-edit" onclick="resetProductForm()" class="hidden px-4 py-2 bg-slate-700 hover:bg-slate-600 text-slate-300 rounded-xl text-xs font-medium cursor-pointer">Cancelar Edição</button>
+              <button type="button" id="btn-cancel-prod-edit" onclick="resetProductForm()" class="hidden px-4 py-2 bg-slate-700 hover:bg-slate-600 text-slate-300 rounded-xl text-xs font-medium cursor-pointer">Cancelar</button>
               <button type="submit" class="w-full py-2.5 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs font-bold shadow-md transition cursor-pointer">
                 Salvar Produto
               </button>
@@ -488,83 +511,63 @@
           <h3 class="text-sm font-bold text-slate-200 flex items-center gap-2">
             <i class="fa-solid fa-sliders text-brand-500"></i> Personalizar Capa, Logo e Link da Loja
           </h3>
-
           <form id="form-profile" class="space-y-4">
             <div>
               <label class="block text-xs font-semibold text-slate-300 mb-1">Nome / Título da Loja</label>
               <input type="text" id="profile-title" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
             </div>
-
             <div>
-              <label class="block text-xs font-semibold text-slate-300 mb-1">Biografia da Loja</label>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Biografia</label>
               <textarea id="profile-bio" rows="2" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500"></textarea>
             </div>
-
             <div>
-              <label class="block text-xs font-bold text-brand-400 mb-1">Link da Sua Loja Oficial (Para o Banner)</label>
+              <label class="block text-xs font-bold text-brand-400 mb-1">Link da Loja Oficial (Banner)</label>
               <input type="url" id="profile-store-link" placeholder="https://..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
             </div>
-
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label class="block text-xs font-semibold text-slate-300 mb-1">Foto da Capa / Banner</label>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Capa / Banner</label>
                 <input type="file" id="profile-cover-file" accept="image/*" class="w-full text-xs text-slate-400 file:mr-2 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:bg-slate-700 file:text-slate-200">
               </div>
-
               <div>
-                <label class="block text-xs font-semibold text-slate-300 mb-1">Logo da Loja</label>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Logo</label>
                 <input type="file" id="profile-logo-file" accept="image/*" class="w-full text-xs text-slate-400 file:mr-2 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:bg-slate-700 file:text-slate-200">
               </div>
             </div>
-
             <button type="submit" class="w-full py-2 bg-slate-700 hover:bg-slate-600 text-slate-200 rounded-xl text-xs font-bold transition cursor-pointer">
               Salvar Perfil e Capa
             </button>
           </form>
         </div>
-
       </div>
-
     </div>
   </div>
 
   <div id="modal-admin-manage" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm hidden">
     <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-lg w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
-      <button class="btn-close-modal absolute top-4 right-4 text-slate-400 hover:text-white text-lg cursor-pointer">
-        <i class="fa-solid fa-xmark"></i>
-      </button>
-
+      <button class="btn-close-modal absolute top-4 right-4 text-slate-400 hover:text-white text-lg cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
       <h2 class="text-base font-bold text-white mb-2 flex items-center gap-2">
         <i class="fa-solid fa-list-check text-brand-500"></i> Gerenciar Produtos & Estatísticas
       </h2>
       <p class="text-xs text-slate-400 mb-4">Acompanhe cliques, edite ou exclua os itens.</p>
-
       <div id="admin-products-list" class="space-y-3"></div>
     </div>
   </div>
 
   <div id="modal-quick-use" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm hidden">
     <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-sm w-full p-6 shadow-2xl relative">
-      <button class="btn-close-modal absolute top-4 right-4 text-slate-400 hover:text-white text-lg cursor-pointer">
-        <i class="fa-solid fa-xmark"></i>
-      </button>
-
-      <h2 class="text-base font-bold text-white mb-2 flex items-center gap-2">
-        <i class="fa-solid fa-calculator text-brand-500"></i> Atualizar Estoque / Uso
-      </h2>
+      <button class="btn-close-modal absolute top-4 right-4 text-slate-400 hover:text-white text-lg cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
+      <h2 class="text-base font-bold text-white mb-2"><i class="fa-solid fa-calculator text-brand-500"></i> Atualizar Estoque</h2>
       <p id="quick-use-product-name" class="text-xs font-medium text-slate-400 mb-4 truncate"></p>
-
       <form id="form-quick-use" class="space-y-4">
         <input type="hidden" id="quick-use-id">
-
         <div>
           <label class="block text-xs font-semibold text-slate-300 mb-1">Quantidade Já Usada</label>
           <input type="number" id="quick-use-val" min="0" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
         </div>
-
         <div class="pt-2 flex justify-end gap-2">
-          <button type="button" class="btn-close-modal px-4 py-2 bg-slate-700 hover:bg-slate-600 text-slate-300 rounded-xl text-xs font-medium cursor-pointer">Cancelar</button>
-          <button type="submit" class="px-4 py-2 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs font-semibold cursor-pointer">Salvar</button>
+          <button type="button" class="btn-close-modal px-4 py-2 bg-slate-700 text-slate-300 rounded-xl text-xs font-medium">Cancelar</button>
+          <button type="submit" class="px-4 py-2 bg-brand-600 text-white rounded-xl text-xs font-semibold">Salvar</button>
         </div>
       </form>
     </div>
@@ -572,24 +575,17 @@
 
   <div id="modal-batch-use" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm hidden">
     <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-sm w-full p-6 shadow-2xl relative">
-      <button class="btn-close-modal absolute top-4 right-4 text-slate-400 hover:text-white text-lg cursor-pointer">
-        <i class="fa-solid fa-xmark"></i>
-      </button>
-
-      <h2 class="text-base font-bold text-white mb-2 flex items-center gap-2">
-        <i class="fa-solid fa-layer-group text-brand-500"></i> Dar Baixa Global em Lote
-      </h2>
+      <button class="btn-close-modal absolute top-4 right-4 text-slate-400 hover:text-white text-lg cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
+      <h2 class="text-base font-bold text-white mb-2"><i class="fa-solid fa-layer-group text-brand-500"></i> Baixa Global em Lote</h2>
       <p class="text-xs text-slate-400 mb-4">Adicionar usos a <strong>TODOS OS PRODUTOS</strong>:</p>
-
       <form id="form-batch-use" class="space-y-4">
         <div>
           <label class="block text-xs font-semibold text-slate-300 mb-1">Quantidade a adicionar</label>
           <input type="number" id="batch-use-val" min="1" value="1" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
         </div>
-
         <div class="pt-2 flex justify-end gap-2">
-          <button type="button" class="btn-close-modal px-4 py-2 bg-slate-700 hover:bg-slate-600 text-slate-300 rounded-xl text-xs font-medium cursor-pointer">Cancelar</button>
-          <button type="submit" class="px-4 py-2 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs font-semibold cursor-pointer">Aplicar em Todos</button>
+          <button type="button" class="btn-close-modal px-4 py-2 bg-slate-700 text-slate-300 rounded-xl text-xs font-medium">Cancelar</button>
+          <button type="submit" class="px-4 py-2 bg-brand-600 text-white rounded-xl text-xs font-semibold">Aplicar</button>
         </div>
       </form>
     </div>
@@ -650,6 +646,8 @@
     };
     let currentUploadedMedia = "";
     let currentMediaType = "image";
+    let activeStudioProd = null;
+    let selectedDuration = 5; // Duração padrão do vídeo em segundos
     let redirectTimer = null;
     let redirectInterval = null;
 
@@ -671,16 +669,13 @@
       try {
         const visitRef = doc(db, 'settings', 'visits');
         await setDoc(visitRef, { count: increment(1) }, { merge: true });
-      } catch (err) {
-        console.warn("Erro no contador de visitas:", err);
-      }
+      } catch (err) {}
     }
 
     function listenRealVisits() {
       onSnapshot(doc(db, 'settings', 'visits'), (docSnap) => {
         if (docSnap.exists()) {
-          const totalVisits = docSnap.data().count || 0;
-          document.getElementById('visitor-counter').innerText = `${totalVisits} acessos`;
+          document.getElementById('visitor-counter').innerText = `${docSnap.data().count || 0} acessos`;
         }
       });
     }
@@ -706,22 +701,17 @@
       if (!activeRatingProdId) return;
       const prod = productsList.find(p => p.id === activeRatingProdId);
       if (!prod) return;
-
       let totalRatings = Number(prod.totalRatings) || 0;
       let sumRatings = Number(prod.sumRatings) || 0;
-
       totalRatings += 1;
       sumRatings += ratingVal;
       const newAverage = (sumRatings / totalRatings).toFixed(1);
-
       try {
-        await updateDoc(doc(db, 'products', activeRatingProdId), {
-          totalRatings, sumRatings, ratingAverage: newAverage
-        });
-        showToast(`Avaliação de ${ratingVal} estrela(s) salva!`);
+        await updateDoc(doc(db, 'products', activeRatingProdId), { totalRatings, sumRatings, ratingAverage: newAverage });
+        showToast(`Avaliação salva!`);
         document.getElementById('modal-rate-product').classList.add('hidden');
       } catch (err) {
-        showToast("Erro ao salvar avaliação", "error");
+        showToast("Erro ao avaliar", "error");
       }
     };
 
@@ -731,55 +721,39 @@
       e.preventDefault();
       const name = document.getElementById('test-name').value;
       const comment = document.getElementById('test-comment').value;
-
       try {
         await addDoc(collection(db, 'testimonials'), { name, comment, createdAt: new Date().toISOString() });
-        showToast("Depoimento enviado com sucesso!");
+        showToast("Depoimento enviado!");
         document.getElementById('form-testimonial').reset();
         document.getElementById('modal-testimonial').classList.add('hidden');
       } catch(err) {
-        showToast("Erro ao enviar depoimento", "error");
+        showToast("Erro", "error");
       }
     };
 
     window.copyCoupon = (codeText) => {
-      const couponToCopy = codeText || "CLIENTEVIP";
-      navigator.clipboard.writeText(couponToCopy).then(() => {
-        showToast(`Cupom "${couponToCopy}" copiado com sucesso!`);
-      }).catch(err => {
-        showToast("Erro ao copiar cupom", "error");
+      navigator.clipboard.writeText(codeText || "CLIENTEVIP").then(() => {
+        showToast(`Cupom "${codeText || "CLIENTEVIP"}" copiado!`);
       });
     };
 
     window.openStoreBannerLink = (event) => {
       event.preventDefault();
       const storeLink = profileData.storeLink || "";
-
       if (!storeLink) {
         showToast("Configure o link da sua loja no Painel!", "error");
         document.getElementById('modal-auth').classList.remove('hidden');
         return;
       }
-
       openProductAndCopyCoupon(null, storeLink, "CLIENTEVIP");
     };
 
     window.openProductAndCopyCoupon = async (prodId, productUrl, couponCode) => {
       const couponToCopy = couponCode || "CLIENTEVIP";
-
-      navigator.clipboard.writeText(couponToCopy).catch(err => {
-        console.warn("Aviso na cópia:", err);
-      });
-
+      navigator.clipboard.writeText(couponToCopy).catch(() => {});
       if (prodId) {
-        try {
-          const prodRef = doc(db, 'products', prodId);
-          await updateDoc(prodRef, { linkClicks: increment(1) });
-        } catch (e) {
-          console.warn("Erro ao atualizar contador de cliques:", e);
-        }
+        try { await updateDoc(doc(db, 'products', prodId), { linkClicks: increment(1) }); } catch (e) {}
       }
-
       document.getElementById('timer-coupon-code').innerText = `Cupom: ${couponToCopy}`;
       document.getElementById('modal-timer-redirect').classList.remove('hidden');
 
@@ -792,16 +766,12 @@
 
       redirectInterval = setInterval(() => {
         secondsLeft--;
-        if (secondsLeft >= 0) {
-          countdownElem.innerText = `${secondsLeft}s`;
-        }
+        if (secondsLeft >= 0) countdownElem.innerText = `${secondsLeft}s`;
       }, 1000);
 
       redirectTimer = setTimeout(() => {
         clearInterval(redirectInterval);
-        if (productUrl) {
-          window.location.href = productUrl;
-        }
+        if (productUrl) window.location.href = productUrl;
       }, 8000);
     };
 
@@ -811,84 +781,161 @@
       document.getElementById('modal-timer-redirect').classList.add('hidden');
     };
 
-    // ABRIR O MODAL DE STATUS / STORY DIRETAMENTE COM A MÍDIA SUBIDA PELO USUÁRIO (IMAGEM OU VÍDEO 5s)
+    // SELETOR DE DURAÇÃO DE VÍDEO (5s, 10s, 15s, 20s, 25s)
+    window.setVideoDuration = (sec) => {
+      selectedDuration = sec;
+      document.getElementById('selected-duration-label').innerText = `${sec} segundos`;
+      document.getElementById('btn-vid-sec').innerText = `${sec}s`;
+
+      // Atualiza os estilos dos botões de tempo
+      document.querySelectorAll('.duration-btn').forEach(btn => {
+        const matches = btn.innerText.includes(`${sec}s`);
+        btn.className = matches 
+          ? "duration-btn py-1.5 bg-brand-600 text-white rounded-lg text-xs font-bold transition shadow cursor-pointer"
+          : "duration-btn py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-semibold transition border border-slate-700 cursor-pointer";
+      });
+    };
+
+    // ABRIR O ESTÚDIO DE MOLDURA
     window.openInstagramPostModal = (prodId) => {
       const prod = productsList.find(p => p.id === prodId);
       if (!prod) {
         showToast("Produto não encontrado.", "error");
         return;
       }
+      activeStudioProd = prod;
 
       const originalPrice = prod.price ? Number(prod.price) : 0;
       const discount = Number(prod.discountPercent) || 0;
       let finalPrice = discount > 0 ? (originalPrice - (originalPrice * (discount / 100))).toFixed(2).replace('.', ',') : originalPrice.toFixed(2).replace('.', ',');
 
-      const mediaUrl = prod.mediaUrl || prod.image || "https://via.placeholder.com/400x300?text=Sem+Mídia";
-      const isVideo = prod.mediaType === 'video' || mediaUrl.includes('data:video');
-      const couponCode = prod.code || "CLIENTEVIP";
-      const productLink = prod.link || window.location.href;
+      document.getElementById('studio-txt-name').innerText = prod.name;
+      document.getElementById('studio-txt-orig').innerText = originalPrice > 0 ? `R$ ${originalPrice.toFixed(2).replace('.', ',')}` : "";
+      document.getElementById('studio-txt-final').innerText = `R$ ${finalPrice}`;
+      document.getElementById('studio-txt-off').innerText = `${discount}%`;
+      document.getElementById('studio-txt-code').innerText = prod.code || "CLIENTEVIP";
 
-      const mediaContainer = document.getElementById('story-media-container');
-      if (isVideo) {
-        mediaContainer.innerHTML = `<video src="${mediaUrl}" autoplay loop muted playsinline class="w-full h-full object-cover"></video>`;
-      } else {
-        mediaContainer.innerHTML = `<img src="${mediaUrl}" alt="Mídia" class="w-full h-full object-cover">`;
-      }
-
-      document.getElementById('ig-download-media-btn').href = mediaUrl;
-      document.getElementById('ig-download-media-btn').download = isVideo ? "story-promocao.mp4" : "arte-promocao.png";
+      const defaultMedia = prod.mediaUrl || prod.image || "";
+      applyStudioBackground(defaultMedia, prod.mediaType || "image");
 
       const statusText = `🔥 *OFERTA ESPECIAL!* 🔥\n\n` +
         `📦 *${prod.name}*\n\n` +
         (discount > 0 ? `💰 De R$ ${originalPrice.toFixed(2).replace('.', ',')} por apenas *R$ ${finalPrice}* (${discount}% OFF)\n` : `💰 Apenas: *R$ ${finalPrice}*\n`) +
         (prod.description ? `📝 ${prod.description}\n\n` : `\n`) +
-        `🎟️ Cupom de Desconto: *${couponCode}*\n\n` +
-        `🛒 Garanta já o seu no link oficial:\n${productLink}`;
+        `🎟️ Cupom de Desconto: *${prod.code || "CLIENTEVIP"}*\n\n` +
+        `🛒 Garanta já o seu no link oficial:\n${prod.link || window.location.href}`;
 
       document.getElementById('ig-post-caption').value = statusText;
       document.getElementById('modal-instagram-post').classList.remove('hidden');
     };
 
-    window.copyInstagramCaption = () => {
-      const textarea = document.getElementById('ig-post-caption');
-      textarea.select();
-      textarea.setSelectionRange(0, 99999);
-      
+    function applyStudioBackground(mediaSrc, type) {
+      const imgElem = document.getElementById('studio-bg-img');
+      const vidElem = document.getElementById('studio-bg-vid');
+
+      if (!mediaSrc) {
+        imgElem.style.display = 'none';
+        vidElem.style.display = 'none';
+        return;
+      }
+
+      if (type === 'video' || mediaSrc.includes('data:video')) {
+        imgElem.style.display = 'none';
+        vidElem.style.display = 'block';
+        vidElem.src = mediaSrc;
+      } else {
+        vidElem.style.display = 'none';
+        imgElem.style.display = 'block';
+        imgElem.src = mediaSrc;
+      }
+    }
+
+    document.getElementById('studio-bg-file').onchange = (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      const isVid = file.type.startsWith('video');
+      reader.readAsDataURL(file);
+      reader.onload = (event) => {
+        applyStudioBackground(event.target.result, isVid ? 'video' : 'image');
+        showToast("Fundo da moldura atualizado!");
+      };
+    };
+
+    window.saveStudioAsImage = () => {
+      const frameNode = document.getElementById('studio-frame-wrapper');
+      showToast("Gerando imagem...");
+
+      html2canvas(frameNode, { scale: 3, useCORS: true, backgroundColor: null }).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'moldura-promocao.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+        showToast("Imagem salva com sucesso!");
+      }).catch(err => {
+        showToast("Erro ao gerar imagem", "error");
+      });
+    };
+
+    // GERAÇÃO DE VÍDEO COM A DURAÇÃO EXATA ESCOLHIDA PELO USUÁRIO (5s, 10s, 15s, 20s, 25s)
+    window.saveStudioAsTimedVideo = async () => {
+      const frameNode = document.getElementById('studio-frame-wrapper');
+      showToast(`Gerando vídeo de ${selectedDuration} segundos... Aguarde.`);
+
       try {
-        navigator.clipboard.writeText(textarea.value).then(() => {
-          showToast("Legenda copiada com sucesso!");
-        }).catch(() => {
-          document.execCommand('copy');
-          showToast("Legenda copiada!");
-        });
+        const canvas = document.createElement('canvas');
+        canvas.width = 720;
+        canvas.height = 960;
+        const ctx = canvas.getContext('2d');
+
+        // Captura a moldura visual renderizada
+        const renderedCanvas = await html2canvas(frameNode, { scale: 2, useCORS: true, backgroundColor: null });
+
+        const fps = 30;
+        const totalFrames = selectedDuration * fps;
+        const stream = canvas.captureStream(fps);
+        const recorder = new MediaRecorder(stream, { mimeType: 'video/webm;codecs=vp9' });
+        
+        let chunks = [];
+        recorder.ondataavailable = e => chunks.push(e.data);
+        recorder.onstop = () => {
+          const blob = new Blob(chunks, { type: 'video/webm' });
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = url;
+          link.download = `story-${selectedDuration}segundos.webm`;
+          link.click();
+          showToast(`Vídeo de ${selectedDuration}s gerado com sucesso!`);
+        };
+
+        recorder.start();
+
+        let currentFrame = 0;
+        const interval = setInterval(() => {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.drawImage(renderedCanvas, 0, 0, canvas.width, canvas.height);
+          currentFrame++;
+
+          if (currentFrame >= totalFrames) {
+            clearInterval(interval);
+            recorder.stop();
+          }
+        }, 1000 / fps);
+
       } catch (err) {
-        showToast("Toque no texto para selecionar e copiar.", "error");
+        showToast("Seu navegador não suporta gravação direta de vídeo. Use 'Salvar como Imagem'.", "error");
       }
     };
 
-    window.openImageViewer = (imgUrl, allImagesJson) => {
-      let images = [];
-      try { images = JSON.parse(decodeURIComponent(allImagesJson)); } catch(e) { images = [imgUrl]; }
+    window.copyInstagramCaption = () => {
+      const textarea = document.getElementById('ig-post-caption');
+      textarea.select();
+      navigator.clipboard.writeText(textarea.value).then(() => showToast("Legenda copiada!"));
+    };
 
-      const modal = document.getElementById('modal-image-viewer');
-      const mainImg = document.getElementById('viewer-img-element');
-      const thumbsContainer = document.getElementById('viewer-thumbnails');
-
-      mainImg.src = imgUrl;
-
-      if (images.length > 1) {
-        thumbsContainer.innerHTML = images.map(url => `
-          <button type="button" onclick="document.getElementById('viewer-img-element').src='${url}'" class="focus:outline-none flex-shrink-0 cursor-pointer">
-            <img src="${url}" class="w-16 h-16 rounded-xl object-cover border-2 border-slate-600 hover:border-brand-500 transition">
-          </button>
-        `).join('');
-        thumbsContainer.classList.remove('hidden');
-      } else {
-        thumbsContainer.innerHTML = '';
-        thumbsContainer.classList.add('hidden');
-      }
-
-      modal.classList.remove('hidden');
+    window.openImageViewer = (imgUrl) => {
+      document.getElementById('viewer-img-element').src = imgUrl;
+      document.getElementById('modal-image-viewer').classList.remove('hidden');
     };
 
     window.closeImageViewer = () => {
@@ -896,83 +943,48 @@
     };
 
     window.decreaseAllProductsUsage = async (qtyToSubtract = 1) => {
-      if (productsList.length === 0) {
-        showToast("Nenhum produto cadastrado para dar baixa.", "error");
-        return;
-      }
-
-      if (!confirm(`Confirmar baixa de -${qtyToSubtract} no estoque do cupom para TODOS os ${productsList.length} produtos?`)) {
-        return;
-      }
-
-      showToast("Atualizando todos os produtos no banco...", "success");
-
+      if (productsList.length === 0) return showToast("Nenhum produto cadastrado.", "error");
+      if (!confirm(`Confirmar baixa de -${qtyToSubtract} para TODOS os ${productsList.length} produtos?`)) return;
       try {
         const batch = writeBatch(db);
-
         productsList.forEach(prod => {
           const prodRef = doc(db, 'products', prod.id);
-          const currentUsed = Number(prod.usedCount) || Number(prod.used) || 0;
-          const newUsed = currentUsed + Number(qtyToSubtract);
-
-          batch.update(prodRef, {
-            usedCount: newUsed,
-            used: newUsed,
-            updatedAt: new Date().toISOString()
-          });
+          const newUsed = (Number(prod.usedCount) || 0) + Number(qtyToSubtract);
+          batch.update(prodRef, { usedCount: newUsed, used: newUsed });
         });
-
         await batch.commit();
-        showToast(`Baixa realizada em lote para todos os ${productsList.length} produtos!`);
-
+        showToast("Baixa global realizada!");
       } catch (err) {
-        console.error(err);
-        showToast("Erro ao dar baixa em lote: " + err.message, "error");
+        showToast("Erro: " + err.message, "error");
       }
     };
 
-    window.openCustomBatchModal = () => {
-      document.getElementById('modal-batch-use').classList.remove('hidden');
-    };
+    window.openCustomBatchModal = () => document.getElementById('modal-batch-use').classList.remove('hidden');
 
     document.getElementById('form-batch-use').onsubmit = async (e) => {
       e.preventDefault();
       const val = Number(document.getElementById('batch-use-val').value);
-      if (val > 0) {
-        document.getElementById('modal-batch-use').classList.add('hidden');
-        await window.decreaseAllProductsUsage(val);
-      }
+      document.getElementById('modal-batch-use').classList.add('hidden');
+      await window.decreaseAllProductsUsage(val);
     };
 
-    // LEITOR DO ARQUIVO DE MÍDIA (FOTO OU VÍDEO CURTO)
     document.getElementById('product-media-file').onchange = (e) => {
       const file = e.target.files[0];
       if (!file) return;
-
       const reader = new FileReader();
       currentMediaType = file.type.startsWith('video') ? 'video' : 'image';
-
       reader.readAsDataURL(file);
       reader.onload = (event) => {
         currentUploadedMedia = event.target.result;
         const box = document.getElementById('preview-media-box');
-        
-        if (currentMediaType === 'video') {
-          box.innerHTML = `<video src="${currentUploadedMedia}" autoplay loop muted playsinline class="w-16 h-16 rounded-xl object-cover border border-slate-700"></video> <span class="text-xs text-brand-400 font-bold">Mini-vídeo carregado com sucesso!</span>`;
-        } else {
-          box.innerHTML = `<img src="${currentUploadedMedia}" class="w-16 h-16 rounded-xl object-cover border border-slate-700"> <span class="text-xs text-brand-400 font-bold">Imagem carregada com sucesso!</span>`;
-        }
+        box.innerHTML = currentMediaType === 'video' ? `<span class="text-xs text-brand-400 font-bold">Vídeo carregado</span>` : `<img src="${currentUploadedMedia}" class="w-16 h-16 rounded-xl object-cover">`;
         document.getElementById('preview-media-container').classList.remove('hidden');
-        showToast("Mídia pronta para salvar!");
       };
     };
 
     function processImageFile(file) {
-      return new Promise((resolve, reject) => {
-        if (!file) {
-          resolve(null);
-          return;
-        }
+      return new Promise((resolve) => {
+        if (!file) return resolve(null);
         const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = (event) => {
@@ -980,145 +992,76 @@
           img.src = event.target.result;
           img.onload = () => {
             const canvas = document.createElement('canvas');
-            let width = img.width;
-            let height = img.height;
-            const maxWidth = 1000;
-            const maxHeight = 1000;
-            if (width > height) {
-              if (width > maxWidth) {
-                height *= maxWidth / width;
-                width = maxWidth;
-              }
-            } else {
-              if (height > maxHeight) {
-                width *= maxHeight / height;
-                height = maxHeight;
-              }
-            }
-
-            canvas.width = width;
-            canvas.height = height;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(img, 0, 0, width, height);
-
-            const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
-            resolve(dataUrl);
+            let w = img.width, h = img.height;
+            if (w > 1000) { h *= 1000 / w; w = 1000; }
+            canvas.width = w; canvas.height = h;
+            canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+            resolve(canvas.toDataURL('image/jpeg', 0.85));
           };
-          img.onerror = (error) => reject(error);
         };
-        reader.onerror = (error) => reject(error);
       });
-    }
-
-    function updateAdminUI() {
-      const panelUnlogged = document.getElementById('panel-unlogged');
-      const panelLogged = document.getElementById('panel-logged');
-
-      if (currentUser) {
-        panelUnlogged.classList.add('hidden');
-        panelLogged.classList.remove('hidden');
-        
-        document.getElementById('profile-title').value = profileData.title || "";
-        document.getElementById('profile-bio').value = profileData.bio || "";
-        document.getElementById('profile-store-link').value = profileData.storeLink || "";
-      } else {
-        panelUnlogged.classList.remove('hidden');
-        panelLogged.classList.add('hidden');
-      }
-      renderProducts();
     }
 
     onAuthStateChanged(auth, (user) => {
       currentUser = user;
-      updateAdminUI();
+      document.getElementById('panel-unlogged').classList.toggle('hidden', !!user);
+      document.getElementById('panel-logged').classList.toggle('hidden', !user);
+      if (user) {
+        document.getElementById('profile-title').value = profileData.title || "";
+        document.getElementById('profile-bio').value = profileData.bio || "";
+        document.getElementById('profile-store-link').value = profileData.storeLink || "";
+      }
+      renderProducts();
     });
 
     function setupDataListeners() {
-      onSnapshot(doc(db, 'settings', 'profile'), (docSnap) => {
-        if (docSnap.exists()) {
-          profileData = { ...profileData, ...docSnap.data() };
-          renderProfile();
-        } else {
-          renderProfile();
+      onSnapshot(doc(db, 'settings', 'profile'), (snap) => {
+        if (snap.exists()) {
+          profileData = { ...profileData, ...snap.data() };
+          document.getElementById('display-title').innerText = profileData.title;
+          document.getElementById('display-bio').innerText = profileData.bio;
+          if (profileData.cover) document.getElementById('display-cover').style.backgroundImage = `url('${profileData.cover}')`;
+          if (profileData.logo) document.getElementById('display-logo').src = profileData.logo;
         }
       });
 
-      onSnapshot(collection(db, 'products'), (snapshot) => {
-        productsList = snapshot.docs.map(docSnap => ({
-          id: docSnap.id,
-          ...docSnap.data()
-        }));
+      onSnapshot(collection(db, 'products'), (snap) => {
+        productsList = snap.docs.map(d => ({ id: d.id, ...d.data() }));
         renderProducts();
         if (currentUser) renderAdminProductsList();
-      }, (error) => {
-        console.error("Erro ao sincronizar produtos:", error);
       });
 
-      onSnapshot(collection(db, 'testimonials'), (snapshot) => {
-        testimonialsList = snapshot.docs.map(docSnap => ({ id: docSnap.id, ...docSnap.data() }));
-        renderTestimonials();
-      });
-    }
-
-    function renderTestimonials() {
-      const ticker = document.getElementById('testimonials-ticker');
-      if (!ticker) return;
-      if (testimonialsList.length === 0) {
-        ticker.innerHTML = `<div class="text-xs text-slate-400 italic py-1">Nenhum depoimento ainda. Seja o primeiro a avaliar!</div>`;
-        return;
-      }
-      const loopList = testimonialsList.length > 2 ? [...testimonialsList, ...testimonialsList] : testimonialsList;
-      ticker.innerHTML = loopList.map(t => `
-        <div class="inline-flex items-center gap-3 bg-slate-900/90 border border-slate-700/80 px-4 py-2 rounded-xl flex-shrink-0 shadow-sm">
-          <div class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 font-bold flex items-center justify-center text-xs border border-emerald-500/30">
-            ${t.name ? t.name.charAt(0).toUpperCase() : 'C'}
-          </div>
-          <div>
-            <div class="text-xs font-bold text-white flex items-center gap-1">
-              ${t.name} <i class="fa-solid fa-circle-check text-[10px] text-emerald-400"></i>
+      onSnapshot(collection(db, 'testimonials'), (snap) => {
+        testimonialsList = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        const ticker = document.getElementById('testimonials-ticker');
+        if (ticker) {
+          ticker.innerHTML = testimonialsList.length === 0 ? `<div class="text-xs text-slate-400 italic">Nenhum depoimento ainda.</div>` : testimonialsList.map(t => `
+            <div class="inline-flex items-center gap-3 bg-slate-900 border border-slate-700 px-4 py-2 rounded-xl flex-shrink-0">
+              <div class="w-7 h-7 rounded-full bg-emerald-500/20 text-emerald-400 font-bold flex items-center justify-center text-xs">${t.name.charAt(0).toUpperCase()}</div>
+              <div><div class="text-xs font-bold text-white">${t.name}</div><div class="text-xs text-slate-300">"${t.comment}"</div></div>
             </div>
-            <div class="text-xs text-slate-300 max-w-xs truncate">"${t.comment}"</div>
-          </div>
-        </div>
-      `).join('');
-    }
-
-    function renderProfile() {
-      document.getElementById('display-title').innerText = profileData.title || "Meu Catálogo Digital";
-      document.getElementById('display-bio').innerText = profileData.bio || "";
-      
-      if (profileData.cover) {
-        document.getElementById('display-cover').style.backgroundImage = `url('${profileData.cover}')`;
-      }
-      if (profileData.logo) {
-        document.getElementById('display-logo').src = profileData.logo;
-      }
+          `).join('');
+        }
+      });
     }
 
     function renderProducts() {
       const grid = document.getElementById('products-grid');
       const emptyState = document.getElementById('empty-state');
-      const totalStat = document.getElementById('stat-total-products');
       const searchVal = document.getElementById('input-search').value.toLowerCase().trim();
       const filterStatus = document.getElementById('filter-status').value;
 
-      totalStat.innerText = `${productsList.length} Produtos`;
+      document.getElementById('stat-total-products').innerText = `${productsList.length} Produtos`;
 
       let filtered = productsList.filter(prod => {
-        const matchesSearch = (prod.name && prod.name.toLowerCase().includes(searchVal)) || 
-                              (prod.code && prod.code.toLowerCase().includes(searchVal)) ||
-                              (prod.description && prod.description.toLowerCase().includes(searchVal));
-        
+        const matchesSearch = (prod.name && prod.name.toLowerCase().includes(searchVal)) || (prod.code && prod.code.toLowerCase().includes(searchVal));
         const matchesCategory = activeCategory === 'all' || prod.category === activeCategory;
-
-        const totalUses = Number(prod.totalUses) || Number(prod.total) || 1;
-        const usedCount = Number(prod.usedCount) || Number(prod.used) || 0;
-        const remaining = Math.max(0, totalUses - usedCount);
-        const isSoldOut = (remaining <= 0);
+        const total = Number(prod.totalUses) || 1;
+        const used = Number(prod.usedCount) || 0;
+        const isSoldOut = (Math.max(0, total - used) <= 0);
 
         if (filterStatus === 'available' && isSoldOut) return false;
         if (filterStatus === 'soldout' && !isSoldOut) return false;
-
         return matchesSearch && matchesCategory;
       });
 
@@ -1127,126 +1070,44 @@
         emptyState.classList.remove('hidden');
         return;
       }
-
       emptyState.classList.add('hidden');
 
       grid.innerHTML = filtered.map(prod => {
-        const totalUses = Number(prod.totalUses) || Number(prod.total) || 1;
-        const usedCount = Number(prod.usedCount) || Number(prod.used) || 0;
-        const remaining = Math.max(0, totalUses - usedCount);
+        const total = Number(prod.totalUses) || 1;
+        const used = Number(prod.usedCount) || 0;
+        const remaining = Math.max(0, total - used);
         const isSoldOut = (remaining <= 0);
-        
-        const percentUsed = Math.min(100, Math.round((usedCount / totalUses) * 100));
-        const percentRemaining = Math.max(0, 100 - percentUsed);
-
-        let barColor = "bg-brand-500";
-        if (percentRemaining < 20) barColor = "bg-red-500";
-        else if (percentRemaining < 50) barColor = "bg-amber-500";
+        const percentRemaining = Math.max(0, 100 - Math.round((used / total) * 100));
 
         const mediaUrl = prod.mediaUrl || prod.image || "https://via.placeholder.com/400x300?text=Sem+Mídia";
         const isVideo = prod.mediaType === 'video' || mediaUrl.includes('data:video');
-
-        const originalPrice = prod.price ? Number(prod.price) : null;
-        const discountPercent = Number(prod.discountPercent) || 0;
-
-        let finalDiscountPrice = null;
-        if (originalPrice && discountPercent > 0) {
-          finalDiscountPrice = originalPrice - (originalPrice * (discountPercent / 100));
-        }
-
-        const formattedOriginal = originalPrice ? originalPrice.toFixed(2).replace('.', ',') : null;
-        const formattedDiscount = finalDiscountPrice ? finalDiscountPrice.toFixed(2).replace('.', ',') : null;
-
-        const couponCode = prod.code || "CLIENTEVIP";
-        const ratingAvg = prod.ratingAverage || "5.0";
-        const ratingCount = prod.totalRatings || 0;
+        const orig = prod.price ? Number(prod.price) : null;
+        const disc = Number(prod.discountPercent) || 0;
+        const finalPrice = orig && disc > 0 ? (orig - (orig * (disc / 100))).toFixed(2).replace('.', ',') : (orig ? orig.toFixed(2).replace('.', ',') : null);
 
         return `
-          <div class="glass-card rounded-2xl overflow-hidden border border-slate-800 flex flex-col justify-between hover:border-slate-700 transition group">
+          <div class="glass-card rounded-2xl overflow-hidden border border-slate-800 flex flex-col justify-between group">
             <div>
-              <div class="relative h-48 w-full bg-slate-800 overflow-hidden cursor-pointer" onclick="openImageViewer('${mediaUrl}', '[\"${mediaUrl}\"]')">
-                ${isVideo ? `
-                  <video src="${mediaUrl}" autoplay loop muted playsinline class="w-full h-full object-cover group-hover:scale-105 transition duration-500"></video>
-                  <span class="absolute top-3 right-3 bg-brand-600 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow">
-                    <i class="fa-solid fa-video mr-1"></i> Vídeo 5s
-                  </span>
-                ` : `
-                  <img src="${mediaUrl}" alt="${prod.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                `}
-
-                ${isSoldOut ? `
-                  <div class="absolute inset-0 bg-slate-950/80 backdrop-blur-xs flex items-center justify-center">
-                    <span class="px-3 py-1 bg-red-600/90 text-white text-xs font-black tracking-widest rounded-full uppercase shadow-lg border border-red-400/30 animate-pulse">
-                      <i class="fa-solid fa-ban mr-1"></i> Esgotado
-                    </span>
-                  </div>
-                ` : ''}
-
-                <button type="button" onclick="event.stopPropagation(); copyCoupon('${couponCode}')" class="absolute top-3 left-3 bg-brand-600/90 hover:bg-brand-500 text-white text-[11px] font-bold px-2.5 py-1 rounded-lg shadow border border-brand-400/30 transition flex items-center gap-1.5 cursor-pointer z-10">
-                  <i class="fa-solid fa-ticket"></i> Cupom: ${couponCode} <i class="fa-regular fa-copy text-[10px] opacity-80"></i>
+              <div class="relative h-48 w-full bg-slate-800 overflow-hidden cursor-pointer" onclick="openImageViewer('${mediaUrl}')">
+                ${isVideo ? `<video src="${mediaUrl}" autoplay loop muted playsinline class="w-full h-full object-cover"></video>` : `<img src="${mediaUrl}" class="w-full h-full object-cover group-hover:scale-105 transition">`}
+                ${isSoldOut ? `<div class="absolute inset-0 bg-slate-950/80 flex items-center justify-center"><span class="px-3 py-1 bg-red-600 text-white text-xs font-black rounded-full uppercase">Esgotado</span></div>` : ''}
+                <button type="button" onclick="event.stopPropagation(); copyCoupon('${prod.code || "CLIENTEVIP"}')" class="absolute top-3 left-3 bg-brand-600 text-white text-[11px] font-bold px-2.5 py-1 rounded-lg shadow cursor-pointer">
+                  <i class="fa-solid fa-ticket"></i> Cupom: ${prod.code || "CLIENTEVIP"}
                 </button>
-
-                ${prod.isFeatured ? `
-                  <span class="absolute top-3 right-16 bg-amber-500 text-slate-950 font-black text-[10px] px-2 py-1 rounded-lg shadow uppercase z-10">
-                    <i class="fa-solid fa-fire"></i> Destaque
-                  </span>
-                ` : ''}
               </div>
-
               <div class="p-4">
-                <h3 class="font-bold text-slate-100 text-base leading-snug">${prod.name}</h3>
-
-                <div class="flex items-center justify-between mt-3 pt-2 border-t border-slate-800">
-                  <div class="flex items-center gap-1 text-amber-400 text-xs font-bold">
-                    <i class="fa-solid fa-star"></i>
-                    <span>${ratingAvg}</span>
-                    <span class="text-slate-500 font-normal">(${ratingCount})</span>
-                  </div>
-                  <button type="button" onclick="openRateModal('${prod.id}', '${prod.name.replace(/'/g, "")}')" class="text-[11px] bg-slate-800 hover:bg-slate-700 text-amber-400 font-semibold px-2.5 py-1 rounded-lg border border-amber-500/20 transition cursor-pointer">
-                    <i class="fa-regular fa-star"></i> Avaliar
-                  </button>
-                </div>
-
-                <p class="text-xs text-slate-400 mt-2">Categoria: <strong class="text-slate-300">${prod.category || 'Geral'}</strong></p>
-
-                ${formattedOriginal ? `
-                  <div class="flex items-baseline gap-2 mt-2">
-                    ${formattedDiscount ? `
-                      <span class="text-lg font-black text-brand-400">R$ ${formattedDiscount}</span>
-                      <span class="text-xs text-slate-400 line-through">R$ ${formattedOriginal}</span>
-                      <span class="text-[10px] bg-brand-500/20 text-brand-400 font-bold px-1.5 py-0.5 rounded">-${discountPercent}%</span>
-                    ` : `
-                      <span class="text-lg font-black text-slate-100">R$ ${formattedOriginal}</span>
-                    `}
-                  </div>
-                ` : ''}
-
-                <p class="text-xs text-slate-400 mt-2 whitespace-pre-line">${prod.description || 'Sem descrição.'}</p>
-
-                <div class="mt-4 p-3 bg-slate-900/80 rounded-xl border border-slate-800/80">
-                  <div class="flex items-center justify-between text-xs font-semibold mb-1.5">
-                    <span class="text-slate-400">Estoque / Uso</span>
-                    <span class="${isSoldOut ? 'text-red-400 font-bold' : 'text-slate-200'}">
-                      ${remaining} restantes de ${totalUses}
-                    </span>
-                  </div>
-
-                  <div class="w-full h-2 bg-slate-800 rounded-full overflow-hidden p-0.5 border border-slate-700/50">
-                    <div class="h-full ${barColor} rounded-full transition-all duration-500" style="width: ${percentRemaining}%"></div>
-                  </div>
+                <h3 class="font-bold text-slate-100 text-base">${prod.name}</h3>
+                ${orig ? `<div class="flex items-baseline gap-2 mt-2"><span class="text-lg font-black text-brand-400">R$ ${finalPrice}</span>${disc > 0 ? `<span class="text-xs text-slate-400 line-through">R$ ${orig.toFixed(2).replace('.', ',')}</span>` : ''}</div>` : ''}
+                <p class="text-xs text-slate-400 mt-2">${prod.description || ''}</p>
+                <div class="mt-4 p-3 bg-slate-900 rounded-xl border border-slate-800">
+                  <div class="flex items-center justify-between text-xs mb-1"><span class="text-slate-400">Estoque</span><span class="text-slate-200">${remaining} de ${total}</span></div>
+                  <div class="w-full h-2 bg-slate-800 rounded-full overflow-hidden"><div class="h-full bg-brand-500 rounded-full" style="width: ${percentRemaining}%"></div></div>
                 </div>
               </div>
             </div>
-
             <div class="p-4 pt-0 flex gap-2">
-              ${prod.link ? `
-                <button type="button" onclick="openProductAndCopyCoupon('${prod.id}', '${prod.link}', '${couponCode}')" class="flex-1 py-2 px-3 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-medium flex items-center justify-center gap-2 border border-slate-700 transition cursor-pointer">
-                  <i class="fa-solid fa-arrow-up-right-from-square text-brand-400"></i> Ver Link
-                </button>
-              ` : ''}
-              <button type="button" onclick="openInstagramPostModal('${prod.id}')" class="py-2 px-3 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 shadow transition cursor-pointer" title="Gerar Story / Status">
-                <i class="fa-solid fa-clapperboard text-sm"></i> Status / Story
-              </button>
+              ${prod.link ? `<button type="button" onclick="openProductAndCopyCoupon('${prod.id}', '${prod.link}', '${prod.code || "CLIENTEVIP"}')" class="flex-1 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-medium flex items-center justify-center gap-1 cursor-pointer"><i class="fa-solid fa-arrow-up-right-from-square text-brand-400"></i> Ver Link</button>` : ''}
+              <button type="button" onclick="openInstagramPostModal('${prod.id}')" class="py-2 px-3 bg-amber-600 hover:bg-amber-500 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 shadow cursor-pointer"><i class="fa-solid fa-wand-magic-sparkles"></i> Moldura Story</button>
             </div>
           </div>
         `;
@@ -1256,119 +1117,56 @@
     function renderAdminProductsList() {
       const container = document.getElementById('admin-products-list');
       if (!container) return;
-
-      if (productsList.length === 0) {
-        container.innerHTML = '<p class="text-xs text-slate-400 text-center py-4">Nenhum produto cadastrado ainda.</p>';
-        return;
-      }
-
-      container.innerHTML = productsList.map(prod => {
-        const clicks = prod.linkClicks || 0;
-        return `
-          <div class="bg-slate-900 p-3.5 rounded-xl border border-slate-700 space-y-2">
-            <div class="flex items-center justify-between gap-2">
-              <div class="truncate">
-                <h4 class="text-xs font-bold text-white truncate">${prod.name}</h4>
-                <div class="flex items-center gap-3 mt-0.5">
-                  <span class="text-[10px] text-slate-400">Usos: ${prod.usedCount || 0} / ${prod.totalUses || 30}</span>
-                  <span class="text-[10px] font-bold text-brand-400 bg-brand-500/10 px-2 py-0.5 rounded-full border border-brand-500/20">
-                    <i class="fa-solid fa-mouse-pointer mr-1"></i> ${clicks} cliques
-                  </span>
-                </div>
-              </div>
-            </div>
-            
-            <div class="flex items-center justify-end gap-1.5 pt-1 border-t border-slate-800">
-              <button type="button" onclick="openInstagramPostModal('${prod.id}')" class="px-2.5 py-1 bg-brand-600 hover:bg-brand-500 text-white rounded-lg text-xs font-semibold flex items-center gap-1 cursor-pointer">
-                <i class="fa-solid fa-clapperboard"></i> Status
-              </button>
-              <button type="button" onclick="openQuickUseModal('${prod.id}')" class="px-2.5 py-1 bg-brand-600/20 text-brand-300 rounded-lg text-xs font-medium border border-brand-500/30 cursor-pointer">
-                <i class="fa-solid fa-pen-to-square"></i>
-              </button>
-              <button type="button" onclick="openEditProductModal('${prod.id}')" class="px-2.5 py-1 bg-slate-800 text-slate-300 rounded-lg text-xs font-medium border border-slate-700 cursor-pointer">
-                <i class="fa-solid fa-gear"></i>
-              </button>
-              <button type="button" onclick="deleteProduct('${prod.id}')" class="px-2.5 py-1 bg-red-500/10 text-red-400 rounded-lg text-xs font-medium border border-red-500/20 cursor-pointer">
-                <i class="fa-solid fa-trash"></i>
-              </button>
-            </div>
+      container.innerHTML = productsList.length === 0 ? '<p class="text-xs text-slate-400 text-center py-4">Nenhum produto cadastrado.</p>' : productsList.map(prod => `
+        <div class="bg-slate-900 p-3.5 rounded-xl border border-slate-700 space-y-2">
+          <div class="flex items-center justify-between"><h4 class="text-xs font-bold text-white truncate">${prod.name}</h4><span class="text-[10px] text-brand-400">${prod.linkClicks || 0} cliques</span></div>
+          <div class="flex justify-end gap-1.5 pt-1 border-t border-slate-800">
+            <button type="button" onclick="openInstagramPostModal('${prod.id}')" class="px-2.5 py-1 bg-amber-600 text-white rounded-lg text-xs font-semibold"><i class="fa-solid fa-wand-magic-sparkles"></i> Moldura</button>
+            <button type="button" onclick="openQuickUseModal('${prod.id}')" class="px-2.5 py-1 bg-brand-600/20 text-brand-300 rounded-lg text-xs">Estoque</button>
+            <button type="button" onclick="openEditProductModal('${prod.id}')" class="px-2.5 py-1 bg-slate-800 text-slate-300 rounded-lg text-xs">Editar</button>
+            <button type="button" onclick="deleteProduct('${prod.id}')" class="px-2.5 py-1 bg-red-500/10 text-red-400 rounded-lg text-xs">Excluir</button>
           </div>
-        `;
-      }).join('');
+        </div>
+      `).join('');
     }
 
-    function closeModal(id) {
-      document.getElementById(id).classList.add('hidden');
-    }
-
-    document.querySelectorAll('.btn-close-modal').forEach(btn => {
-      btn.onclick = () => btn.closest('.fixed').classList.add('hidden');
-    });
-
-    document.getElementById('btn-auth-open').onclick = () => {
-      document.getElementById('modal-auth').classList.remove('hidden');
-    };
+    document.querySelectorAll('.btn-close-modal').forEach(btn => btn.onclick = () => btn.closest('.fixed').classList.add('hidden'));
+    document.getElementById('btn-auth-open').onclick = () => document.getElementById('modal-auth').classList.remove('hidden');
 
     document.getElementById('form-auth').onsubmit = async (e) => {
       e.preventDefault();
-      const password = document.getElementById('auth-password').value;
-
-      if (password !== "6424906c") {
-        showToast("Senha de administrador incorreta!", "error");
-        return;
-      }
-
+      if (document.getElementById('auth-password').value !== "6424906c") return showToast("Senha incorreta!", "error");
       try {
-        await signInWithEmailAndPassword(auth, "cristianalvesdacosta@gmail.com", password);
-        showToast("Bem-vindo ao Painel, Cristian!");
+        await signInWithEmailAndPassword(auth, "cristianalvesdacosta@gmail.com", "6424906c");
+        showToast("Bem-vindo!");
         document.getElementById('modal-auth').classList.add('hidden');
-      } catch (err) {
-        showToast("Erro ao autenticar: " + err.message, "error");
-      }
+      } catch (err) { showToast("Erro: " + err.message, "error"); }
     };
 
-    document.getElementById('btn-logout').onclick = async () => {
-      try {
-        await signOut(auth);
-        showToast("Você saiu do painel.");
-      } catch (err) {
-        showToast("Erro ao sair.", "error");
-      }
-    };
+    document.getElementById('btn-logout').onclick = () => signOut(auth);
 
     document.getElementById('form-profile').onsubmit = async (e) => {
       e.preventDefault();
-      const title = document.getElementById('profile-title').value;
-      const bio = document.getElementById('profile-bio').value;
-      const storeLink = document.getElementById('profile-store-link').value;
       const coverFile = document.getElementById('profile-cover-file').files[0];
       const logoFile = document.getElementById('profile-logo-file').files[0];
-
-      let newCover = profileData.cover;
-      let newLogo = profileData.logo;
-
+      let newCover = profileData.cover, newLogo = profileData.logo;
       if (coverFile) newCover = await processImageFile(coverFile);
       if (logoFile) newLogo = await processImageFile(logoFile);
 
-      try {
-        await setDoc(doc(db, 'settings', 'profile'), {
-          title, bio, storeLink, cover: newCover, logo: newLogo, updatedAt: new Date().toISOString()
-        }, { merge: true });
-        showToast("Perfil salvo!");
-      } catch (err) {
-        showToast("Erro ao salvar: " + err.message, "error");
-      }
+      await setDoc(doc(db, 'settings', 'profile'), {
+        title: document.getElementById('profile-title').value,
+        bio: document.getElementById('profile-bio').value,
+        storeLink: document.getElementById('profile-store-link').value,
+        cover: newCover, logo: newLogo
+      }, { merge: true });
+      showToast("Perfil salvo!");
     };
 
     window.resetProductForm = () => {
       document.getElementById('form-product').reset();
       currentUploadedMedia = "";
-      currentMediaType = "image";
       document.getElementById('preview-media-container').classList.add('hidden');
       document.getElementById('product-id').value = "";
-      document.getElementById('product-code').value = "CLIENTEVIP";
-      document.getElementById('product-validity-days').value = "30";
-      document.getElementById('product-featured').checked = false;
       document.getElementById('form-prod-title').innerHTML = `<i class="fa-solid fa-box text-brand-500"></i> Cadastrar Novo Produto`;
       document.getElementById('btn-cancel-prod-edit').classList.add('hidden');
     };
@@ -1376,34 +1174,18 @@
     window.openEditProductModal = (prodId) => {
       const prod = productsList.find(p => p.id === prodId);
       if (!prod) return;
-
-      closeModal('modal-admin-manage');
+      document.getElementById('modal-admin-manage').classList.add('hidden');
       document.getElementById('product-id').value = prod.id;
       document.getElementById('product-name').value = prod.name || "";
       document.getElementById('product-category').value = prod.category || "Perfumaria";
-      document.getElementById('product-featured').checked = !!prod.isFeatured;
       document.getElementById('product-price').value = prod.price || "";
       document.getElementById('product-discount-percent').value = prod.discountPercent || "10";
       document.getElementById('product-description').value = prod.description || "";
       document.getElementById('product-link').value = prod.link || "";
       document.getElementById('product-code').value = prod.code || "CLIENTEVIP";
-      document.getElementById('product-validity-days').value = prod.validityDays || "30";
       document.getElementById('product-total-uses').value = prod.totalUses || 30;
       document.getElementById('product-used-count').value = prod.usedCount || 0;
-
       currentUploadedMedia = prod.mediaUrl || prod.image || "";
-      currentMediaType = prod.mediaType || "image";
-
-      const box = document.getElementById('preview-media-box');
-      if (currentUploadedMedia) {
-        if (currentMediaType === 'video') {
-          box.innerHTML = `<video src="${currentUploadedMedia}" autoplay loop muted playsinline class="w-16 h-16 rounded-xl object-cover border border-slate-700"></video> <span class="text-xs text-brand-400 font-bold">Mini-vídeo cadastrado</span>`;
-        } else {
-          box.innerHTML = `<img src="${currentUploadedMedia}" class="w-16 h-16 rounded-xl object-cover border border-slate-700"> <span class="text-xs text-brand-400 font-bold">Imagem cadastrada</span>`;
-        }
-        document.getElementById('preview-media-container').classList.remove('hidden');
-      }
-
       document.getElementById('form-prod-title').innerHTML = `<i class="fa-solid fa-pen-to-square text-brand-500"></i> Editando Produto`;
       document.getElementById('btn-cancel-prod-edit').classList.remove('hidden');
       document.getElementById('modal-auth').classList.remove('hidden');
@@ -1412,102 +1194,66 @@
     document.getElementById('form-product').onsubmit = async (e) => {
       e.preventDefault();
       const id = document.getElementById('product-id').value;
-      const name = document.getElementById('product-name').value;
-      const category = document.getElementById('product-category').value;
-      const isFeatured = document.getElementById('product-featured').checked;
-      const price = document.getElementById('product-price').value;
-      const discountPercent = document.getElementById('product-discount-percent').value;
-      const description = document.getElementById('product-description').value;
-      const link = document.getElementById('product-link').value;
-      const code = document.getElementById('product-code').value || "CLIENTEVIP";
-      const validityDays = Number(document.getElementById('product-validity-days').value) || 30;
-      const totalUses = Number(document.getElementById('product-total-uses').value);
-      const usedCount = Number(document.getElementById('product-used-count').value);
+      const data = {
+        name: document.getElementById('product-name').value,
+        category: document.getElementById('product-category').value,
+        isFeatured: document.getElementById('product-featured').checked,
+        price: document.getElementById('product-price').value,
+        discountPercent: document.getElementById('product-discount-percent').value,
+        description: document.getElementById('product-description').value,
+        link: document.getElementById('product-link').value,
+        code: document.getElementById('product-code').value || "CLIENTEVIP",
+        validityDays: Number(document.getElementById('product-validity-days').value) || 30,
+        totalUses: Number(document.getElementById('product-total-uses').value),
+        usedCount: Number(document.getElementById('product-used-count').value),
+        mediaUrl: currentUploadedMedia,
+        mediaType: currentMediaType,
+        image: currentUploadedMedia
+      };
 
-      try {
-        if (id) {
-          const prodDocRef = doc(db, 'products', id);
-          const existing = productsList.find(p => p.id === id);
-          
-          const finalMedia = currentUploadedMedia ? currentUploadedMedia : (existing.mediaUrl || existing.image || "");
-          const finalMediaType = currentUploadedMedia ? currentMediaType : (existing.mediaType || "image");
-
-          await updateDoc(prodDocRef, {
-            name, category, isFeatured, price, discountPercent, description, link, code, validityDays, totalUses, usedCount,
-            mediaUrl: finalMedia,
-            mediaType: finalMediaType,
-            image: finalMedia,
-            updatedAt: new Date().toISOString()
-          });
-          showToast("Produto atualizado com sucesso!");
-        } else {
-          await addDoc(collection(db, 'products'), {
-            name, category, isFeatured, price, discountPercent, description, link, code, validityDays, totalUses, usedCount,
-            mediaUrl: currentUploadedMedia,
-            mediaType: currentMediaType,
-            image: currentUploadedMedia,
-            linkClicks: 0,
-            createdAt: new Date().toISOString()
-          });
-          showToast("Produto cadastrado com sucesso!");
-        }
-        resetProductForm();
-      } catch (err) {
-        showToast("Erro: " + err.message, "error");
+      if (id) {
+        await updateDoc(doc(db, 'products', id), data);
+        showToast("Produto atualizado!");
+      } else {
+        data.linkClicks = 0;
+        data.createdAt = new Date().toISOString();
+        await addDoc(collection(db, 'products'), data);
+        showToast("Produto cadastrado!");
       }
+      resetProductForm();
     };
 
     window.openQuickUseModal = (prodId) => {
       const prod = productsList.find(p => p.id === prodId);
       if (!prod) return;
-
-      closeModal('modal-admin-manage');
+      document.getElementById('modal-admin-manage').classList.add('hidden');
       document.getElementById('quick-use-id').value = prod.id;
       document.getElementById('quick-use-product-name').innerText = prod.name;
-      document.getElementById('quick-use-val').value = prod.usedCount || prod.used || 0;
-      document.getElementById('modal-quick-use').classList.remove('hidden');
+      document.getElementById('quick-use-val').value = prod.usedCount || 0;
+      document.getElementById('modal-quick-use').classList.add('hidden');
     };
 
     document.getElementById('form-quick-use').onsubmit = async (e) => {
       e.preventDefault();
       const id = document.getElementById('quick-use-id').value;
-      const newVal = Number(document.getElementById('quick-use-val').value);
-
-      try {
-        await updateDoc(doc(db, 'products', id), {
-          usedCount: Math.max(0, newVal),
-          used: Math.max(0, newVal),
-          updatedAt: new Date().toISOString()
-        });
-        showToast("Estoque atualizado!");
-        closeModal('modal-quick-use');
-      } catch (err) {
-        showToast("Erro: " + err.message, "error");
-      }
+      const val = Number(document.getElementById('quick-use-val').value);
+      await updateDoc(doc(db, 'products', id), { usedCount: val, used: val });
+      showToast("Estoque atualizado!");
+      document.getElementById('modal-quick-use').classList.add('hidden');
     };
 
     window.deleteProduct = async (prodId) => {
-      if (!confirm("Excluir este produto?")) return;
-      try {
-        await deleteDoc(doc(db, 'products', prodId));
-        showToast("Produto removido.");
-        renderAdminProductsList();
-      } catch (err) {
-        showToast("Erro: " + err.message, "error");
-      }
+      if (!confirm("Excluir produto?")) return;
+      await deleteDoc(doc(db, 'products', prodId));
+      showToast("Removido.");
+      renderAdminProductsList();
     };
 
     const panelLogged = document.getElementById('panel-logged');
     if (panelLogged && !document.getElementById('btn-open-admin-manage')) {
-      const manageDiv = document.createElement('div');
-      manageDiv.className = "pt-2";
-      manageDiv.innerHTML = `
-        <button type="button" id="btn-open-admin-manage" class="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-bold border border-slate-700 transition flex items-center justify-center gap-2 cursor-pointer">
-          <i class="fa-solid fa-list-check text-brand-500"></i> Gerenciar / Excluir Produtos Cadastrados
-        </button>
-      `;
-      panelLogged.insertBefore(manageDiv, panelLogged.firstChild);
-
+      const div = document.createElement('div');
+      div.innerHTML = `<button type="button" id="btn-open-admin-manage" class="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-bold border border-slate-700 flex items-center justify-center gap-2 cursor-pointer"><i class="fa-solid fa-list-check text-brand-500"></i> Gerenciar / Excluir Produtos</button>`;
+      panelLogged.insertBefore(div, panelLogged.firstChild);
       document.getElementById('btn-open-admin-manage').onclick = () => {
         renderAdminProductsList();
         document.getElementById('modal-admin-manage').classList.remove('hidden');
