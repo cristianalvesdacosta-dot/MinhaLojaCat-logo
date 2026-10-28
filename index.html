@@ -78,9 +78,17 @@
 
   <main class="flex-grow max-w-4xl w-full mx-auto pb-16">
     <div class="relative w-full">
-      <div id="display-cover" class="h-44 sm:h-56 w-full bg-gradient-to-r from-slate-800 via-slate-700 to-slate-800 bg-cover bg-center transition-all duration-300 relative">
-        <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-black/30"></div>
-      </div>
+      <!-- BANNER / CAPA CLICÁVEL -->
+      <a id="display-cover-link" href="#" onclick="openStoreBannerLink(event)" class="block group relative overflow-hidden cursor-pointer" title="Clique para acessar a Loja Natura Oficial com Cupom">
+        <div id="display-cover" class="h-44 sm:h-56 w-full bg-gradient-to-r from-slate-800 via-slate-700 to-slate-800 bg-cover bg-center transition-all duration-300 relative group-hover:scale-105">
+          <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-black/30"></div>
+        </div>
+
+        <!-- INDICADOR DE CLIQUE NO BANNER -->
+        <div class="absolute top-3 right-3 z-10 bg-brand-600/90 hover:bg-brand-500 text-white text-[11px] font-bold px-3 py-1.5 rounded-xl shadow-lg backdrop-blur-md border border-brand-400/40 flex items-center gap-1.5 transition">
+          <i class="fa-solid fa-bag-shopping"></i> Acessar Loja Natura <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+        </div>
+      </a>
 
       <div class="px-4 sm:px-6 relative -mt-16 sm:-mt-20">
         <div class="flex flex-col sm:flex-row items-center sm:items-end gap-4 text-center sm:text-left">
@@ -488,7 +496,7 @@
 
         <div class="pt-4 border-t border-slate-700/60 space-y-4">
           <h3 class="text-sm font-bold text-slate-200 flex items-center gap-2">
-            <i class="fa-solid fa-sliders text-brand-500"></i> Personalizar Capa e Perfil da Loja
+            <i class="fa-solid fa-sliders text-brand-500"></i> Personalizar Capa, Logo e Link da Loja
           </h3>
 
           <form id="form-profile" class="space-y-4">
@@ -502,9 +510,15 @@
               <textarea id="profile-bio" rows="2" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500"></textarea>
             </div>
 
+            <div>
+              <label class="block text-xs font-bold text-brand-400 mb-1">Link da Sua Loja Natura Oficial (Para o Banner)</label>
+              <input type="url" id="profile-store-link" placeholder="https://www.natura.com.br/consultoria/seu-nome" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
+              <p class="text-[10px] text-slate-400 mt-1">Ao clicar em qualquer lugar do banner/capa, o cliente será redirecionado para este link!</p>
+            </div>
+
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label class="block text-xs font-semibold text-slate-300 mb-1">Foto da Capa</label>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Foto da Capa / Banner</label>
                 <input type="file" id="profile-cover-file" accept="image/*" class="w-full text-xs text-slate-400 file:mr-2 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:bg-slate-700 file:text-slate-200">
               </div>
 
@@ -641,6 +655,7 @@
     let profileData = {
       title: "Meu Catálogo Digital",
       bio: "Confira nossos produtos e cupons de desconto abaixo.",
+      storeLink: "",
       cover: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&q=80",
       logo: "https://via.placeholder.com/150?text=LOGO"
     };
@@ -746,6 +761,19 @@
       });
     };
 
+    window.openStoreBannerLink = (event) => {
+      event.preventDefault();
+      const storeLink = profileData.storeLink || "";
+
+      if (!storeLink) {
+        showToast("Configure o link da sua loja Natura no Painel!", "error");
+        document.getElementById('modal-auth').classList.remove('hidden');
+        return;
+      }
+
+      openProductAndCopyCoupon(null, storeLink, "CLIENTEVIP");
+    };
+
     window.openProductAndCopyCoupon = async (prodId, productUrl, couponCode) => {
       const couponToCopy = couponCode || "CLIENTEVIP";
 
@@ -793,7 +821,6 @@
       document.getElementById('modal-timer-redirect').classList.add('hidden');
     };
 
-    // GERADOR DE POST PARA O INSTAGRAM
     window.openInstagramPostModal = (prodId) => {
       const prod = productsList.find(p => p.id === prodId);
       if (!prod) return;
@@ -1128,6 +1155,7 @@
         
         document.getElementById('profile-title').value = profileData.title || "";
         document.getElementById('profile-bio').value = profileData.bio || "";
+        document.getElementById('profile-store-link').value = profileData.storeLink || "";
       } else {
         panelUnlogged.classList.remove('hidden');
         panelLogged.classList.add('hidden');
@@ -1508,6 +1536,7 @@
       e.preventDefault();
       const title = document.getElementById('profile-title').value;
       const bio = document.getElementById('profile-bio').value;
+      const storeLink = document.getElementById('profile-store-link').value;
       const coverFile = document.getElementById('profile-cover-file').files[0];
       const logoFile = document.getElementById('profile-logo-file').files[0];
 
@@ -1519,9 +1548,9 @@
 
       try {
         await setDoc(doc(db, 'settings', 'profile'), {
-          title, bio, cover: newCover, logo: newLogo, updatedAt: new Date().toISOString()
+          title, bio, storeLink, cover: newCover, logo: newLogo, updatedAt: new Date().toISOString()
         }, { merge: true });
-        showToast("Perfil atualizado!");
+        showToast("Perfil e link da loja salvos!");
       } catch (err) {
         showToast("Erro ao salvar: " + err.message, "error");
       }
