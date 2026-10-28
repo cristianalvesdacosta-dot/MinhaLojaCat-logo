@@ -26,7 +26,6 @@
     ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
     ::-webkit-scrollbar-thumb:hover { background: #475569; }
     .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); }
-    
     @keyframes ticker {
       0% { transform: translateX(0); }
       100% { transform: translateX(-50%); }
@@ -64,7 +63,8 @@
         </div>
       </div>
       <div class="flex items-center flex-shrink-0">
-        <button id="btn-auth-open" title="Acessar Painel Administrativo" class="w-9 h-9 sm:w-10 sm:h-10 text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 rounded-xl transition border border-slate-700 flex items-center justify-center text-sm shadow-sm">
+        <!-- BOTÃO DO PAINEL COM ONCLICK DIRETO -->
+        <button id="btn-auth-open" onclick="document.getElementById('modal-auth').classList.remove('hidden')" title="Acessar Painel Administrativo" class="w-9 h-9 sm:w-10 sm:h-10 text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 rounded-xl transition border border-slate-700 flex items-center justify-center text-sm shadow-sm cursor-pointer">
           <i class="fa-solid fa-user-gear"></i>
         </button>
       </div>
@@ -170,75 +170,10 @@
     <span class="text-[11px] font-bold whitespace-nowrap pr-0.5">Compartilhar</span>
   </a>
 
-  <!-- MODALS (image viewer, timer, testimonial, rate) -->
-  <div id="modal-image-viewer" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-md hidden">
-    <button class="absolute top-5 right-5 text-white text-3xl z-50 hover:text-slate-300 focus:outline-none p-2" onclick="closeImageViewer()">
-      <i class="fa-solid fa-xmark"></i>
-    </button>
-    <div class="relative max-w-4xl w-full max-h-[90vh] flex flex-col items-center justify-center">
-      <img id="viewer-img-element" src="" alt="Ampliada" class="max-h-[75vh] max-w-full object-contain rounded-xl shadow-2xl border border-slate-700">
-      <div id="viewer-thumbnails" class="flex items-center gap-2 mt-4 overflow-x-auto max-w-full p-2 no-scrollbar"></div>
-    </div>
-  </div>
-
-  <div id="modal-timer-redirect" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md hidden">
-    <div class="bg-slate-800 border-2 border-brand-500 rounded-3xl max-w-sm w-full p-6 shadow-2xl text-center space-y-4">
-      <div class="w-14 h-14 bg-brand-500/20 text-brand-400 rounded-2xl flex items-center justify-center mx-auto text-2xl border border-brand-500/30">
-        <i class="fa-solid fa-circle-check"></i>
-      </div>
-      <div>
-        <h3 class="text-lg font-bold text-white">Cupom Copiado!</h3>
-        <p class="text-sm font-bold text-brand-400 mt-1" id="timer-coupon-code">Cupom: CLIENTEVIP</p>
-      </div>
-      <p class="text-xs text-slate-300 leading-relaxed bg-slate-900/80 p-3 rounded-xl border border-slate-700">
-        ✔ Cole-o no carrinho da Natura para aplicar seu desconto.<br>
-        Entrando na loja em <strong id="countdown-seconds" class="text-brand-400">8s</strong>...
-      </p>
-      <div class="pt-2">
-        <button type="button" onclick="cancelRedirectTimer()" class="w-full py-2 bg-slate-700 hover:bg-slate-600 text-slate-300 font-semibold rounded-xl text-xs transition">
-          Cancelar e Continuar no Catálogo
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <div id="modal-testimonial" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm hidden">
-    <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-sm w-full p-6 shadow-2xl relative">
-      <button type="button" class="btn-close-modal absolute top-4 right-4 text-slate-400 hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
-      <h2 class="text-base font-bold text-white mb-1 flex items-center gap-2"><i class="fa-solid fa-comment-dots text-emerald-400"></i> Deixar seu Depoimento</h2>
-      <p class="text-xs text-slate-400 mb-4">Escreva um comentário real sobre o atendimento e os produtos da loja.</p>
-      <form id="form-testimonial" class="space-y-3">
-        <div><label class="block text-xs font-semibold text-slate-300 mb-1">Seu Nome *</label><input type="text" id="test-name" required placeholder="Ex: Maria" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100"></div>
-        <div><label class="block text-xs font-semibold text-slate-300 mb-1">Seu Comentário *</label><textarea id="test-comment" required rows="3" placeholder="Ex: Cupom funcionou perfeito!" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100"></textarea></div>
-        <div class="pt-2 flex justify-end gap-2">
-          <button type="button" class="btn-close-modal px-4 py-2 bg-slate-700 text-slate-300 rounded-xl text-xs font-medium">Cancelar</button>
-          <button type="submit" class="px-4 py-2 bg-brand-600 text-white rounded-xl text-xs font-semibold shadow">Enviar Depoimento</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <div id="modal-rate-product" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm hidden">
-    <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-xs w-full p-6 shadow-2xl relative text-center">
-      <button type="button" class="btn-close-modal absolute top-4 right-4 text-slate-400 hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
-      <div class="w-12 h-12 bg-amber-500/20 text-amber-400 rounded-2xl flex items-center justify-center mx-auto mb-3 text-xl border border-amber-500/30"><i class="fa-solid fa-star"></i></div>
-      <h2 class="text-base font-bold text-white mb-1">Avaliar Produto</h2>
-      <p id="rate-product-title" class="text-xs text-slate-400 mb-4 truncate font-medium"></p>
-      <div class="flex justify-center gap-2 text-2xl text-amber-400 mb-4">
-        <button type="button" onclick="submitRating(1)" class="hover:scale-125 transition"><i class="fa-solid fa-star"></i></button>
-        <button type="button" onclick="submitRating(2)" class="hover:scale-125 transition"><i class="fa-solid fa-star"></i></button>
-        <button type="button" onclick="submitRating(3)" class="hover:scale-125 transition"><i class="fa-solid fa-star"></i></button>
-        <button type="button" onclick="submitRating(4)" class="hover:scale-125 transition"><i class="fa-solid fa-star"></i></button>
-        <button type="button" onclick="submitRating(5)" class="hover:scale-125 transition"><i class="fa-solid fa-star"></i></button>
-      </div>
-      <p class="text-[10px] text-slate-500">Escolha a nota de 1 a 5 estrelas.</p>
-    </div>
-  </div>
-
-  <!-- ===================== MODAL AUTH (ORIGINAL + NOVAS FERRAMENTAS) ===================== -->
+  <!-- MODAL AUTH -->
   <div id="modal-auth" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm hidden">
     <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-lg w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
-      <button class="btn-close-modal absolute top-4 right-4 text-slate-400 hover:text-white text-lg">
+      <button type="button" onclick="document.getElementById('modal-auth').classList.add('hidden')" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg cursor-pointer">
         <i class="fa-solid fa-xmark"></i>
       </button>
 
@@ -248,7 +183,7 @@
             <i class="fa-solid fa-lock"></i>
           </div>
           <h2 id="auth-modal-title" class="text-xl font-bold text-white">Entrar no Painel</h2>
-          <p class="text-xs text-slate-400 mt-1">Acesse com e-mail e senha ou crie sua conta para gerenciar seu catálogo.</p>
+          <p class="text-xs text-slate-400 mt-1">Acesse com e-mail e senha ou crie sua conta.</p>
         </div>
         <form id="form-auth" class="space-y-4">
           <div>
@@ -285,95 +220,81 @@
           </button>
         </div>
 
-        <!-- ========== NOVAS FERRAMENTAS ========== -->
-        
-        <!-- 1. LIMPAR TODO O CATÁLOGO -->
+        <!-- LIMPAR TUDO -->
         <div class="p-4 bg-red-500/10 border border-red-500/30 rounded-2xl space-y-3">
           <div class="flex items-center gap-2">
             <i class="fa-solid fa-trash-can text-red-400"></i>
             <span class="text-xs font-bold text-red-400 uppercase tracking-wider">Finalizar Ciclo</span>
           </div>
-          <p class="text-[11px] text-slate-300 leading-relaxed">
-            Apaga <strong>todos os produtos</strong> de uma vez só. Use no final do ciclo da Natura.
-          </p>
+          <p class="text-[11px] text-slate-300">Apaga todos os produtos de uma vez.</p>
           <button type="button" onclick="clearAllProducts()" class="w-full py-2.5 bg-red-600 hover:bg-red-500 text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-2">
             <i class="fa-solid fa-broom"></i> Limpar Todo o Catálogo
           </button>
         </div>
 
-        <!-- 2. IMPORTAÇÃO EM LOTE -->
+        <!-- IMPORTAÇÃO EM LOTE -->
         <div class="p-4 bg-slate-900/80 rounded-xl border border-brand-500/30 space-y-3">
           <label class="block text-xs font-bold text-brand-400 flex items-center gap-1.5">
-            <i class="fa-solid fa-layer-group"></i> Importar Vários Links de Uma Vez
+            <i class="fa-solid fa-layer-group"></i> Importar Vários Links
           </label>
-          <textarea id="bulk-import-links" rows="4" placeholder="Cole vários links aqui, um por linha:&#10;https://...&#10;https://...&#10;https://..." class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-100 focus:outline-none focus:border-brand-500"></textarea>
+          <textarea id="bulk-import-links" rows="4" placeholder="Cole vários links, um por linha..." class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-100 focus:outline-none focus:border-brand-500"></textarea>
           <button type="button" onclick="bulkImportProducts()" class="w-full py-2.5 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-2">
-            <i class="fa-solid fa-download"></i> Importar Todos os Links
+            <i class="fa-solid fa-download"></i> Importar Todos
           </button>
-          <p class="text-[10px] text-slate-400">O sistema vai puxar nome, descrição e imagens de cada link automaticamente.</p>
         </div>
 
-        <!-- 3. VERIFICADOR DE PREÇO / ESTOQUE -->
+        <!-- VERIFICADOR -->
         <div class="p-4 bg-slate-900/80 rounded-xl border border-amber-500/30 space-y-3">
           <div class="flex items-center gap-2">
             <i class="fa-solid fa-magnifying-glass-chart text-amber-400"></i>
             <span class="text-xs font-bold text-amber-400 uppercase tracking-wider">Verificar Preços e Estoque</span>
           </div>
-          <p class="text-[11px] text-slate-300">
-            Verifica os links dos produtos cadastrados e tenta identificar se algum está esgotado.
-          </p>
           <button type="button" onclick="checkPricesAndStock()" class="w-full py-2.5 bg-amber-600 hover:bg-amber-500 text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-2">
             <i class="fa-solid fa-rotate"></i> Verificar Agora
           </button>
           <div id="price-check-results" class="hidden mt-3 space-y-2 max-h-48 overflow-y-auto text-xs"></div>
         </div>
 
-        <!-- GESTÃO RÁPIDA DO CUPOM (original) -->
+        <!-- GESTÃO RÁPIDA DO CUPOM -->
         <div class="p-4 bg-brand-500/10 border border-brand-500/30 rounded-2xl space-y-3">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-bold text-brand-400 uppercase tracking-wider flex items-center gap-1.5">
-              <i class="fa-solid fa-bolt"></i> Gestão Rápida do Cupom Único da Loja
-            </span>
-          </div>
-          <p class="text-[11px] text-slate-300 leading-relaxed">
-            Seu cupom vale para a loja toda? Quando um cliente usar o cupom em qualquer compra, clique abaixo para dar baixa no uso de <strong>todos os produtos de uma vez só</strong>:
-          </p>
+          <span class="text-xs font-bold text-brand-400 uppercase tracking-wider flex items-center gap-1.5">
+            <i class="fa-solid fa-bolt"></i> Gestão Rápida do Cupom
+          </span>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
-            <button type="button" onclick="decreaseAllProductsUsage(1)" class="py-2 px-3 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs font-bold transition shadow-md flex items-center justify-center gap-1.5">
-              <i class="fa-solid fa-minus-circle"></i> Baixa Global (-1 em Todos)
+            <button type="button" onclick="decreaseAllProductsUsage(1)" class="py-2 px-3 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5">
+              <i class="fa-solid fa-minus-circle"></i> Baixa Global (-1)
             </button>
             <button type="button" onclick="openCustomBatchModal()" class="py-2 px-3 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-xl text-xs font-semibold transition flex items-center justify-center gap-1.5">
-              <i class="fa-solid fa-sliders"></i> Ajustar Outra Qtd em Todos
+              <i class="fa-solid fa-sliders"></i> Outra Quantidade
             </button>
           </div>
         </div>
 
-        <!-- CADASTRO DE PRODUTO (original) -->
+        <!-- CADASTRO DE PRODUTO -->
         <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-700/80 space-y-4">
           <h3 id="form-prod-title" class="text-sm font-bold text-white flex items-center gap-2">
             <i class="fa-solid fa-box text-brand-500"></i> Cadastrar Novo Produto
           </h3>
           <div class="p-3 bg-slate-800/80 rounded-xl border border-brand-500/30 space-y-2">
             <label class="block text-xs font-bold text-brand-400 flex items-center gap-1.5">
-              <i class="fa-solid fa-wand-magic-sparkles"></i> Importar Rápido via Link (Puxa Múltiplas Fotos)
+              <i class="fa-solid fa-wand-magic-sparkles"></i> Importar Rápido via Link
             </label>
             <div class="flex gap-2">
-              <input type="url" id="auto-import-link" placeholder="Cole o link do produto aqui..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-slate-100 focus:outline-none focus:border-brand-500">
-              <button type="button" id="btn-fetch-link" onclick="fetchProductFromLink()" class="px-3 py-1.5 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs font-bold transition flex-shrink-0 flex items-center gap-1">
+              <input type="url" id="auto-import-link" placeholder="Cole o link do produto..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-slate-100 focus:outline-none focus:border-brand-500">
+              <button type="button" onclick="fetchProductFromLink()" class="px-3 py-1.5 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs font-bold transition flex-shrink-0">
                 <i class="fa-solid fa-download"></i> Puxar
               </button>
             </div>
-            <p class="text-[10px] text-slate-400">Clique no X vermelho de qualquer imagem abaixo para removê-la antes de salvar!</p>
           </div>
           <form id="form-product" class="space-y-4">
             <input type="hidden" id="product-id">
             <input type="hidden" id="fetched-image-url">
             <div>
               <label class="block text-xs font-semibold text-slate-300 mb-1">Nome do Produto *</label>
-              <input type="text" id="product-name" required placeholder="Ex: Desodorante Perfume Essencial" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
+              <input type="text" id="product-name" required placeholder="Nome do produto" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
             </div>
             <div>
-              <label class="block text-xs font-semibold text-slate-300 mb-1">Categoria Natura *</label>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Categoria *</label>
               <select id="product-category" required class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
                 <option value="Perfumaria">Perfumaria</option>
                 <option value="Corpo e Banho">Corpo e Banho</option>
@@ -383,74 +304,70 @@
                 <option value="Infantil">Infantil</option>
               </select>
             </div>
-            <div class="flex items-center gap-2 pt-1">
-              <input type="checkbox" id="product-featured" class="w-4 h-4 rounded bg-slate-800 border-slate-700 text-brand-600 focus:ring-brand-500">
-              <label for="product-featured" class="text-xs font-medium text-slate-300 cursor-pointer">
-                🔥 Marcar como Produto em Destaque / Mais Vendido
-              </label>
+            <div class="flex items-center gap-2">
+              <input type="checkbox" id="product-featured" class="w-4 h-4 rounded bg-slate-800 border-slate-700 text-brand-600">
+              <label for="product-featured" class="text-xs font-medium text-slate-300">🔥 Produto em Destaque</label>
             </div>
             <div>
-              <label class="block text-xs font-semibold text-slate-300 mb-1">Adicionar Fotos Manualmente (Opcional)</label>
-              <input type="file" id="product-image-file" accept="image/*" multiple class="w-full text-xs text-slate-400 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-slate-700 file:text-slate-200 hover:file:bg-slate-600">
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Fotos (opcional)</label>
+              <input type="file" id="product-image-file" accept="image/*" multiple class="w-full text-xs text-slate-400 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-slate-700 file:text-slate-200">
             </div>
             <div id="preview-container" class="hidden">
-              <label class="block text-xs font-semibold text-slate-300 mb-1">Fotos do Produto (Clique no X para apagar indesejadas):</label>
               <div id="preview-gallery" class="flex items-center gap-3 overflow-x-auto py-2 no-scrollbar"></div>
             </div>
             <div class="grid grid-cols-2 gap-3">
               <div>
                 <label class="block text-xs font-semibold text-slate-300 mb-1">Preço Original (R$) *</label>
-                <input type="number" step="0.01" id="product-price" required placeholder="Ex: 159.90" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
+                <input type="number" step="0.01" id="product-price" required placeholder="159.90" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
               </div>
               <div>
                 <label class="block text-xs font-semibold text-slate-300 mb-1">Desconto (%)</label>
                 <select id="product-discount-percent" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
                   <option value="0">Sem desconto</option>
                   <option value="5">5% OFF</option>
-                  <option value="10" selected>10% OFF (Seu Cupom)</option>
+                  <option value="10" selected>10% OFF</option>
                   <option value="15">15% OFF</option>
                   <option value="20">20% OFF</option>
                   <option value="25">25% OFF</option>
                   <option value="30">30% OFF</option>
-                  <option value="35">35% OFF</option>
                   <option value="40">40% OFF</option>
                   <option value="50">50% OFF</option>
                 </select>
               </div>
             </div>
             <div>
-              <label class="block text-xs font-semibold text-slate-300 mb-1">Descrição do Produto (Ilimitada)</label>
-              <textarea id="product-description" rows="3" placeholder="Insira toda a descrição, fragrâncias, observações..." class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500"></textarea>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Descrição</label>
+              <textarea id="product-description" rows="3" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500"></textarea>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label class="block text-xs font-semibold text-slate-300 mb-1">Link do Produto (Afiliado / Loja)</label>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Link do Produto</label>
                 <input type="url" id="product-link" placeholder="https://..." class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
               </div>
               <div>
-                <label class="block text-xs font-semibold text-slate-300 mb-1">Cupom de Desconto</label>
-                <input type="text" id="product-code" value="CLIENTEVIP" placeholder="Ex: CLIENTEVIP" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Cupom</label>
+                <input type="text" id="product-code" value="CLIENTEVIP" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
               </div>
             </div>
             <div>
-              <label class="block text-xs font-semibold text-slate-300 mb-1">Validade do Cupom (Dias a partir de hoje)</label>
-              <input type="number" id="product-validity-days" min="1" value="30" placeholder="Ex: 30" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Validade do Cupom (dias)</label>
+              <input type="number" id="product-validity-days" min="1" value="30" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
             </div>
             <div class="p-3 bg-slate-800/60 rounded-xl border border-slate-700/60 space-y-3">
-              <span class="text-xs font-bold text-brand-400 uppercase tracking-wider block">Controle de Estoque & Usos</span>
+              <span class="text-xs font-bold text-brand-400 uppercase tracking-wider block">Controle de Estoque</span>
               <div class="grid grid-cols-2 gap-3">
                 <div>
-                  <label class="block text-[11px] font-medium text-slate-300 mb-1">Total de Estoque / Limite</label>
-                  <input type="number" id="product-total-uses" min="1" required value="30" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
+                  <label class="block text-[11px] font-medium text-slate-300 mb-1">Total de Estoque</label>
+                  <input type="number" id="product-total-uses" min="1" required value="30" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-sm text-slate-100">
                 </div>
                 <div>
                   <label class="block text-[11px] font-medium text-slate-300 mb-1">Já Utilizado</label>
-                  <input type="number" id="product-used-count" min="0" required value="0" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
+                  <input type="number" id="product-used-count" min="0" required value="0" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-sm text-slate-100">
                 </div>
               </div>
             </div>
             <div class="flex justify-end gap-2">
-              <button type="button" id="btn-cancel-prod-edit" onclick="resetProductForm()" class="hidden px-4 py-2 bg-slate-700 hover:bg-slate-600 text-slate-300 rounded-xl text-xs font-medium">Cancelar Edição</button>
+              <button type="button" id="btn-cancel-prod-edit" onclick="resetProductForm()" class="hidden px-4 py-2 bg-slate-700 hover:bg-slate-600 text-slate-300 rounded-xl text-xs font-medium">Cancelar</button>
               <button type="submit" class="w-full py-2.5 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs font-bold shadow-md transition">
                 Salvar Produto
               </button>
@@ -458,18 +375,18 @@
           </form>
         </div>
 
-        <!-- PERFIL DA LOJA (original) -->
+        <!-- PERFIL -->
         <div class="pt-4 border-t border-slate-700/60 space-y-4">
           <h3 class="text-sm font-bold text-slate-200 flex items-center gap-2">
-            <i class="fa-solid fa-sliders text-brand-500"></i> Personalizar Capa e Perfil da Loja
+            <i class="fa-solid fa-sliders text-brand-500"></i> Personalizar Capa e Perfil
           </h3>
           <form id="form-profile" class="space-y-4">
             <div>
-              <label class="block text-xs font-semibold text-slate-300 mb-1">Nome / Título da Loja</label>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Nome da Loja</label>
               <input type="text" id="profile-title" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
             </div>
             <div>
-              <label class="block text-xs font-semibold text-slate-300 mb-1">Biografia / Descrição da Loja</label>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Biografia</label>
               <textarea id="profile-bio" rows="2" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500"></textarea>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -483,7 +400,7 @@
               </div>
             </div>
             <button type="submit" class="w-full py-2 bg-slate-700 hover:bg-slate-600 text-slate-200 rounded-xl text-xs font-bold transition">
-              Salvar Perfil e Capa
+              Salvar Perfil
             </button>
           </form>
         </div>
@@ -491,38 +408,33 @@
     </div>
   </div>
 
-  <!-- OUTROS MODALS (admin manage, quick use, batch use) -->
+  <!-- OUTROS MODALS -->
   <div id="modal-admin-manage" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm hidden">
     <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-lg w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
-      <button class="btn-close-modal absolute top-4 right-4 text-slate-400 hover:text-white text-lg">
+      <button type="button" onclick="document.getElementById('modal-admin-manage').classList.add('hidden')" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg cursor-pointer">
         <i class="fa-solid fa-xmark"></i>
       </button>
-      <h2 class="text-base font-bold text-white mb-4 flex items-center gap-2">
-        <i class="fa-solid fa-list-check text-brand-500"></i> Gerenciar Produtos Cadastrados
-      </h2>
-      <p class="text-xs text-slate-400 mb-4">Aqui você pode atualizar o estoque/uso, editar ou excluir seus produtos com total segurança.</p>
+      <h2 class="text-base font-bold text-white mb-4">Gerenciar Produtos</h2>
       <div id="admin-products-list" class="space-y-3"></div>
     </div>
   </div>
 
   <div id="modal-quick-use" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm hidden">
     <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-sm w-full p-6 shadow-2xl relative">
-      <button class="btn-close-modal absolute top-4 right-4 text-slate-400 hover:text-white text-lg">
+      <button type="button" onclick="document.getElementById('modal-quick-use').classList.add('hidden')" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg cursor-pointer">
         <i class="fa-solid fa-xmark"></i>
       </button>
-      <h2 class="text-base font-bold text-white mb-2 flex items-center gap-2">
-        <i class="fa-solid fa-calculator text-brand-500"></i> Atualizar Estoque / Uso
-      </h2>
+      <h2 class="text-base font-bold text-white mb-2">Atualizar Estoque / Uso</h2>
       <p id="quick-use-product-name" class="text-xs font-medium text-slate-400 mb-4 truncate"></p>
       <form id="form-quick-use" class="space-y-4">
         <input type="hidden" id="quick-use-id">
         <div>
           <label class="block text-xs font-semibold text-slate-300 mb-1">Quantidade Já Usada</label>
-          <input type="number" id="quick-use-val" min="0" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
+          <input type="number" id="quick-use-val" min="0" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100">
         </div>
         <div class="pt-2 flex justify-end gap-2">
-          <button type="button" class="btn-close-modal px-4 py-2 bg-slate-700 hover:bg-slate-600 text-slate-300 rounded-xl text-xs font-medium">Cancelar</button>
-          <button type="submit" class="px-4 py-2 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs font-semibold">Salvar</button>
+          <button type="button" onclick="document.getElementById('modal-quick-use').classList.add('hidden')" class="px-4 py-2 bg-slate-700 text-slate-300 rounded-xl text-xs font-medium">Cancelar</button>
+          <button type="submit" class="px-4 py-2 bg-brand-600 text-white rounded-xl text-xs font-semibold">Salvar</button>
         </div>
       </form>
     </div>
@@ -530,23 +442,83 @@
 
   <div id="modal-batch-use" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm hidden">
     <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-sm w-full p-6 shadow-2xl relative">
-      <button class="btn-close-modal absolute top-4 right-4 text-slate-400 hover:text-white text-lg">
+      <button type="button" onclick="document.getElementById('modal-batch-use').classList.add('hidden')" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg cursor-pointer">
         <i class="fa-solid fa-xmark"></i>
       </button>
-      <h2 class="text-base font-bold text-white mb-2 flex items-center gap-2">
-        <i class="fa-solid fa-layer-group text-brand-500"></i> Dar Baixa Global em Lote
-      </h2>
-      <p class="text-xs text-slate-400 mb-4">Digite a quantidade de usos que deseja somar ao contador de <strong>TODOS OS PRODUTOS</strong> de uma só vez:</p>
+      <h2 class="text-base font-bold text-white mb-2">Dar Baixa Global em Lote</h2>
       <form id="form-batch-use" class="space-y-4">
         <div>
-          <label class="block text-xs font-semibold text-slate-300 mb-1">Quantidade a adicionar ao 'Já Usado'</label>
-          <input type="number" id="batch-use-val" min="1" value="1" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Quantidade a adicionar</label>
+          <input type="number" id="batch-use-val" min="1" value="1" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100">
         </div>
         <div class="pt-2 flex justify-end gap-2">
-          <button type="button" class="btn-close-modal px-4 py-2 bg-slate-700 hover:bg-slate-600 text-slate-300 rounded-xl text-xs font-medium">Cancelar</button>
-          <button type="submit" class="px-4 py-2 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs font-semibold">Aplicar em Todos</button>
+          <button type="button" onclick="document.getElementById('modal-batch-use').classList.add('hidden')" class="px-4 py-2 bg-slate-700 text-slate-300 rounded-xl text-xs font-medium">Cancelar</button>
+          <button type="submit" class="px-4 py-2 bg-brand-600 text-white rounded-xl text-xs font-semibold">Aplicar em Todos</button>
         </div>
       </form>
+    </div>
+  </div>
+
+  <div id="modal-image-viewer" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-md hidden">
+    <button class="absolute top-5 right-5 text-white text-3xl z-50" onclick="closeImageViewer()">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    <div class="relative max-w-4xl w-full max-h-[90vh] flex flex-col items-center justify-center">
+      <img id="viewer-img-element" src="" class="max-h-[75vh] max-w-full object-contain rounded-xl shadow-2xl border border-slate-700">
+      <div id="viewer-thumbnails" class="flex items-center gap-2 mt-4 overflow-x-auto max-w-full p-2 no-scrollbar"></div>
+    </div>
+  </div>
+
+  <div id="modal-timer-redirect" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md hidden">
+    <div class="bg-slate-800 border-2 border-brand-500 rounded-3xl max-w-sm w-full p-6 shadow-2xl text-center space-y-4">
+      <div class="w-14 h-14 bg-brand-500/20 text-brand-400 rounded-2xl flex items-center justify-center mx-auto text-2xl border border-brand-500/30">
+        <i class="fa-solid fa-circle-check"></i>
+      </div>
+      <div>
+        <h3 class="text-lg font-bold text-white">Cupom Copiado!</h3>
+        <p class="text-sm font-bold text-brand-400 mt-1" id="timer-coupon-code">Cupom: CLIENTEVIP</p>
+      </div>
+      <p class="text-xs text-slate-300 leading-relaxed bg-slate-900/80 p-3 rounded-xl border border-slate-700">
+        ✔ Cole-o no carrinho da Natura.<br>
+        Entrando na loja em <strong id="countdown-seconds" class="text-brand-400">8s</strong>...
+      </p>
+      <button type="button" onclick="cancelRedirectTimer()" class="w-full py-2 bg-slate-700 hover:bg-slate-600 text-slate-300 font-semibold rounded-xl text-xs">
+        Cancelar e Continuar no Catálogo
+      </button>
+    </div>
+  </div>
+
+  <div id="modal-testimonial" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm hidden">
+    <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-sm w-full p-6 shadow-2xl relative">
+      <button type="button" onclick="document.getElementById('modal-testimonial').classList.add('hidden')" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg cursor-pointer">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <h2 class="text-base font-bold text-white mb-1">Deixar Depoimento</h2>
+      <form id="form-testimonial" class="space-y-3 mt-4">
+        <input type="text" id="test-name" required placeholder="Seu nome" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm">
+        <textarea id="test-comment" required rows="3" placeholder="Seu comentário" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm"></textarea>
+        <div class="flex justify-end gap-2">
+          <button type="button" onclick="document.getElementById('modal-testimonial').classList.add('hidden')" class="px-4 py-2 bg-slate-700 text-slate-300 rounded-xl text-xs">Cancelar</button>
+          <button type="submit" class="px-4 py-2 bg-brand-600 text-white rounded-xl text-xs font-semibold">Enviar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="modal-rate-product" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm hidden">
+    <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-xs w-full p-6 shadow-2xl relative text-center">
+      <button type="button" onclick="document.getElementById('modal-rate-product').classList.add('hidden')" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg cursor-pointer">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <h2 class="text-base font-bold text-white mb-1">Avaliar Produto</h2>
+      <p id="rate-product-title" class="text-xs text-slate-400 mb-4 truncate"></p>
+      <div class="flex justify-center gap-2 text-2xl text-amber-400 mb-4">
+        <button type="button" onclick="submitRating(1)" class="hover:scale-125 transition"><i class="fa-solid fa-star"></i></button>
+        <button type="button" onclick="submitRating(2)" class="hover:scale-125 transition"><i class="fa-solid fa-star"></i></button>
+        <button type="button" onclick="submitRating(3)" class="hover:scale-125 transition"><i class="fa-solid fa-star"></i></button>
+        <button type="button" onclick="submitRating(4)" class="hover:scale-125 transition"><i class="fa-solid fa-star"></i></button>
+        <button type="button" onclick="submitRating(5)" class="hover:scale-125 transition"><i class="fa-solid fa-star"></i></button>
+      </div>
     </div>
   </div>
 
@@ -592,132 +564,88 @@
 
     function showToast(msg, type = 'success') {
       const toast = document.getElementById('toast');
-      const toastMsg = document.getElementById('toast-msg');
-      const toastIcon = document.getElementById('toast-icon');
-      toastMsg.innerText = msg;
-      toastIcon.className = type === 'error' ? "fa-solid fa-circle-exclamation text-red-500 text-lg" : "fa-solid fa-circle-check text-brand-500 text-lg";
+      document.getElementById('toast-msg').innerText = msg;
+      document.getElementById('toast-icon').className = type === 'error' ? "fa-solid fa-circle-exclamation text-red-500 text-lg" : "fa-solid fa-circle-check text-brand-500 text-lg";
       toast.classList.remove('translate-y-20', 'opacity-0');
       setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0'), 3500);
     }
 
-    // ========== NOVAS FUNÇÕES ==========
-
+    // ========== NOVAS FERRAMENTAS ==========
     window.clearAllProducts = async () => {
-      if (productsList.length === 0) {
-        showToast("Nenhum produto para apagar.", "error");
-        return;
-      }
-      if (!confirm(`Tem certeza que deseja apagar TODOS os ${productsList.length} produtos?\n\nEssa ação não pode ser desfeita.`)) return;
-      if (!confirm("Última confirmação: realmente deseja limpar todo o catálogo?")) return;
-
-      showToast("Apagando produtos...");
+      if (productsList.length === 0) return showToast("Nenhum produto para apagar.", "error");
+      if (!confirm(`Apagar TODOS os ${productsList.length} produtos?`)) return;
+      if (!confirm("Última confirmação?")) return;
       try {
         const batch = writeBatch(db);
-        productsList.forEach(prod => {
-          batch.delete(doc(db, 'products', prod.id));
-        });
+        productsList.forEach(p => batch.delete(doc(db, 'products', p.id)));
         await batch.commit();
-        showToast("Catálogo limpo com sucesso!");
-      } catch (err) {
-        showToast("Erro ao limpar: " + err.message, "error");
+        showToast("Catálogo limpo!");
+      } catch (e) {
+        showToast("Erro: " + e.message, "error");
       }
     };
 
     window.bulkImportProducts = async () => {
-      const textarea = document.getElementById('bulk-import-links');
-      const links = textarea.value.split('\n').map(l => l.trim()).filter(l => l.startsWith('http'));
-      if (links.length === 0) {
-        showToast("Cole pelo menos um link válido.", "error");
-        return;
-      }
-      showToast(`Importando ${links.length} produtos... Aguarde.`);
-      let successCount = 0;
-      let errorCount = 0;
-
+      const links = document.getElementById('bulk-import-links').value.split('\n').map(l => l.trim()).filter(l => l.startsWith('http'));
+      if (links.length === 0) return showToast("Cole pelo menos um link", "error");
+      showToast(`Importando ${links.length} produtos...`);
+      let ok = 0;
       for (const link of links) {
         try {
-          const microlinkUrl = `https://api.microlink.io/?url=${encodeURIComponent(link)}`;
-          const response = await fetch(microlinkUrl);
-          const json = await response.json();
-          let name = "Produto sem nome";
-          let description = "";
-          let images = [];
+          const res = await fetch(`https://api.microlink.io/?url=${encodeURIComponent(link)}`);
+          const json = await res.json();
+          let name = "Produto", description = "", images = [];
           if (json.status === 'success' && json.data) {
             if (json.data.title) name = json.data.title.split('|')[0].split('- Natura')[0].trim();
             if (json.data.description) description = json.data.description;
             if (json.data.image?.url) images.push(json.data.image.url);
           }
           await addDoc(collection(db, 'products'), {
-            name, category: "Perfumaria", isFeatured: false, price: 0, discountPercent: 10,
-            description, link, code: "CLIENTEVIP", validityDays: 30, totalUses: 30, usedCount: 0,
+            name, category: "Perfumaria", price: 0, discountPercent: 10, description, link,
+            code: "CLIENTEVIP", validityDays: 30, totalUses: 30, usedCount: 0,
             images, image: images[0] || "", createdAt: new Date().toISOString()
           });
-          successCount++;
-        } catch (err) {
-          errorCount++;
-        }
+          ok++;
+        } catch (e) {}
       }
-      textarea.value = "";
-      showToast(`Importação finalizada: ${successCount} sucesso, ${errorCount} erro(s).`);
+      document.getElementById('bulk-import-links').value = "";
+      showToast(`${ok} produtos importados`);
     };
 
     window.checkPricesAndStock = async () => {
-      if (productsList.length === 0) {
-        showToast("Nenhum produto cadastrado para verificar.", "error");
-        return;
-      }
+      if (productsList.length === 0) return showToast("Nenhum produto cadastrado", "error");
       const resultsDiv = document.getElementById('price-check-results');
       resultsDiv.classList.remove('hidden');
-      resultsDiv.innerHTML = `<p class="text-slate-400">Verificando ${productsList.length} produtos... Isso pode levar alguns segundos.</p>`;
-      let ok = 0;
-      let possibleSoldOut = [];
+      resultsDiv.innerHTML = `<p class="text-slate-400">Verificando...</p>`;
+      let ok = 0, possibleSoldOut = [];
       for (const prod of productsList) {
         if (!prod.link) continue;
         try {
-          const microlinkUrl = `https://api.microlink.io/?url=${encodeURIComponent(prod.link)}`;
-          const response = await fetch(microlinkUrl);
-          const json = await response.json();
+          const res = await fetch(`https://api.microlink.io/?url=${encodeURIComponent(prod.link)}`);
+          const json = await res.json();
           if (json.status === 'success' && json.data) {
             const text = ((json.data.title || "") + " " + (json.data.description || "")).toLowerCase();
-            if (text.includes("esgotado") || text.includes("indisponível") || text.includes("sem estoque") || text.includes("produto não encontrado")) {
+            if (text.includes("esgotado") || text.includes("indisponível") || text.includes("sem estoque")) {
               possibleSoldOut.push(prod.name);
-            } else {
-              ok++;
-            }
+            } else ok++;
           }
-        } catch (err) {}
+        } catch (e) {}
       }
-      let html = `
-        <div class="space-y-1">
-          <p class="text-emerald-400 font-semibold">✅ ${ok} produtos ok</p>
-          <p class="text-amber-400 font-semibold">⚠️ ${possibleSoldOut.length} possivelmente esgotados</p>
-        </div>
+      resultsDiv.innerHTML = `
+        <p class="text-emerald-400 font-semibold">✅ ${ok} ok</p>
+        <p class="text-amber-400 font-semibold">⚠️ ${possibleSoldOut.length} possivelmente esgotados</p>
+        ${possibleSoldOut.length ? possibleSoldOut.map(n => `<p class="text-[11px] text-slate-400">• ${n}</p>`).join('') : ''}
       `;
-      if (possibleSoldOut.length > 0) {
-        html += `<div class="mt-2 pt-2 border-t border-slate-700">
-          <p class="text-[11px] font-bold text-slate-300 mb-1">Possivelmente esgotados:</p>
-          ${possibleSoldOut.map(n => `<p class="text-[11px] text-slate-400">• ${n}</p>`).join('')}
-        </div>`;
-      }
-      resultsDiv.innerHTML = html;
       showToast("Verificação concluída!");
     };
 
-    // ========== RESTANTE DO CÓDIGO ORIGINAL ==========
-
+    // ========== CÓDIGO ORIGINAL ==========
     async function trackRealVisit() {
-      try {
-        const visitRef = doc(db, 'settings', 'visits');
-        await setDoc(visitRef, { count: increment(1) }, { merge: true });
-      } catch (err) {}
+      try { await setDoc(doc(db, 'settings', 'visits'), { count: increment(1) }, { merge: true }); } catch (e) {}
     }
-
     function listenRealVisits() {
-      onSnapshot(doc(db, 'settings', 'visits'), (docSnap) => {
-        if (docSnap.exists()) {
-          const totalVisits = docSnap.data().count || 0;
-          document.getElementById('visitor-counter').innerText = `${totalVisits} acessos`;
-        }
+      onSnapshot(doc(db, 'settings', 'visits'), (snap) => {
+        if (snap.exists()) document.getElementById('visitor-counter').innerText = `${snap.data().count || 0} acessos`;
       });
     }
 
@@ -732,28 +660,26 @@
       renderProducts();
     };
 
-    window.openRateModal = (prodId, prodName) => {
-      activeRatingProdId = prodId;
-      document.getElementById('rate-product-title').innerText = prodName;
+    window.openRateModal = (id, name) => {
+      activeRatingProdId = id;
+      document.getElementById('rate-product-title').innerText = name;
       document.getElementById('modal-rate-product').classList.remove('hidden');
     };
 
-    window.submitRating = async (ratingVal) => {
+    window.submitRating = async (val) => {
       if (!activeRatingProdId) return;
       const prod = productsList.find(p => p.id === activeRatingProdId);
       if (!prod) return;
-      let totalRatings = Number(prod.totalRatings) || 0;
-      let sumRatings = Number(prod.sumRatings) || 0;
-      totalRatings += 1;
-      sumRatings += ratingVal;
-      const newAverage = (sumRatings / totalRatings).toFixed(1);
+      let total = Number(prod.totalRatings) || 0;
+      let sum = Number(prod.sumRatings) || 0;
+      total++; sum += val;
       try {
-        await updateDoc(doc(db, 'products', activeRatingProdId), { totalRatings, sumRatings, ratingAverage: newAverage });
-        showToast(`Avaliação de ${ratingVal} estrela(s) salva!`);
+        await updateDoc(doc(db, 'products', activeRatingProdId), {
+          totalRatings: total, sumRatings: sum, ratingAverage: (sum / total).toFixed(1)
+        });
+        showToast("Avaliação salva!");
         document.getElementById('modal-rate-product').classList.add('hidden');
-      } catch (err) {
-        showToast("Erro ao salvar avaliação", "error");
-      }
+      } catch (e) { showToast("Erro", "error"); }
     };
 
     window.openTestimonialModal = () => document.getElementById('modal-testimonial').classList.remove('hidden');
@@ -764,40 +690,31 @@
       const comment = document.getElementById('test-comment').value;
       try {
         await addDoc(collection(db, 'testimonials'), { name, comment, createdAt: new Date().toISOString() });
-        showToast("Depoimento enviado com sucesso!");
+        showToast("Depoimento enviado!");
         document.getElementById('form-testimonial').reset();
         document.getElementById('modal-testimonial').classList.add('hidden');
-      } catch(err) {
-        showToast("Erro ao enviar depoimento", "error");
-      }
+      } catch (e) { showToast("Erro", "error"); }
     };
 
-    window.copyCoupon = (codeText) => {
-      const couponToCopy = codeText || "CLIENTEVIP";
-      navigator.clipboard.writeText(couponToCopy).then(() => {
-        showToast(`Cupom "${couponToCopy}" copiado com sucesso!`);
-      }).catch(err => {
-        showToast("Erro ao copiar cupom", "error");
-      });
+    window.copyCoupon = (code) => {
+      navigator.clipboard.writeText(code || "CLIENTEVIP").then(() => showToast(`Cupom copiado!`));
     };
 
-    window.openProductAndCopyCoupon = (productUrl, couponCode) => {
-      const couponToCopy = couponCode || "CLIENTEVIP";
-      navigator.clipboard.writeText(couponToCopy).catch(err => {});
-      document.getElementById('timer-coupon-code').innerText = `Cupom: ${couponToCopy}`;
+    window.openProductAndCopyCoupon = (url, code) => {
+      navigator.clipboard.writeText(code || "CLIENTEVIP").catch(() => {});
+      document.getElementById('timer-coupon-code').innerText = `Cupom: ${code || "CLIENTEVIP"}`;
       document.getElementById('modal-timer-redirect').classList.remove('hidden');
-      let secondsLeft = 8;
-      const countdownElem = document.getElementById('countdown-seconds');
-      countdownElem.innerText = `${secondsLeft}s`;
+      let sec = 8;
+      document.getElementById('countdown-seconds').innerText = `${sec}s`;
       if (redirectTimer) clearTimeout(redirectTimer);
       if (redirectInterval) clearInterval(redirectInterval);
       redirectInterval = setInterval(() => {
-        secondsLeft--;
-        if (secondsLeft >= 0) countdownElem.innerText = `${secondsLeft}s`;
+        sec--;
+        if (sec >= 0) document.getElementById('countdown-seconds').innerText = `${sec}s`;
       }, 1000);
       redirectTimer = setTimeout(() => {
         clearInterval(redirectInterval);
-        if (productUrl) window.location.href = productUrl;
+        if (url) window.location.href = url;
       }, 8000);
     };
 
@@ -807,191 +724,121 @@
       document.getElementById('modal-timer-redirect').classList.add('hidden');
     };
 
-    window.openImageViewer = (imgUrl, allImagesJson) => {
+    window.openImageViewer = (url, json) => {
       let images = [];
-      try { images = JSON.parse(decodeURIComponent(allImagesJson)); } catch(e) { images = [imgUrl]; }
-      const modal = document.getElementById('modal-image-viewer');
-      const mainImg = document.getElementById('viewer-img-element');
-      const thumbsContainer = document.getElementById('viewer-thumbnails');
-      mainImg.src = imgUrl;
+      try { images = JSON.parse(decodeURIComponent(json)); } catch (e) { images = [url]; }
+      document.getElementById('viewer-img-element').src = url;
+      const thumbs = document.getElementById('viewer-thumbnails');
       if (images.length > 1) {
-        thumbsContainer.innerHTML = images.map(url => `
-          <button type="button" onclick="document.getElementById('viewer-img-element').src='${url}'" class="focus:outline-none flex-shrink-0">
-            <img src="${url}" class="w-16 h-16 rounded-xl object-cover border-2 border-slate-600 hover:border-brand-500 transition">
-          </button>
-        `).join('');
-        thumbsContainer.classList.remove('hidden');
-      } else {
-        thumbsContainer.innerHTML = '';
-        thumbsContainer.classList.add('hidden');
-      }
-      modal.classList.remove('hidden');
+        thumbs.innerHTML = images.map(u => `<button onclick="document.getElementById('viewer-img-element').src='\( {u}'" class="focus:outline-none"><img src=" \){u}" class="w-16 h-16 rounded-xl object-cover border-2 border-slate-600"></button>`).join('');
+      } else thumbs.innerHTML = '';
+      document.getElementById('modal-image-viewer').classList.remove('hidden');
     };
 
-    window.closeImageViewer = () => {
-      document.getElementById('modal-image-viewer').classList.add('hidden');
-    };
+    window.closeImageViewer = () => document.getElementById('modal-image-viewer').classList.add('hidden');
 
-    window.decreaseAllProductsUsage = async (qtyToSubtract = 1) => {
-      if (productsList.length === 0) {
-        showToast("Nenhum produto cadastrado para dar baixa.", "error");
-        return;
-      }
-      if (!confirm(`Confirmar baixa de -${qtyToSubtract} no estoque do cupom para TODOS os ${productsList.length} produtos?`)) return;
-      showToast("Atualizando todos os produtos no banco...", "success");
+    window.decreaseAllProductsUsage = async (qty = 1) => {
+      if (productsList.length === 0) return showToast("Nenhum produto", "error");
+      if (!confirm(`Baixa de -${qty} em TODOS os produtos?`)) return;
       try {
         const batch = writeBatch(db);
-        productsList.forEach(prod => {
-          const prodRef = doc(db, 'products', prod.id);
-          const currentUsed = Number(prod.usedCount) || Number(prod.used) || 0;
-          const newUsed = currentUsed + Number(qtyToSubtract);
-          batch.update(prodRef, { usedCount: newUsed, used: newUsed, updatedAt: new Date().toISOString() });
+        productsList.forEach(p => {
+          const used = Number(p.usedCount) || 0;
+          batch.update(doc(db, 'products', p.id), { usedCount: used + qty, used: used + qty });
         });
         await batch.commit();
-        showToast(`Baixa realizada em lote para todos os ${productsList.length} produtos!`);
-      } catch (err) {
-        showToast("Erro ao dar baixa em lote: " + err.message, "error");
-      }
+        showToast("Baixa realizada!");
+      } catch (e) { showToast("Erro", "error"); }
     };
 
-    window.openCustomBatchModal = () => {
-      document.getElementById('modal-batch-use').classList.remove('hidden');
-    };
+    window.openCustomBatchModal = () => document.getElementById('modal-batch-use').classList.remove('hidden');
 
     document.getElementById('form-batch-use').onsubmit = async (e) => {
       e.preventDefault();
       const val = Number(document.getElementById('batch-use-val').value);
       if (val > 0) {
-        closeModal('modal-batch-use');
-        await window.decreaseAllProductsUsage(val);
+        document.getElementById('modal-batch-use').classList.add('hidden');
+        await decreaseAllProductsUsage(val);
       }
     };
 
     window.renderPreviewGallery = () => {
-      const previewContainer = document.getElementById('preview-container');
-      const previewGallery = document.getElementById('preview-gallery');
+      const cont = document.getElementById('preview-container');
+      const gal = document.getElementById('preview-gallery');
       if (currentFetchedImages.length === 0) {
-        previewContainer.classList.add('hidden');
-        document.getElementById('fetched-image-url').value = "";
+        cont.classList.add('hidden');
         return;
       }
       document.getElementById('fetched-image-url').value = JSON.stringify(currentFetchedImages);
-      previewGallery.innerHTML = currentFetchedImages.map((imgUrl, index) => `
-        <div class="relative group flex-shrink-0">
-          <img src="${imgUrl}" class="w-16 h-16 rounded-xl object-cover border border-slate-700">
-          <button type="button" onclick="removeFetchedImage(${index})" class="absolute -top-1.5 -right-1.5 bg-red-600 hover:bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-[10px] font-bold shadow-md transition" title="Remover imagem">
+      gal.innerHTML = currentFetchedImages.map((url, i) => `
+        <div class="relative flex-shrink-0">
+          <img src="${url}" class="w-16 h-16 rounded-xl object-cover border border-slate-700">
+          <button type="button" onclick="removeFetchedImage(${i})" class="absolute -top-1.5 -right-1.5 bg-red-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-[10px]">
             <i class="fa-solid fa-xmark"></i>
           </button>
         </div>
       `).join('');
-      previewContainer.classList.remove('hidden');
+      cont.classList.remove('hidden');
     };
 
-    window.removeFetchedImage = (index) => {
-      currentFetchedImages.splice(index, 1);
+    window.removeFetchedImage = (i) => {
+      currentFetchedImages.splice(i, 1);
       renderPreviewGallery();
-      showToast("Imagem removida da lista.");
     };
 
     window.fetchProductFromLink = async () => {
-      const urlInput = document.getElementById('auto-import-link').value.trim();
-      if (!urlInput) {
-        showToast("Cole o link do produto primeiro!", "error");
-        return;
-      }
-      showToast("Buscando dados e fotos...", "success");
+      const url = document.getElementById('auto-import-link').value.trim();
+      if (!url) return showToast("Cole o link primeiro", "error");
+      showToast("Buscando...");
       try {
-        const microlinkUrl = `https://api.microlink.io/?url=${encodeURIComponent(urlInput)}`;
-        const response = await fetch(microlinkUrl);
-        const json = await response.json();
+        const res = await fetch(`https://api.microlink.io/?url=${encodeURIComponent(url)}`);
+        const json = await res.json();
         currentFetchedImages = [];
         if (json.status === 'success' && json.data) {
-          const data = json.data;
-          if (data.title) {
-            const cleanTitle = data.title.split('|')[0].split('- Natura')[0].trim();
-            document.getElementById('product-name').value = cleanTitle;
-          }
-          if (data.description) document.getElementById('product-description').value = data.description;
-          if (data.image && data.image.url) {
-            const imgUrl = data.image.url;
-            if (!imgUrl.toLowerCase().includes('logo') && !imgUrl.toLowerCase().includes('icon')) {
-              currentFetchedImages.push(imgUrl);
-            }
-          }
+          if (json.data.title) document.getElementById('product-name').value = json.data.title.split('|')[0].split('- Natura')[0].trim();
+          if (json.data.description) document.getElementById('product-description').value = json.data.description;
+          if (json.data.image?.url) currentFetchedImages.push(json.data.image.url);
         }
-        try {
-          const fallbackUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(urlInput)}`;
-          const res = await fetch(fallbackUrl);
-          const dataJson = await res.json();
-          if (dataJson.contents) {
-            const parser = new DOMParser();
-            const docHtml = parser.parseFromString(dataJson.contents, 'text/html');
-            const allImages = docHtml.querySelectorAll('meta[property="og:image"], meta[name="twitter:image"], img');
-            allImages.forEach(tag => {
-              const url = tag.getAttribute('content') || tag.getAttribute('src');
-              if (url && url.startsWith('http')) {
-                const lowerUrl = url.toLowerCase();
-                const isLogoOrIcon = lowerUrl.includes('logo') || lowerUrl.includes('icon') || lowerUrl.includes('avatar') || lowerUrl.includes('banner') || lowerUrl.includes('social');
-                const isProductPhoto = lowerUrl.includes('product') || lowerUrl.includes('natura') || lowerUrl.includes('p/') || lowerUrl.includes('zoom') || lowerUrl.includes('large');
-                if (!isLogoOrIcon && isProductPhoto && !currentFetchedImages.includes(url) && currentFetchedImages.length < 4) {
-                  currentFetchedImages.push(url);
-                }
-              }
-            });
-          }
-        } catch (e) {}
         renderPreviewGallery();
-        showToast(`${currentFetchedImages.length} foto(s) carregada(s) com sucesso!`);
-        document.getElementById('product-link').value = urlInput;
+        document.getElementById('product-link').value = url;
         document.getElementById('product-code').value = "CLIENTEVIP";
         document.getElementById('product-discount-percent').value = "10";
-      } catch (err) {
-        showToast("O site bloqueou a extração. Preencha manualmente.", "error");
+        showToast("Dados carregados!");
+      } catch (e) {
+        showToast("Erro ao buscar. Preencha manualmente.", "error");
       }
     };
 
     function processImageFile(file) {
-      return new Promise((resolve, reject) => {
-        if (!file) { resolve(null); return; }
+      return new Promise((resolve) => {
+        if (!file) return resolve(null);
         const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = (event) => {
+        reader.onload = (e) => {
           const img = new Image();
-          img.src = event.target.result;
           img.onload = () => {
             const canvas = document.createElement('canvas');
-            let width = img.width;
-            let height = img.height;
-            const maxWidth = 1000;
-            const maxHeight = 1000;
-            if (width > height) {
-              if (width > maxWidth) { height *= maxWidth / width; width = maxWidth; }
-            } else {
-              if (height > maxHeight) { width *= maxHeight / height; height = maxHeight; }
-            }
-            canvas.width = width;
-            canvas.height = height;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(img, 0, 0, width, height);
+            let w = img.width, h = img.height;
+            if (w > 1000) { h *= 1000 / w; w = 1000; }
+            if (h > 1000) { w *= 1000 / h; h = 1000; }
+            canvas.width = w; canvas.height = h;
+            canvas.getContext('2d').drawImage(img, 0, 0, w, h);
             resolve(canvas.toDataURL('image/jpeg', 0.85));
           };
-          img.onerror = (error) => reject(error);
+          img.src = e.target.result;
         };
-        reader.onerror = (error) => reject(error);
+        reader.readAsDataURL(file);
       });
     }
 
     function updateAdminUI() {
-      const panelUnlogged = document.getElementById('panel-unlogged');
-      const panelLogged = document.getElementById('panel-logged');
       if (currentUser) {
-        panelUnlogged.classList.add('hidden');
-        panelLogged.classList.remove('hidden');
+        document.getElementById('panel-unlogged').classList.add('hidden');
+        document.getElementById('panel-logged').classList.remove('hidden');
         document.getElementById('profile-title').value = profileData.title || "";
         document.getElementById('profile-bio').value = profileData.bio || "";
       } else {
-        panelUnlogged.classList.remove('hidden');
-        panelLogged.classList.add('hidden');
+        document.getElementById('panel-unlogged').classList.remove('hidden');
+        document.getElementById('panel-logged').classList.add('hidden');
       }
       renderProducts();
     }
@@ -1002,42 +849,35 @@
     });
 
     function setupDataListeners() {
-      onSnapshot(doc(db, 'settings', 'profile'), (docSnap) => {
-        if (docSnap.exists()) {
-          profileData = { ...profileData, ...docSnap.data() };
-          renderProfile();
-        } else {
+      onSnapshot(doc(db, 'settings', 'profile'), (snap) => {
+        if (snap.exists()) {
+          profileData = { ...profileData, ...snap.data() };
           renderProfile();
         }
       });
-      onSnapshot(collection(db, 'products'), (snapshot) => {
-        productsList = snapshot.docs.map(docSnap => ({ id: docSnap.id, ...docSnap.data() }));
+      onSnapshot(collection(db, 'products'), (snap) => {
+        productsList = snap.docs.map(d => ({ id: d.id, ...d.data() }));
         renderProducts();
         if (currentUser) renderAdminProductsList();
       });
-      onSnapshot(collection(db, 'testimonials'), (snapshot) => {
-        testimonialsList = snapshot.docs.map(docSnap => ({ id: docSnap.id, ...docSnap.data() }));
+      onSnapshot(collection(db, 'testimonials'), (snap) => {
+        testimonialsList = snap.docs.map(d => ({ id: d.id, ...d.data() }));
         renderTestimonials();
       });
     }
 
     function renderTestimonials() {
       const ticker = document.getElementById('testimonials-ticker');
-      if (!ticker) return;
       if (testimonialsList.length === 0) {
-        ticker.innerHTML = `<div class="text-xs text-slate-400 italic py-1">Nenhum depoimento ainda. Seja o primeiro a deixar uma avaliação!</div>`;
+        ticker.innerHTML = `<div class="text-xs text-slate-400 italic">Nenhum depoimento ainda</div>`;
         return;
       }
-      const loopList = testimonialsList.length > 2 ? [...testimonialsList, ...testimonialsList] : testimonialsList;
-      ticker.innerHTML = loopList.map(t => `
-        <div class="inline-flex items-center gap-3 bg-slate-900/90 border border-slate-700/80 px-4 py-2 rounded-xl flex-shrink-0 shadow-sm">
-          <div class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 font-bold flex items-center justify-center text-xs border border-emerald-500/30">
-            ${t.name ? t.name.charAt(0).toUpperCase() : 'C'}
-          </div>
+      const list = testimonialsList.length > 2 ? [...testimonialsList, ...testimonialsList] : testimonialsList;
+      ticker.innerHTML = list.map(t => `
+        <div class="inline-flex items-center gap-3 bg-slate-900/90 border border-slate-700/80 px-4 py-2 rounded-xl flex-shrink-0">
+          <div class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 font-bold flex items-center justify-center text-xs">${(t.name||'C')[0]}</div>
           <div>
-            <div class="text-xs font-bold text-white flex items-center gap-1">
-              ${t.name} <i class="fa-solid fa-circle-check text-[10px] text-emerald-400"></i>
-            </div>
+            <div class="text-xs font-bold text-white">${t.name}</div>
             <div class="text-xs text-slate-300 max-w-xs truncate">"${t.comment}"</div>
           </div>
         </div>
@@ -1045,135 +885,75 @@
     }
 
     function renderProfile() {
-      document.getElementById('display-title').innerText = profileData.title || "Meu Catálogo Digital";
+      document.getElementById('display-title').innerText = profileData.title || "Meu Catálogo";
       document.getElementById('display-bio').innerText = profileData.bio || "";
       if (profileData.cover) document.getElementById('display-cover').style.backgroundImage = `url('${profileData.cover}')`;
       if (profileData.logo) document.getElementById('display-logo').src = profileData.logo;
     }
 
-    window.setMainImage = (prodId, imgUrl) => {
-      const imgElement = document.getElementById(`prod-img-${prodId}`);
-      if (imgElement) imgElement.src = imgUrl;
+    window.setMainImage = (id, url) => {
+      const el = document.getElementById(`prod-img-${id}`);
+      if (el) el.src = url;
     };
 
     function renderProducts() {
       const grid = document.getElementById('products-grid');
-      const emptyState = document.getElementById('empty-state');
-      const totalStat = document.getElementById('stat-total-products');
-      const searchVal = document.getElementById('input-search').value.toLowerCase().trim();
-      const filterStatus = document.getElementById('filter-status').value;
-      totalStat.innerText = `${productsList.length} Produtos`;
-      let filtered = productsList.filter(prod => {
-        const matchesSearch = (prod.name && prod.name.toLowerCase().includes(searchVal)) || 
-                              (prod.code && prod.code.toLowerCase().includes(searchVal)) ||
-                              (prod.description && prod.description.toLowerCase().includes(searchVal));
-        const matchesCategory = activeCategory === 'all' || prod.category === activeCategory;
-        const totalUses = Number(prod.totalUses) || Number(prod.total) || 1;
-        const usedCount = Number(prod.usedCount) || Number(prod.used) || 0;
-        const remaining = Math.max(0, totalUses - usedCount);
-        const isSoldOut = (remaining <= 0);
-        if (filterStatus === 'available' && isSoldOut) return false;
-        if (filterStatus === 'soldout' && !isSoldOut) return false;
-        return matchesSearch && matchesCategory;
+      const empty = document.getElementById('empty-state');
+      const search = document.getElementById('input-search').value.toLowerCase();
+      const status = document.getElementById('filter-status').value;
+      document.getElementById('stat-total-products').innerText = `${productsList.length} Produtos`;
+
+      let filtered = productsList.filter(p => {
+        const matchSearch = (p.name||"").toLowerCase().includes(search) || (p.code||"").toLowerCase().includes(search);
+        const matchCat = activeCategory === 'all' || p.category === activeCategory;
+        const total = Number(p.totalUses) || 30;
+        const used = Number(p.usedCount) || 0;
+        const soldOut = (total - used) <= 0;
+        if (status === 'available' && soldOut) return false;
+        if (status === 'soldout' && !soldOut) return false;
+        return matchSearch && matchCat;
       });
+
       if (filtered.length === 0) {
         grid.innerHTML = '';
-        emptyState.classList.remove('hidden');
+        empty.classList.remove('hidden');
         return;
       }
-      emptyState.classList.add('hidden');
-      grid.innerHTML = filtered.map(prod => {
-        const totalUses = Number(prod.totalUses) || Number(prod.total) || 1;
-        const usedCount = Number(prod.usedCount) || Number(prod.used) || 0;
-        const remaining = Math.max(0, totalUses - usedCount);
-        const isSoldOut = (remaining <= 0);
-        const percentUsed = Math.min(100, Math.round((usedCount / totalUses) * 100));
-        const percentRemaining = Math.max(0, 100 - percentUsed);
+      empty.classList.add('hidden');
+
+      grid.innerHTML = filtered.map(p => {
+        const total = Number(p.totalUses) || 30;
+        const used = Number(p.usedCount) || 0;
+        const remaining = Math.max(0, total - used);
+        const soldOut = remaining <= 0;
+        const percent = Math.max(0, 100 - Math.round((used / total) * 100));
         let barColor = "bg-brand-500";
-        if (percentRemaining < 20) barColor = "bg-red-500";
-        else if (percentRemaining < 50) barColor = "bg-amber-500";
-        const imgPlaceholder = "https://via.placeholder.com/400x300?text=Sem+Imagem";
-        let prodImages = [];
-        if (Array.isArray(prod.images) && prod.images.length > 0) prodImages = prod.images;
-        else if (prod.image) prodImages = [prod.image];
-        else prodImages = [imgPlaceholder];
-        const mainImg = prodImages[0];
-        const encodedImagesJson = encodeURIComponent(JSON.stringify(prodImages));
-        const originalPrice = prod.price ? Number(prod.price) : null;
-        const discountPercent = Number(prod.discountPercent) || 0;
-        let finalDiscountPrice = null;
-        if (originalPrice && discountPercent > 0) finalDiscountPrice = originalPrice - (originalPrice * (discountPercent / 100));
-        const formattedOriginal = originalPrice ? originalPrice.toFixed(2).replace('.', ',') : null;
-        const formattedDiscount = finalDiscountPrice ? finalDiscountPrice.toFixed(2).replace('.', ',') : null;
-        const couponCode = prod.code || "CLIENTEVIP";
-        const ratingAvg = prod.ratingAverage || "5.0";
-        const ratingCount = prod.totalRatings || 0;
-        let daysLeftText = "";
-        if (prod.createdAt) {
-          const createdDate = new Date(prod.createdAt);
-          const validityDays = Number(prod.validityDays) || 30;
-          const expiryDate = new Date(createdDate.getTime() + (validityDays * 24 * 60 * 60 * 1000));
-          const today = new Date();
-          const diffTime = expiryDate - today;
-          const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-          if (diffDays > 0) {
-            if (diffDays <= 5) daysLeftText = `<span class="text-[10px] bg-red-500/20 text-red-400 font-bold px-2 py-0.5 rounded-full border border-red-500/30 animate-pulse"><i class="fa-solid fa-clock mr-1"></i>Expira em ${diffDays} ${diffDays === 1 ? 'dia' : 'dias'}!</span>`;
-            else daysLeftText = `<span class="text-[10px] bg-slate-800 text-slate-300 font-medium px-2 py-0.5 rounded-full border border-slate-700"><i class="fa-regular fa-clock mr-1"></i>Validade: ${diffDays} dias restantes</span>`;
-          } else {
-            daysLeftText = `<span class="text-[10px] bg-red-600/20 text-red-400 font-bold px-2 py-0.5 rounded-full border border-red-600/30">Cupom Expirado</span>`;
-          }
-        }
+        if (percent < 20) barColor = "bg-red-500";
+        else if (percent < 50) barColor = "bg-amber-500";
+        const img = (p.images && p.images[0]) || p.image || "https://via.placeholder.com/400x300?text=Sem+Imagem";
+        const price = Number(p.price) || 0;
+        const disc = Number(p.discountPercent) || 0;
+        const final = disc > 0 ? (price - price * disc / 100).toFixed(2).replace('.', ',') : price.toFixed(2).replace('.', ',');
+        const code = p.code || "CLIENTEVIP";
+
         return `
-          <div class="glass-card rounded-2xl overflow-hidden border border-slate-800 flex flex-col justify-between hover:border-slate-700 transition group">
-            <div>
-              <div class="relative h-48 w-full bg-slate-800 overflow-hidden cursor-pointer" onclick="openImageViewer('\( {mainImg}', ' \){encodedImagesJson}')">
-                <img id="prod-img-\( {prod.id}" src=" \){mainImg}" alt="\( {prod.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.src=' \){imgPlaceholder}'">
-                <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
-                  <span class="px-2.5 py-1 bg-slate-900/80 backdrop-blur-sm text-white text-xs rounded-full font-medium"><i class="fa-solid fa-expand mr-1"></i> Ver Álbum</span>
-                </div>
-                ${isSoldOut ? `<div class="absolute inset-0 bg-slate-950/80 backdrop-blur-xs flex items-center justify-center"><span class="px-3 py-1 bg-red-600/90 text-white text-xs font-black tracking-widest rounded-full uppercase shadow-lg border border-red-400/30 animate-pulse"><i class="fa-solid fa-ban mr-1"></i> Produto Esgotado</span></div>` : ''}
-                <button type="button" onclick="event.stopPropagation(); copyCoupon('${couponCode}')" title="Clique para copiar o cupom" class="absolute top-3 left-3 bg-brand-600/90 hover:bg-brand-500 text-white text-[11px] font-bold px-2.5 py-1 rounded-lg shadow border border-brand-400/30 transition flex items-center gap-1.5 cursor-pointer z-10">
-                  <i class="fa-solid fa-ticket"></i> Cupom: ${couponCode} <i class="fa-regular fa-copy text-[10px] opacity-80"></i>
-                </button>
-                ${prod.isFeatured ? `<span class="absolute top-3 right-3 bg-amber-500 text-slate-950 font-black text-[10px] px-2.5 py-1 rounded-lg shadow-lg uppercase tracking-wider flex items-center gap-1 z-10"><i class="fa-solid fa-fire"></i> Destaque</span>` : ''}
-                \( {prodImages.length > 1 ? `<span class="absolute bottom-3 right-3 bg-slate-950/80 text-white text-[10px] font-semibold px-2 py-0.5 rounded-full backdrop-blur-sm border border-slate-700"><i class="fa-solid fa-images mr-1"></i> \){prodImages.length} fotos</span>` : ''}
-              </div>
-              \( {prodImages.length > 1 ? `<div class="flex items-center gap-1.5 px-4 pt-2.5 overflow-x-auto no-scrollbar"> \){prodImages.map((imgUrl) => `<button type="button" onclick="setMainImage('\( {prod.id}', ' \){imgUrl}')" class="focus:outline-none flex-shrink-0"><img src="${imgUrl}" class="w-10 h-10 rounded-lg object-cover border border-slate-700 hover:border-brand-500 transition"></button>`).join('')}</div>` : ''}
-              <div class="p-4">
-                <div class="flex items-start justify-between gap-2">
-                  <h3 class="font-bold text-slate-100 text-base leading-snug">${prod.name}</h3>
-                  ${daysLeftText}
-                </div>
-                <div class="flex items-center justify-between mt-3 pt-2 border-t border-slate-800">
-                  <div class="flex items-center gap-1 text-amber-400 text-xs font-bold">
-                    <i class="fa-solid fa-star"></i>
-                    <span>${ratingAvg}</span>
-                    <span class="text-slate-500 font-normal">(${ratingCount})</span>
-                  </div>
-                  <button type="button" onclick="openRateModal('\( {prod.id}', ' \){prod.name.replace(/'/g, "")}')" class="text-[11px] bg-slate-800 hover:bg-slate-700 text-amber-400 font-semibold px-2.5 py-1 rounded-lg border border-amber-500/20 transition flex items-center gap-1">
-                    <i class="fa-regular fa-star"></i> Avaliar
-                  </button>
-                </div>
-                <p class="text-xs text-slate-400 mt-2">Categoria: <strong class="text-slate-300">${prod.category || 'Geral'}</strong></p>
-                \( {formattedOriginal ? `<div class="flex items-baseline gap-2 mt-2"> \){formattedDiscount ? `<span class="text-lg font-black text-brand-400">R$ \( {formattedDiscount}</span><span class="text-xs text-slate-400 line-through">R \) \( {formattedOriginal}</span><span class="text-[10px] bg-brand-500/20 text-brand-400 font-bold px-1.5 py-0.5 rounded">- \){discountPercent}%</span>` : `<span class="text-lg font-black text-slate-100">R$ ${formattedOriginal}</span>`}</div>` : ''}
-                <p class="text-xs text-slate-400 mt-2 whitespace-pre-line">${prod.description || prod.desc || 'Sem descrição.'}</p>
-                <div class="mt-4 p-3 bg-slate-900/80 rounded-xl border border-slate-800/80">
-                  <div class="flex items-center justify-between text-xs font-semibold mb-1.5">
-                    <span class="text-slate-400">Estoque / Uso</span>
-                    <span class="\( {isSoldOut ? 'text-red-400 font-bold' : 'text-slate-200'}"> \){remaining} restantes de ${totalUses}</span>
-                  </div>
-                  <div class="w-full h-2 bg-slate-800 rounded-full overflow-hidden p-0.5 border border-slate-700/50">
-                    <div class="h-full ${barColor} rounded-full transition-all duration-500" style="width: ${percentRemaining}%"></div>
-                  </div>
-                  <div class="flex justify-between items-center text-[10px] text-slate-400 mt-1.5">
-                    <span>Usados: <strong class="text-slate-300">${usedCount}</strong></span>
-                    <span>${percentRemaining}% Restante</span>
-                  </div>
-                </div>
-              </div>
+          <div class="glass-card rounded-2xl overflow-hidden border border-slate-800 flex flex-col">
+            <div class="relative h-48 cursor-pointer" onclick="openImageViewer('\( {img}', ' \){encodeURIComponent(JSON.stringify(p.images || [img]))}')">
+              <img id="prod-img-\( {p.id}" src=" \){img}" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/400x300?text=Sem+Imagem'">
+              ${soldOut ? '<div class="absolute inset-0 bg-black/70 flex items-center justify-center"><span class="bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full">ESGOTADO</span></div>' : ''}
+              <button onclick="event.stopPropagation(); copyCoupon('${code}')" class="absolute top-3 left-3 bg-brand-600 text-white text-[11px] font-bold px-2.5 py-1 rounded-lg">
+                Cupom: ${code}
+              </button>
             </div>
-            <div class="p-4 pt-0">
-              \( {prod.link ? `<button type="button" onclick="openProductAndCopyCoupon(' \){prod.link}', '${couponCode}')" class="w-full py-2 px-3 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-medium flex items-center justify-center gap-2 border border-slate-700 transition cursor-pointer"><i class="fa-solid fa-arrow-up-right-from-square text-brand-400"></i> Ver Link do Produto</button>` : ''}
+            <div class="p-4 flex-1 flex flex-col">
+              <h3 class="font-bold text-slate-100">${p.name}</h3>
+              <p class="text-xs text-slate-400 mt-1">${p.category || 'Geral'}</p>
+              \( {price ? `<div class="mt-2"><span class="text-lg font-black text-brand-400">R \) ${final}</span></div>` : ''}
+              <div class="mt-3 text-xs text-slate-400">${remaining} restantes de ${total}</div>
+              <div class="w-full h-2 bg-slate-800 rounded-full mt-1 overflow-hidden">
+                <div class="h-full \( {barColor} rounded-full" style="width: \){percent}%"></div>
+              </div>
+              \( {p.link ? `<button onclick="openProductAndCopyCoupon(' \){p.link}', '${code}')" class="mt-4 w-full py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-medium border border-slate-700">Ver Produto</button>` : ''}
             </div>
           </div>
         `;
@@ -1181,62 +961,37 @@
     }
 
     function renderAdminProductsList() {
-      const container = document.getElementById('admin-products-list');
-      if (!container) return;
+      const cont = document.getElementById('admin-products-list');
       if (productsList.length === 0) {
-        container.innerHTML = '<p class="text-xs text-slate-400 text-center py-4">Nenhum produto cadastrado ainda.</p>';
+        cont.innerHTML = '<p class="text-xs text-slate-400 text-center py-4">Nenhum produto</p>';
         return;
       }
-      container.innerHTML = productsList.map(prod => `
-        <div class="bg-slate-900 p-3 rounded-xl border border-slate-700 flex items-center justify-between gap-2">
+      cont.innerHTML = productsList.map(p => `
+        <div class="bg-slate-900 p-3 rounded-xl border border-slate-700 flex justify-between items-center gap-2">
           <div class="truncate">
-            <h4 class="text-xs font-bold text-white truncate">${prod.name}</h4>
-            <span class="text-[10px] text-slate-400">Usados: ${prod.usedCount || 0} / Total: ${prod.totalUses || 30}</span>
+            <h4 class="text-xs font-bold text-white truncate">${p.name}</h4>
+            <span class="text-[10px] text-slate-400">Usados: \( {p.usedCount||0}/ \){p.totalUses||30}</span>
           </div>
-          <div class="flex items-center gap-1 flex-shrink-0">
-            <button onclick="openQuickUseModal('${prod.id}')" class="px-2.5 py-1 bg-brand-600/20 hover:bg-brand-600/30 text-brand-300 rounded-lg text-xs font-medium border border-brand-500/30" title="Atualizar Uso">
-              <i class="fa-solid fa-pen-to-square"></i>
-            </button>
-            <button onclick="openEditProductModal('${prod.id}')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-medium border border-slate-700" title="Editar">
-              <i class="fa-solid fa-gear"></i>
-            </button>
-            <button onclick="deleteProduct('${prod.id}')" class="px-2.5 py-1 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-lg text-xs font-medium border border-red-500/20" title="Excluir">
-              <i class="fa-solid fa-trash"></i>
-            </button>
+          <div class="flex gap-1">
+            <button onclick="openQuickUseModal('${p.id}')" class="px-2 py-1 bg-brand-600/20 text-brand-300 rounded-lg text-xs"><i class="fa-solid fa-pen"></i></button>
+            <button onclick="openEditProductModal('${p.id}')" class="px-2 py-1 bg-slate-800 text-slate-300 rounded-lg text-xs"><i class="fa-solid fa-gear"></i></button>
+            <button onclick="deleteProduct('${p.id}')" class="px-2 py-1 bg-red-500/20 text-red-400 rounded-lg text-xs"><i class="fa-solid fa-trash"></i></button>
           </div>
         </div>
       `).join('');
     }
 
-    function closeModal(id) {
-      document.getElementById(id).classList.add('hidden');
-    }
-
-    document.querySelectorAll('.btn-close-modal').forEach(btn => {
-      btn.onclick = () => btn.closest('.fixed').classList.add('hidden');
-    });
-
-    document.getElementById('btn-auth-open').onclick = () => {
-      document.getElementById('modal-auth').classList.remove('hidden');
-    };
-
+    // Auth
     function attachToggleAuthListener() {
-      const toggleBtn = document.getElementById('btn-toggle-auth-mode');
-      if (toggleBtn) {
-        toggleBtn.onclick = () => {
+      const btn = document.getElementById('btn-toggle-auth-mode');
+      if (btn) {
+        btn.onclick = () => {
           isAuthModeLogin = !isAuthModeLogin;
-          const title = document.getElementById('auth-modal-title');
-          const submitBtn = document.getElementById('btn-auth-submit');
-          const toggleText = document.getElementById('auth-toggle-text');
-          if (isAuthModeLogin) {
-            title.innerText = "Entrar no Painel";
-            submitBtn.innerText = "Entrar no Painel";
-            toggleText.innerHTML = `Não tem usuário e senha? <button id="btn-toggle-auth-mode" type="button" class="text-brand-400 font-semibold hover:underline">Criar conta agora</button>`;
-          } else {
-            title.innerText = "Criar Usuário e Senha";
-            submitBtn.innerText = "Cadastrar e Entrar";
-            toggleText.innerHTML = `Já possui usuário e senha? <button id="btn-toggle-auth-mode" type="button" class="text-brand-400 font-semibold hover:underline">Fazer Login</button>`;
-          }
+          document.getElementById('auth-modal-title').innerText = isAuthModeLogin ? "Entrar no Painel" : "Criar Conta";
+          document.getElementById('btn-auth-submit').innerText = isAuthModeLogin ? "Entrar no Painel" : "Cadastrar e Entrar";
+          document.getElementById('auth-toggle-text').innerHTML = isAuthModeLogin 
+            ? `Não tem usuário e senha? <button id="btn-toggle-auth-mode" type="button" class="text-brand-400 font-semibold hover:underline">Criar conta agora</button>`
+            : `Já tem conta? <button id="btn-toggle-auth-mode" type="button" class="text-brand-400 font-semibold hover:underline">Fazer Login</button>`;
           attachToggleAuthListener();
         };
       }
@@ -1253,7 +1008,7 @@
           showToast("Login realizado!");
         } else {
           await createUserWithEmailAndPassword(auth, email, password);
-          showToast("Usuário criado e ativado!");
+          showToast("Conta criada!");
         }
       } catch (err) {
         showToast("Erro: " + err.message, "error");
@@ -1261,166 +1016,130 @@
     };
 
     document.getElementById('btn-logout').onclick = async () => {
-      try {
-        await signOut(auth);
-        showToast("Você saiu.");
-      } catch (err) {
-        showToast("Erro ao sair.", "error");
-      }
+      await signOut(auth);
+      showToast("Você saiu");
     };
 
     document.getElementById('form-profile').onsubmit = async (e) => {
       e.preventDefault();
       const title = document.getElementById('profile-title').value;
       const bio = document.getElementById('profile-bio').value;
+      let cover = profileData.cover, logo = profileData.logo;
       const coverFile = document.getElementById('profile-cover-file').files[0];
       const logoFile = document.getElementById('profile-logo-file').files[0];
-      let newCover = profileData.cover;
-      let newLogo = profileData.logo;
-      if (coverFile) newCover = await processImageFile(coverFile);
-      if (logoFile) newLogo = await processImageFile(logoFile);
+      if (coverFile) cover = await processImageFile(coverFile);
+      if (logoFile) logo = await processImageFile(logoFile);
       try {
-        await setDoc(doc(db, 'settings', 'profile'), {
-          title, bio, cover: newCover, logo: newLogo, updatedAt: new Date().toISOString()
-        }, { merge: true });
+        await setDoc(doc(db, 'settings', 'profile'), { title, bio, cover, logo }, { merge: true });
         showToast("Perfil atualizado!");
-      } catch (err) {
-        showToast("Erro ao salvar: " + err.message, "error");
-      }
+      } catch (e) { showToast("Erro", "error"); }
     };
 
     window.resetProductForm = () => {
       document.getElementById('form-product').reset();
       document.getElementById('auto-import-link').value = "";
-      document.getElementById('fetched-image-url').value = "";
       currentFetchedImages = [];
       document.getElementById('preview-gallery').innerHTML = "";
       document.getElementById('preview-container').classList.add('hidden');
       document.getElementById('product-id').value = "";
       document.getElementById('product-code').value = "CLIENTEVIP";
-      document.getElementById('product-validity-days').value = "30";
-      document.getElementById('product-featured').checked = false;
       document.getElementById('form-prod-title').innerHTML = `<i class="fa-solid fa-box text-brand-500"></i> Cadastrar Novo Produto`;
       document.getElementById('btn-cancel-prod-edit').classList.add('hidden');
     };
 
-    window.openEditProductModal = (prodId) => {
-      const prod = productsList.find(p => p.id === prodId);
-      if (!prod) return;
-      closeModal('modal-admin-manage');
-      document.getElementById('product-id').value = prod.id;
-      document.getElementById('product-name').value = prod.name || "";
-      document.getElementById('product-category').value = prod.category || "Perfumaria";
-      document.getElementById('product-featured').checked = !!prod.isFeatured;
-      document.getElementById('product-price').value = prod.price || "";
-      document.getElementById('product-discount-percent').value = prod.discountPercent || "10";
-      document.getElementById('product-description').value = prod.description || prod.desc || "";
-      document.getElementById('product-link').value = prod.link || "";
-      document.getElementById('product-code').value = prod.code || "CLIENTEVIP";
-      document.getElementById('product-validity-days').value = prod.validityDays || "30";
-      document.getElementById('product-total-uses').value = prod.totalUses || prod.total || 30;
-      document.getElementById('product-used-count').value = prod.usedCount || prod.used || 0;
-      let prodImages = [];
-      if (Array.isArray(prod.images) && prod.images.length > 0) prodImages = prod.images;
-      else if (prod.image) prodImages = [prod.image];
-      currentFetchedImages = [...prodImages];
+    window.openEditProductModal = (id) => {
+      const p = productsList.find(x => x.id === id);
+      if (!p) return;
+      document.getElementById('modal-admin-manage').classList.add('hidden');
+      document.getElementById('product-id').value = p.id;
+      document.getElementById('product-name').value = p.name || "";
+      document.getElementById('product-category').value = p.category || "Perfumaria";
+      document.getElementById('product-featured').checked = !!p.isFeatured;
+      document.getElementById('product-price').value = p.price || "";
+      document.getElementById('product-discount-percent').value = p.discountPercent || "10";
+      document.getElementById('product-description').value = p.description || "";
+      document.getElementById('product-link').value = p.link || "";
+      document.getElementById('product-code').value = p.code || "CLIENTEVIP";
+      document.getElementById('product-validity-days').value = p.validityDays || 30;
+      document.getElementById('product-total-uses').value = p.totalUses || 30;
+      document.getElementById('product-used-count').value = p.usedCount || 0;
+      currentFetchedImages = Array.isArray(p.images) ? [...p.images] : (p.image ? [p.image] : []);
       renderPreviewGallery();
-      document.getElementById('form-prod-title').innerHTML = `<i class="fa-solid fa-pen-to-square text-brand-500"></i> Editando Produto`;
+      document.getElementById('form-prod-title').innerHTML = `<i class="fa-solid fa-pen text-brand-500"></i> Editando Produto`;
       document.getElementById('btn-cancel-prod-edit').classList.remove('hidden');
     };
 
     document.getElementById('form-product').onsubmit = async (e) => {
       e.preventDefault();
       const id = document.getElementById('product-id').value;
-      const name = document.getElementById('product-name').value;
-      const category = document.getElementById('product-category').value;
-      const isFeatured = document.getElementById('product-featured').checked;
-      const price = document.getElementById('product-price').value;
-      const discountPercent = document.getElementById('product-discount-percent').value;
-      const description = document.getElementById('product-description').value;
-      const link = document.getElementById('product-link').value;
-      const code = document.getElementById('product-code').value || "CLIENTEVIP";
-      const validityDays = Number(document.getElementById('product-validity-days').value) || 30;
-      const totalUses = Number(document.getElementById('product-total-uses').value);
-      const usedCount = Number(document.getElementById('product-used-count').value);
-      const imgFiles = Array.from(document.getElementById('product-image-file').files);
-      let newImages = [];
-      if (imgFiles.length > 0) {
-        newImages = await Promise.all(imgFiles.map(file => processImageFile(file)));
-      } else {
-        newImages = [...currentFetchedImages];
-      }
+      const data = {
+        name: document.getElementById('product-name').value,
+        category: document.getElementById('product-category').value,
+        isFeatured: document.getElementById('product-featured').checked,
+        price: document.getElementById('product-price').value,
+        discountPercent: document.getElementById('product-discount-percent').value,
+        description: document.getElementById('product-description').value,
+        link: document.getElementById('product-link').value,
+        code: document.getElementById('product-code').value || "CLIENTEVIP",
+        validityDays: Number(document.getElementById('product-validity-days').value) || 30,
+        totalUses: Number(document.getElementById('product-total-uses').value),
+        usedCount: Number(document.getElementById('product-used-count').value)
+      };
+      const files = Array.from(document.getElementById('product-image-file').files);
+      let images = files.length > 0 ? await Promise.all(files.map(f => processImageFile(f))) : [...currentFetchedImages];
+      data.images = images;
+      data.image = images[0] || "";
       try {
         if (id) {
-          const prodDocRef = doc(db, 'products', id);
-          const existing = productsList.find(p => p.id === id);
-          const finalImages = newImages.length > 0 ? newImages : (existing.images || (existing.image ? [existing.image] : []));
-          await updateDoc(prodDocRef, {
-            name, category, isFeatured, price, discountPercent, description, link, code, validityDays, totalUses, usedCount,
-            images: finalImages, image: finalImages[0] || "", updatedAt: new Date().toISOString()
-          });
+          await updateDoc(doc(db, 'products', id), { ...data, updatedAt: new Date().toISOString() });
           showToast("Produto atualizado!");
         } else {
-          await addDoc(collection(db, 'products'), {
-            name, category, isFeatured, price, discountPercent, description, link, code, validityDays, totalUses, usedCount,
-            images: newImages, image: newImages[0] || "", createdAt: new Date().toISOString()
-          });
-          showToast("Produto cadastrado com sucesso!");
+          await addDoc(collection(db, 'products'), { ...data, createdAt: new Date().toISOString() });
+          showToast("Produto cadastrado!");
         }
         resetProductForm();
-      } catch (err) {
-        showToast("Erro: " + err.message, "error");
-      }
+      } catch (e) { showToast("Erro: " + e.message, "error"); }
     };
 
-    window.openQuickUseModal = (prodId) => {
-      const prod = productsList.find(p => p.id === prodId);
-      if (!prod) return;
-      closeModal('modal-admin-manage');
-      document.getElementById('quick-use-id').value = prod.id;
-      document.getElementById('quick-use-product-name').innerText = prod.name;
-      document.getElementById('quick-use-val').value = prod.usedCount || prod.used || 0;
+    window.openQuickUseModal = (id) => {
+      const p = productsList.find(x => x.id === id);
+      if (!p) return;
+      document.getElementById('modal-admin-manage').classList.add('hidden');
+      document.getElementById('quick-use-id').value = p.id;
+      document.getElementById('quick-use-product-name').innerText = p.name;
+      document.getElementById('quick-use-val').value = p.usedCount || 0;
       document.getElementById('modal-quick-use').classList.remove('hidden');
     };
 
     document.getElementById('form-quick-use').onsubmit = async (e) => {
       e.preventDefault();
       const id = document.getElementById('quick-use-id').value;
-      const newVal = Number(document.getElementById('quick-use-val').value);
+      const val = Number(document.getElementById('quick-use-val').value);
       try {
-        await updateDoc(doc(db, 'products', id), {
-          usedCount: Math.max(0, newVal),
-          used: Math.max(0, newVal),
-          updatedAt: new Date().toISOString()
-        });
+        await updateDoc(doc(db, 'products', id), { usedCount: Math.max(0, val), used: Math.max(0, val) });
         showToast("Estoque atualizado!");
-        closeModal('modal-quick-use');
-      } catch (err) {
-        showToast("Erro: " + err.message, "error");
-      }
+        document.getElementById('modal-quick-use').classList.add('hidden');
+      } catch (e) { showToast("Erro", "error"); }
     };
 
-    window.deleteProduct = async (prodId) => {
+    window.deleteProduct = async (id) => {
       if (!confirm("Excluir este produto?")) return;
       try {
-        await deleteDoc(doc(db, 'products', prodId));
-        showToast("Produto removido.");
+        await deleteDoc(doc(db, 'products', id));
+        showToast("Produto removido");
         renderAdminProductsList();
-      } catch (err) {
-        showToast("Erro: " + err.message, "error");
-      }
+      } catch (e) { showToast("Erro", "error"); }
     };
 
+    // Botão Gerenciar
     const panelLogged = document.getElementById('panel-logged');
     if (panelLogged && !document.getElementById('btn-open-admin-manage')) {
-      const manageDiv = document.createElement('div');
-      manageDiv.className = "pt-2";
-      manageDiv.innerHTML = `
-        <button type="button" id="btn-open-admin-manage" class="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-bold border border-slate-700 transition flex items-center justify-center gap-2">
-          <i class="fa-solid fa-list-check text-brand-500"></i> Gerenciar / Excluir Produtos Cadastrados
-        </button>
-      `;
-      panelLogged.insertBefore(manageDiv, panelLogged.firstChild);
+      const div = document.createElement('div');
+      div.className = "pt-2";
+      div.innerHTML = `<button type="button" id="btn-open-admin-manage" class="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-bold border border-slate-700 transition flex items-center justify-center gap-2">
+        <i class="fa-solid fa-list-check text-brand-500"></i> Gerenciar / Excluir Produtos
+      </button>`;
+      panelLogged.insertBefore(div, panelLogged.firstChild);
       document.getElementById('btn-open-admin-manage').onclick = () => {
         renderAdminProductsList();
         document.getElementById('modal-admin-manage').classList.remove('hidden');
