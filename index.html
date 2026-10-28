@@ -68,7 +68,7 @@
       </div>
 
       <div class="flex items-center gap-2 flex-shrink-0">
-        <button onclick="toggleAiChat()" title="Assistente Virtual de Vendas" class="w-9 h-9 sm:w-10 sm:h-10 text-emerald-400 bg-emerald-500/10 hover:bg-emerald-500/20 rounded-xl transition border border-emerald-500/30 flex items-center justify-center text-sm shadow-sm cursor-pointer relative">
+        <button onclick="toggleAiChat()" title="Consultora Virtual Natura" class="w-9 h-9 sm:w-10 sm:h-10 text-emerald-400 bg-emerald-500/10 hover:bg-emerald-500/20 rounded-xl transition border border-emerald-500/30 flex items-center justify-center text-sm shadow-sm cursor-pointer relative">
           <i class="fa-solid fa-robot"></i>
           <span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-emerald-400 rounded-full animate-ping"></span>
         </button>
@@ -184,9 +184,7 @@
     </div>
   </main>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
-  <!-- WIDGET DE CHAT DO CLIENTE (CONSULTOR VIRTUAL IA INTELIGENTE E LIVRE) -->
+  <!-- WIDGET DE CHAT IA NATURA INTUITIVA -->
   <div id="ai-chat-drawer" class="fixed inset-y-0 right-0 w-full sm:w-96 bg-slate-900 border-l border-slate-800 z-50 transform translate-x-full transition-transform duration-300 flex flex-col shadow-2xl">
     <div class="p-4 bg-slate-800 border-b border-slate-700 flex items-center justify-between">
       <div class="flex items-center gap-2">
@@ -194,9 +192,9 @@
           <i class="fa-solid fa-robot"></i>
         </div>
         <div>
-          <h3 class="text-sm font-bold text-white leading-tight">Consultor Virtual Natura</h3>
+          <h3 class="text-sm font-bold text-white leading-tight">Consultora IA Natura</h3>
           <p class="text-[10px] text-emerald-400 flex items-center gap-1">
-            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> IA Atendimento ora_et_labora
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Atendimento Exclusivo Natura
           </p>
         </div>
       </div>
@@ -207,13 +205,15 @@
 
     <div id="ai-chat-messages" class="flex-grow p-4 overflow-y-auto space-y-3 text-xs">
       <div class="bg-slate-800/80 border border-slate-700/80 p-3 rounded-2xl text-slate-200 leading-relaxed">
-        👋 Olá! Sou seu consultor especialista da **Loja Oficial Natura (ora_et_labora)**! 🌿<br><br>Estou aqui para conversar com você sobre fragrâncias, presentes, datas especiais ou indicações. O que você está procurando hoje?
+        🌿 Olá! Sou sua **Consultora Virtual Natura**. <br><br>
+        Estou aqui para ajudar você a encontrar os **melhores produtos, lançamentos, itens mais vendidos e promoções** da Natura.<br><br>
+        O que você procura hoje? (Ex: *perfume feminino doce*, *Kaiak*, *sabonetes*, *presente masculino*)
       </div>
     </div>
 
     <div class="p-3 bg-slate-800/80 border-t border-slate-700">
       <form id="form-ai-chat" class="flex gap-2">
-        <input type="text" id="ai-chat-input" placeholder="Ex: Quero um presente amadeirado para homem..." class="flex-grow bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500">
+        <input type="text" id="ai-chat-input" placeholder="Pergunte sobre qualquer produto Natura..." class="flex-grow bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500">
         <button type="submit" class="bg-emerald-600 hover:bg-emerald-500 text-white px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center justify-center cursor-pointer">
           <i class="fa-solid fa-paper-plane"></i>
         </button>
@@ -353,7 +353,7 @@
           </button>
         </div>
 
-        <!-- BARRA DE BOTÕES RÁPIDOS EM ÍCONES -->
+        <!-- BARRA DE BOTÕES RÁPIDOS -->
         <div class="grid grid-cols-6 gap-2">
           <button type="button" onclick="openAdminModalSection('modal-sec-coupon')" class="flex flex-col items-center justify-center p-2.5 bg-slate-900 hover:bg-slate-700 border border-slate-700 rounded-xl text-brand-400 transition cursor-pointer shadow-sm" title="Cupom Global">
             <i class="fa-solid fa-ticket text-base mb-1"></i>
@@ -381,7 +381,7 @@
           </button>
         </div>
 
-        <!-- SUB-PAINÉIS -->
+        <!-- SUB-PAINÉIS MANTIDOS -->
         <div id="modal-sec-coupon" class="admin-sub-section hidden p-3.5 bg-slate-900 border border-brand-500/30 rounded-xl space-y-2.5">
           <div class="flex items-center justify-between">
             <h4 class="text-xs font-bold text-brand-400 flex items-center gap-1.5"><i class="fa-solid fa-ticket"></i> Renovação Global de Cupom</h4>
@@ -525,7 +525,7 @@
               </div>
               <div>
                 <label class="block text-xs font-semibold text-slate-300 mb-1">Cupom de Desconto</label>
-                <input type="text" id="product-code" value="CLIENTEVIP" placeholder="Ex: CLIENTEVIP" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
+                <input type="text" id="product-code" value="CLIENTEVIPS" placeholder="Ex: CLIENTEVIPS" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
               </div>
             </div>
 
@@ -684,75 +684,105 @@
       document.getElementById('ai-chat-drawer').classList.toggle('translate-x-full');
     };
 
-    // INTELIGÊNCIA CONSULTORA DE VERDADE NO CHAT
+    // BASE DE DADOS INTELIGENTE DE PRODUTOS POPULARES NATURA (PARA CONSULTA EXTERNA)
+    const NATURA_KNOWLEDGE_BASE = [
+      { name: "Deo Parfum Kaiak Oceano Masculino", keywords: ["kaiak", "amadeirado", "fresco", "homem", "masculino", "mar"], price: "R$ 172,90", desc: "Fragrância marcante e renovadora inspirada nos mistérios do oceano com notas de algas e madeiras nobres.", type: "best_seller" },
+      { name: "Deo Parfum Essencial Único Masculino", keywords: ["essencial", "amadeirado", "sofisticado", "marcante", "homem"], price: "R$ 259,90", desc: "Um amadeirado intenso enriquecido com a preciosa copaíba e ingredientes da biodiversidade brasileira.", type: "best_seller" },
+      { name: "Deo Parfum Natura Homem Sagaz", keywords: ["homem", "sagaz", "amadeirado", "adocicado", "balada"], price: "R$ 184,90", desc: "Fragrância moderna e ousada para momentos especiais com notas quentes de sândalo e pimenta preta.", type: "promo" },
+      { name: "Deo Parfum Ilía Secreto Feminino", keywords: ["ilia", "ilía", "doce", "floral", "feminino", "mulher", "sedutor"], price: "R$ 169,90", desc: "Mistura sofisticada de flores brancas com notas adocicadas de fava tonka e café arábica.", type: "best_seller" },
+      { name: "Deo Parfum Luna Natura Intenso", keywords: ["luna", "chipre", "intenso", "feminino", "mulher", "chique"], price: "R$ 179,90", desc: "Fragrância sensual e envolvente da família chipre com toque de patchouli e baunilha.", type: "promo" },
+      { name: "Desodorante Colônia Ekos Frescor Maracujá", keywords: ["maracujá", "maracuja", "fresco", "ekos", "banho", "sabonete", "suave"], price: "R$ 109,90", desc: "Fragrância leve, azedinha e relaxante extraída do óleo essencial das sementes de maracujá.", type: "best_seller" },
+      { name: "Desodorante Colônia Tododia Algodão", keywords: ["algodao", "algodão", "tododia", "hidratante", "suave", "corpo"], price: "R$ 84,90", desc: "Suavidade e aconchego para o dia a dia com um toque floral delicado.", type: "promo" },
+      { name: "Kit Mamãe e Bebê Água de Colônia", keywords: ["mamae", "mamãe", "bebe", "bebê", "infantil", "criança"], price: "R$ 98,90", desc: "Fórmula 100% segura e vegana, sem álcool, perfeita para a pele sensível do bebê.", type: "best_seller" }
+    ];
+
+    // ENGINE DE IA INTELIGENTE E EXCLUSIVA NATURA
     document.getElementById('form-ai-chat').onsubmit = async (e) => {
       e.preventDefault();
       const input = document.getElementById('ai-chat-input');
-      const query = input.value.trim();
-      if (!query) return;
+      const rawQuery = input.value.trim();
+      if (!rawQuery) return;
 
       const container = document.getElementById('ai-chat-messages');
-      container.innerHTML += `<div class="bg-emerald-600 text-white p-2.5 rounded-2xl ml-auto max-w-[85%] text-right shadow-sm">${query}</div>`;
+      container.innerHTML += `<div class="bg-emerald-600 text-white p-2.5 rounded-2xl ml-auto max-w-[85%] text-right shadow-sm">${rawQuery}</div>`;
       input.value = '';
       container.scrollTop = container.scrollHeight;
 
       const typingId = 'typing-' + Date.now();
-      container.innerHTML += `<div id="${typingId}" class="bg-slate-800 border border-slate-700/80 p-3 rounded-2xl text-slate-400 italic">Consultor IA analisando opções... 🌿</div>`;
+      container.innerHTML += `<div id="${typingId}" class="bg-slate-800 border border-slate-700/80 p-3 rounded-2xl text-slate-400 italic">Consultora IA Natura analisando catálogo... 🌿</div>`;
       container.scrollTop = container.scrollHeight;
 
-      const lowerQuery = query.toLowerCase();
+      const cleanText = rawQuery.toLowerCase()
+        .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "")
+        .replace(/\b(me|fala|mais|do|da|de|um|uma|sobre|descricao|descrição|quero|pesquisa|busca|tem|outro|outra|indica|para|com|por|favor|queria|qual)\b/g, "")
+        .trim();
 
-      setTimeout(async () => {
+      setTimeout(() => {
         document.getElementById(typingId)?.remove();
         let reply = "";
 
-        // 1. Saudação ou conversa inicial
-        if (['oi', 'ola', 'olá', 'bom dia', 'boa tarde', 'boa noite', 'tudo bem', 'eae'].some(w => lowerQuery === w)) {
-          reply = `Olá! Que alegria falar com você. Sou seu consultor virtual especialista da **Loja Oficial Natura (ora_et_labora)**. 🌿<br><br>Posso te ajudar a encontrar o presente ideal, indicar os perfumes mais vendidos (masculino ou feminino) ou tirar dúvidas sobre fragrâncias. O que você procura hoje?`;
-        } 
+        // REGRA DE NICHO EXCLUSIVO: BLOQUEIO FORA DA NATURA
+        const nonNaturaKeywords = ["carro", "celular", "futebol", "politica", "comida", "receita", "filme", "jogo", "computador"];
+        if (nonNaturaKeywords.some(w => rawQuery.toLowerCase().includes(w))) {
+          reply = `🌿 Desculpe! Sou uma **IA voltada exclusivamente para atendimento de produtos Natura**.<br><br>Posso te ajudar a encontrar perfumes, hidratantes, maquiagens e kits de presentes da nossa loja oficial com desconto!`;
+        }
+        else if (['oi', 'ola', 'olá', 'bom dia', 'boa tarde', 'boa noite', 'tudo bem'].some(w => rawQuery.toLowerCase() === w)) {
+          reply = `🌿 Olá! Seja muito bem-vindo(a) à nossa **Loja Oficial Natura (ora_et_labora)**!<br><br>Como posso te ajudar hoje? Você pode me pedir indicação de perfume (masculino ou feminino), sabonetes, hidratantes ou presentes!`;
+        }
         else {
-          // 2. Tenta encontrar no catálogo cadastrado por correspondência inteligente
-          const matchedProd = productsList.find(p => lowerQuery.split(' ').some(term => term.length >= 3 && p.name.toLowerCase().includes(term)));
+          // 1º PASSO: BUSCA NO CATÁLOGO DIGITAL INTERNO
+          const catalogMatch = productsList.find(p => {
+            const pName = p.name.toLowerCase();
+            return cleanText.split(' ').some(term => term.length >= 3 && pName.includes(term));
+          });
 
-          if (matchedProd && !lowerQuery.includes('outro') && !lowerQuery.includes('indica') && !lowerQuery.includes('pesquisa')) {
-            const coupon = matchedProd.code || 'CLIENTEVIPS';
-            const priceText = matchedProd.price ? `por R$ ${Number(matchedProd.price).toFixed(2).replace('.', ',')}` : '';
-            const mainImg = matchedProd.images?.[0] || matchedProd.image || '';
-            
-            reply = `✨ Achei exatamente o que você pediu no nosso catálogo:<br><br>` +
+          if (catalogMatch) {
+            const coupon = catalogMatch.code || 'CLIENTEVIPS';
+            const priceText = catalogMatch.price ? `R$ ${Number(catalogMatch.price).toFixed(2).replace('.', ',')}` : '';
+            const mainImg = catalogMatch.images?.[0] || catalogMatch.image || '';
+
+            reply = `✨ **Encontrei este produto no nosso Catálogo Próprio:**<br><br>` +
                     (mainImg ? `<img src="${mainImg}" class="w-full h-32 object-cover rounded-xl my-2 border border-slate-700">` : ``) +
-                    `<strong>${matchedProd.name}</strong><br>${priceText}<br>🎁 Cupom exclusivo: <strong>${coupon}</strong> (10% OFF)<br><br>` +
-                    `<a href="${matchedProd.link || OFFICIAL_NATURA_STORE}" target="_blank" class="inline-block bg-emerald-500 text-slate-950 px-3 py-1.5 rounded-xl font-bold text-[11px] shadow"><i class="fa-solid fa-bag-shopping mr-1"></i> Ver Produto na Loja</a>`;
+                    `<strong>${catalogMatch.name}</strong><br>` +
+                    `💰 Valor: <strong>${priceText}</strong><br>` +
+                    `🎁 Cupom de Desconto: <strong>${coupon}</strong> (10% OFF)<br><br>` +
+                    `<a href="${catalogMatch.link || OFFICIAL_NATURA_STORE}" target="_blank" class="inline-block bg-emerald-500 text-slate-950 px-3.5 py-1.5 rounded-xl font-bold text-[11px] shadow"><i class="fa-solid fa-bag-shopping mr-1"></i> Ver Produto na Loja</a>`;
           } 
           else {
-            // 3. IA Consultora Avançada para responder qualquer assunto focado em Natura com o link da loja do usuário
-            let intentTitle = query;
-            let introText = "Pesquisei as melhores opções na nossa **Rede Natura** baseada no seu pedido:";
+            // 2º PASSO: PESQUISA EXTERNA LIMITADA A MAIS VENDIDO / PROMOÇÃO E DADOS BÁSICOS
+            const matchedExternal = NATURA_KNOWLEDGE_BASE.filter(item => {
+              return item.keywords.some(kw => cleanText.includes(kw) || rawQuery.toLowerCase().includes(kw));
+            });
 
-            if (lowerQuery.includes('masculino') || lowerQuery.includes('homem') || lowerQuery.includes('ele')) {
-              introText = "🌿 Para o público masculino, os maiores sucessos e mais bem avaliados da Natura são as linhas **Kaiak, Essencial e Natura Homem**.";
-            } else if (lowerQuery.includes('feminino') || lowerQuery.includes('mulher') || lowerQuery.includes('ela')) {
-              introText = "🌸 Para o público feminino, as fragrâncias mais amadas, queridinhas e bem avaliadas são **Ilía, Luna, Ekos Maracujá e Humor**.";
-            } else if (lowerQuery.includes('presente') || lowerQuery.includes('aniversário') || lowerQuery.includes('dia')) {
-              introText = "🎁 Temos opções maravilhosas de kits de presentes com embalagem especial para essa ocasião!";
-            } else if (lowerQuery.includes('amadeirado')) {
-              introText = "🌲 Os perfumes amadeirados mais marcantes e sofisticados da Natura entregam excelente fixação e projeção.";
-            } else if (lowerQuery.includes('doce') || lowerQuery.includes('floral')) {
-              introText = "💐 Selecionei as melhores opções florais e adocicadas que fazem muito sucesso e possuem avaliações excelentes!";
+            if (matchedExternal.length > 0) {
+              const bestSeller = matchedExternal.find(i => i.type === 'best_seller') || matchedExternal[0];
+              const promoItem = matchedExternal.find(i => i.type === 'promo') || matchedExternal[0];
+
+              const targetUrl = `${OFFICIAL_NATURA_STORE}?q=${encodeURIComponent(cleanText || rawQuery)}`;
+
+              reply = `🌿 **Achei as melhores opções referentes ao seu pedido na Natura:**<br><br>` +
+                      `🔥 **Mais Vendido:** <strong>${bestSeller.name}</strong><br>` +
+                      `📝 *Descrição:* ${bestSeller.desc}<br>` +
+                      `💰 *Valor Estimado:* ${bestSeller.price}<br><br>` +
+                      (bestSeller !== promoItem ? `🏷️ **Melhor Promoção:** <strong>${promoItem.name}</strong><br>📝 *Descrição:* ${promoItem.desc}<br>💰 *Valor Estimado:* ${promoItem.price}<br><br>` : ``) +
+                      `🛒 **Garanta com desconto na nossa Loja Oficial:**<br>` +
+                      `Use o cupom exclusivo <strong>CLIENTEVIPS</strong> para garantir 10% OFF no carrinho!<br><br>` +
+                      `<a href="${targetUrl}" target="_blank" class="inline-block bg-brand-600 text-white px-3.5 py-2 rounded-xl font-bold text-[11px] shadow"><i class="fa-solid fa-store mr-1"></i> Abrir Loja Oficial Filtrada</a>`;
+            } 
+            else {
+              // CASO NÃO ENCONTRE NADA ESPECÍFICO, GERA O LINK DA LOJA COM BUSCA PRONTA
+              const searchUrl = `${OFFICIAL_NATURA_STORE}?q=${encodeURIComponent(rawQuery)}`;
+              reply = `🔎 Pesquisei na **Rede Natura** por *"<sup>${rawQuery}</sup>"*.<br><br>` +
+                      `Para conferir os valores atualizados, disponibilidade de estoque e lançamentos da nossa loja oficial (ora_et_labora), clique no botão abaixo:<br><br>` +
+                      `🎁 Lembre-se de aplicar o cupom <strong>CLIENTEVIPS</strong> no carrinho de compras para obter 10% de desconto!<br><br>` +
+                      `<a href="${searchUrl}" target="_blank" class="inline-block bg-brand-600 text-white px-3.5 py-2 rounded-xl font-bold text-[11px] shadow"><i class="fa-solid fa-magnifying-glass mr-1"></i> Ver Resultados na Loja Oficial</a>`;
             }
-
-            const searchUrl = `${OFFICIAL_NATURA_STORE}?q=${encodeURIComponent(query)}`;
-
-            reply = `${introText}<br><br>` +
-                    `💡 **Recomendação Especial:** Sempre indicamos conferir os itens mais vendidos e bem avaliados diretamente na nossa <a href="${searchUrl}" target="_blank" class="text-emerald-400 font-bold underline">página oficial da loja (ora_et_labora)</a>.<br><br>` +
-                    `🛒 **Dica de Desconto:** Para garantir um valor especial com 10% de desconto, utilize o cupom exclusivo <strong>CLIENTEVIPS</strong> no carrinho de compras!<br><br>` +
-                    `<a href="${searchUrl}" target="_blank" class="inline-block bg-brand-600 text-white px-3.5 py-2 rounded-xl font-bold text-[11px] shadow-md"><i class="fa-solid fa-store mr-1"></i> Ver Opções Disponíveis na Loja</a>`;
           }
         }
 
         container.innerHTML += `<div class="bg-slate-800 border border-slate-700/80 p-3 rounded-2xl text-slate-200 leading-relaxed shadow-sm">${reply}</div>`;
         container.scrollTop = container.scrollHeight;
-      }, 600);
+      }, 500);
     };
 
     window.openAdminModalSection = (sectionId) => {
@@ -873,7 +903,7 @@
     };
 
     window.copyCoupon = (codeText) => {
-      navigator.clipboard.writeText(codeText || "CLIENTEVIP").then(() => showToast(`Cupom "${codeText || "CLIENTEVIP"}" copiado!`));
+      navigator.clipboard.writeText(codeText || "CLIENTEVIPS").then(() => showToast(`Cupom "${codeText || "CLIENTEVIPS"}" copiado!`));
     };
 
     window.copyDirectProductLink = (url) => {
@@ -882,15 +912,15 @@
 
     window.openStoreBannerLink = (event) => {
       event.preventDefault();
-      window.openProductAndCopyCoupon(null, profileData.storeLink || OFFICIAL_NATURA_STORE, "CLIENTEVIP");
+      window.openProductAndCopyCoupon(null, profileData.storeLink || OFFICIAL_NATURA_STORE, "CLIENTEVIPS");
     };
 
     window.openProductAndCopyCoupon = async (prodId, productUrl, couponCode) => {
-      navigator.clipboard.writeText(couponCode || "CLIENTEVIP").catch(() => {});
+      navigator.clipboard.writeText(couponCode || "CLIENTEVIPS").catch(() => {});
       if (prodId) {
         try { await updateDoc(doc(db, 'products', prodId), { linkClicks: increment(1) }); } catch (e) {}
       }
-      document.getElementById('timer-coupon-code').innerText = `Cupom: ${couponCode || "CLIENTEVIP"}`;
+      document.getElementById('timer-coupon-code').innerText = `Cupom: ${couponCode || "CLIENTEVIPS"}`;
       document.getElementById('modal-timer-redirect').classList.remove('hidden');
       
       let secondsLeft = 8;
@@ -1089,7 +1119,6 @@
         const usedCount = Number(prod.usedCount) || 0;
         const remaining = Math.max(0, totalUses - usedCount);
         const isSoldOut = (remaining <= 0);
-        const percentRemaining = Math.max(0, 100 - Math.min(100, Math.round((usedCount / totalUses) * 100)));
 
         const imgPlaceholder = "https://via.placeholder.com/400x300?text=Sem+Imagem";
         let prodImages = prod.images?.length > 0 ? prod.images : prod.image ? [prod.image] : [imgPlaceholder];
@@ -1099,7 +1128,7 @@
         const originalPrice = prod.price ? Number(prod.price) : null;
         const discountPercent = Number(prod.discountPercent) || 0;
         const finalDiscountPrice = originalPrice && discountPercent > 0 ? originalPrice - (originalPrice * (discountPercent / 100)) : null;
-        const couponCode = prod.code || "CLIENTEVIP";
+        const couponCode = prod.code || "CLIENTEVIPS";
 
         return `
           <div class="glass-card rounded-2xl overflow-hidden border border-slate-800 flex flex-col justify-between hover:border-slate-700 transition group">
@@ -1198,7 +1227,7 @@
         discountPercent: document.getElementById('product-discount-percent').value,
         description: document.getElementById('product-description').value,
         link: document.getElementById('product-link').value,
-        code: document.getElementById('product-code').value || "CLIENTEVIP",
+        code: document.getElementById('product-code').value || "CLIENTEVIPS",
         totalUses: Number(document.getElementById('product-total-uses').value),
         usedCount: Number(document.getElementById('product-used-count').value),
         images: currentFetchedImages,
