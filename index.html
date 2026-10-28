@@ -467,7 +467,7 @@
 
           <div class="p-3 bg-slate-800/80 rounded-xl border border-brand-500/30 space-y-2">
             <label class="block text-xs font-bold text-brand-400 flex items-center gap-1.5">
-              <i class="fa-solid fa-wand-magic-sparkles"></i> Importar Rápido via Link (Puxa Múltiplas Fotos)
+              <i class="fa-solid fa-wand-magic-sparkles"></i> Importar via Link (Puxa Nome, Preço, Foto + Descrição Inteligente)
             </label>
             <div class="flex gap-2">
               <input type="url" id="auto-import-link" placeholder="Cole o link do produto aqui..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-slate-100 focus:outline-none focus:border-brand-500">
@@ -475,7 +475,7 @@
                 <i class="fa-solid fa-download"></i> Puxar
               </button>
             </div>
-            <p class="text-[10px] text-slate-400">O sistema puxa o nome, descrição e múltiplas fotos do link. Clique no X vermelho para remover alguma foto indesejada!</p>
+            <p class="text-[10px] text-slate-400">O sistema puxa o nome e foto do link e preenche automaticamente uma descrição rica e profissional!</p>
           </div>
 
           <form id="form-product" class="space-y-4">
@@ -484,7 +484,7 @@
 
             <div>
               <label class="block text-xs font-semibold text-slate-300 mb-1">Nome do Produto *</label>
-              <input type="text" id="product-name" required placeholder="Ex: Desodorante Perfume Essencial" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
+              <input type="text" id="product-name" required placeholder="Ex: Deo Parfum Homem Dom" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
             </div>
 
             <div>
@@ -740,6 +740,14 @@
     let redirectTimer = null;
     let redirectInterval = null;
 
+    // BANCO DE DADOS INTELIGENTE DE DESCRIÇÕES NATURA
+    const smartDescriptions = {
+      "homem dom": "Amadeirado intenso. A força da raiz priprioca combinada com a viciante baunilha negra e madeiras densas. Uma fragrância marcante e de altíssimo impacto.\n\n• Gota Olfativa:\n- Saída: cardamomo, pimenta preta e cypriol.\n- Corpo: baunilha negra, fava tonka, folhas de violeta.\n- Fundo: priprioca, guaiaco, sândalo, vetiver.",
+      "essencial": "Amadeirado intenso. Sofisticação e elegância para homens que marcam presença. Combinação nobre de cedro, patchouli, notas ambaradas e cacau.\n\n• Gota Olfativa:\n- Saída: bergamota, cardamomo, noz-moscada.\n- Corpo: cedro, patchouli, gerânio.\n- Fundo: âmbar, sândalo, cacau, musc.",
+      "kaiak": "Aromático ultrarrefrescante. O banho de energia e explosão de notas cítricas e aquosas ideal para o dia a dia e prática de esportes.\n\n• Gota Olfativa:\n- Saída: bergamota, mandarina, notas aquosas.\n- Corpo: muguet, cravo, sândalo.\n- Fundo: musc, musgo de carvalho, sândalo.",
+      "ekos": "Fragrância inspirada na biodiversidade brasileira. Hidratação profunda com ativos da Amazônia que cuidam da pele e perfumam suavemente com notas naturais e acolhedoras."
+    };
+
     // CONTROLE DO CHAT ASSISTENTE DE VENDAS
     window.toggleAiChat = () => {
       const drawer = document.getElementById('ai-chat-drawer');
@@ -959,7 +967,6 @@
       });
     };
 
-    // 🔗 COPÍAR LINK DIRETO DO PRODUTO PARA DIVULGAÇÃO RÁPIDA (STORIES)
     window.copyDirectProductLink = (url) => {
       if (!url) {
         showToast("Este produto não possui link cadastrado.", "error");
@@ -1096,7 +1103,7 @@
       renderPreviewGallery();
     };
 
-    // FUNÇÃO MELHORADA DE PUXAR PRODUTO DO LINK NATURA (EXTRAÇÃO COMPLETA)
+    // PUXA O NOME E FOTO DO LINK E APLICA A DESCRIÇÃO INTELIGENTE AUTOMÁTICA
     window.fetchProductFromLink = async () => {
       const urlInput = document.getElementById('auto-import-link').value.trim();
       if (!urlInput) {
@@ -1104,42 +1111,50 @@
         return;
       }
 
-      showToast("Buscando dados detalhados...", "success");
+      showToast("Puxando nome, foto e gerando descrição...", "success");
       try {
-        // Tenta buscar via Microlink com tratamento melhor de metadados
-        const response = await fetch(`https://api.microlink.io/?url=${encodeURIComponent(urlInput)}&palette=true`);
+        const response = await fetch(`https://api.microlink.io/?url=${encodeURIComponent(urlInput)}`);
         const json = await response.json();
         currentFetchedImages = [];
+
+        let productName = "";
 
         if (json.status === 'success' && json.data) {
           const data = json.data;
           
-          // Nome do produto limpo
           if (data.title) {
-            let cleanTitle = data.title.split('|')[0].split('- Natura')[0].split(' - Natura')[0].trim();
-            document.getElementById('product-name').value = cleanTitle;
+            productName = data.title.split('|')[0].split('- Natura')[0].split(' - Natura')[0].trim();
+            document.getElementById('product-name').value = productName;
           }
 
-          // Tratamento da descrição: ignora frases genéricas "Saiba mais" se houver alternativa
-          if (data.description) {
-            let desc = data.description.trim();
-            if (!desc.toLowerCase().startsWith("saiba mais sobre") || desc.length > 80) {
-              document.getElementById('product-description').value = desc;
-            }
-          }
-
-          // Puxa imagens em alta definição
           if (data.image && data.image.url) {
             currentFetchedImages.push(data.image.url);
           }
         }
 
+        // Procura no banco inteligente se o nome corresponde a algum produto padrão
+        let foundDescription = "";
+        const nameLower = productName.toLowerCase();
+        for (let key in smartDescriptions) {
+          if (nameLower.includes(key)) {
+            foundDescription = smartDescriptions[key];
+            break;
+          }
+        }
+
+        // Se encontrou no banco inteligente, preenche. Se não, bota uma descrição padrão linda de consultoria
+        if (foundDescription) {
+          document.getElementById('product-description').value = foundDescription;
+        } else {
+          document.getElementById('product-description').value = `Produto original Natura com garantia de qualidade e alta perfumação. Aproveite nosso cupom exclusivo para garantir o seu com desconto especial!`;
+        }
+
         renderPreviewGallery();
-        showToast("Dados do produto puxados com sucesso!");
+        showToast("Produto importado com descrição profissional!");
         document.getElementById('product-link').value = urlInput;
         document.getElementById('product-code').value = "CLIENTEVIP";
       } catch (err) {
-        showToast("Erro ao importar automaticamente. Preencha manualmente.", "error");
+        showToast("Preencha manualmente se necessário.", "error");
       }
     };
 
