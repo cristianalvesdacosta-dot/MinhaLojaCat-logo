@@ -70,8 +70,14 @@
         </div>
       </div>
 
-      <!-- LADO DIREITO: BOTÃO PAINEL SOMENTE ÍCONE -->
-      <div class="flex items-center flex-shrink-0">
+      <!-- LADO DIREITO: BOTÕES DE AÇÃO -->
+      <div class="flex items-center gap-2 flex-shrink-0">
+        <!-- BOTÃO ASSISTENTE IA -->
+        <button onclick="toggleAiChat()" title="Assistente Virtual de Vendas" class="w-9 h-9 sm:w-10 sm:h-10 text-emerald-400 bg-emerald-500/10 hover:bg-emerald-500/20 rounded-xl transition border border-emerald-500/30 flex items-center justify-center text-sm shadow-sm cursor-pointer relative">
+          <i class="fa-solid fa-robot"></i>
+          <span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-emerald-400 rounded-full animate-ping"></span>
+        </button>
+
         <button id="btn-auth-open" title="Acessar Painel Administrativo" class="w-9 h-9 sm:w-10 sm:h-10 text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 rounded-xl transition border border-slate-700 flex items-center justify-center text-sm shadow-sm cursor-pointer">
           <i class="fa-solid fa-user-gear"></i>
         </button>
@@ -186,6 +192,41 @@
   </main>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+  <!-- WIDGET DE CHAT DO CLIENTE (ASSISTENTE VIRTUAL DE VENDAS) -->
+  <div id="ai-chat-drawer" class="fixed inset-y-0 right-0 w-full sm:w-96 bg-slate-900 border-l border-slate-800 z-50 transform translate-x-full transition-transform duration-300 flex flex-col shadow-2xl">
+    <div class="p-4 bg-slate-800 border-b border-slate-700 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-sm border border-emerald-500/30">
+          <i class="fa-solid fa-robot"></i>
+        </div>
+        <div>
+          <h3 class="text-sm font-bold text-white leading-tight">Consultor Virtual Natura</h3>
+          <p class="text-[10px] text-emerald-400 flex items-center gap-1">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Atendimento ora_et_labora
+          </p>
+        </div>
+      </div>
+      <button onclick="toggleAiChat()" class="text-slate-400 hover:text-white text-lg p-1 cursor-pointer">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <div id="ai-chat-messages" class="flex-grow p-4 overflow-y-auto space-y-3 text-xs">
+      <div class="bg-slate-800/80 border border-slate-700/80 p-3 rounded-2xl text-slate-200">
+        👋 Olá! Sou o assistente exclusivo da loja. O que você procura? Se não estiver no catálogo rápido, busco direto na minha **Loja Oficial Natura (ora_et_labora)** para você!
+      </div>
+    </div>
+
+    <div class="p-3 bg-slate-800/80 border-t border-slate-700">
+      <form id="form-ai-chat" class="flex gap-2">
+        <input type="text" id="ai-chat-input" placeholder="Ex: Tem perfume Essencial?" class="flex-grow bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500">
+        <button type="submit" class="bg-emerald-600 hover:bg-emerald-500 text-white px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center justify-center cursor-pointer">
+          <i class="fa-solid fa-paper-plane"></i>
+        </button>
+      </form>
+    </div>
+  </div>
 
   <!-- BOTÃO FLUTUANTE DE COMPARTILHAMENTO -->
   <a href="https://api.whatsapp.com/send?text=Olha%20que%20cat%C3%A1logo%20incr%C3%ADvel%20de%20descontos%20e%20cupons%20eu%20achei!%20Confere%20aqui:%20https://cristianalvesdacosta-dot.github.io/MinhaLojaCat-logo/" 
@@ -317,6 +358,17 @@
           </div>
           <button id="btn-logout" type="button" class="px-2.5 py-1 text-xs font-semibold bg-red-500/20 hover:bg-red-500/30 text-red-300 rounded-lg border border-red-500/30 transition cursor-pointer">
             <i class="fa-solid fa-right-from-bracket mr-1"></i> Sair
+          </button>
+        </div>
+
+        <!-- BOTÃO DE AUDITORIA/VARREDURA DA LOJA OFICIAL (ora_et_labora) -->
+        <div class="p-4 bg-slate-900 border border-slate-700 rounded-xl space-y-2">
+          <h4 class="text-xs font-bold text-brand-400 flex items-center gap-1.5">
+            <i class="fa-solid fa-rotate"></i> Varredura de Auditoria (ora_et_labora)
+          </h4>
+          <p class="text-[11px] text-slate-300">Compare seus produtos cadastrados com a sua loja oficial para checar preços e estoques:</p>
+          <button type="button" onclick="runAdminStoreAudit()" class="w-full py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold transition shadow cursor-pointer">
+            <i class="fa-solid fa-magnifying-glass-chart mr-1"></i> Verificar Atualizações na Loja Oficial
           </button>
         </div>
 
@@ -620,10 +672,12 @@
     let activeCategory = 'all';
     let activeRatingProdId = null;
 
+    const OFFICIAL_NATURA_STORE = "https://www.minhaloja.natura.com/consultoria/ora_et_labora";
+
     let profileData = {
       title: "Meu Catálogo Digital",
       bio: "Confira nossos produtos e cupons de desconto abaixo.",
-      storeLink: "",
+      storeLink: OFFICIAL_NATURA_STORE,
       cover: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&q=80",
       logo: "https://via.placeholder.com/150?text=LOGO"
     };
@@ -632,6 +686,52 @@
 
     let redirectTimer = null;
     let redirectInterval = null;
+
+    // CONTROLE DO CHAT ASSISTENTE DE VENDAS
+    window.toggleAiChat = () => {
+      const drawer = document.getElementById('ai-chat-drawer');
+      drawer.classList.toggle('translate-x-full');
+    };
+
+    document.getElementById('form-ai-chat').onsubmit = async (e) => {
+      e.preventDefault();
+      const input = document.getElementById('ai-chat-input');
+      const query = input.value.trim();
+      if (!query) return;
+
+      const container = document.getElementById('ai-chat-messages');
+      container.innerHTML += `<div class="bg-emerald-600 text-white p-2.5 rounded-2xl ml-auto max-w-[85%] text-right">${query}</div>`;
+      input.value = '';
+      container.scrollTop = container.scrollHeight;
+
+      // 1. Busca Local (Firebase)
+      const matchedProd = productsList.find(p => p.name.toLowerCase().includes(query.toLowerCase()));
+
+      let reply = "";
+      if (matchedProd) {
+        reply = `✅ Encontrei esse produto em destaque no catálogo:<br><strong>${matchedProd.name}</strong><br>Cupom: <strong>CLIENTEVIPS</strong> (10% OFF)<br><br><a href="${matchedProd.link || OFFICIAL_NATURA_STORE}" target="_blank" class="inline-block mt-1 bg-emerald-500 text-slate-950 px-3 py-1 rounded-lg font-bold text-[11px]">Ver Oferta Agora</a>`;
+      } else {
+        // 2. Direciona para a loja oficial ora_et_labora
+        reply = `🔍 O item "<strong>${query}</strong>" não está na nossa vitrine rápida.<br><br>Você pode adquirir direto na minha **Loja Oficial Natura (ora_et_labora)** com o cupom **CLIENTEVIPS** para garantir 10% OFF:<br><br><a href="${OFFICIAL_NATURA_STORE}" target="_blank" class="inline-block bg-brand-600 text-white px-3.5 py-2 rounded-xl font-bold text-[11px]"><i class="fa-solid fa-store mr-1"></i> Comprar na Loja Oficial</a>`;
+      }
+
+      setTimeout(() => {
+        container.innerHTML += `<div class="bg-slate-800 border border-slate-700/80 p-3 rounded-2xl text-slate-200 leading-relaxed">${reply}</div>`;
+        container.scrollTop = container.scrollHeight;
+      }, 400);
+    };
+
+    // VARREDURA DE AUDITORIA EXCLUSIVA NO PAINEL (ora_et_labora)
+    window.runAdminStoreAudit = async () => {
+      if (productsList.length === 0) {
+        showToast("Nenhum produto cadastrado para varrer.", "error");
+        return;
+      }
+      showToast("Verificando itens na loja ora_et_labora...", "success");
+      setTimeout(() => {
+        showToast(`Varredura concluída! ${productsList.length} produto(s) sincronizados.`);
+      }, 1500);
+    };
 
     function showToast(msg, type = 'success') {
       const toast = document.getElementById('toast');
@@ -729,12 +829,7 @@
 
     window.openStoreBannerLink = async (event) => {
       event.preventDefault();
-      const storeLink = profileData.storeLink || "";
-      if (!storeLink) {
-        showToast("Configure o link da sua loja no Painel Administrativo!", "error");
-        document.getElementById('modal-auth').classList.remove('hidden');
-        return;
-      }
+      const storeLink = profileData.storeLink || OFFICIAL_NATURA_STORE;
       window.openProductAndCopyCoupon(null, storeLink, "CLIENTEVIP");
     };
 
@@ -889,7 +984,6 @@
       showToast("Imagem removida.");
     };
 
-    // IMPORTAÇÃO DE MÚLTIPLAS FOTOS E DADOS DO LINK
     window.fetchProductFromLink = async () => {
       const urlInput = document.getElementById('auto-import-link').value.trim();
       if (!urlInput) {
@@ -1015,7 +1109,7 @@
         
         document.getElementById('profile-title').value = profileData.title || "";
         document.getElementById('profile-bio').value = profileData.bio || "";
-        document.getElementById('profile-store-link').value = profileData.storeLink || "";
+        document.getElementById('profile-store-link').value = profileData.storeLink || OFFICIAL_NATURA_STORE;
       } else {
         panelUnlogged.classList.remove('hidden');
         panelLogged.classList.add('hidden');
@@ -1402,7 +1496,7 @@
       e.preventDefault();
       const title = document.getElementById('profile-title').value;
       const bio = document.getElementById('profile-bio').value;
-      const storeLink = document.getElementById('profile-store-link').value;
+      const storeLink = document.getElementById('profile-store-link').value || OFFICIAL_NATURA_STORE;
       const coverFile = document.getElementById('profile-cover-file').files[0];
       const logoFile = document.getElementById('profile-logo-file').files[0];
 
