@@ -157,9 +157,11 @@
         </div>
       </div>
 
+      <!-- CATEGORIAS SINCRONIZADAS EXATAMENTE COM O PAINEL -->
       <div class="flex items-center gap-2 overflow-x-auto py-1 no-scrollbar" id="category-filters">
         <button onclick="filterByCategory('all')" class="category-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-brand-600 text-white whitespace-nowrap transition shadow cursor-pointer">Todas</button>
-        <button onclick="filterByCategory('Perfumaria')" class="category-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 whitespace-nowrap transition border border-slate-700 cursor-pointer">Perfumaria</button>
+        <button onclick="filterByCategory('Perfumaria Masculino')" class="category-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 whitespace-nowrap transition border border-slate-700 cursor-pointer">Perfumaria Masculino</button>
+        <button onclick="filterByCategory('Perfumaria Feminino')" class="category-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 whitespace-nowrap transition border border-slate-700 cursor-pointer">Perfumaria Feminino</button>
         <button onclick="filterByCategory('Corpo e Banho')" class="category-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 whitespace-nowrap transition border border-slate-700 cursor-pointer">Corpo & Banho</button>
         <button onclick="filterByCategory('Cabelos')" class="category-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 whitespace-nowrap transition border border-slate-700 cursor-pointer">Cabelos</button>
         <button onclick="filterByCategory('Maquiagem')" class="category-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 whitespace-nowrap transition border border-slate-700 cursor-pointer">Maquiagem</button>
@@ -490,8 +492,8 @@
             <div>
               <label class="block text-xs font-semibold text-slate-300 mb-1">Categoria Natura *</label>
               <select id="product-category" required class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
-                <option value="Perfumaria">Perfumaria Masculino</option>
-                <option value="Perfumaria">Perfumaria Feminino</option>
+                <option value="Perfumaria Masculino">Perfumaria Masculino</option>
+                <option value="Perfumaria Feminino">Perfumaria Feminino</option>
                 <option value="Corpo e Banho">Corpo e Banho</option>
                 <option value="Cabelos">Cabelos</option>
                 <option value="Maquiagem">Maquiagem</option>
@@ -960,7 +962,7 @@
       });
     };
 
-    // 🔗 COPÍAR LINK DIRETO DO PRODUTO PARA DIVULGAÇÃO RÁPIDA (STORIES)
+    // 🔗 COPIAR LINK DIRETO DO PRODUTO PARA DIVULGAÇÃO RÁPIDA (STORIES)
     window.copyDirectProductLink = (url) => {
       if (!url) {
         showToast("Este produto não possui link cadastrado.", "error");
@@ -1414,7 +1416,7 @@
       closeAdminSubSections();
       document.getElementById('product-id').value = prod.id;
       document.getElementById('product-name').value = prod.name || "";
-      document.getElementById('product-category').value = prod.category || "Perfumaria";
+      document.getElementById('product-category').value = prod.category || "Perfumaria Masculino";
       document.getElementById('product-featured').checked = !!prod.isFeatured;
       document.getElementById('product-price').value = prod.price || "";
       document.getElementById('product-discount-percent').value = prod.discountPercent || "10";
