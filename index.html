@@ -157,7 +157,7 @@
         </div>
       </div>
 
-      <!-- CATEGORIAS SINCRONIZADAS EXATAMENTE COM O PAINEL -->
+      <!-- CATEGORIAS -->
       <div class="flex items-center gap-2 overflow-x-auto py-1 no-scrollbar" id="category-filters">
         <button onclick="filterByCategory('all')" class="category-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-brand-600 text-white whitespace-nowrap transition shadow cursor-pointer">Todas</button>
         <button onclick="filterByCategory('Perfumaria Masculino')" class="category-btn px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 whitespace-nowrap transition border border-slate-700 cursor-pointer">Perfumaria Masculino</button>
@@ -188,7 +188,7 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
-  <!-- WIDGET DE CHAT DO CLIENTE (BUSCA EXATA NA LOJA) -->
+  <!-- WIDGET DE CHAT DO CLIENTE -->
   <div id="ai-chat-drawer" class="fixed inset-y-0 right-0 w-full sm:w-96 bg-slate-900 border-l border-slate-800 z-50 transform translate-x-full transition-transform duration-300 flex flex-col shadow-2xl">
     <div class="p-4 bg-slate-800 border-b border-slate-700 flex items-center justify-between">
       <div class="flex items-center gap-2">
@@ -355,39 +355,33 @@
           </button>
         </div>
 
-        <!-- BARRA DE BOTÕES RÁPIDOS EM ÍCONES (COMPACTOS E ORGANIZADOS) -->
+        <!-- BARRA DE BOTÕES RÁPIDOS EM ÍCONES -->
         <div class="grid grid-cols-6 gap-2">
-          <!-- 1. Cupom Global -->
           <button type="button" onclick="openAdminModalSection('modal-sec-coupon')" class="flex flex-col items-center justify-center p-2.5 bg-slate-900 hover:bg-slate-700 border border-slate-700 rounded-xl text-brand-400 transition cursor-pointer shadow-sm" title="Cupom Global">
             <i class="fa-solid fa-ticket text-base mb-1"></i>
             <span class="text-[9px] font-semibold text-slate-200">Cupom</span>
           </button>
 
-          <!-- 2. Varredura -->
           <button type="button" onclick="openAdminModalSection('modal-sec-audit')" class="flex flex-col items-center justify-center p-2.5 bg-slate-900 hover:bg-slate-700 border border-slate-700 rounded-xl text-emerald-400 transition cursor-pointer shadow-sm" title="Varredura Loja">
             <i class="fa-solid fa-magnifying-glass-chart text-base mb-1"></i>
             <span class="text-[9px] font-semibold text-slate-200">Varredura</span>
           </button>
 
-          <!-- 3. Baixa em Lote -->
           <button type="button" onclick="openAdminModalSection('modal-sec-batch')" class="flex flex-col items-center justify-center p-2.5 bg-slate-900 hover:bg-slate-700 border border-slate-700 rounded-xl text-amber-400 transition cursor-pointer shadow-sm" title="Baixa em Lote">
             <i class="fa-solid fa-layer-group text-base mb-1"></i>
             <span class="text-[9px] font-semibold text-slate-200">Estoque</span>
           </button>
 
-          <!-- 4. 🚀 Ícone Foguete (Destaques) -->
           <button type="button" onclick="openAdminModalSection('modal-sec-rocket')" class="flex flex-col items-center justify-center p-2.5 bg-slate-900 hover:bg-slate-700 border border-slate-700 rounded-xl text-orange-400 transition cursor-pointer shadow-sm" title="Impulsionar Destaques">
             <i class="fa-solid fa-rocket text-base mb-1"></i>
             <span class="text-[9px] font-semibold text-slate-200">Destaques</span>
           </button>
 
-          <!-- 5. 📊 Ícone Gráfico (Relatório de Cliques) -->
           <button type="button" onclick="openAdminModalSection('modal-sec-stats')" class="flex flex-col items-center justify-center p-2.5 bg-slate-900 hover:bg-slate-700 border border-slate-700 rounded-xl text-sky-400 transition cursor-pointer shadow-sm" title="Relatório de Cliques">
             <i class="fa-solid fa-chart-line text-base mb-1"></i>
             <span class="text-[9px] font-semibold text-slate-200">Relatório</span>
           </button>
 
-          <!-- 6. Gerenciar Produtos -->
           <button type="button" onclick="openAdminModalSection('modal-sec-manage')" class="flex flex-col items-center justify-center p-2.5 bg-slate-900 hover:bg-slate-700 border border-slate-700 rounded-xl text-purple-400 transition cursor-pointer shadow-sm" title="Gerenciar Itens">
             <i class="fa-solid fa-list-check text-base mb-1"></i>
             <span class="text-[9px] font-semibold text-slate-200">Gerenciar</span>
@@ -395,8 +389,6 @@
         </div>
 
         <!-- SUB-PAINÉIS RETRÁTEIS -->
-        
-        <!-- 1. CUPOM GLOBAL -->
         <div id="modal-sec-coupon" class="admin-sub-section hidden p-3.5 bg-slate-900 border border-brand-500/30 rounded-xl space-y-2.5">
           <div class="flex items-center justify-between">
             <h4 class="text-xs font-bold text-brand-400 flex items-center gap-1.5"><i class="fa-solid fa-ticket"></i> Renovação Global de Cupom</h4>
@@ -410,7 +402,6 @@
           </form>
         </div>
 
-        <!-- 2. VARREDURA -->
         <div id="modal-sec-audit" class="admin-sub-section hidden p-3.5 bg-slate-900 border border-emerald-500/30 rounded-xl space-y-2.5">
           <div class="flex items-center justify-between">
             <h4 class="text-xs font-bold text-emerald-400 flex items-center gap-1.5"><i class="fa-solid fa-magnifying-glass-chart"></i> Varredura (ora_et_labora)</h4>
@@ -420,7 +411,6 @@
           <button type="button" onclick="runAdminStoreAudit()" class="w-full py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-bold transition">Verificar Atualizações</button>
         </div>
 
-        <!-- 3. BAIXA EM LOTE -->
         <div id="modal-sec-batch" class="admin-sub-section hidden p-3.5 bg-slate-900 border border-amber-500/30 rounded-xl space-y-2.5">
           <div class="flex items-center justify-between">
             <h4 class="text-xs font-bold text-amber-400 flex items-center gap-1.5"><i class="fa-solid fa-layer-group"></i> Baixa Global em Lote</h4>
@@ -433,7 +423,6 @@
           </div>
         </div>
 
-        <!-- 4. 🚀 IMPULSIONAR DESTAQUES (FOGUETE) -->
         <div id="modal-sec-rocket" class="admin-sub-section hidden p-3.5 bg-slate-900 border border-orange-500/30 rounded-xl space-y-2.5">
           <div class="flex items-center justify-between">
             <h4 class="text-xs font-bold text-orange-400 flex items-center gap-1.5"><i class="fa-solid fa-rocket"></i> Impulsionar Destaques</h4>
@@ -443,7 +432,6 @@
           <div id="rocket-products-list" class="space-y-1.5 max-h-40 overflow-y-auto no-scrollbar"></div>
         </div>
 
-        <!-- 5. 📊 RELATÓRIO DE CLIQUES (GRÁFICO) -->
         <div id="modal-sec-stats" class="admin-sub-section hidden p-3.5 bg-slate-900 border border-sky-500/30 rounded-xl space-y-2.5">
           <div class="flex items-center justify-between">
             <h4 class="text-xs font-bold text-sky-400 flex items-center gap-1.5"><i class="fa-solid fa-chart-line"></i> Relatório de Cliques nos Links</h4>
@@ -453,7 +441,6 @@
           <div id="stats-products-list" class="space-y-1.5 max-h-40 overflow-y-auto no-scrollbar"></div>
         </div>
 
-        <!-- 6. GERENCIAR ITENS -->
         <div id="modal-sec-manage" class="admin-sub-section hidden p-3.5 bg-slate-900 border border-purple-500/30 rounded-xl space-y-2.5">
           <div class="flex items-center justify-between">
             <h4 class="text-xs font-bold text-purple-400 flex items-center gap-1.5"><i class="fa-solid fa-list-check"></i> Gerenciar / Excluir Produtos</h4>
@@ -469,7 +456,7 @@
 
           <div class="p-3 bg-slate-800/80 rounded-xl border border-brand-500/30 space-y-2">
             <label class="block text-xs font-bold text-brand-400 flex items-center gap-1.5">
-              <i class="fa-solid fa-wand-magic-sparkles"></i> Importar Rápido via Link (Puxa Múltiplas Fotos)
+              <i class="fa-solid fa-wand-magic-sparkles"></i> Importar Rápido via Link (Puxa Nome e Fotos)
             </label>
             <div class="flex gap-2">
               <input type="url" id="auto-import-link" placeholder="Cole o link do produto aqui..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-slate-100 focus:outline-none focus:border-brand-500">
@@ -477,7 +464,7 @@
                 <i class="fa-solid fa-download"></i> Puxar
               </button>
             </div>
-            <p class="text-[10px] text-slate-400">O sistema puxa o nome, descrição e múltiplas fotos do link. Clique no X vermelho para remover alguma foto indesejada!</p>
+            <p class="text-[10px] text-slate-400">O sistema puxa o nome e as fotos do link. Digite ou ajuste a descrição abaixo como preferir!</p>
           </div>
 
           <form id="form-product" class="space-y-4">
@@ -519,31 +506,9 @@
               <div id="preview-gallery" class="flex items-center gap-3 overflow-x-auto py-2 no-scrollbar"></div>
             </div>
 
-            <div class="grid grid-cols-2 gap-3">
-              <div>
-                <label class="block text-xs font-semibold text-slate-300 mb-1">Preço Original (R$) *</label>
-                <input type="number" step="0.01" id="product-price" required placeholder="Ex: 159.90" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
-              </div>
-              <div>
-                <label class="block text-xs font-semibold text-slate-300 mb-1">Desconto (%)</label>
-                <select id="product-discount-percent" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
-                  <option value="0">Sem desconto</option>
-                  <option value="5">5% OFF</option>
-                  <option value="10" selected>10% OFF (Seu Cupom)</option>
-                  <option value="15">15% OFF</option>
-                  <option value="20">20% OFF</option>
-                  <option value="25">25% OFF</option>
-                  <option value="30">30% OFF</option>
-                  <option value="35">35% OFF</option>
-                  <option value="40">40% OFF</option>
-                  <option value="50">50% OFF</option>
-                </select>
-              </div>
-            </div>
-
             <div>
-              <label class="block text-xs font-semibold text-slate-300 mb-1">Descrição do Produto (Ilimitada)</label>
-              <textarea id="product-description" rows="3" placeholder="Insira toda a descrição, fragrâncias, observações..." class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500"></textarea>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Descrição Exclusiva do Produto (Opcional)</label>
+              <textarea id="product-description" rows="3" placeholder="Digite os detalhes, volumetria ou diferenciais do produto..." class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500"></textarea>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -554,25 +519,6 @@
               <div>
                 <label class="block text-xs font-semibold text-slate-300 mb-1">Cupom de Desconto</label>
                 <input type="text" id="product-code" value="CLIENTEVIP" placeholder="Ex: CLIENTEVIP" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
-              </div>
-            </div>
-
-            <div>
-              <label class="block text-xs font-semibold text-slate-300 mb-1">Validade do Cupom (Dias a partir de hoje)</label>
-              <input type="number" id="product-validity-days" min="1" value="30" placeholder="Ex: 30" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
-            </div>
-
-            <div class="p-3 bg-slate-800/60 rounded-xl border border-slate-700/60 space-y-3">
-              <span class="text-xs font-bold text-brand-400 uppercase tracking-wider block">Controle de Estoque & Usos</span>
-              <div class="grid grid-cols-2 gap-3">
-                <div>
-                  <label class="block text-[11px] font-medium text-slate-300 mb-1">Total de Estoque / Limite</label>
-                  <input type="number" id="product-total-uses" min="1" required value="30" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
-                </div>
-                <div>
-                  <label class="block text-[11px] font-medium text-slate-300 mb-1">Já Utilizado</label>
-                  <input type="number" id="product-used-count" min="0" required value="0" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
-                </div>
               </div>
             </div>
 
@@ -626,58 +572,6 @@
 
       </div>
 
-    </div>
-  </div>
-
-  <div id="modal-quick-use" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm hidden">
-    <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-sm w-full p-6 shadow-2xl relative">
-      <button class="btn-close-modal absolute top-4 right-4 text-slate-400 hover:text-white text-lg cursor-pointer">
-        <i class="fa-solid fa-xmark"></i>
-      </button>
-
-      <h2 class="text-base font-bold text-white mb-2 flex items-center gap-2">
-        <i class="fa-solid fa-calculator text-brand-500"></i> Atualizar Estoque / Uso
-      </h2>
-      <p id="quick-use-product-name" class="text-xs font-medium text-slate-400 mb-4 truncate"></p>
-
-      <form id="form-quick-use" class="space-y-4">
-        <input type="hidden" id="quick-use-id">
-
-        <div>
-          <label class="block text-xs font-semibold text-slate-300 mb-1">Quantidade Já Usada</label>
-          <input type="number" id="quick-use-val" min="0" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
-        </div>
-
-        <div class="pt-2 flex justify-end gap-2">
-          <button type="button" class="btn-close-modal px-4 py-2 bg-slate-700 hover:bg-slate-600 text-slate-300 rounded-xl text-xs font-medium cursor-pointer">Cancelar</button>
-          <button type="submit" class="px-4 py-2 bg-brand-600 text-white rounded-xl text-xs font-semibold cursor-pointer">Salvar</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <div id="modal-batch-use" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm hidden">
-    <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-sm w-full p-6 shadow-2xl relative">
-      <button class="btn-close-modal absolute top-4 right-4 text-slate-400 hover:text-white text-lg cursor-pointer">
-        <i class="fa-solid fa-xmark"></i>
-      </button>
-
-      <h2 class="text-base font-bold text-white mb-2 flex items-center gap-2">
-        <i class="fa-solid fa-layer-group text-brand-500"></i> Dar Baixa Global em Lote
-      </h2>
-      <p class="text-xs text-slate-400 mb-4">Digite a quantidade de usos que deseja somar ao contador de <strong>TODOS OS PRODUTOS</strong> de uma só vez:</p>
-
-      <form id="form-batch-use" class="space-y-4">
-        <div>
-          <label class="block text-xs font-semibold text-slate-300 mb-1">Quantidade a adicionar ao 'Já Usado'</label>
-          <input type="number" id="batch-use-val" min="1" value="1" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-brand-500">
-        </div>
-
-        <div class="pt-2 flex justify-end gap-2">
-          <button type="button" class="btn-close-modal px-4 py-2 bg-slate-700 hover:bg-slate-600 text-slate-300 rounded-xl text-xs font-medium cursor-pointer">Cancelar</button>
-          <button type="submit" class="px-4 py-2 bg-brand-600 text-white rounded-xl text-xs font-semibold cursor-pointer">Aplicar em Todos</button>
-        </div>
-      </form>
     </div>
   </div>
 
@@ -743,7 +637,6 @@
     let redirectTimer = null;
     let redirectInterval = null;
 
-    // CONTROLE DO CHAT ASSISTENTE DE VENDAS
     window.toggleAiChat = () => {
       const drawer = document.getElementById('ai-chat-drawer');
       drawer.classList.toggle('translate-x-full');
@@ -776,7 +669,6 @@
       }, 400);
     };
 
-    // CONTROLE DOS BOTÕES DE ÍCONES DO PAINEL ADMINISTRATIVO
     window.openAdminModalSection = (sectionId) => {
       document.querySelectorAll('.admin-sub-section').forEach(sec => sec.classList.add('hidden'));
       document.getElementById(sectionId).classList.remove('hidden');
@@ -790,7 +682,6 @@
       document.querySelectorAll('.admin-sub-section').forEach(sec => sec.classList.add('hidden'));
     };
 
-    // 🚀 FUNÇÃO DE IMPULSIONAR DESTAQUES RÁPIDO
     function renderRocketList() {
       const container = document.getElementById('rocket-products-list');
       if (!container) return;
@@ -818,7 +709,6 @@
       }
     };
 
-    // 📊 RELATÓRIO DE CLIQUES
     function renderStatsList() {
       const container = document.getElementById('stats-products-list');
       if (!container) return;
@@ -835,7 +725,6 @@
       `).join('');
     }
 
-    // RENOVAÇÃO GLOBAL DE CUPONS EM MASSA
     document.getElementById('form-global-coupon').onsubmit = async (e) => {
       e.preventDefault();
       const newCode = document.getElementById('global-coupon-code').value.trim().toUpperCase();
@@ -962,7 +851,6 @@
       });
     };
 
-    // 🔗 COPIAR LINK DIRETO DO PRODUTO PARA DIVULGAÇÃO RÁPIDA (STORIES)
     window.copyDirectProductLink = (url) => {
       if (!url) {
         showToast("Este produto não possui link cadastrado.", "error");
@@ -1039,39 +927,6 @@
 
     window.closeImageViewer = () => document.getElementById('modal-image-viewer').classList.add('hidden');
 
-    window.decreaseAllProductsUsage = async (qtyToSubtract = 1) => {
-      if (productsList.length === 0) {
-        showToast("Nenhum produto cadastrado.", "error");
-        return;
-      }
-      if (!confirm(`Confirmar baixa de -${qtyToSubtract} no estoque de TODOS os produtos?`)) return;
-
-      showToast("Atualizando...", "success");
-      try {
-        const batch = writeBatch(db);
-        productsList.forEach(prod => {
-          const newUsed = (Number(prod.usedCount) || Number(prod.used) || 0) + Number(qtyToSubtract);
-          batch.update(doc(db, 'products', prod.id), { usedCount: newUsed, used: newUsed, updatedAt: new Date().toISOString() });
-        });
-        await batch.commit();
-        showToast("Baixa realizada em lote!");
-        closeAdminSubSections();
-      } catch (err) {
-        showToast("Erro: " + err.message, "error");
-      }
-    };
-
-    window.openCustomBatchModal = () => document.getElementById('modal-batch-use').classList.remove('hidden');
-
-    document.getElementById('form-batch-use').onsubmit = async (e) => {
-      e.preventDefault();
-      const val = Number(document.getElementById('batch-use-val').value);
-      if (val > 0) {
-        closeModal('modal-batch-use');
-        await window.decreaseAllProductsUsage(val);
-      }
-    };
-
     window.renderPreviewGallery = () => {
       const previewContainer = document.getElementById('preview-container');
       const previewGallery = document.getElementById('preview-gallery');
@@ -1106,50 +961,30 @@
         return;
       }
 
-      showToast("Buscando dados...", "success");
+      showToast("Buscando dados do produto...", "success");
       try {
-        const response = await fetch(`https://api.microlink.io/?url=${encodeURIComponent(urlInput)}`);
+        const response = await fetch(`https://api.microlink.io/?url=${encodeURIComponent(urlInput)}&prerender=true`);
         const json = await response.json();
         currentFetchedImages = [];
 
         if (json.status === 'success' && json.data) {
-          if (json.data.title) document.getElementById('product-name').value = json.data.title.split('|')[0].split('- Natura')[0].trim();
-          if (json.data.description) document.getElementById('product-description').value = json.data.description;
-          if (json.data.image && json.data.image.url) currentFetchedImages.push(json.data.image.url);
+          if (json.data.title) {
+            let cleanTitle = json.data.title.split('|')[0].split('- Natura')[0].split('Natura')[0].trim();
+            document.getElementById('product-name').value = cleanTitle;
+          }
+          if (json.data.image && json.data.image.url) {
+            currentFetchedImages.push(json.data.image.url);
+          }
         }
 
         renderPreviewGallery();
-        showToast("Dados puxados com sucesso!");
+        showToast("Nome e fotos puxados! Digite a descrição desejada.");
         document.getElementById('product-link').value = urlInput;
         document.getElementById('product-code').value = "CLIENTEVIP";
       } catch (err) {
         showToast("Preencha manualmente se necessário.", "error");
       }
     };
-
-    function processImageFile(file) {
-      return new Promise((resolve, reject) => {
-        if (!file) { resolve(null); return; }
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = (event) => {
-          const img = new Image();
-          img.src = event.target.result;
-          img.onload = () => {
-            const canvas = document.createElement('canvas');
-            let width = img.width, height = img.height;
-            const max = 1000;
-            if (width > height) { if (width > max) { height *= max / width; width = max; } }
-            else { if (height > max) { width *= max / height; height = max; } }
-            canvas.width = width; canvas.height = height;
-            canvas.getContext('2d').drawImage(img, 0, 0, width, height);
-            resolve(canvas.toDataURL('image/jpeg', 0.85));
-          };
-          img.onerror = reject;
-        };
-        reader.onerror = reject;
-      });
-    }
 
     function updateAdminUI() {
       if (currentUser) {
@@ -1228,13 +1063,7 @@
                               (prod.code && prod.code.toLowerCase().includes(searchVal)) ||
                               (prod.description && prod.description.toLowerCase().includes(searchVal));
         const matchesCategory = activeCategory === 'all' || prod.category === activeCategory;
-        const totalUses = Number(prod.totalUses) || Number(prod.total) || 1;
-        const usedCount = Number(prod.usedCount) || Number(prod.used) || 0;
-        const isSoldOut = (Math.max(0, totalUses - usedCount) <= 0);
-
-        if (filterStatus === 'available' && isSoldOut) return false;
-        if (filterStatus === 'soldout' && !isSoldOut) return false;
-
+        
         return matchesSearch && matchesCategory;
       });
 
@@ -1246,21 +1075,10 @@
 
       emptyState.classList.add('hidden');
       grid.innerHTML = filtered.map(prod => {
-        const totalUses = Number(prod.totalUses) || Number(prod.total) || 1;
-        const usedCount = Number(prod.usedCount) || Number(prod.used) || 0;
-        const remaining = Math.max(0, totalUses - usedCount);
-        const isSoldOut = (remaining <= 0);
-        const percentRemaining = Math.max(0, 100 - Math.min(100, Math.round((usedCount / totalUses) * 100)));
-
-        let barColor = percentRemaining < 20 ? "bg-red-500" : percentRemaining < 50 ? "bg-amber-500" : "bg-brand-500";
         const imgPlaceholder = "https://via.placeholder.com/400x300?text=Sem+Imagem";
         let prodImages = prod.images?.length > 0 ? prod.images : prod.image ? [prod.image] : [imgPlaceholder];
         const mainImg = prodImages[0];
         const encodedImagesJson = encodeURIComponent(JSON.stringify(prodImages));
-
-        const originalPrice = prod.price ? Number(prod.price) : null;
-        const discountPercent = Number(prod.discountPercent) || 0;
-        const finalDiscountPrice = originalPrice && discountPercent > 0 ? originalPrice - (originalPrice * (discountPercent / 100)) : null;
 
         const couponCode = prod.code || "CLIENTEVIP";
 
@@ -1269,14 +1087,6 @@
             <div>
               <div class="relative h-48 w-full bg-slate-800 overflow-hidden cursor-pointer" onclick="openImageViewer('${mainImg}', '${encodedImagesJson}')">
                 <img id="prod-img-${prod.id}" src="${mainImg}" alt="${prod.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.src='${imgPlaceholder}'">
-                
-                ${isSoldOut ? `
-                  <div class="absolute inset-0 bg-slate-950/80 backdrop-blur-xs flex items-center justify-center">
-                    <span class="px-3 py-1 bg-red-600/90 text-white text-xs font-black tracking-widest rounded-full uppercase shadow-lg border border-red-400/30 animate-pulse">
-                      <i class="fa-solid fa-ban mr-1"></i> Produto Esgotado
-                    </span>
-                  </div>
-                ` : ''}
 
                 <button type="button" onclick="event.stopPropagation(); copyCoupon('${couponCode}')" title="Clique para copiar o cupom" class="absolute top-3 left-3 bg-brand-600/90 hover:bg-brand-500 text-white text-[11px] font-bold px-2.5 py-1 rounded-lg shadow border border-brand-400/30 transition flex items-center gap-1.5 cursor-pointer z-10">
                   <i class="fa-solid fa-ticket"></i> Cupom: ${couponCode} <i class="fa-regular fa-copy text-[10px] opacity-80"></i>
@@ -1311,36 +1121,40 @@
                   </button>
                 </div>
 
-                ${originalPrice ? `
-                  <div class="flex items-baseline gap-2 mt-2">
-                    ${finalDiscountPrice ? `
-                      <span class="text-lg font-black text-brand-400">R$ ${finalDiscountPrice.toFixed(2).replace('.', ',')}</span>
-                      <span class="text-xs text-slate-400 line-through">R$ ${originalPrice.toFixed(2).replace('.', ',')}</span>
-                      <span class="text-[10px] bg-brand-500/20 text-brand-400 font-bold px-1.5 py-0.5 rounded">-${discountPercent}%</span>
-                    ` : `
-                      <span class="text-lg font-black text-slate-100">R$ ${originalPrice.toFixed(2).replace('.', ',')}</span>
-                    `}
+                <!-- DESTAQUE EXCLUSIVO DE DESCONTO COM CUPOM -->
+                <div class="mt-3 p-2.5 bg-brand-500/10 border border-brand-500/30 rounded-xl flex items-center justify-between">
+                  <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-tags text-brand-400 text-base"></i>
+                    <div>
+                      <span class="text-xs font-bold text-brand-400 block leading-tight">10% OFF Exclusivo</span>
+                      <span class="text-[10px] text-slate-400">Com o cupom <strong class="text-white">${couponCode}</strong></span>
+                    </div>
                   </div>
-                ` : ''}
+                  <span class="text-[10px] bg-brand-600 text-white font-extrabold px-2 py-0.5 rounded-md uppercase tracking-wider">Garantido</span>
+                </div>
 
-                <p class="text-xs text-slate-400 mt-2 whitespace-pre-line">${prod.description || 'Sem descrição.'}</p>
+                <!-- APENAS O SELO ÚNICO DA NATURA -->
+                <div class="mt-2.5 mb-2">
+                  <span class="bg-emerald-500/10 text-emerald-300 border border-emerald-500/30 px-2 py-0.5 rounded text-[10px] font-semibold inline-flex items-center">
+                    <i class="fa-solid fa-check-circle mr-1 text-emerald-400"></i> Produto 100% Original Natura
+                  </span>
+                </div>
 
-                <div class="mt-4 p-3 bg-slate-900/80 rounded-xl border border-slate-800/80">
-                  <div class="flex items-center justify-between text-xs font-semibold mb-1.5">
-                    <span class="text-slate-400">Estoque / Uso</span>
-                    <span class="${isSoldOut ? 'text-red-400 font-bold' : 'text-slate-200'}">${remaining} restantes de ${totalUses}</span>
-                  </div>
-                  <div class="w-full h-2 bg-slate-800 rounded-full overflow-hidden p-0.5 border border-slate-700/50">
-                    <div class="h-full ${barColor} rounded-full transition-all duration-500" style="width: ${percentRemaining}%"></div>
-                  </div>
+                <!-- DESCRIÇÃO INDIVIDUAL (APENAS O QUE VOCÊ CADASTRAR) -->
+                ${prod.description ? `<p class="text-xs text-slate-300 leading-relaxed mt-1.5 whitespace-pre-line bg-slate-900/40 p-2.5 rounded-xl border border-slate-800/80">${prod.description}</p>` : ''}
+
+                <!-- SELOS DE CONFIANÇA -->
+                <div class="mt-3 flex items-center justify-between text-[10px] text-slate-400 px-1">
+                  <span><i class="fa-solid fa-truck-fast text-emerald-400 mr-1"></i> Entrega Oficial Natura</span>
+                  <span><i class="fa-solid fa-shield-halved text-brand-400 mr-1"></i> Compra Segura</span>
                 </div>
               </div>
             </div>
 
-            <div class="p-4 pt-0">
+            <div class="p-4 pt-3">
               ${prod.link ? `
-                <button type="button" onclick="openProductAndCopyCoupon('${prod.id}', '${prod.link}', '${couponCode}')" class="w-full py-2 px-3 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-medium flex items-center justify-center gap-2 border border-slate-700 transition cursor-pointer">
-                  <i class="fa-solid fa-arrow-up-right-from-square text-brand-400"></i> Ver Link do Produto
+                <button type="button" onclick="openProductAndCopyCoupon('${prod.id}', '${prod.link}', '${couponCode}')" class="w-full py-2.5 px-3 bg-brand-600 hover:bg-brand-500 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-2 shadow-lg shadow-brand-600/20 transition cursor-pointer">
+                  <i class="fa-solid fa-bag-shopping"></i> Pegar 10% OFF na Loja Oficial
                 </button>
               ` : ''}
             </div>
@@ -1364,7 +1178,6 @@
           </div>
           <div class="flex items-center gap-1 flex-shrink-0">
             <button onclick="copyDirectProductLink('${prod.link}')" class="px-2 py-1 bg-sky-500/20 text-sky-300 rounded-lg text-xs border border-sky-500/30 cursor-pointer" title="Copiar Link Direto para Divulgar"><i class="fa-solid fa-link"></i></button>
-            <button onclick="openQuickUseModal('${prod.id}')" class="px-2 py-1 bg-brand-600/20 text-brand-300 rounded-lg text-xs border border-brand-500/30 cursor-pointer" title="Editar Estoque"><i class="fa-solid fa-pen"></i></button>
             <button onclick="openEditProductModal('${prod.id}')" class="px-2 py-1 bg-slate-800 text-slate-300 rounded-lg text-xs border border-slate-700 cursor-pointer" title="Editar"><i class="fa-solid fa-gear"></i></button>
             <button onclick="deleteProduct('${prod.id}')" class="px-2 py-1 bg-red-500/10 text-red-400 rounded-lg text-xs border border-red-500/20 cursor-pointer" title="Excluir"><i class="fa-solid fa-trash"></i></button>
           </div>
@@ -1418,14 +1231,10 @@
       document.getElementById('product-name').value = prod.name || "";
       document.getElementById('product-category').value = prod.category || "Perfumaria Masculino";
       document.getElementById('product-featured').checked = !!prod.isFeatured;
-      document.getElementById('product-price').value = prod.price || "";
-      document.getElementById('product-discount-percent').value = prod.discountPercent || "10";
       document.getElementById('product-description').value = prod.description || "";
       document.getElementById('product-link').value = prod.link || "";
       document.getElementById('product-code').value = prod.code || "CLIENTEVIP";
       document.getElementById('product-validity-days').value = prod.validityDays || "30";
-      document.getElementById('product-total-uses').value = prod.totalUses || 30;
-      document.getElementById('product-used-count').value = prod.usedCount || 0;
       currentFetchedImages = prod.images?.length > 0 ? [...prod.images] : prod.image ? [prod.image] : [];
       renderPreviewGallery();
       document.getElementById('form-prod-title').innerHTML = `<i class="fa-solid fa-pen-to-square text-brand-500"></i> Editando Produto`;
@@ -1439,14 +1248,10 @@
         name: document.getElementById('product-name').value,
         category: document.getElementById('product-category').value,
         isFeatured: document.getElementById('product-featured').checked,
-        price: document.getElementById('product-price').value,
-        discountPercent: document.getElementById('product-discount-percent').value,
         description: document.getElementById('product-description').value,
         link: document.getElementById('product-link').value,
         code: document.getElementById('product-code').value || "CLIENTEVIP",
         validityDays: Number(document.getElementById('product-validity-days').value) || 30,
-        totalUses: Number(document.getElementById('product-total-uses').value),
-        usedCount: Number(document.getElementById('product-used-count').value),
         images: currentFetchedImages,
         image: currentFetchedImages[0] || "",
         updatedAt: new Date().toISOString()
@@ -1464,27 +1269,6 @@
         }
         resetProductForm();
       } catch (err) { showToast("Erro: " + err.message, "error"); }
-    };
-
-    window.openQuickUseModal = (prodId) => {
-      const prod = productsList.find(p => p.id === prodId);
-      if (!prod) return;
-      closeAdminSubSections();
-      document.getElementById('quick-use-id').value = prod.id;
-      document.getElementById('quick-use-product-name').innerText = prod.name;
-      document.getElementById('quick-use-val').value = prod.usedCount || 0;
-      document.getElementById('modal-quick-use').classList.remove('hidden');
-    };
-
-    document.getElementById('form-quick-use').onsubmit = async (e) => {
-      e.preventDefault();
-      const id = document.getElementById('quick-use-id').value;
-      const newVal = Number(document.getElementById('quick-use-val').value);
-      try {
-        await updateDoc(doc(db, 'products', id), { usedCount: Math.max(0, newVal), used: Math.max(0, newVal), updatedAt: new Date().toISOString() });
-        showToast("Estoque atualizado!");
-        closeModal('modal-quick-use');
-      } catch (err) { showToast("Erro", "error"); }
     };
 
     window.deleteProduct = async (prodId) => {
