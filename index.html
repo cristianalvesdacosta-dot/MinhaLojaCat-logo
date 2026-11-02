@@ -470,6 +470,8 @@
           <form id="form-product" class="space-y-4">
             <input type="hidden" id="product-id">
             <input type="hidden" id="fetched-image-url">
+            <!-- CAMPO OCULTO CORRIGIDO PARA EVITAR ERRO DE VALIDADE -->
+            <input type="hidden" id="product-validity-days" value="30">
 
             <div>
               <label class="block text-xs font-semibold text-slate-300 mb-1">Nome do Produto *</label>
